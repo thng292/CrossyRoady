@@ -6,6 +6,7 @@ using namespace ConsoleGame;
 
 auto main() -> int
 {
+    Audio test();
     auto game = std::make_unique<Game>();
     game->Init();
     game->AddScreen(std::make_unique<DevScreen>());
