@@ -21,6 +21,11 @@ namespace ConsoleGame {
         static constexpr int MaxSize = 10;
         INPUT_RECORD buffer[MaxSize];
         DWORD size = 0;
+
+        INPUT_RECORD* begin() const { return (INPUT_RECORD*)buffer; }
+
+        INPUT_RECORD* end() const { return (INPUT_RECORD*)buffer + size; }
+        
     };
 
     enum class Color : char {

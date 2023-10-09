@@ -12,7 +12,7 @@
 #include "Signal.h"
 #include "common.h"
 
-#define _ENABLE_ASYNC_DRAW_
+// #define _ENABLE_ASYNC_DRAW_
 
 namespace ConsoleGame {
     void Game::Init()
@@ -55,11 +55,11 @@ namespace ConsoleGame {
         ShowScrollBar(consoleWindow, SB_BOTH, FALSE);
 
         // Hide the cursor
-#if _DEBUG
-        ShowCursor(true);
-#else
-        ShowCursor(false);
-#endif
+        CONSOLE_CURSOR_INFO cursorInfo;
+        GetConsoleCursorInfo(hGameScreen, &cursorInfo);
+        cursorInfo.bVisible = false;
+        SetConsoleCursorInfo(hGameScreen, &cursorInfo);
+
         // Set font bold
         fontex.cbSize = sizeof(CONSOLE_FONT_INFOEX);
         GetCurrentConsoleFontEx(hGameScreen, 0, &fontex);
@@ -96,6 +96,28 @@ namespace ConsoleGame {
         float deltaTime = 0;
         bool redraw = false;
 
+        auto DrawFunc = [&] {
+            const auto& currentScreen = naviStack.back();
+            canvas.Clear();
+            if (redraw) {
+                const auto stackSize = naviStack.size() - 1;
+                auto i = stackSize;
+                while (naviStack[i].IsPopup) {
+                    i--;
+                }
+                for (; i < stackSize; i++) {
+                    naviStack[i].Screen->Draw(&canvas);
+                }
+                const auto& cbuff = canvas.ReadCanvas();
+                std::copy(cbuff.begin(), cbuff.end(), backup.begin());
+                redraw = false;
+            } else if (currentScreen.IsPopup) {
+                canvas.WriteCanvas(backup);
+            }
+            currentScreen.Screen->Draw(&canvas);
+            canvas.DrawToScreen();
+        };
+
 #ifdef _ENABLE_ASYNC_DRAW_
         Signal startDrawSignal;
 
@@ -103,25 +125,7 @@ namespace ConsoleGame {
             while (1) {
                 startDrawSignal.WaitStartJobSignal();
                 if (!stoken.stop_requested()) {
-                    const auto& currentScreen = naviStack.back();
-                    canvas.Clear();
-                    if (redraw) {
-                        const auto stackSize = naviStack.size() - 1;
-                        auto i = stackSize;
-                        while (naviStack[i].IsPopup) {
-                            i--;
-                        }
-                        for (; i < stackSize; i++) {
-                            naviStack[i].Screen->Draw(&canvas);
-                        }
-                        const auto& cbuff = canvas.ReadCanvas();
-                        std::copy(cbuff.begin(), cbuff.end(), backup.begin());
-                        redraw = false;
-                    } else if (currentScreen.IsPopup) {
-                        canvas.WriteCanvas(backup);
-                    }
-                    currentScreen.Screen->Draw(&canvas);
-                    canvas.DrawToScreen();
+                    DrawFunc();
                     startDrawSignal.DoneJob();
                 } else {
                     return;
@@ -148,6 +152,7 @@ namespace ConsoleGame {
                     InputRecords::MaxSize,
                     &inputRecords.size
                 );
+                FlushConsoleInputBuffer(hStdIn);
 
                 navigationRes = currentScreen.Screen->Update(
                     inputRecords, deltaTime, &navi
@@ -158,31 +163,13 @@ namespace ConsoleGame {
                 // Skip a frame if draw takes lots of time
                 if (shouldSkipFrame && startDrawSignal.JobDone()) {
                     startDrawSignal.StartJob();
-                } 
+                }
                 if (!shouldSkipFrame) {
                     startDrawSignal.WaitUntilJobDone();
                     startDrawSignal.StartJob();
                 }
 #else
-                canvas.Clear();
-                if (redraw) {
-                    const auto stackSize = naviStack.size() - 1;
-                    auto i = stackSize;
-                    while (naviStack[i].IsPopup) {
-                        i--;
-                    }
-                    for (; i < stackSize; i++) {
-                        naviStack[i].Screen->Draw(&canvas);
-                    }
-                    const auto& cbuff = canvas.ReadCanvas();
-                    std::copy(cbuff.begin(), cbuff.end(), backup.begin());
-                    redraw = false;
-                } else if (currentScreen.IsPopup) {
-                    canvas.WriteCanvas(backup);
-                }
-                currentScreen.Screen->Draw(&canvas);
-                canvas.DrawToScreen();
-
+                DrawFunc();
 #endif
 
                 const auto nextFrame = start + _targetFrameTime;

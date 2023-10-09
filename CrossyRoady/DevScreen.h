@@ -1,10 +1,15 @@
 #pragma once
-#include "ConsoleGame.h"
 #include <any>
 #include <string_view>
 
+#include "ConsoleGame.h"
+
 class DevScreen : public ConsoleGame::AbstractScreen {
-    int move = 0;
+    int moveX = 0;
+    int moveY = 0;
+
+    const ConsoleGame::Vec2 dim{.width = 3, .height = 3};
+
     // Inherited via AbstractScreen
     std::wstring_view getName() override;
     void Init(const std::any& args) override;

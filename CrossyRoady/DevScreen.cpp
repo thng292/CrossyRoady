@@ -15,18 +15,32 @@ AbstractNavigation::NavigationRes DevScreen::Update(
     const AbstractNavigation* navigation
 )
 {
-    move = (move + 1) % 30;
+    for (const auto& input : inputs) {
+        if (input.EventType == KEY_EVENT) {
+            switch (input.Event.KeyEvent.uChar.AsciiChar) {
+                case 'w':
+                    moveY = max(moveY - 2, 0);
+                    break;
+                case 's':
+                    moveY = min(moveY + 2, _CanvasSize.height - dim.height);
+                    break;
+                case 'a':
+                    moveX = max(moveX - 2, 0);
+                    break;
+                case 'd':
+                    moveX = min(moveX + 2, _CanvasSize.width - dim.width);
+                    break;
+            }
+        }
+    }
     return navigation->NoChange();
 }
 
 void DevScreen::Draw(AbstractCanvas* canvas) const
 {
-    constexpr Vec2 upLeft{.x = 15, .y = 30};
-    constexpr Vec2 dim{.width = 30, .height = 30};
-
     for (int i = 0; i < dim.width; i++) {
         for (int j = 0; j < dim.height; j++) {
-            (*canvas)[i + upLeft.x + move / 2][j + upLeft.y + move / 2] = Color::YELLOW;
+            (*canvas)[i + moveY][j + moveX] = Color::YELLOW;
         }
     }
 }
