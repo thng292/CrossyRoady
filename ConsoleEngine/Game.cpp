@@ -12,6 +12,8 @@
 #include "Signal.h"
 #include "common.h"
 
+#define _ENABLE_ASYNC_DRAW_
+
 namespace ConsoleGame {
     void Game::Init()
     {
@@ -94,7 +96,7 @@ namespace ConsoleGame {
         float deltaTime = 0;
         bool redraw = false;
 
-#ifndef _DEBUG
+#ifdef _ENABLE_ASYNC_DRAW_
         Signal startDrawSignal;
 
         auto DrawingThread = std::jthread([&](std::stop_token stoken) {
@@ -102,6 +104,7 @@ namespace ConsoleGame {
                 startDrawSignal.WaitStartJobSignal();
                 if (!stoken.stop_requested()) {
                     const auto& currentScreen = naviStack.back();
+                    canvas.Clear();
                     if (redraw) {
                         const auto stackSize = naviStack.size() - 1;
                         auto i = stackSize;
@@ -150,12 +153,13 @@ namespace ConsoleGame {
                     inputRecords, deltaTime, &navi
                 );
 
-#ifndef _DEBUG
+#ifdef _ENABLE_ASYNC_DRAW_
                 // Signal to draw
                 // Skip a frame if draw takes lots of time
                 if (shouldSkipFrame && startDrawSignal.JobDone()) {
                     startDrawSignal.StartJob();
-                } else {
+                } 
+                if (!shouldSkipFrame) {
                     startDrawSignal.WaitUntilJobDone();
                     startDrawSignal.StartJob();
                 }
@@ -229,7 +233,7 @@ namespace ConsoleGame {
             }
             redraw = naviStack.back().IsPopup;
         }
-#ifndef _DEBUG
+#ifdef _ENABLE_ASYNC_DRAW_
         DrawingThread.request_stop();
         startDrawSignal.StartJob();
 #endif

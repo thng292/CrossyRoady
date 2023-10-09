@@ -7,6 +7,7 @@ namespace ConsoleGame {
     void Signal::StartJob()
     {
         jobDone = false;
+        jobStarted = true;
         cv.notify_all();
     }
 
@@ -23,6 +24,8 @@ namespace ConsoleGame {
 
     void Signal::WaitUntilJobDone()
     {
-        cv.wait(ulock, [&] { return jobDone; });
+        if (jobStarted) {
+            cv.wait(ulock, [&] { return jobDone; });
+        }
     }
 }  // namespace ConsoleGame

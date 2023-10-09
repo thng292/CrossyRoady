@@ -4,7 +4,7 @@
 
 namespace ConsoleGame {
     class Signal {
-        bool jobDone = false;
+        bool jobDone = true;
         bool jobStarted = false;
         std::mutex lock;
         std::unique_lock<std::mutex> ulock;
