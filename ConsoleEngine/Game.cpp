@@ -12,7 +12,7 @@
 #include "Signal.h"
 #include "common.h"
 
-// #define _ENABLE_ASYNC_DRAW_
+#define _ENABLE_ASYNC_DRAW_
 
 namespace ConsoleGame {
     void Game::Init()
@@ -85,7 +85,6 @@ namespace ConsoleGame {
         canvas.Clear();
 
         HANDLE hStdIn = GetStdHandle(STD_INPUT_HANDLE);
-        InputRecords inputRecords{};
 
         naviStack.reserve(screens.size());
         naviStack.emplace_back(screens[screenName]->Clone(), false);
@@ -145,18 +144,7 @@ namespace ConsoleGame {
                    AbstractNavigation::NavigationAction::None) {
                 //
                 const auto start = std::chrono::high_resolution_clock::now();
-
-                PeekConsoleInputW(
-                    hStdIn,
-                    inputRecords.buffer,
-                    InputRecords::MaxSize,
-                    &inputRecords.size
-                );
-                FlushConsoleInputBuffer(hStdIn);
-
-                navigationRes = currentScreen.Screen->Update(
-                    inputRecords, deltaTime, &navi
-                );
+                navigationRes = currentScreen.Screen->Update(deltaTime, &navi);
 
 #ifdef _ENABLE_ASYNC_DRAW_
                 // Signal to draw
@@ -226,7 +214,7 @@ namespace ConsoleGame {
 #endif
     }
 
-    AbstractGame* Game::addScreen(std::unique_ptr<AbstractScreen> screen)
+    AbstractGame* Game::AddScreen(std::unique_ptr<AbstractScreen> screen)
     {
         auto name = screen->getName();
         screens[name] = std::move(screen);

@@ -16,7 +16,7 @@ namespace ConsoleGame {
             bool IsPopup;
 
             // clang-format off
-        NavigationStackEntry(AbstractScreen* ptr, bool isPopup)
+            NavigationStackEntry(AbstractScreen* ptr, bool isPopup)
             : Screen(ptr), IsPopup(isPopup) {}
 
             // clang-format on
@@ -44,7 +44,7 @@ namespace ConsoleGame {
         void Init() override;
         void Run(const std::wstring_view screenName) override;
 
-        AbstractGame* addScreen(std::unique_ptr<AbstractScreen>) override;
+        AbstractGame* AddScreen(std::unique_ptr<AbstractScreen>) override;
 
         ~Game();
     };

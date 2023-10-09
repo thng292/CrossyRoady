@@ -15,7 +15,6 @@ class DevScreen : public ConsoleGame::AbstractScreen {
     void Init(const std::any& args) override;
     AbstractScreen* Clone() const override;
     ConsoleGame::AbstractNavigation::NavigationRes Update(
-        const ConsoleGame::InputRecords& inputs,
         float deltaTime,
         const ConsoleGame::AbstractNavigation* navigation
     ) override;

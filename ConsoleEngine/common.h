@@ -17,16 +17,8 @@ namespace ConsoleGame {
 
     // clang-format on
 
-    struct InputRecords {
-        static constexpr int MaxSize = 10;
-        INPUT_RECORD buffer[MaxSize];
-        DWORD size = 0;
 
-        INPUT_RECORD* begin() const { return (INPUT_RECORD*)buffer; }
-
-        INPUT_RECORD* end() const { return (INPUT_RECORD*)buffer + size; }
-        
-    };
+    bool IsKeyDown(int key);
 
     enum class Color : char {
         BLACK = 0,

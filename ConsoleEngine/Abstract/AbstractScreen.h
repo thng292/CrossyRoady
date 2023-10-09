@@ -17,7 +17,6 @@ namespace ConsoleGame {
         // maybe called more than the target fps in 1 sec, should be fast
         // enough
         virtual AbstractNavigation::NavigationRes Update(
-            const InputRecords& inputs,
             float deltaTime,
             const AbstractNavigation* navigation
         ) = 0;
