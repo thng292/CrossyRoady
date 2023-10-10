@@ -21,6 +21,7 @@ namespace ConsoleGame {
         const Sprite& operator=(const Sprite& other);
 
         void Load(std::filesystem::path filePath);
+        void Save(std::filesystem::path filePath);
         void Clear();
         void Paint(AbstractCanvas* canvas, Vec2 coord) const;
         Vec2 GetDim() const;

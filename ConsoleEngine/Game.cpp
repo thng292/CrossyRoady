@@ -47,12 +47,11 @@ namespace ConsoleGame {
         SetWindowLong(consoleWindow, GWL_STYLE, style);
 
         // Turn off mouse input
-        GetConsoleMode(hGameScreen, &currMode);
+        /*GetConsoleMode(hGameScreen, &currMode);
         SetConsoleMode(
             hGameScreen,
-            ((currMode | ENABLE_WINDOW_INPUT | ENABLE_EXTENDED_FLAGS) &
-             ~ENABLE_QUICK_EDIT_MODE & ~ENABLE_MOUSE_INPUT)
-        );
+            ((ENABLE_EXTENDED_FLAGS | ENABLE_MOUSE_INPUT))
+        )*/;
 
         // Hide scoll bar
         ShowScrollBar(consoleWindow, SB_BOTH, FALSE);
@@ -102,7 +101,6 @@ namespace ConsoleGame {
 
         float deltaTime = 0;
         bool redraw = false;
-        size_t dbgCount = 0;
 
         auto DrawFunc = [&] {
             const auto& currentScreen = naviStack.back();
@@ -132,7 +130,6 @@ namespace ConsoleGame {
         auto DrawingThread = std::jthread([&](std::stop_token stoken) {
             while (1) {
                 startDrawSignal.WaitStartJobSignal();
-                dbgCount++;
                 if (!stoken.stop_requested()) {
                     DrawFunc();
                     startDrawSignal.DoneJob();

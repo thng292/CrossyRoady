@@ -3,7 +3,7 @@
 using namespace ConsoleGame;
 
 ConsoleGame::Sprite::Sprite(Vec2 dim)
-    : dim(dim), data(dim.width * dim.height, Color::BRIGHT_WHITE)
+    : dim(dim), data(dim.width * dim.height, Color::C_TRANSPARENT)
 {
 }
 
@@ -33,9 +33,9 @@ void ConsoleGame::Sprite::Load(std::filesystem::path filePath)
     openFile = filePath;
     std::ifstream inFile(filePath, std::ios::in | std::ios::binary);
     uint8_t buff = 0;
-    inFile.read((char*)&buff, sizeof(buff));
+    inFile.read((char*)&buff, 1);
     dim.width = buff;
-    inFile.read((char*)&buff, sizeof(buff));
+    inFile.read((char*)&buff, 1);
     dim.height = buff;
     data.resize((size_t)dim.width * dim.height);
     inFile.read((char*)data.data(), sizeof(Color) * dim.width * dim.height);
@@ -69,7 +69,17 @@ const std::vector<Color>& ConsoleGame::Sprite::GetData() const { return data; }
 
 Color* ConsoleGame::Sprite::operator[](size_t index)
 {
-    return data.data() + index;
+    return data.data() + index * dim.x;
 }
 
 void ConsoleGame::Sprite::DeInit() { data.clear(); }
+
+void ConsoleGame::Sprite::Save(std::filesystem::path filePath)
+{
+    std::ofstream outFile(filePath, std::ios::out | std::ios::binary);
+    char buff = dim.width;
+    outFile.write(&buff, 1);
+    buff = dim.height;
+    outFile.write(&buff, 1);
+    outFile.write((char*)data.data(), data.size());
+}

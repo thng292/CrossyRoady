@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConsoleEngine", "ConsoleEng
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestingGround", "TestingGround\TestingGround.vcxproj", "{F19D5EA7-6CD1-467B-9E3F-8884777100B6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrawTool", "DrawTool\DrawTool.vcxproj", "{3CE52216-4285-4552-BC5C-936959BC08AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +43,14 @@ Global
 		{F19D5EA7-6CD1-467B-9E3F-8884777100B6}.Release|x64.Build.0 = Release|x64
 		{F19D5EA7-6CD1-467B-9E3F-8884777100B6}.Release|x86.ActiveCfg = Release|Win32
 		{F19D5EA7-6CD1-467B-9E3F-8884777100B6}.Release|x86.Build.0 = Release|Win32
+		{3CE52216-4285-4552-BC5C-936959BC08AE}.Debug|x64.ActiveCfg = Debug|x64
+		{3CE52216-4285-4552-BC5C-936959BC08AE}.Debug|x64.Build.0 = Debug|x64
+		{3CE52216-4285-4552-BC5C-936959BC08AE}.Debug|x86.ActiveCfg = Debug|Win32
+		{3CE52216-4285-4552-BC5C-936959BC08AE}.Debug|x86.Build.0 = Debug|Win32
+		{3CE52216-4285-4552-BC5C-936959BC08AE}.Release|x64.ActiveCfg = Release|x64
+		{3CE52216-4285-4552-BC5C-936959BC08AE}.Release|x64.Build.0 = Release|x64
+		{3CE52216-4285-4552-BC5C-936959BC08AE}.Release|x86.ActiveCfg = Release|Win32
+		{3CE52216-4285-4552-BC5C-936959BC08AE}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
