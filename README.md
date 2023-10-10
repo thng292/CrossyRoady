@@ -19,9 +19,7 @@ Options:
 ```
 
 ## How to use live preview
-
-- Copy the executable to TestingGround folder.
-- Save your image there
+- Save your image in spritegen folder
 - Run this command `.\spritegen.exe <name> -o out.sprite -h 50 -l`, replace the `<name>` with your file name
 - Start TestingGround project
 - The preview will reload everytime you save.
