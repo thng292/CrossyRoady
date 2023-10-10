@@ -1,6 +1,7 @@
 # How to use spritegen
 
 ## Demo
+[Demo Video](spritegen/Demo.mkv)
 
 ## Usage
 
