@@ -10,7 +10,7 @@
 #include <thread>
 
 #include "Signal.h"
-#include "common.h"
+#include "Common.h"
 
 #define _ENABLE_ASYNC_DRAW_
 
@@ -75,6 +75,11 @@ namespace ConsoleGame {
         // Set IO Unicode
         _setmode(_fileno(stdout), _O_WTEXT);
         _setmode(_fileno(stdin), _O_WTEXT);
+
+        // Set BufferSize
+        SetConsoleScreenBufferSize(
+            hGameScreen, {_ScreenSize.width, _ScreenSize.height}
+        );
 
         backup.fill(Color::BRIGHT_WHITE);
     }

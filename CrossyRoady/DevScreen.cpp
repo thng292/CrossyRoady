@@ -6,7 +6,9 @@
 using namespace std::literals;
 using namespace ConsoleGame;
 
-std::wstring_view DevScreen::getName() { return L"DevScreen"sv; }
+const std::wstring_view DevScreen::ScreenName() { return L"DevScreen"sv; }
+
+std::wstring_view DevScreen::getName() { return ScreenName(); }
 
 void DevScreen::Init(const std::any& args) {}
 

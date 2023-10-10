@@ -3,7 +3,7 @@
 #include <any>
 #include <string_view>
 
-#include "../common.h"
+#include "../Common.h"
 #include "AbstractCanvas.h"
 #include "AbstractNavigation.h"
 

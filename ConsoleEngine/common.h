@@ -17,8 +17,8 @@ namespace ConsoleGame {
 
     // clang-format on
 
-
-    bool IsKeyDown(int key);
+    // Get KeyCode: https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
+    bool IsKeyDown(int keyCode);
 
     enum class Color : char {
         BLACK = 0,
@@ -37,6 +37,6 @@ namespace ConsoleGame {
         LIGHT_MAGENTA = 13,
         LIGHT_YELLOW = 14,
         BRIGHT_WHITE = 15,
-        C_TRANSPARENT = 16
+        C_TRANSPARENT = 0b11111 
     };
 }  // namespace ConsoleGame

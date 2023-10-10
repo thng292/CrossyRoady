@@ -5,5 +5,6 @@
 #include "../Abstract/AbstractScreen.h"
 #include "../Game.h"
 #include "../Signal.h"
-#include "../common.h"
+#include "../Common.h"
 #include "../Audio.h"
+#include "../Sprite.h"

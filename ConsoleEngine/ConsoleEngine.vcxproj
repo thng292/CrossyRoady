@@ -151,7 +151,7 @@
     <ClInclude Include="Abstract\AbstractScreen.h" />
     <ClInclude Include="Audio.h" />
     <ClInclude Include="Canvas.h" />
-    <ClInclude Include="common.h" />
+    <ClInclude Include="Common.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="include\ConsoleGame.h" />
     <ClInclude Include="Navigation.h" />
@@ -161,7 +161,7 @@
   <ItemGroup>
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="Canvas.cpp" />
-    <ClCompile Include="common.cpp" />
+    <ClCompile Include="Common.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Navigation.cpp" />
     <ClCompile Include="Signal.cpp" />

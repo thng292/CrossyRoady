@@ -11,7 +11,6 @@ namespace ConsoleGame {
         bool _isPlaying = false;
 
         void Open();
-        void Close();
        public:
         Audio(std::filesystem::path file);
 
@@ -23,6 +22,7 @@ namespace ConsoleGame {
         void Pause();
         void Resume();
         void Stop();
+        void Close();
         void ChangeSong(std::filesystem::path file);
         ~Audio();
     };

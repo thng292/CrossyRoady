@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="PreviewScreen.cpp" />
     <ClCompile Include="TestingGround.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +161,9 @@
     <ProjectReference Include="..\CrossyRoady\CrossyRoady.vcxproj">
       <Project>{58bc9f69-a781-4285-b170-c3076f69f632}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PreviewScreen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

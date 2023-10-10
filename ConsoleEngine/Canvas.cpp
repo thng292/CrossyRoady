@@ -40,9 +40,11 @@ namespace ConsoleGame {
             for (int j = 0; j < 120; j++) {
                 // Change the background for the upper row
                 // Change the foreground for the lower row
+                // & 15 to handle the transparent case.
+                // transparent on the last layer is BRIGHT_WHITE
                 screenBuffer[i * rowSize + j] =
-                    (char(canvasBuffer[upper * rowSize + j]) << 4) |
-                    char(canvasBuffer[lower * rowSize + j]);
+                    ((char)canvasBuffer[upper * rowSize + j] << 4) |
+                    ((char)canvasBuffer[lower * rowSize + j] & 0b1111);
             }
         }
         DWORD written = 0;

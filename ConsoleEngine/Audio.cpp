@@ -8,14 +8,14 @@
 void ConsoleGame::Audio::Open()
 {
     std::wstring command;
-    if (audioFile.extension().string() == "wav") {
+    if (audioFile.extension().string() == ".wav") {
         command = std::format(
             L"open {} type {} alias {}",
             audioFile.wstring(),
             L"waveaudio",
             (uintptr_t)this
         );
-    } else if (audioFile.extension().string() == "mp3") {
+    } else if (audioFile.extension().string() == ".mp3") {
         command = std::format(
             L"open {} type {} alias {}",
             audioFile.wstring(),

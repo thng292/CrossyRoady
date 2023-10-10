@@ -1,4 +1,4 @@
-#include "common.h"
+#include "Common.h"
 
 bool ConsoleGame::IsKeyDown(int key)
 {
