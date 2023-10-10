@@ -9,12 +9,15 @@
 #include <system_error>
 #include <thread>
 
-#include "Signal.h"
 #include "Common.h"
+#include "Signal.h"
 
 #define _ENABLE_ASYNC_DRAW_
 
 namespace ConsoleGame {
+
+    Game::Game(uint32_t fps) : targetFPS(fps) {}
+
     void Game::Init()
     {
         hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -99,6 +102,7 @@ namespace ConsoleGame {
 
         float deltaTime = 0;
         bool redraw = false;
+        size_t dbgCount = 0;
 
         auto DrawFunc = [&] {
             const auto& currentScreen = naviStack.back();
@@ -128,6 +132,7 @@ namespace ConsoleGame {
         auto DrawingThread = std::jthread([&](std::stop_token stoken) {
             while (1) {
                 startDrawSignal.WaitStartJobSignal();
+                dbgCount++;
                 if (!stoken.stop_requested()) {
                     DrawFunc();
                     startDrawSignal.DoneJob();
@@ -235,4 +240,5 @@ namespace ConsoleGame {
             std::cerr << std ::system_category().message(GetLastError());
         }
     }
+
 }  // namespace ConsoleGame

@@ -2,30 +2,29 @@
 
 namespace ConsoleGame {
 
-    bool Signal::JobDone() { return jobDone; }
+    bool Signal::JobDone() { return !jobRunning; }
 
     void Signal::StartJob()
     {
-        jobDone = false;
-        jobStarted = true;
+        jobRunning = true;
         cv.notify_all();
     }
 
     void Signal::WaitStartJobSignal()
     {
-        cv.wait(ulock, [&] { return jobStarted; });
+        std::unique_lock ulock(lock);
+        cv.wait(ulock, [&] { return jobRunning; });
     }
 
     void Signal::DoneJob()
     {
-        jobDone = true;
-        cv.notify_all();
+        jobRunning = false;
+        jobCv.notify_all();
     }
 
     void Signal::WaitUntilJobDone()
     {
-        if (jobStarted) {
-            cv.wait(ulock, [&] { return jobDone; });
-        }
+        std::unique_lock ulock(jobLock);
+        jobCv.wait(ulock, [&] { return !jobRunning; });
     }
 }  // namespace ConsoleGame

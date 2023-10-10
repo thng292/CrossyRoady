@@ -6,7 +6,7 @@ class PreviewScreen : public ConsoleGame::AbstractScreen
 {
 
     ConsoleGame::Sprite preview;
-    const std::string_view fileName = "./out.sprite";
+    const std::string_view fileName = "../spritegen/out.sprite";
     float timePassed = 2;
     std::filesystem::file_time_type lastWriteTime;
     ConsoleGame::Vec2 drawCoord;

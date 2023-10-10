@@ -40,7 +40,7 @@ namespace ConsoleGame {
         const float targetFrameTime = 1.0f / targetFPS;
 
        public:
-        Game() = default;
+        Game(uint32_t fps = 60);
         void Init() override;
         void Run(const std::wstring_view screenName) override;
 

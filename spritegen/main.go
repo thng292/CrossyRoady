@@ -39,27 +39,49 @@ const (
 	C_TRANSPARENT
 )
 
-var consoleColorMap = [...]color.RGBA{
-	{12, 12, 12, 1},
-	{12, 12, 12, 1},
-	{19, 161, 14, 1},
-	{58, 150, 221, 1},
-	{197, 15, 31, 1},
-	{136, 23, 152, 1},
-	{193, 156, 0, 1},
-	{204, 204, 204, 1},
-	{118, 118, 118, 1},
-	{59, 120, 255, 1},
-	{22, 198, 12, 1},
-	{97, 214, 214, 1},
-	{231, 72, 86, 1},
-	{180, 0, 158, 1},
-	{249, 241, 165, 1},
-	{242, 242, 242, 1},
-	{0, 0, 0, 0},
+// // Standard color find on the internet
+// var consoleColorMap = [...]color.RGBA{
+// 	(color.RGBA{12, 12, 12, 1}),
+// 	(color.RGBA{0, 55, 218, 1}),
+// 	(color.RGBA{19, 161, 14, 1}),
+// 	(color.RGBA{58, 150, 221, 1}),
+// 	(color.RGBA{197, 15, 31, 1}),
+// 	(color.RGBA{136, 23, 152, 1}),
+// 	(color.RGBA{193, 156, 0, 1}),
+// 	(color.RGBA{204, 204, 204, 1}),
+// 	(color.RGBA{118, 118, 118, 1}),
+// 	(color.RGBA{59, 120, 255, 1}),
+// 	(color.RGBA{22, 198, 12, 1}),
+// 	(color.RGBA{97, 214, 214, 1}),
+// 	(color.RGBA{231, 72, 86, 1}),
+// 	(color.RGBA{180, 0, 158, 1}),
+// 	(color.RGBA{249, 241, 165, 1}),
+// 	(color.RGBA{242, 242, 242, 1}),
+// 	(color.RGBA{0, 0, 0, 0}),
+// }
+
+// Standard console color
+var consoleColorMap = [...]LabColor{
+	ToLabColor(color.RGBA{12, 12, 12, 1}),
+	ToLabColor(color.RGBA{0, 55, 218, 1}),
+	ToLabColor(color.RGBA{19, 161, 14, 1}),
+	ToLabColor(color.RGBA{58, 150, 221, 1}),
+	ToLabColor(color.RGBA{197, 15, 31, 1}),
+	ToLabColor(color.RGBA{136, 23, 152, 1}),
+	ToLabColor(color.RGBA{193, 156, 0, 1}),
+	ToLabColor(color.RGBA{204, 204, 204, 1}),
+	ToLabColor(color.RGBA{118, 118, 118, 1}),
+	ToLabColor(color.RGBA{59, 120, 255, 1}),
+	ToLabColor(color.RGBA{22, 198, 12, 1}),
+	ToLabColor(color.RGBA{97, 214, 214, 1}),
+	ToLabColor(color.RGBA{231, 72, 86, 1}),
+	ToLabColor(color.RGBA{180, 0, 158, 1}),
+	ToLabColor(color.RGBA{249, 241, 165, 1}),
+	ToLabColor(color.RGBA{242, 242, 242, 1}),
+	ToLabColor(color.RGBA{0, 0, 0, 0}),
 }
 
-func (c ConsoleColor) ToRGBA() color.RGBA {
+func (c ConsoleColor) ToLab() LabColor {
 	return consoleColorMap[c]
 }
 
@@ -67,13 +89,14 @@ func ToConsoleColor(rgb color.RGBA) ConsoleColor {
 	if rgb.A == 0 {
 		return C_TRANSPARENT
 	}
-	minDis := math.Inf(1)
+	lab := ToLabColor(rgb)
+	var minDis float32 = math.MaxFloat32
 	res := BLACK
 	for idx, co := range consoleColorMap {
-		if co.A == 0 {
+		if idx == 16 {
 			break
 		}
-		tmp := Distance(co, rgb)
+		tmp := Distance(co, lab)
 		if tmp < minDis {
 			minDis = tmp
 			res = ConsoleColor(idx)
@@ -88,9 +111,9 @@ var filenameOut = ""
 var width int8 = 0
 var height int8 = 0
 var watch = false
-var algo = "Bicubic"
+var algo = "Lanczos3"
 var outputExtention = ".sprite"
-var resizeAlgo = resize.Bicubic
+var resizeAlgo = resize.Lanczos3
 
 func main() {
 	if len(os.Args) == 1 || os.Args[1] == "-h" {
@@ -185,13 +208,17 @@ func Myformat_Encode(w io.Writer, img image.Image) {
 	cols := bb.Dx()
 	for i := 0; i < rows; i++ {
 		for j := 0; j < cols; j++ {
-			r, g, b, a := img.At(bb.Min.X+j, bb.Min.Y+i).RGBA()
-			buffer[2+i*cols+j] = byte(ToConsoleColor(color.RGBA{
+			r, g, b, a := color.RGBAModel.Convert(img.At(bb.Min.X+j, bb.Min.Y+i)).RGBA()
+			tmp := byte(ToConsoleColor(color.RGBA{
 				uint8(r),
 				uint8(g),
 				uint8(b),
 				uint8(a),
 			}))
+			if tmp == byte(C_TRANSPARENT) {
+				tmp = 31
+			}
+			buffer[2+i*cols+j] = tmp
 		}
 	}
 	// fmt.Println(buffer)
@@ -202,20 +229,11 @@ func Myformat_Encode(w io.Writer, img image.Image) {
 	fmt.Printf("Written %v bytes\n", written)
 }
 
-func Distance(c1 color.RGBA, c2 color.RGBA) float64 {
-	y1 := 0.299*float64(c1.R) + 0.587*float64(c1.G) + 0.114*float64(c1.B)
-	u1 := -0.14713*float64(c1.R) - 0.28886*float64(c1.G) + 0.436*float64(c1.B)
-	v1 := 0.615*float64(c1.R) - 0.51499*float64(c1.G) - 0.10001*float64(c1.B)
-
-	y2 := 0.299*float64(c2.R) + 0.587*float64(c2.G) + 0.114*float64(c2.B)
-	u2 := -0.14713*float64(c2.R) - 0.28886*float64(c2.G) + 0.436*float64(c2.B)
-	v2 := 0.615*float64(c2.R) - 0.51499*float64(c2.G) - 0.10001*float64(c2.B)
-
-	delta_y := y1 - y2
-	delta_u := u1 - u2
-	delta_v := v1 - v2
-
-	return math.Sqrt(delta_y*delta_y + delta_u*delta_u + delta_v*delta_v)
+func Distance(c1, c2 LabColor) float32 {
+	Sqr := func(x float32) float32 {
+		return x * x
+	}
+	return Sqr(c1.a-c2.a) * Sqr(c1.b-c2.b) * Sqr(c1.L-c2.L)
 }
 
 func GetConfig() {
@@ -245,6 +263,8 @@ func GetConfig() {
 
 	resizeAlgo = resize.Bicubic
 	switch algo {
+	case "Bicubic":
+		resizeAlgo = resize.Bicubic
 	case "NearestNeighbor":
 		resizeAlgo = resize.NearestNeighbor
 	case "Bilinear":
@@ -260,4 +280,30 @@ func GetConfig() {
 	if filenameOut == "" {
 		filenameOut = filenameIn[:strings.LastIndex(filenameIn, ".")] + "_" + algo + outputExtention
 	}
+}
+
+type LabColor struct {
+	L, a, b float32
+}
+
+func ToLabColor(c color.RGBA) LabColor {
+
+	f := func(t float32) float32 {
+		sigmol3 := float32(math.Pow(float64(6)/29, 3))
+		if t > sigmol3 {
+			return float32(math.Pow(float64(t), float64(1)/3))
+		} else {
+			return t/(float32(3*36)/(29*29)) + float32(4)/29
+		}
+	}
+
+	X := float32(c.R)*0.4124 + float32(c.G)*0.3576 + float32(c.B)*0.1805
+	Y := float32(c.R)*0.2126 + float32(c.G)*0.7152 + float32(c.B)*0.0722
+	Z := float32(c.R)*0.0193 + float32(c.G)*0.1192 + float32(c.B)*0.9505
+
+	var res LabColor
+	res.L = 116*f(Y/100) - 16
+	res.a = 500 * (f(X/95.0489) - f(Y/100))
+	res.b = 200 * (f(Y/100) - f(Z/108.8840))
+	return res
 }
