@@ -4,19 +4,7 @@
 
 #include "../Common.h"
 
-#ifndef _CONSOLE_WIDTH_
-#define _CONSOLE_WIDTH_ 120
-#endif
-
-#ifndef _CONSOLE_HEIGHT_
-#define _CONSOLE_HEIGHT_ 30 
-#endif
-
-
 namespace ConsoleGame {
-    constexpr Vec2 _ScreenSize{.width = _CONSOLE_WIDTH_, .height = _CONSOLE_HEIGHT_};
-    constexpr Vec2 _CanvasSize{.width = _ScreenSize.width, .height = 2 * _ScreenSize.height};
-
     class AbstractCanvas {
        public:
         using ScreenBuffer_t =

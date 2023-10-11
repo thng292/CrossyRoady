@@ -27,6 +27,7 @@ namespace ConsoleGame {
             screens;
 
         HANDLE hStdOut, hGameScreen;
+        CONSOLE_SCREEN_BUFFER_INFOEX oldBuffer;
         Navigation navi;
         Canvas canvas;
         Canvas::CanvasBuffer_t backup;  // Preserve a canvas buffer for popup,

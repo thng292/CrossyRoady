@@ -5,7 +5,16 @@
 #include <cstdint>
 #include <memory>
 
+#ifndef _CONSOLE_WIDTH_
+#define _CONSOLE_WIDTH_ 120
+#endif
+
+#ifndef _CONSOLE_HEIGHT_
+#define _CONSOLE_HEIGHT_ 30 
+#endif
+
 namespace ConsoleGame {
+
     // clang-format off
     union Vec2 {
         struct { int x, y; };
@@ -17,8 +26,13 @@ namespace ConsoleGame {
 
     // clang-format on
 
+    constexpr Vec2 _ScreenSize{.width = _CONSOLE_WIDTH_, .height = _CONSOLE_HEIGHT_};
+    constexpr Vec2 _CanvasSize{.width = _ScreenSize.width, .height = 2 * _ScreenSize.height};
+
     // Get KeyCode: https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
     bool IsKeyDown(int keyCode);
+
+    Vec2 GetMousePos();
 
     enum class Color : char {
         BLACK = 0,

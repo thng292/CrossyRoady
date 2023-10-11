@@ -85,6 +85,10 @@ public:
         if (IsKeyDown('F')) {
             fill(cursorPos);
         }
+        if (IsKeyDown(VK_LBUTTON)) {
+            cursorPos = GetMousePos();
+            board[cursorPos.y][cursorPos.x] = currentColor;
+        }
         return navigation->NoChange();
     }
 
@@ -109,7 +113,7 @@ public:
 };
 
 auto main() -> int {
-    auto game = std::make_unique<Game>();
+    auto game = std::make_unique<Game>(300);
     game->Init();
     game->AddScreen(std::make_unique<DrawScreen>());
     game->Run(DrawScreen::ScreenName());

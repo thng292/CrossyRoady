@@ -47,11 +47,10 @@ namespace ConsoleGame {
         SetWindowLong(consoleWindow, GWL_STYLE, style);
 
         // Turn off mouse input
-        /*GetConsoleMode(hGameScreen, &currMode);
+        GetConsoleMode(hGameScreen, &currMode);
         SetConsoleMode(
-            hGameScreen,
-            ((ENABLE_EXTENDED_FLAGS | ENABLE_MOUSE_INPUT))
-        )*/;
+            hGameScreen, ((ENABLE_EXTENDED_FLAGS | ENABLE_MOUSE_INPUT))
+        );
 
         // Hide scoll bar
         ShowScrollBar(consoleWindow, SB_BOTH, FALSE);
@@ -82,6 +81,36 @@ namespace ConsoleGame {
         SetConsoleScreenBufferSize(
             hGameScreen, {_ScreenSize.width, _ScreenSize.height}
         );
+
+        // Change color palette
+        constexpr std::array<COLORREF, 16> colorPalette = {
+            RGB(12, 12, 12),
+            RGB(0, 55, 218),
+            RGB(19, 161, 14),
+            RGB(58, 150, 221),
+            RGB(197, 15, 31),
+            RGB(136, 23, 152),
+            RGB(193, 156, 0),
+            RGB(204, 204, 204),
+            RGB(118, 118, 118),
+            RGB(59, 120, 255),
+            RGB(22, 198, 12),
+            RGB(97, 214, 214),
+            RGB(231, 72, 86),
+            RGB(180, 0, 158),
+            RGB(249, 241, 165),
+            RGB(242, 242, 242),
+        };
+
+        GetConsoleScreenBufferInfoEx(hStdOut, &oldBuffer);
+        oldBuffer.cbSize = sizeof(oldBuffer);
+        auto newBuffer = oldBuffer;
+
+        for (int i = 0; i < colorPalette.size(); i++) {
+            newBuffer.ColorTable[i] = colorPalette[i];
+        }
+
+        SetConsoleScreenBufferInfoEx(hStdOut, &newBuffer);
 
         backup.fill(Color::BRIGHT_WHITE);
     }
@@ -230,12 +259,9 @@ namespace ConsoleGame {
 
     Game::~Game()
     {
-        // Set IO Unicode
-        _setmode(_fileno(stdout), _O_TEXT);
-        _setmode(_fileno(stdin), _O_TEXT);
-        if (!SetConsoleActiveScreenBuffer(hStdOut)) {
-            std::cerr << std ::system_category().message(GetLastError());
-        }
+
+        SetConsoleScreenBufferInfoEx(hStdOut, &oldBuffer);
+        SetConsoleActiveScreenBuffer(hStdOut);
     }
 
 }  // namespace ConsoleGame
