@@ -1,3 +1,7 @@
+# Idea
+<img width="2076" alt="gameing" src="https://github.com/thng292/CrossyRoady/assets/61302586/0a0a2b98-bf85-4422-b049-0d11984aff31">
+
+
 # How to use spritegen
 
 ## Demo
