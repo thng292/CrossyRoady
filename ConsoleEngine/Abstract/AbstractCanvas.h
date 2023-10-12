@@ -11,6 +11,7 @@ namespace ConsoleGame {
             std::array<WORD, _ScreenSize.width * _ScreenSize.height>;
         using CanvasBuffer_t =
             std::array<Color, _CanvasSize.width * _CanvasSize.height>;
+
         virtual void Init(HANDLE handleOut) = 0;
         virtual Vec2 CanvasSize() const = 0;
         virtual const CanvasBuffer_t& ReadCanvas() const = 0;

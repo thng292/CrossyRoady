@@ -149,6 +149,7 @@
     <ClInclude Include="Abstract\AbstractGame.h" />
     <ClInclude Include="Abstract\AbstractNavigation.h" />
     <ClInclude Include="Abstract\AbstractScreen.h" />
+    <ClInclude Include="AniSprite.h" />
     <ClInclude Include="Audio.h" />
     <ClInclude Include="Canvas.h" />
     <ClInclude Include="Common.h" />
@@ -159,6 +160,7 @@
     <ClInclude Include="Sprite.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AniSprite.cpp" />
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="Canvas.cpp" />
     <ClCompile Include="Common.cpp" />

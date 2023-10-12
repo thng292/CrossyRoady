@@ -14,10 +14,8 @@ void DevScreen::Init(const std::any& args) {}
 
 AbstractScreen* DevScreen::Clone() const { return new DevScreen; }
 
-
 AbstractNavigation::NavigationRes DevScreen::Update(
-    float deltaTime,
-    const AbstractNavigation* navigation
+    float deltaTime, const AbstractNavigation* navigation
 )
 {
     if (IsKeyDown('W')) {
@@ -43,5 +41,3 @@ void DevScreen::Draw(AbstractCanvas* canvas) const
         }
     }
 }
-
-void DevScreen::DeInit() {}

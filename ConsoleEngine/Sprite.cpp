@@ -72,8 +72,6 @@ Color* ConsoleGame::Sprite::operator[](size_t index)
     return data.data() + index * dim.x;
 }
 
-void ConsoleGame::Sprite::DeInit() { data.clear(); }
-
 void ConsoleGame::Sprite::Save(std::filesystem::path filePath)
 {
     std::ofstream outFile(filePath, std::ios::out | std::ios::binary);

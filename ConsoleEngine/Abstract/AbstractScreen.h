@@ -23,6 +23,5 @@ namespace ConsoleGame {
         virtual void Draw(AbstractCanvas* canvas
         ) const = 0;  // should be fast enough
         // cleaning up the temporaries, called multiple time
-        virtual void DeInit() = 0;
     };
 }  // namespace ConsoleGame

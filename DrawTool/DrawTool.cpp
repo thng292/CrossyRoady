@@ -113,7 +113,7 @@ public:
 };
 
 auto main() -> int {
-    auto game = std::make_unique<Game>(300);
+    auto game = std::make_unique<Game>(500);
     game->Init();
     game->AddScreen(std::make_unique<DrawScreen>());
     game->Run(DrawScreen::ScreenName());

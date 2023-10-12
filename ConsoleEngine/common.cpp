@@ -26,4 +26,19 @@ namespace ConsoleGame {
         return Vec2{.x = pos.x / pixSize.width, .y = pos.y / pixSize.height};
     }
 
+    void ChangeColorPalette(const ColorPalette& palette) {
+        static const auto hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+        CONSOLE_SCREEN_BUFFER_INFOEX buffer{0};
+        GetConsoleScreenBufferInfoEx(hStdOut, &buffer);
+        buffer.cbSize = sizeof(buffer);
+
+        for (int i = 0; i < _DefaultColorPalette.size(); i++) {
+            buffer.ColorTable[i] = _DefaultColorPalette[i];
+        }
+
+        SetConsoleScreenBufferInfoEx(hStdOut, &buffer);
+
+
+    }
+
 }  // namespace ConsoleGame

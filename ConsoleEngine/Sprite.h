@@ -27,6 +27,5 @@ namespace ConsoleGame {
         Vec2 GetDim() const;
         const std::vector<Color>& GetData() const;
         Color* operator[](size_t index);
-        void DeInit();
     };
 }  // namespace ConsoleGame

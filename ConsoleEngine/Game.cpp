@@ -83,31 +83,13 @@ namespace ConsoleGame {
         );
 
         // Change color palette
-        constexpr std::array<COLORREF, 16> colorPalette = {
-            RGB(12, 12, 12),
-            RGB(0, 55, 218),
-            RGB(19, 161, 14),
-            RGB(58, 150, 221),
-            RGB(197, 15, 31),
-            RGB(136, 23, 152),
-            RGB(193, 156, 0),
-            RGB(204, 204, 204),
-            RGB(118, 118, 118),
-            RGB(59, 120, 255),
-            RGB(22, 198, 12),
-            RGB(97, 214, 214),
-            RGB(231, 72, 86),
-            RGB(180, 0, 158),
-            RGB(249, 241, 165),
-            RGB(242, 242, 242),
-        };
-
+        
         GetConsoleScreenBufferInfoEx(hStdOut, &oldBuffer);
         oldBuffer.cbSize = sizeof(oldBuffer);
         auto newBuffer = oldBuffer;
 
-        for (int i = 0; i < colorPalette.size(); i++) {
-            newBuffer.ColorTable[i] = colorPalette[i];
+        for (int i = 0; i < _DefaultColorPalette.size(); i++) {
+            newBuffer.ColorTable[i] = _DefaultColorPalette[i];
         }
 
         SetConsoleScreenBufferInfoEx(hStdOut, &newBuffer);
@@ -211,7 +193,6 @@ namespace ConsoleGame {
 
             switch (navigationRes.ActionType) {
                 case AbstractNavigation::NavigationAction::Back:
-                    currentScreen.Screen->DeInit();
                     naviStack.pop_back();
                     break;
                 case AbstractNavigation::NavigationAction::PopBackTo:
@@ -221,7 +202,6 @@ namespace ConsoleGame {
                         if (it->Screen->getName() == navigationRes.ActionData) {
                             for (auto tmp = it.base(); tmp != naviStack.end();
                                  tmp++) {
-                                tmp->Screen->DeInit();
                             }
                             naviStack.erase(it.base(), naviStack.end());
                         }
