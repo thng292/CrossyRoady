@@ -44,7 +44,3 @@ void PreviewScreen::Draw(AbstractCanvas* canvas) const
     preview.Paint(canvas, drawCoord);
 }
 
-void PreviewScreen::DeInit()
-{
-    preview.DeInit();
-}

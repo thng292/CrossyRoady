@@ -1,5 +1,7 @@
 #include "Canvas.h"
 
+#include <algorithm>
+
 namespace ConsoleGame {
 
     Vec2 Canvas::CanvasSize() const { return _CanvasSize; }
@@ -9,7 +11,16 @@ namespace ConsoleGame {
         return canvasBuffer.data() + index * _CanvasSize.width;
     }
 
-    void Canvas::Clear(Color color) { canvasBuffer.fill(color); }
+    void Canvas::Clear(Color color)
+    {
+        std::fill(canvasBuffer.begin(), canvasBuffer.end(), color);
+    }
+
+    Canvas::Canvas()
+        : screenBuffer(_ScreenSize.width * _ScreenSize.height, 0),
+          canvasBuffer(
+              _CanvasSize.width * _CanvasSize.height, Color::BRIGHT_WHITE
+          ){};
 
     void Canvas::Init(HANDLE handleOut)
     {
@@ -34,10 +45,10 @@ namespace ConsoleGame {
     void Canvas::DrawToScreen()
     {
         const auto rowSize = _ScreenSize.width;
-        for (int i = 0; i < 30; i++) {
-            int upper = 2 * i;
-            int lower = upper + 1;
-            for (int j = 0; j < 120; j++) {
+        for (size_t i = 0; i < _ScreenSize.height; i++) {
+            size_t upper = 2 * i;
+            size_t lower = upper + 1;
+            for (size_t j = 0; j < _ScreenSize.width; j++) {
                 // Change the background for the upper row
                 // Change the foreground for the lower row
                 // & 15 to handle the transparent case.

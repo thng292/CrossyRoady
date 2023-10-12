@@ -11,6 +11,7 @@ namespace ConsoleGame {
             Navigate,
             NavigatePopup,
             PopBackTo,
+            Exit,
             None,
         };
 
@@ -35,5 +36,7 @@ namespace ConsoleGame {
         virtual NavigationRes PopBackTo(
             std::wstring_view screenName, std::any payload = std::any()
         ) const = 0;
+
+        virtual NavigationRes Exit() const = 0;
     };
 }  // namespace ConsoleGame

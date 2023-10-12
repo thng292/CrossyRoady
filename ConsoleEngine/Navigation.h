@@ -13,5 +13,8 @@ namespace ConsoleGame {
         ) const override;
         NavigationRes PopBackTo(std::wstring_view screenName, std::any payload)
             const override;
+
+        // Inherited via AbstractNavigation
+        NavigationRes Exit() const override;
     };
 }  // namespace ConsoleGame

@@ -9,7 +9,7 @@ class DevScreen : public ConsoleGame::AbstractScreen {
     int moveX = 0;
     int moveY = 0;
 
-    const ConsoleGame::Vec2 dim{.width = 3, .height = 3};
+    const ConsoleGame::Vec2 dim{.width = 1, .height = 1};
 
    public:
     static const std::wstring_view ScreenName();

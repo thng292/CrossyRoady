@@ -1,6 +1,6 @@
 #pragma once
 
-#include <array>
+#include <vector>
 
 #include "../Common.h"
 
@@ -8,9 +8,9 @@ namespace ConsoleGame {
     class AbstractCanvas {
        public:
         using ScreenBuffer_t =
-            std::array<WORD, _ScreenSize.width * _ScreenSize.height>;
+            std::vector<WORD>;
         using CanvasBuffer_t =
-            std::array<Color, _CanvasSize.width * _CanvasSize.height>;
+            std::vector<Color>;
 
         virtual void Init(HANDLE handleOut) = 0;
         virtual Vec2 CanvasSize() const = 0;

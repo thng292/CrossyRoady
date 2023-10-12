@@ -10,6 +10,7 @@
 #include <thread>
 
 #include "Common.h"
+#include "Palette.h"
 #include "Signal.h"
 
 #define _ENABLE_ASYNC_DRAW_
@@ -28,13 +29,21 @@ namespace ConsoleGame {
             CONSOLE_TEXTMODE_BUFFER,
             NULL
         );
+#ifdef _DEBUG
+        bool err = 1;
+        std::string errs;
+        auto handleError = [&](bool err) {
+            if (err == 0) {
+                errs = std::system_category().message(GetLastError());
+            }
+        };
         if (hStdOut == INVALID_HANDLE_VALUE ||
             hGameScreen == INVALID_HANDLE_VALUE) {
-            throw std::system_category().message(GetLastError());
+            errs = std::system_category().message(GetLastError());
         }
-        if (!SetConsoleActiveScreenBuffer(hGameScreen)) {
-            throw std::system_category().message(GetLastError());
-        }
+        err = SetConsoleActiveScreenBuffer(hGameScreen);
+        handleError(err);
+#endif
 
         HWND consoleWindow = GetConsoleWindow();
         LONG style = GetWindowLong(consoleWindow, GWL_STYLE);
@@ -48,27 +57,45 @@ namespace ConsoleGame {
 
         // Turn off mouse input
         GetConsoleMode(hGameScreen, &currMode);
-        SetConsoleMode(
-            hGameScreen, ((ENABLE_EXTENDED_FLAGS | ENABLE_MOUSE_INPUT))
+        err = SetConsoleMode(
+            hStdOut, (currMode & (ENABLE_EXTENDED_FLAGS | ENABLE_MOUSE_INPUT))
         );
+#ifdef _DEBUG
+        handleError(err);
+#endif
 
         // Hide scoll bar
-        ShowScrollBar(consoleWindow, SB_BOTH, FALSE);
-
+        err = ShowScrollBar(consoleWindow, SB_BOTH, FALSE);
+        if (err == 0) {
+            errs = std::system_category().message(GetLastError());
+        }
         // Hide the cursor
         CONSOLE_CURSOR_INFO cursorInfo;
-        GetConsoleCursorInfo(hGameScreen, &cursorInfo);
+        err = GetConsoleCursorInfo(hGameScreen, &cursorInfo);
+#ifdef _DEBUG
+        handleError(err);
+#endif
         cursorInfo.bVisible = false;
-        SetConsoleCursorInfo(hGameScreen, &cursorInfo);
+        err = SetConsoleCursorInfo(hGameScreen, &cursorInfo);
+#ifdef _DEBUG
+        handleError(err);
+#endif
 
         // Set font bold
         fontex.cbSize = sizeof(CONSOLE_FONT_INFOEX);
-        GetCurrentConsoleFontEx(hGameScreen, 0, &fontex);
-        fontex.FontWeight = 800;
-        fontex.dwFontSize.X = 24;
-        fontex.dwFontSize.Y = 24;
+        err = GetCurrentConsoleFontEx(hGameScreen, 0, &fontex);
+#ifdef _DEBUG
+        handleError(err);
+#endif
+
+        // A character width is now 3 pixel
+        fontex.dwFontSize.X = 6;
+        fontex.dwFontSize.Y = 6;
         wcscpy_s(fontex.FaceName, L"Consolas");
-        SetCurrentConsoleFontEx(hGameScreen, NULL, &fontex);
+        err = SetCurrentConsoleFontEx(hGameScreen, NULL, &fontex);
+#ifdef _DEBUG
+        handleError(err);
+#endif
 
         // Update console title
         SetConsoleTitle(TEXT("Crossy Roady"));
@@ -78,23 +105,55 @@ namespace ConsoleGame {
         _setmode(_fileno(stdin), _O_WTEXT);
 
         // Set BufferSize
-        SetConsoleScreenBufferSize(
+        err = SetConsoleScreenBufferSize(
             hGameScreen, {_ScreenSize.width, _ScreenSize.height}
         );
+#ifdef _DEBUG
+        handleError(err);
+#endif
 
         // Change color palette
-        
-        GetConsoleScreenBufferInfoEx(hStdOut, &oldBuffer);
         oldBuffer.cbSize = sizeof(oldBuffer);
+        err = GetConsoleScreenBufferInfoEx(hStdOut, &oldBuffer);
+#ifdef _DEBUG
+        handleError(err);
+#endif
         auto newBuffer = oldBuffer;
-
-        for (int i = 0; i < _DefaultColorPalette.size(); i++) {
-            newBuffer.ColorTable[i] = _DefaultColorPalette[i];
+        for (int i = 0; i < Palette::_DefaultColorPalette.size(); i++) {
+            newBuffer.ColorTable[i] = Palette::_DefaultColorPalette[i];
         }
+        err = SetConsoleScreenBufferInfoEx(hStdOut, &newBuffer);
+#ifdef _DEBUG
+        handleError(err);
+#endif
 
-        SetConsoleScreenBufferInfoEx(hStdOut, &newBuffer);
+        // Resizing the window
+        RECT tmp{0};
+        err = GetWindowRect(consoleWindow, &tmp);
+#ifdef _DEBUG
+        handleError(err);
+#endif
+        tmp.right = tmp.left + _CanvasSize.width * 3;
+        tmp.bottom = tmp.top + _CanvasSize.height * 3;
 
-        backup.fill(Color::BRIGHT_WHITE);
+        err = AdjustWindowRect(&tmp, style, FALSE);
+#ifdef _DEBUG
+        handleError(err);
+#endif
+        err = SetWindowPos(
+            consoleWindow,
+            HWND_TOP,
+            0,
+            0,
+            tmp.right - tmp.left,
+            tmp.bottom - tmp.top,
+            SWP_NOMOVE
+        );
+#ifdef _DEBUG
+        handleError(err);
+#endif
+
+        std::fill(backup.begin(), backup.end(), Color::BRIGHT_WHITE);
     }
 
     void Game::Run(std::wstring_view screenName)
@@ -239,7 +298,6 @@ namespace ConsoleGame {
 
     Game::~Game()
     {
-
         SetConsoleScreenBufferInfoEx(hStdOut, &oldBuffer);
         SetConsoleActiveScreenBuffer(hStdOut);
     }

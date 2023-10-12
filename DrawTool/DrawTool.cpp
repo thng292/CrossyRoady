@@ -106,10 +106,6 @@ public:
             (*canvas)[cursorPos.y][cursorPos.x] = Color::BLACK;
         }
     }
-    void DeInit() override
-    {
-        board.DeInit();
-    }
 };
 
 auto main() -> int {

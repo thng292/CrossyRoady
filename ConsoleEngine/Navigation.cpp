@@ -46,4 +46,11 @@ namespace ConsoleGame {
             .ActionData = screenName,
             .Payload = payload};
     }
+
+    AbstractNavigation::NavigationRes Navigation::Exit() const
+    {
+        return NavigationRes{
+            .ActionType = NavigationAction::Exit,
+        };
+    }
 }  // namespace ConsoleGame

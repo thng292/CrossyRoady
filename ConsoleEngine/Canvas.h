@@ -10,6 +10,8 @@ namespace ConsoleGame {
         CanvasBuffer_t canvasBuffer;
 
        public:
+
+        Canvas();
         // Inherited via AbstractCanvas
         void Init(HANDLE handleOut) override;
         Vec2 CanvasSize() const override;

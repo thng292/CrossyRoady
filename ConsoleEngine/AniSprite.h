@@ -1,14 +1,17 @@
 #pragma once
-#include <vector>
-#include <filesystem>
 #include <chrono>
+#include <filesystem>
+#include <vector>
 
-#include "Common.h"
 #include "Abstract/AbstractCanvas.h"
+#include "Common.h"
 
 namespace ConsoleGame {
-    constexpr int durationMultiplier = 25;
     class AniSprite {
+       public:
+        static constexpr int durationMultiplier = 25;
+
+       private:
         std::vector<Color> data;
         Vec2 dim;
         std::filesystem::path filePath;
@@ -25,7 +28,9 @@ namespace ConsoleGame {
         AniSprite(std::filesystem::path path);
         AniSprite(const AniSprite&);
         AniSprite(AniSprite&& other) noexcept;
-        
+
+        const AniSprite operator=(const AniSprite& other);
+
         Vec2 GetDim() const;
         const std::vector<Color>& GetData() const;
 
@@ -37,4 +42,4 @@ namespace ConsoleGame {
         void AdvanceFrame();
         void AutoUpdateFrame(float deltaTime);
     };
-}
+}  // namespace ConsoleGame

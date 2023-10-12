@@ -19,6 +19,5 @@ public:
     AbstractScreen* Clone() const override;
     ConsoleGame::AbstractNavigation::NavigationRes Update(float deltaTime, const ConsoleGame::AbstractNavigation* navigation) override;
     void Draw(ConsoleGame::AbstractCanvas* canvas) const override;
-    void DeInit() override;
 };
 
