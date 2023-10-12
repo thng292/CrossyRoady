@@ -1,4 +1,5 @@
 #include "Common.h"
+#include <bit>
 
 namespace ConsoleGame {
 
@@ -34,7 +35,7 @@ namespace ConsoleGame {
 
     uint16_t ToBigEndian(uint16_t num)
     {
-        static bool isBigEndian = ToHost(500) == 500;
+        static constexpr bool isBigEndian = std::endian::native == std::endian::big;
         if (isBigEndian) {
             return num;
         } else {
