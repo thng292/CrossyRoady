@@ -32,11 +32,11 @@ void ConsoleGame::Sprite::Load(std::filesystem::path filePath)
 {
     openFile = filePath;
     std::ifstream inFile(filePath, std::ios::in | std::ios::binary);
-    uint8_t buff = 0;
-    inFile.read((char*)&buff, 1);
-    dim.width = buff;
-    inFile.read((char*)&buff, 1);
-    dim.height = buff;
+    uint16_t buff = 0;
+    inFile.read((char*)&buff, 2);
+    dim.width = ToHost(buff);
+    inFile.read((char*)&buff, 2);
+    dim.height = ToHost(buff);
     data.resize((size_t)dim.width * dim.height);
     inFile.read((char*)data.data(), sizeof(Color) * dim.width * dim.height);
 }
@@ -75,9 +75,11 @@ Color* ConsoleGame::Sprite::operator[](size_t index)
 void ConsoleGame::Sprite::Save(std::filesystem::path filePath)
 {
     std::ofstream outFile(filePath, std::ios::out | std::ios::binary);
-    char buff = dim.width;
-    outFile.write(&buff, 1);
+    unsigned short buff = dim.width;
+    buff = ToBigEndian(buff);
+    outFile.write((char*)&buff, 2);
     buff = dim.height;
-    outFile.write(&buff, 1);
+    buff = ToBigEndian(buff);
+    outFile.write((char*)&buff, 2);
     outFile.write((char*)data.data(), data.size());
 }

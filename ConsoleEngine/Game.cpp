@@ -29,8 +29,9 @@ namespace ConsoleGame {
             CONSOLE_TEXTMODE_BUFFER,
             NULL
         );
-#ifdef _DEBUG
+
         bool err = 1;
+#ifdef _DEBUG
         std::string errs;
         auto handleError = [&](bool err) {
             if (err == 0) {
@@ -66,9 +67,9 @@ namespace ConsoleGame {
 
         // Hide scoll bar
         err = ShowScrollBar(consoleWindow, SB_BOTH, FALSE);
-        if (err == 0) {
-            errs = std::system_category().message(GetLastError());
-        }
+#ifdef _DEBUG
+        handleError(err);
+#endif
         // Hide the cursor
         CONSOLE_CURSOR_INFO cursorInfo;
         err = GetConsoleCursorInfo(hGameScreen, &cursorInfo);

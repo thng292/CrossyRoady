@@ -44,12 +44,13 @@ namespace ConsoleGame {
     void AniSprite::Load(std::filesystem::path path)
     {
         std::fstream file(path, std::ios::in | std::ios::binary);
-        uint8_t buff = 0;
-        file.read((char*)&buff, 1);
-        dim.width = buff;
-        file.read((char*)&buff, 1);
-        dim.height = buff;
+        uint16_t buffs = 0;
+        file.read((char*)&buffs, 2);
+        dim.width = ToHost(buffs);
+        file.read((char*)&buffs, 2);
+        dim.height = ToHost(buffs);
 
+        uint8_t buff = 0;
         file.read((char*)&buff, 1);
         frameDuration = std::chrono::milliseconds(buff * durationMultiplier);
 

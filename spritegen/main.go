@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/binary"
 	"fmt"
 	"image"
 	"image/color"
@@ -108,8 +109,8 @@ func ToConsoleColor(rgb color.RGBA) ConsoleColor {
 
 var filenameIn = ""
 var filenameOut = ""
-var width int8 = 0
-var height int8 = 0
+var width int = 0
+var height int = 0
 var watch = false
 var algo = "Lanczos3"
 var outputExtention = ".sprite"
@@ -188,10 +189,10 @@ func ResizeImage() {
 	imageRatio := float64(img.Bounds().Dx()) / float64(img.Bounds().Dy())
 	// width / height
 	if width <= 0 {
-		width = int8(float64(height) * imageRatio)
+		width = int(float64(height) * imageRatio)
 	}
 	if height <= 0 {
-		height = int8(float64(width) / imageRatio)
+		height = int(float64(width) / imageRatio)
 	}
 
 	resizedImg := resize.Resize(uint(width), uint(height), img, resizeAlgo)
@@ -199,10 +200,10 @@ func ResizeImage() {
 }
 
 func Myformat_Encode(w io.Writer, img image.Image) {
-	buffer := make([]byte, int(width)*int(height)+2)
+	buffer := make([]byte, int(width)*int(height)+4)
 	img.ColorModel()
-	buffer[0] = byte(width)
-	buffer[1] = byte(height)
+	binary.BigEndian.PutUint16(buffer, uint16(width))
+	binary.BigEndian.PutUint16(buffer[2:], uint16(height))
 	bb := img.Bounds()
 	rows := bb.Dy()
 	cols := bb.Dx()
@@ -218,7 +219,7 @@ func Myformat_Encode(w io.Writer, img image.Image) {
 			if tmp == byte(C_TRANSPARENT) {
 				tmp = 31
 			}
-			buffer[2+i*cols+j] = tmp
+			buffer[4+i*cols+j] = tmp
 		}
 	}
 	// fmt.Println(buffer)
@@ -247,11 +248,11 @@ func GetConfig() {
 		}
 		if arg == "-w" {
 			tmp, _ := strconv.Atoi(os.Args[index+1])
-			width = int8(tmp)
+			width = int(tmp)
 		}
 		if arg == "-h" {
 			tmp, _ := strconv.Atoi(os.Args[index+1])
-			height = int8(tmp)
+			height = int(tmp)
 		}
 		if arg == "-a" {
 			algo = os.Args[index+1]
