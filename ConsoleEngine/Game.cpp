@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <cstdarg>
+#include <format>
 #include <iostream>
 #include <system_error>
 #include <thread>
@@ -13,7 +14,10 @@
 #include "Palette.h"
 #include "Signal.h"
 
+#define _SHOW_FPS_
+#ifndef _DEBUG
 #define _ENABLE_ASYNC_DRAW_
+#endif
 
 namespace ConsoleGame {
 
@@ -31,9 +35,8 @@ namespace ConsoleGame {
         );
 
         bool err = 1;
-#ifdef _DEBUG
         std::string errs;
-        auto handleError = [&](bool err) {
+        auto debugError = [&](bool err) {
             if (err == 0) {
                 errs = std::system_category().message(GetLastError());
             }
@@ -42,9 +45,9 @@ namespace ConsoleGame {
             hGameScreen == INVALID_HANDLE_VALUE) {
             errs = std::system_category().message(GetLastError());
         }
+
         err = SetConsoleActiveScreenBuffer(hGameScreen);
-        handleError(err);
-#endif
+        debugError(err);
 
         HWND consoleWindow = GetConsoleWindow();
         LONG style = GetWindowLong(consoleWindow, GWL_STYLE);
@@ -61,42 +64,32 @@ namespace ConsoleGame {
         err = SetConsoleMode(
             hStdOut, (currMode & (ENABLE_EXTENDED_FLAGS | ENABLE_MOUSE_INPUT))
         );
-#ifdef _DEBUG
-        handleError(err);
-#endif
+        debugError(err);
 
         // Hide scoll bar
         err = ShowScrollBar(consoleWindow, SB_BOTH, FALSE);
-#ifdef _DEBUG
-        handleError(err);
-#endif
+        debugError(err);
+
         // Hide the cursor
         CONSOLE_CURSOR_INFO cursorInfo;
         err = GetConsoleCursorInfo(hGameScreen, &cursorInfo);
-#ifdef _DEBUG
-        handleError(err);
-#endif
+        debugError(err);
+
         cursorInfo.bVisible = false;
         err = SetConsoleCursorInfo(hGameScreen, &cursorInfo);
-#ifdef _DEBUG
-        handleError(err);
-#endif
+        debugError(err);
 
         // Set font bold
         fontex.cbSize = sizeof(CONSOLE_FONT_INFOEX);
         err = GetCurrentConsoleFontEx(hGameScreen, 0, &fontex);
-#ifdef _DEBUG
-        handleError(err);
-#endif
+        debugError(err);
 
         // A character width is now 3 pixel
         fontex.dwFontSize.X = 6;
         fontex.dwFontSize.Y = 6;
         wcscpy_s(fontex.FaceName, L"Consolas");
         err = SetCurrentConsoleFontEx(hGameScreen, NULL, &fontex);
-#ifdef _DEBUG
-        handleError(err);
-#endif
+        debugError(err);
 
         // Update console title
         SetConsoleTitle(TEXT("Crossy Roady"));
@@ -109,50 +102,41 @@ namespace ConsoleGame {
         err = SetConsoleScreenBufferSize(
             hGameScreen, {_ScreenSize.width, _ScreenSize.height}
         );
-#ifdef _DEBUG
-        handleError(err);
-#endif
+        debugError(err);
 
         // Change color palette
         oldBuffer.cbSize = sizeof(oldBuffer);
         err = GetConsoleScreenBufferInfoEx(hStdOut, &oldBuffer);
-#ifdef _DEBUG
-        handleError(err);
-#endif
+        debugError(err);
+
         auto newBuffer = oldBuffer;
         for (int i = 0; i < Palette::_DefaultColorPalette.size(); i++) {
             newBuffer.ColorTable[i] = Palette::_DefaultColorPalette[i];
         }
         err = SetConsoleScreenBufferInfoEx(hStdOut, &newBuffer);
-#ifdef _DEBUG
-        handleError(err);
-#endif
+        debugError(err);
 
         // Resizing the window
         RECT tmp{0};
         err = GetWindowRect(consoleWindow, &tmp);
-#ifdef _DEBUG
-        handleError(err);
-#endif
+        debugError(err);
         tmp.right = tmp.left + _CanvasSize.width * 3;
         tmp.bottom = tmp.top + _CanvasSize.height * 3;
 
         err = AdjustWindowRect(&tmp, style, FALSE);
-#ifdef _DEBUG
-        handleError(err);
-#endif
+        debugError(err);
+
+        auto scaleFactor = GetScalingFactor();
         err = SetWindowPos(
             consoleWindow,
             HWND_TOP,
             0,
             0,
-            tmp.right - tmp.left,
-            tmp.bottom - tmp.top,
+            (tmp.right - tmp.left) * scaleFactor.verticalScale,
+            (tmp.bottom - tmp.top) * scaleFactor.horizontalScale,
             SWP_NOMOVE
         );
-#ifdef _DEBUG
-        handleError(err);
-#endif
+        debugError(err);
 
         std::fill(backup.begin(), backup.end(), Color::BRIGHT_WHITE);
     }
@@ -225,15 +209,16 @@ namespace ConsoleGame {
                 navigationRes = currentScreen.Screen->Update(deltaTime, &navi);
 
 #ifdef _ENABLE_ASYNC_DRAW_
-                // Signal to draw
-                // Skip a frame if draw takes lots of time
-                if (shouldSkipFrame && startDrawSignal.JobDone()) {
+// Signal to draw
+// Skip a frame if draw takes lots of time
+#ifdef _SHOULD_SKIP_FRAME_
+                if (startDrawSignal.JobDone()) {
                     startDrawSignal.StartJob();
                 }
-                if (!shouldSkipFrame) {
-                    startDrawSignal.WaitUntilJobDone();
-                    startDrawSignal.StartJob();
-                }
+#else
+                startDrawSignal.WaitUntilJobDone();
+                startDrawSignal.StartJob();
+#endif
 #else
                 DrawFunc();
 #endif
@@ -249,6 +234,12 @@ namespace ConsoleGame {
                     deltaTime = targetFrameTime;
                     std::this_thread::sleep_until(nextFrame);
                 }
+#ifdef _SHOW_FPS_
+                SetConsoleTitle(
+                    std::format(L"Crossy Roady - FPS: {}", 1 / deltaTime)
+                        .c_str()
+                );
+#endif
             }
 
             switch (navigationRes.ActionType) {
@@ -281,6 +272,9 @@ namespace ConsoleGame {
                         );
                     }
                     break;
+                case AbstractNavigation::NavigationAction::Exit:
+                    return;
+
             }
             redraw = naviStack.back().IsPopup;
         }

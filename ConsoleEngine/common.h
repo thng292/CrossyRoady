@@ -6,11 +6,11 @@
 #include <memory>
 
 #ifndef _CONSOLE_WIDTH_
-#define _CONSOLE_WIDTH_ 500
+#define _CONSOLE_WIDTH_ 240
 #endif
 
 #ifndef _CONSOLE_HEIGHT_
-#define _CONSOLE_HEIGHT_ 140
+#define _CONSOLE_HEIGHT_ 68
 #endif
 
 namespace ConsoleGame {
@@ -58,5 +58,11 @@ namespace ConsoleGame {
 
     uint16_t ToBigEndian(uint16_t num);
     uint16_t ToHost(uint16_t num);
+
+    struct ScaleFactor {
+        double horizontalScale;
+        double verticalScale;
+    }; 
+    ScaleFactor GetScalingFactor();
 
 }  // namespace ConsoleGame

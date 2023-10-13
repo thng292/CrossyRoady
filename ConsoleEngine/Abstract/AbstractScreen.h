@@ -14,14 +14,15 @@ namespace ConsoleGame {
 
         virtual void Init(const std::any& args) = 0;  // called multiple time
         virtual AbstractScreen* Clone() const = 0;
+        virtual void Mount(){};
         // maybe called more than the target fps in 1 sec, should be fast
         // enough
         virtual AbstractNavigation::NavigationRes Update(
-            float deltaTime,
-            const AbstractNavigation* navigation
+            float deltaTime, const AbstractNavigation* navigation
         ) = 0;
-        virtual void Draw(AbstractCanvas* canvas
-        ) const = 0;  // should be fast enough
+        // should be fast enough
+        virtual void Draw(AbstractCanvas* canvas) const = 0;
         // cleaning up the temporaries, called multiple time
+        virtual void Unmount(){};
     };
 }  // namespace ConsoleGame
