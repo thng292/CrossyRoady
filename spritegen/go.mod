@@ -1,4 +1,4 @@
-module ImageToMyformat
+module spritegen
 
 go 1.20
 

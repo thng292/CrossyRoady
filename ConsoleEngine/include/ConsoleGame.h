@@ -8,3 +8,5 @@
 #include "../Common.h"
 #include "../Audio.h"
 #include "../Sprite.h"
+#include "../AniSprite.h"
+#include "../Palette.h"

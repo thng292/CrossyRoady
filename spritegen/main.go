@@ -40,27 +40,6 @@ const (
 	C_TRANSPARENT
 )
 
-// // Standard color find on the internet
-// var consoleColorMap = [...]color.RGBA{
-// 	(color.RGBA{12, 12, 12, 1}),
-// 	(color.RGBA{0, 55, 218, 1}),
-// 	(color.RGBA{19, 161, 14, 1}),
-// 	(color.RGBA{58, 150, 221, 1}),
-// 	(color.RGBA{197, 15, 31, 1}),
-// 	(color.RGBA{136, 23, 152, 1}),
-// 	(color.RGBA{193, 156, 0, 1}),
-// 	(color.RGBA{204, 204, 204, 1}),
-// 	(color.RGBA{118, 118, 118, 1}),
-// 	(color.RGBA{59, 120, 255, 1}),
-// 	(color.RGBA{22, 198, 12, 1}),
-// 	(color.RGBA{97, 214, 214, 1}),
-// 	(color.RGBA{231, 72, 86, 1}),
-// 	(color.RGBA{180, 0, 158, 1}),
-// 	(color.RGBA{249, 241, 165, 1}),
-// 	(color.RGBA{242, 242, 242, 1}),
-// 	(color.RGBA{0, 0, 0, 0}),
-// }
-
 // Standard console color
 var consoleColorMap = [...]LabColor{
 	ToLabColor(color.RGBA{12, 12, 12, 1}),
@@ -109,6 +88,7 @@ func ToConsoleColor(rgb color.RGBA) ConsoleColor {
 
 var filenameIn = ""
 var filenameOut = ""
+var filePalette = ""
 var width int = 0
 var height int = 0
 var watch = false
@@ -122,6 +102,7 @@ func main() {
 		fmt.Println("Usage: spritegen <filename> [options]")
 		fmt.Println("Options:")
 		fmt.Println("  -o <filename>   Output filename")
+		fmt.Println("  -c <filename>   Color palette file")
 		fmt.Println("  -l              Watch for changes")
 		fmt.Println("  -w <width>      Width of the sprite")
 		fmt.Println("  -h <height>     Height of the sprite")
@@ -131,6 +112,10 @@ func main() {
 	}
 
 	GetConfig()
+
+	if filePalette != "" {
+		LoadPalette()
+	}
 
 	if watch {
 		fmt.Printf("Watching %v and outputing at %v.\n", filenameIn, filenameOut)
@@ -257,6 +242,9 @@ func GetConfig() {
 		if arg == "-a" {
 			algo = os.Args[index+1]
 		}
+		if arg == "-c" {
+			filePalette = os.Args[index+1]
+		}
 	}
 	if height <= 0 && width <= 0 {
 		panic("Please provide width or height using -w or -h flag")
@@ -307,4 +295,16 @@ func ToLabColor(c color.RGBA) LabColor {
 	res.a = 500 * (f(X/95.0489) - f(Y/100))
 	res.b = 200 * (f(Y/100) - f(Z/108.8840))
 	return res
+}
+
+func LoadPalette() {
+	file, err := os.Open(filePalette)
+	if err != nil {
+		panic(err)
+	}
+	buff := make([]byte, 16*3)
+	file.Read(buff)
+	for i := 0; i < 16*3; i += 3 {
+		consoleColorMap[i/3] = ToLabColor(color.RGBA{buff[i], buff[i+1], buff[i+2], 1})
+	}
 }

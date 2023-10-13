@@ -9,7 +9,8 @@
 namespace ConsoleGame {
     class Palette {
        public:
-        using ColorPalette_t = std::array<COLORREF, 16>;
+        static constexpr int ColorPaletteSize = 16;
+        using ColorPalette_t = std::array<COLORREF, ColorPaletteSize>;
         static constexpr ColorPalette_t _DefaultColorPalette = {
             RGB(12, 12, 12),
             RGB(0, 55, 218),
@@ -37,7 +38,8 @@ namespace ConsoleGame {
         Palette(std::filesystem::path path);
         void Load(std::filesystem::path path);
         void LoadDefault();
-        const ColorPalette_t& GetColorPalette();
+        const ColorPalette_t& GetColorPalette() const;
+        COLORREF operator[](size_t index) const;
 
         friend void ChangeColorPalette(const Palette& palette);
     };

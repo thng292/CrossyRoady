@@ -14,7 +14,7 @@ namespace ConsoleGame {
 
         virtual void Init(const std::any& args) = 0;  // called multiple time
         virtual AbstractScreen* Clone() const = 0;
-        virtual void Mount(){};
+        virtual void Mount(const std::any& args){}; // Only get args from back or pop back to
         // maybe called more than the target fps in 1 sec, should be fast
         // enough
         virtual AbstractNavigation::NavigationRes Update(

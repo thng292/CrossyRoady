@@ -10,8 +10,10 @@
 #endif
 
 #ifndef _CONSOLE_HEIGHT_
-#define _CONSOLE_HEIGHT_ 113
+#define _CONSOLE_HEIGHT_ 112
 #endif
+
+// Ratio: 25:14
 
 namespace ConsoleGame {
 
@@ -58,12 +60,4 @@ namespace ConsoleGame {
 
     uint16_t ToBigEndian(uint16_t num);
     uint16_t ToHost(uint16_t num);
-
-    struct ScaleFactor {
-        double horizontalScale;
-        double verticalScale;
-    };
-
-    ScaleFactor GetScalingFactor();
-
 }  // namespace ConsoleGame

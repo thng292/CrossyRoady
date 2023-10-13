@@ -26,14 +26,13 @@ namespace ConsoleGame {
     void Game::Init()
     {
         hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-        /* hGameScreen = CreateConsoleScreenBuffer(
+        hGameScreen = CreateConsoleScreenBuffer(
             GENERIC_READ | GENERIC_WRITE,
             FILE_SHARE_READ | FILE_SHARE_WRITE,
             NULL,
             CONSOLE_TEXTMODE_BUFFER,
             NULL
-        ); */
-        hGameScreen = hStdOut;
+        );
         bool err = 1;
         std::string errs;
         auto debugError = [&](bool err) {
@@ -51,8 +50,7 @@ namespace ConsoleGame {
 
         HWND consoleWindow = GetConsoleWindow();
         LONG style = GetWindowLong(consoleWindow, GWL_STYLE);
-        DWORD currMode;
-        CONSOLE_FONT_INFOEX fontex;
+        oldStyle = style;
 
         // Turn off maximize, resize, horizontal and vertical scrolling
         style = style & ~(WS_MAXIMIZEBOX) & ~(WS_THICKFRAME) & ~(WS_HSCROLL) &
@@ -60,7 +58,9 @@ namespace ConsoleGame {
         SetWindowLong(consoleWindow, GWL_STYLE, style);
 
         // Turn off mouse input
+        DWORD currMode;
         GetConsoleMode(hGameScreen, &currMode);
+        oldMode = currMode;
         err = SetConsoleMode(
             hStdOut, (currMode & (ENABLE_EXTENDED_FLAGS | ENABLE_MOUSE_INPUT))
         );
@@ -74,15 +74,18 @@ namespace ConsoleGame {
         CONSOLE_CURSOR_INFO cursorInfo;
         err = GetConsoleCursorInfo(hGameScreen, &cursorInfo);
         debugError(err);
+        oldCursorInfo = cursorInfo;
 
         cursorInfo.bVisible = false;
         err = SetConsoleCursorInfo(hGameScreen, &cursorInfo);
         debugError(err);
 
+        CONSOLE_FONT_INFOEX fontex;
         // Set font bold
         fontex.cbSize = sizeof(CONSOLE_FONT_INFOEX);
         err = GetCurrentConsoleFontEx(hGameScreen, 0, &fontex);
         debugError(err);
+        oldFont = fontex;
 
         // A character width is now 3 pixel
         fontex.dwFontSize.X = 6;
@@ -95,8 +98,8 @@ namespace ConsoleGame {
         SetConsoleTitle(TEXT("Crossy Roady"));
 
         // Set IO Unicode
-        _setmode(_fileno(stdout), _O_WTEXT);
-        _setmode(_fileno(stdin), _O_WTEXT);
+        oldOutTranslationMode = _setmode(_fileno(stdout), _O_WTEXT);
+        oldInTranslationMode = _setmode(_fileno(stdin), _O_WTEXT);
 
         // Set BufferSize
         err = SetConsoleScreenBufferSize(
@@ -116,37 +119,13 @@ namespace ConsoleGame {
         err = SetConsoleScreenBufferInfoEx(hStdOut, &newBuffer);
         debugError(err);
 
-        /*
-        // Resizing the window
-        RECT tmp{0};
-        // auto scaleFactor = GetScalingFactor();
-        err = GetClientRect(consoleWindow, &tmp);
-        debugError(err);
-        tmp.right = tmp.left + _CanvasSize.width * 3;
-        tmp.bottom = tmp.top + _CanvasSize.height * 3;
-
-        err = AdjustWindowRect(&tmp, style, FALSE);
-        debugError(err);
-
-        err = SetWindowPos(
-            consoleWindow,
-            HWND_TOP,
-            0,
-            0,
-            (tmp.right - tmp.left),
-            (tmp.bottom - tmp.top),
-            SWP_NOMOVE
-        );
-        debugError(err);
-        err = GetWindowRect(consoleWindow, &tmp);
-        */
-
         system(std::format(
                    "MODE CON COLS={} LINES={}",
                    _ScreenSize.width,
                    _ScreenSize.height
         )
                    .c_str());
+
         std::fill(backup.begin(), backup.end(), Color::BRIGHT_WHITE);
     }
 
@@ -218,9 +197,9 @@ namespace ConsoleGame {
                 navigationRes = currentScreen.Screen->Update(deltaTime, &navi);
 
 #ifdef _ENABLE_ASYNC_DRAW_
-// Signal to draw
-// Skip a frame if draw takes lots of time
 #ifdef _SHOULD_SKIP_FRAME_
+                // Signal to draw
+                // Skip a frame if draw takes lots of time
                 if (startDrawSignal.JobDone()) {
                     startDrawSignal.StartJob();
                 }
@@ -251,6 +230,7 @@ namespace ConsoleGame {
 #endif
             }
 
+            naviStack.back().Screen->Unmount();
             switch (navigationRes.ActionType) {
                 case AbstractNavigation::NavigationAction::Back:
                     naviStack.pop_back();
@@ -284,6 +264,7 @@ namespace ConsoleGame {
                 case AbstractNavigation::NavigationAction::Exit:
                     return;
             }
+            naviStack.back().Screen->Mount(navigationRes.Payload);
             redraw = naviStack.back().IsPopup;
         }
 #ifdef _ENABLE_ASYNC_DRAW_
@@ -301,8 +282,14 @@ namespace ConsoleGame {
 
     Game::~Game()
     {
-        SetConsoleScreenBufferInfoEx(hStdOut, &oldBuffer);
+        _setmode(_fileno(stdin), oldInTranslationMode);
+        _setmode(_fileno(stdout), oldOutTranslationMode);
         SetConsoleActiveScreenBuffer(hStdOut);
+        SetConsoleScreenBufferInfoEx(hStdOut, &oldBuffer);
+        SetCurrentConsoleFontEx(hStdOut, FALSE, &oldFont);
+        SetWindowLong(GetConsoleWindow(), GWL_STYLE, oldStyle);
+        SetConsoleMode(hStdOut, oldMode);
+        SetConsoleCursorInfo(hStdOut, &oldCursorInfo);
     }
 
 }  // namespace ConsoleGame

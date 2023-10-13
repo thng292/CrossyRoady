@@ -15,11 +15,10 @@ namespace ConsoleGame {
             std::unique_ptr<AbstractScreen> Screen;
             bool IsPopup;
 
-            // clang-format off
             NavigationStackEntry(AbstractScreen* ptr, bool isPopup)
-            : Screen(ptr), IsPopup(isPopup) {}
-
-            // clang-format on
+                : Screen(ptr), IsPopup(isPopup)
+            {
+            }
         };
 
         std::vector<NavigationStackEntry> naviStack;
@@ -28,6 +27,13 @@ namespace ConsoleGame {
 
         HANDLE hStdOut, hGameScreen;
         CONSOLE_SCREEN_BUFFER_INFOEX oldBuffer;
+        LONG oldStyle;
+        DWORD oldMode;
+        CONSOLE_CURSOR_INFO oldCursorInfo;
+        CONSOLE_FONT_INFOEX oldFont;
+        int oldInTranslationMode;
+        int oldOutTranslationMode;
+
         Navigation navi;
         Canvas canvas;
         Canvas::CanvasBuffer_t backup;  // Preserve a canvas buffer for popup,
