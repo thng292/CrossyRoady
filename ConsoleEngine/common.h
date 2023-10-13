@@ -6,11 +6,11 @@
 #include <memory>
 
 #ifndef _CONSOLE_WIDTH_
-#define _CONSOLE_WIDTH_ 240
+#define _CONSOLE_WIDTH_ 400
 #endif
 
 #ifndef _CONSOLE_HEIGHT_
-#define _CONSOLE_HEIGHT_ 68
+#define _CONSOLE_HEIGHT_ 113
 #endif
 
 namespace ConsoleGame {
@@ -62,7 +62,8 @@ namespace ConsoleGame {
     struct ScaleFactor {
         double horizontalScale;
         double verticalScale;
-    }; 
+    };
+
     ScaleFactor GetScalingFactor();
 
 }  // namespace ConsoleGame

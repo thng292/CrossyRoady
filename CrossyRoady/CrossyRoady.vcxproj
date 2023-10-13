@@ -123,7 +123,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>D:\BaiTap\CrossyRoady\ConsoleEngine\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\BaiTap\CrossyRoady\ConsoleEngine\include;D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>

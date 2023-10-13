@@ -26,14 +26,14 @@ namespace ConsoleGame {
     void Game::Init()
     {
         hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-        hGameScreen = CreateConsoleScreenBuffer(
+        /* hGameScreen = CreateConsoleScreenBuffer(
             GENERIC_READ | GENERIC_WRITE,
             FILE_SHARE_READ | FILE_SHARE_WRITE,
             NULL,
             CONSOLE_TEXTMODE_BUFFER,
             NULL
-        );
-
+        ); */
+        hGameScreen = hStdOut;
         bool err = 1;
         std::string errs;
         auto debugError = [&](bool err) {
@@ -116,9 +116,11 @@ namespace ConsoleGame {
         err = SetConsoleScreenBufferInfoEx(hStdOut, &newBuffer);
         debugError(err);
 
+        /*
         // Resizing the window
         RECT tmp{0};
-        err = GetWindowRect(consoleWindow, &tmp);
+        // auto scaleFactor = GetScalingFactor();
+        err = GetClientRect(consoleWindow, &tmp);
         debugError(err);
         tmp.right = tmp.left + _CanvasSize.width * 3;
         tmp.bottom = tmp.top + _CanvasSize.height * 3;
@@ -126,18 +128,25 @@ namespace ConsoleGame {
         err = AdjustWindowRect(&tmp, style, FALSE);
         debugError(err);
 
-        auto scaleFactor = GetScalingFactor();
         err = SetWindowPos(
             consoleWindow,
             HWND_TOP,
             0,
             0,
-            (tmp.right - tmp.left) * scaleFactor.verticalScale,
-            (tmp.bottom - tmp.top) * scaleFactor.horizontalScale,
+            (tmp.right - tmp.left),
+            (tmp.bottom - tmp.top),
             SWP_NOMOVE
         );
         debugError(err);
+        err = GetWindowRect(consoleWindow, &tmp);
+        */
 
+        system(std::format(
+                   "MODE CON COLS={} LINES={}",
+                   _ScreenSize.width,
+                   _ScreenSize.height
+        )
+                   .c_str());
         std::fill(backup.begin(), backup.end(), Color::BRIGHT_WHITE);
     }
 
@@ -274,7 +283,6 @@ namespace ConsoleGame {
                     break;
                 case AbstractNavigation::NavigationAction::Exit:
                     return;
-
             }
             redraw = naviStack.back().IsPopup;
         }
