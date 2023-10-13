@@ -1,3 +1,0 @@
-Checks: '-*, bugprone-*, concurrency-*, cppcoreguidelines-*, cert-*, clang-analyzer-*, modernize-*, performance-*, readability-*'
-FormatStyle: 'file'
-
