@@ -8,17 +8,14 @@
 
 namespace ConsoleGame {
     class AniSprite {
-       public:
-        static constexpr int durationMultiplier = 25;
-
        private:
         std::vector<Color> data;
         Vec2 dim;
         std::filesystem::path filePath;
-        std::chrono::milliseconds frameDuration;
+        float frameDuration;
 
-        uint8_t playingFrame = 0;
-        uint8_t totalFrame = 0;
+        uint32_t playingFrame = 0;
+        uint32_t totalFrame = 0;
         float timePassed = 0;
         bool playing = false;
         bool repeat = false;
@@ -35,6 +32,7 @@ namespace ConsoleGame {
         const std::vector<Color>& GetData() const;
 
         void Play(bool repeat = false);
+        bool IsPlaying() const;
         void Stop();
         void Load(std::filesystem::path path);
         void Paint(AbstractCanvas* canvas, Vec2 coord) const;

@@ -39,24 +39,25 @@ namespace ConsoleGame {
         this->repeat = repeat;
     }
 
+    bool AniSprite::IsPlaying() const { return playing; }
+
     void AniSprite::Stop() { playing = false; }
 
     void AniSprite::Load(std::filesystem::path path)
     {
-        std::fstream file(path, std::ios::in | std::ios::binary);
-        uint16_t buffs = 0;
-        file.read((char*)&buffs, 2);
-        dim.width = BigEndianToHost(buffs);
-        file.read((char*)&buffs, 2);
-        dim.height = BigEndianToHost(buffs);
-
-        uint8_t buff = 0;
-        file.read((char*)&buff, 1);
-        frameDuration = std::chrono::milliseconds(buff * durationMultiplier);
-
-        file.read((char*)&buff, 1);
-        totalFrame = buff;
-        data.resize(size_t(totalFrame) * dim.width * dim.height);
+        filePath = path;
+        std::ifstream file(path, std::ios::in | std::ios::binary);
+        uint16_t buff = 0;
+        file.read((char*)&buff, sizeof(buff));
+        dim.width = BigEndianToHost(buff);
+        file.read((char*)&buff, sizeof(buff));
+        dim.height = BigEndianToHost(buff);
+        file.read((char*)&totalFrame, sizeof(totalFrame));
+        totalFrame = BigEndianToHost(totalFrame);
+        uint8_t fps;
+        file.read((char*)&fps, sizeof(fps));
+        frameDuration = 1.0f / fps;
+        data.resize(dim.width * dim.height * totalFrame);
         file.read((char*)data.data(), data.size());
     }
 
@@ -97,7 +98,7 @@ namespace ConsoleGame {
             return;
         }
         timePassed += deltaTime;
-        playingFrame = timePassed * 1000 / frameDuration.count();
+        playingFrame = timePassed / frameDuration;
         if (playingFrame >= totalFrame) {
             ResetFrame();
             if (!repeat) {
