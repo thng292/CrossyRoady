@@ -46,9 +46,9 @@ namespace ConsoleGame {
         std::fstream file(path, std::ios::in | std::ios::binary);
         uint16_t buffs = 0;
         file.read((char*)&buffs, 2);
-        dim.width = ToHost(buffs);
+        dim.width = BigEndianToHost(buffs);
         file.read((char*)&buffs, 2);
-        dim.height = ToHost(buffs);
+        dim.height = BigEndianToHost(buffs);
 
         uint8_t buff = 0;
         file.read((char*)&buff, 1);

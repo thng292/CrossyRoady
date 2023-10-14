@@ -29,16 +29,43 @@ namespace ConsoleGame {
         return Vec2{.x = pos.x / pixSize.width, .y = pos.y / pixSize.height};
     }
 
-    uint16_t ToHost(uint16_t num) { return ((num >> 8)) | ((num << 8)); }
 
-    uint16_t ToBigEndian(uint16_t num)
+    static constexpr bool isHostBigEndian =
+        std::endian::native == std::endian::big;
+
+    uint16_t BigEndianToHost(uint16_t num)
     {
-        static constexpr bool isBigEndian =
-            std::endian::native == std::endian::big;
-        if (isBigEndian) {
+        if (isHostBigEndian) {
+            return ((num >> 8)) | ((num << 8));
+        } else {
+            return num;
+        }
+    }
+
+    uint16_t HostToBigEndian(uint16_t num)
+    {
+        if (isHostBigEndian) {
             return num;
         } else {
             return (num << 8) | (num >> 8);
+        }
+    }
+
+    union uint32 {
+        uint32_t num;
+        uint8_t bytes[4];
+    };
+
+    uint32_t HostToBigEndian(uint32_t num)
+    {
+        if (isHostBigEndian) {
+            return num;
+        } else {
+            uint32 tmp;
+            tmp.num = num;
+            std::swap(tmp.bytes[0], tmp.bytes[3]);
+            std::swap(tmp.bytes[1], tmp.bytes[2]);
+            return tmp.num;
         }
     }
 

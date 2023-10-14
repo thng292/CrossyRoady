@@ -14,6 +14,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"unicode"
 
 	"github.com/nfnt/resize"
 )
@@ -95,39 +96,52 @@ var watch = false
 var algo = "Lanczos3"
 var outputExtention = ".sprite"
 var resizeAlgo = resize.Lanczos3
+var dirMode = false
 
 func main() {
 	if len(os.Args) == 1 || os.Args[1] == "-h" {
 		// Print help message
-		fmt.Println("Usage: spritegen <filename> [options]")
+		fmt.Println("Usage: spritegen <filename|dir> [options]")
 		fmt.Println("Options:")
-		fmt.Println("  -o <filename>   Output filename")
-		fmt.Println("  -c <filename>   Color palette file")
-		fmt.Println("  -l              Watch for changes")
-		fmt.Println("  -w <width>      Width of the sprite")
-		fmt.Println("  -h <height>     Height of the sprite")
-		fmt.Println("  -a <algorithm>  Algorithm to use for resizing")
-		fmt.Println("                  NearestNeighbor, Bilinear, Bicubic(default), MitchellNetravali, Lanczos2, Lanczos3")
+		fmt.Println("  -o <filename|dir>   Output filename")
+		fmt.Println("  -d                  Convert all file in directory")
+		fmt.Println("  -c <filename>       Color palette file")
+		fmt.Println("  -l                  Watch for changes")
+		fmt.Println("  -w <width>          Width of the sprite")
+		fmt.Println("  -h <height>         Height of the sprite")
+		fmt.Println("  -a <algorithm>      Algorithm to use for resizing")
+		fmt.Println("NearestNeighbor, Bilinear, Bicubic(default), MitchellNetravali, Lanczos2, Lanczos3")
 		return
 	}
 
 	GetConfig()
 
 	if filePalette != "" {
-		LoadPalette()
+		LoadPalette(filePalette)
 	}
 
-	if watch {
+	if dirMode {
+		dir, err := os.ReadDir(filenameIn)
+		if err != nil {
+			panic(err)
+		}
+		_ = os.Mkdir(filenameOut, os.ModeDir)
+		for _, file := range dir {
+			ResizeImage(file.Name(), "./"+strings.TrimFunc(filenameOut, func(r rune) bool {
+				return !(unicode.IsLetter(r) || unicode.IsDigit(r))
+			})+"/"+file.Name()[:strings.LastIndex(file.Name(), ".")]+outputExtention)
+		}
+	} else if watch {
 		fmt.Printf("Watching %v and outputing at %v.\n", filenameIn, filenameOut)
-		ResizeImage()
+		ResizeImage(filenameIn, filenameOut)
 		notifi := make(chan bool)
 		go WatchFile(filenameIn, notifi)
 		for <-notifi {
 			time.Sleep(time.Millisecond * 500)
-			ResizeImage()
+			ResizeImage(filenameIn, filenameOut)
 		}
 	} else {
-		ResizeImage()
+		ResizeImage(filenameIn, filenameOut)
 	}
 
 }
@@ -153,14 +167,14 @@ func WatchFile(filePath string, notifi chan<- bool) {
 	}
 }
 
-func ResizeImage() {
-	fmt.Printf("[%v] Outputing...\n", time.Now().Format(time.TimeOnly))
-	imgFile, err := os.Open(filenameIn)
+func ResizeImage(infile, outfile string) {
+	fmt.Printf("[%v] %v -> %v\n", time.Now().Format(time.TimeOnly), infile, outfile)
+	imgFile, err := os.Open(infile)
 	if err != nil {
 		panic(err)
 	}
 	defer imgFile.Close()
-	outFile, err := os.Create(filenameOut)
+	outFile, err := os.Create(outfile)
 	if err != nil {
 		panic(err)
 	}
@@ -245,6 +259,9 @@ func GetConfig() {
 		if arg == "-c" {
 			filePalette = os.Args[index+1]
 		}
+		if arg == "-d" {
+			dirMode = true
+		}
 	}
 	if height <= 0 && width <= 0 {
 		panic("Please provide width or height using -w or -h flag")
@@ -265,9 +282,8 @@ func GetConfig() {
 	case "Lanczos3":
 		resizeAlgo = resize.Lanczos2
 	}
-
 	if filenameOut == "" {
-		filenameOut = filenameIn[:strings.LastIndex(filenameIn, ".")] + "_" + algo + outputExtention
+		filenameOut = filenameIn[:strings.LastIndex(filenameIn, ".")] + outputExtention
 	}
 }
 
@@ -297,8 +313,8 @@ func ToLabColor(c color.RGBA) LabColor {
 	return res
 }
 
-func LoadPalette() {
-	file, err := os.Open(filePalette)
+func LoadPalette(filename string) {
+	file, err := os.Open(filename)
 	if err != nil {
 		panic(err)
 	}

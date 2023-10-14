@@ -11,15 +11,38 @@ import (
 var filenameIn = ""
 var filenameOut = ".palette"
 
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+	"unicode"
+)
+
+// main reads a file containing RGB color values and writes them to a binary file.
+// Usage: palettegen [input file] [-o output file]
+// If no output file is specified, the output file will be named [input file].palette.
+// The input file should contain up to 16 lines of RGB color values in the format "R,G,B".
+// Each color value should be an integer between 0 and 255.
 func main() {
+	var filenameIn, filenameOut string
+
+	if len(os.Args) == 1 {
+		fmt.Println("Usage: palettegen [input file] [-o output file]")
+		return
+	}
+
 	filenameIn = os.Args[1]
 	for index, arg := range os.Args {
 		if arg == "-o" {
 			filenameOut = os.Args[index+1]
 		}
 	}
-	if filenameOut == ".palette" {
-		filenameOut = filenameIn[:strings.LastIndex(filenameIn, ".")] + filenameOut
+	if filenameOut == "" {
+		filenameOut = filenameIn[:strings.LastIndex(filenameIn, ".")] + ".palette"
 	}
 
 	in, err := os.Open(filenameIn)

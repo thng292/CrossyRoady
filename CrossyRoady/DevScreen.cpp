@@ -19,16 +19,16 @@ AbstractNavigation::NavigationRes DevScreen::Update(
 )
 {
     if (IsKeyDown('W')) {
-        moveY = max(moveY - 2, 0);
+        moveY = max(moveY - 5, 0);
     }
     if (IsKeyDown('S')) {
-        moveY = min(moveY + 2, _CanvasSize.height - dim.height);
+        moveY = min(moveY + 5, _CanvasSize.height - dim.height);
     }
     if (IsKeyDown('A')) {
-        moveX = max(moveX - 2, 0);
+        moveX = max(moveX - 5, 0);
     }
     if (IsKeyDown('D')) {
-        moveX = min(moveX + 2, _CanvasSize.width - dim.width);
+        moveX = min(moveX + 5, _CanvasSize.width - dim.width);
     }
     return navigation->NoChange();
 }
