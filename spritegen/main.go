@@ -42,22 +42,22 @@ const (
 
 // Standard console color
 var consoleColorMap = [...]LabColor{
-	ToLabColor(color.RGBA{12, 12, 12, 1}),
-	ToLabColor(color.RGBA{0, 55, 218, 1}),
-	ToLabColor(color.RGBA{19, 161, 14, 1}),
-	ToLabColor(color.RGBA{58, 150, 221, 1}),
-	ToLabColor(color.RGBA{197, 15, 31, 1}),
-	ToLabColor(color.RGBA{136, 23, 152, 1}),
-	ToLabColor(color.RGBA{193, 156, 0, 1}),
-	ToLabColor(color.RGBA{204, 204, 204, 1}),
-	ToLabColor(color.RGBA{118, 118, 118, 1}),
-	ToLabColor(color.RGBA{59, 120, 255, 1}),
-	ToLabColor(color.RGBA{22, 198, 12, 1}),
-	ToLabColor(color.RGBA{97, 214, 214, 1}),
-	ToLabColor(color.RGBA{231, 72, 86, 1}),
-	ToLabColor(color.RGBA{180, 0, 158, 1}),
-	ToLabColor(color.RGBA{249, 241, 165, 1}),
-	ToLabColor(color.RGBA{242, 242, 242, 1}),
+	ToLabColor(color.RGBA{12, 12, 12, 255}),
+	ToLabColor(color.RGBA{0, 55, 218, 255}),
+	ToLabColor(color.RGBA{19, 161, 14, 255}),
+	ToLabColor(color.RGBA{58, 150, 221, 255}),
+	ToLabColor(color.RGBA{197, 15, 31, 255}),
+	ToLabColor(color.RGBA{136, 23, 152, 255}),
+	ToLabColor(color.RGBA{193, 156, 0, 255}),
+	ToLabColor(color.RGBA{204, 204, 204, 255}),
+	ToLabColor(color.RGBA{118, 118, 118, 255}),
+	ToLabColor(color.RGBA{59, 120, 255, 255}),
+	ToLabColor(color.RGBA{22, 198, 12, 255}),
+	ToLabColor(color.RGBA{97, 214, 214, 255}),
+	ToLabColor(color.RGBA{231, 72, 86, 255}),
+	ToLabColor(color.RGBA{180, 0, 158, 255}),
+	ToLabColor(color.RGBA{249, 241, 165, 255}),
+	ToLabColor(color.RGBA{242, 242, 242, 255}),
 	ToLabColor(color.RGBA{0, 0, 0, 0}),
 }
 
@@ -372,6 +372,6 @@ func LoadPalette(filename string) {
 	buff := make([]byte, 16*3)
 	file.Read(buff)
 	for i := 0; i < 16*3; i += 3 {
-		consoleColorMap[i/3] = ToLabColor(color.RGBA{buff[i], buff[i+1], buff[i+2], 1})
+		consoleColorMap[i/3] = ToLabColor(color.RGBA{buff[i], buff[i+1], buff[i+2], 255})
 	}
 }

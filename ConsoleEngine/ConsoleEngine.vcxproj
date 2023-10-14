@@ -153,6 +153,7 @@
     <ClInclude Include="Audio.h" />
     <ClInclude Include="Canvas.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="Font.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="include\ConsoleGame.h" />
     <ClInclude Include="Navigation.h" />
@@ -165,6 +166,7 @@
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="Canvas.cpp" />
     <ClCompile Include="Common.cpp" />
+    <ClCompile Include="Font.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Navigation.cpp" />
     <ClCompile Include="Palette.cpp" />

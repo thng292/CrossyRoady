@@ -8,7 +8,6 @@ import (
 	_ "image/gif"
 	_ "image/jpeg"
 	_ "image/png"
-	"math"
 	"os"
 	"strconv"
 	"strings"
@@ -40,22 +39,22 @@ const (
 
 // Standard console color
 var consoleColorMap = [...]color.RGBA{
-	{12, 12, 12, 1},
-	{0, 55, 218, 1},
-	{19, 161, 14, 1},
-	{58, 150, 221, 1},
-	{197, 15, 31, 1},
-	{136, 23, 152, 1},
-	{193, 156, 0, 1},
-	{204, 204, 204, 1},
-	{118, 118, 118, 1},
-	{59, 120, 255, 1},
-	{22, 198, 12, 1},
-	{97, 214, 214, 1},
-	{231, 72, 86, 1},
-	{180, 0, 158, 1},
-	{249, 241, 165, 1},
-	{242, 242, 242, 1},
+	{12, 12, 12, 255},
+	{0, 55, 218, 255},
+	{19, 161, 14, 255},
+	{58, 150, 221, 255},
+	{197, 15, 31, 255},
+	{136, 23, 152, 255},
+	{193, 156, 0, 255},
+	{204, 204, 204, 255},
+	{118, 118, 118, 255},
+	{59, 120, 255, 255},
+	{22, 198, 12, 255},
+	{97, 214, 214, 255},
+	{231, 72, 86, 255},
+	{180, 0, 158, 255},
+	{249, 241, 165, 255},
+	{242, 242, 242, 255},
 	{0, 0, 0, 0},
 }
 
@@ -241,13 +240,6 @@ func Myformat_Encode(img image.Image) []byte {
 	return buffer
 }
 
-func Distance(c1, c2 LabColor) float32 {
-	Sqr := func(x float32) float32 {
-		return x * x
-	}
-	return Sqr(c1.a-c2.a) * Sqr(c1.b-c2.b) * Sqr(c1.L-c2.L)
-}
-
 func GetConfig() {
 	filenameIn = os.Args[1]
 	for index, arg := range os.Args {
@@ -273,32 +265,6 @@ func GetConfig() {
 	}
 }
 
-type LabColor struct {
-	L, a, b float32
-}
-
-func ToLabColor(c color.RGBA) LabColor {
-
-	f := func(t float32) float32 {
-		sigmol3 := float32(math.Pow(float64(6)/29, 3))
-		if t > sigmol3 {
-			return float32(math.Pow(float64(t), float64(1)/3))
-		} else {
-			return t/(float32(3*36)/(29*29)) + float32(4)/29
-		}
-	}
-
-	X := float32(c.R)*0.4124 + float32(c.G)*0.3576 + float32(c.B)*0.1805
-	Y := float32(c.R)*0.2126 + float32(c.G)*0.7152 + float32(c.B)*0.0722
-	Z := float32(c.R)*0.0193 + float32(c.G)*0.1192 + float32(c.B)*0.9505
-
-	var res LabColor
-	res.L = 116*f(Y/100) - 16
-	res.a = 500 * (f(X/95.0489) - f(Y/100))
-	res.b = 200 * (f(Y/100) - f(Z/108.8840))
-	return res
-}
-
 func LoadPalette(filename string) {
 	file, err := os.Open(filename)
 	if err != nil {
@@ -307,6 +273,6 @@ func LoadPalette(filename string) {
 	buff := make([]byte, 16*3)
 	file.Read(buff)
 	for i := 0; i < 16*3; i += 3 {
-		consoleColorMap[i/3] = color.RGBA{buff[i], buff[i+1], buff[i+2], 1}
+		consoleColorMap[i/3] = color.RGBA{buff[i], buff[i+1], buff[i+2], 255}
 	}
 }
