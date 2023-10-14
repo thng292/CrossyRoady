@@ -52,12 +52,18 @@ void ConsoleGame::Sprite::Paint(AbstractCanvas* canvas, Vec2 coord) const
     if (coord.y < 0) {
         i = -coord.y;
     }
+    if (i + coord.y >= _ScreenSize.height) {
+        return;
+    }
     for (; i < dim.height; i++) {
         int j = 0;
         if (coord.x < 0) {
             j = -coord.x;
         }
         for (; j < dim.width; j++) {
+            if (j + coord.x >= _ScreenSize.width) {
+                continue;
+            }
             (*canvas)[i + coord.y][j + coord.x] = data[i * dim.width + j];
         }
     }

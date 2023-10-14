@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -10,17 +11,6 @@ import (
 
 var filenameIn = ""
 var filenameOut = ".palette"
-
-package main
-
-import (
-	"bufio"
-	"fmt"
-	"os"
-	"strconv"
-	"strings"
-	"unicode"
-)
 
 // main reads a file containing RGB color values and writes them to a binary file.
 // Usage: palettegen [input file] [-o output file]

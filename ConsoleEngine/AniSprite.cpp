@@ -97,10 +97,12 @@ namespace ConsoleGame {
         if (!playing) {
             return;
         }
+        //timePassed += deltaTime * 2; somehow this work?????????????
         timePassed += deltaTime;
         playingFrame = timePassed / frameDuration;
         if (playingFrame >= totalFrame) {
-            ResetFrame();
+            playingFrame = 0;
+            timePassed -= frameDuration * totalFrame;
             if (!repeat) {
                 Stop();
             }

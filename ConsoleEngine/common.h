@@ -6,7 +6,7 @@
 #include <memory>
 
 #ifndef _CONSOLE_WIDTH_
-#define _CONSOLE_WIDTH_ 400
+#define _CONSOLE_WIDTH_ 384
 #endif
 
 #ifndef _CONSOLE_HEIGHT_
