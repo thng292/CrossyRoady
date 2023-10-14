@@ -8,7 +8,6 @@ import (
 	_ "image/gif"
 	_ "image/jpeg"
 	_ "image/png"
-	"io"
 	"math"
 	"os"
 	"strconv"
@@ -92,11 +91,11 @@ var filenameOut = ""
 var filePalette = ""
 var width int = 0
 var height int = 0
-var watch = false
 var algo = "Lanczos3"
 var outputExtention = ".sprite"
 var resizeAlgo = resize.Lanczos3
-var dirMode = false
+var mode = "single"
+var fps uint8 = 0
 
 func main() {
 	if len(os.Args) == 1 || os.Args[1] == "-h" {
@@ -104,9 +103,9 @@ func main() {
 		fmt.Println("Usage: spritegen <filename|dir> [options]")
 		fmt.Println("Options:")
 		fmt.Println("  -o <filename|dir>   Output filename")
-		fmt.Println("  -d                  Convert all file in directory")
+		fmt.Println("  -m <mode>           Mode: dir | ani | single(default) | watch")
+		fmt.Println("  -fps <mode>         Animation's FPS")
 		fmt.Println("  -c <filename>       Color palette file")
-		fmt.Println("  -l                  Watch for changes")
 		fmt.Println("  -w <width>          Width of the sprite")
 		fmt.Println("  -h <height>         Height of the sprite")
 		fmt.Println("  -a <algorithm>      Algorithm to use for resizing")
@@ -120,18 +119,10 @@ func main() {
 		LoadPalette(filePalette)
 	}
 
-	if dirMode {
-		dir, err := os.ReadDir(filenameIn)
-		if err != nil {
-			panic(err)
-		}
-		_ = os.Mkdir(filenameOut, os.ModeDir)
-		for _, file := range dir {
-			ResizeImage(file.Name(), "./"+strings.TrimFunc(filenameOut, func(r rune) bool {
-				return !(unicode.IsLetter(r) || unicode.IsDigit(r))
-			})+"/"+file.Name()[:strings.LastIndex(file.Name(), ".")]+outputExtention)
-		}
-	} else if watch {
+	switch mode {
+	case "single":
+		ResizeImage(filenameIn, filenameOut)
+	case "watch":
 		fmt.Printf("Watching %v and outputing at %v.\n", filenameIn, filenameOut)
 		ResizeImage(filenameIn, filenameOut)
 		notifi := make(chan bool)
@@ -140,10 +131,71 @@ func main() {
 			time.Sleep(time.Millisecond * 500)
 			ResizeImage(filenameIn, filenameOut)
 		}
-	} else {
-		ResizeImage(filenameIn, filenameOut)
-	}
+	case "dir":
+		dir, err := os.ReadDir(filenameIn)
+		if err != nil {
+			panic(err)
+		}
+		_ = os.Mkdir(filenameOut, os.ModeDir)
+		outfolder := "./" + strings.TrimFunc(filenameOut, IsOk) + "/"
+		infolder := "./" + strings.TrimFunc(filenameIn, IsOk) + "/"
+		for _, file := range dir {
+			outfile := outfolder + file.Name()[:strings.LastIndex(file.Name(), ".")] + outputExtention
+			infile := infolder + file.Name()
+			ResizeImage(infile, outfile)
+		}
+	case "ani":
+		dir, err := os.ReadDir(filenameIn)
+		if err != nil {
+			panic(err)
+		}
+		outFile, err := os.Create("out.anisprite")
+		if err != nil {
+			panic(err)
+		}
+		defer outFile.Close()
 
+		folder := "./" + strings.TrimFunc(filenameIn, IsOk) + "/"
+		tmpImg, err := os.Open(folder + dir[0].Name())
+		if err != nil {
+			panic(err)
+		}
+		img, _, err := image.Decode(tmpImg)
+		if err != nil {
+			panic(err)
+		}
+		imageRatio := float64(img.Bounds().Dx()) / float64(img.Bounds().Dy())
+		// width / height
+		if width <= 0 {
+			width = int(float64(height) * imageRatio)
+		}
+		if height <= 0 {
+			height = int(float64(width) / imageRatio)
+		}
+		tmpImg.Close()
+
+		meta := make([]byte, 9)
+		binary.BigEndian.PutUint16(meta, uint16(width))
+		binary.BigEndian.PutUint16(meta[2:], uint16(height))
+		binary.BigEndian.PutUint32(meta[4:], uint32(len(dir)))
+		meta[8] = fps
+		outFile.Write(meta)
+
+		for index, file := range dir {
+			fmt.Printf("%v - %.2f%%\n", file.Name(), float32(index)/float32(len(dir))*100)
+			tmpImg, _ = os.Open(folder + file.Name())
+			img, _, _ = image.Decode(tmpImg)
+			resizedImg := resize.Resize(uint(width), uint(height), img, resizeAlgo)
+			outFile.Write(Myformat_Encode(resizedImg)[4:])
+			tmpImg.Close()
+		}
+	default:
+		panic("Unknown mode")
+	}
+}
+
+func IsOk(r rune) bool {
+	return !(unicode.IsLetter(r) || unicode.IsDigit(r))
 }
 
 func WatchFile(filePath string, notifi chan<- bool) {
@@ -195,10 +247,10 @@ func ResizeImage(infile, outfile string) {
 	}
 
 	resizedImg := resize.Resize(uint(width), uint(height), img, resizeAlgo)
-	Myformat_Encode(outFile, resizedImg)
+	outFile.Write(Myformat_Encode(resizedImg))
 }
 
-func Myformat_Encode(w io.Writer, img image.Image) {
+func Myformat_Encode(img image.Image) []byte {
 	buffer := make([]byte, int(width)*int(height)+4)
 	img.ColorModel()
 	binary.BigEndian.PutUint16(buffer, uint16(width))
@@ -221,12 +273,7 @@ func Myformat_Encode(w io.Writer, img image.Image) {
 			buffer[4+i*cols+j] = tmp
 		}
 	}
-	// fmt.Println(buffer)
-	written, err := w.Write(buffer)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf("Written %v bytes\n", written)
+	return buffer
 }
 
 func Distance(c1, c2 LabColor) float32 {
@@ -242,12 +289,16 @@ func GetConfig() {
 		if arg == "-o" {
 			filenameOut = os.Args[index+1]
 		}
-		if arg == "-l" {
-			watch = true
-		}
 		if arg == "-w" {
 			tmp, _ := strconv.Atoi(os.Args[index+1])
 			width = int(tmp)
+		}
+		if arg == "-fps" {
+			tmp, _ := strconv.Atoi(os.Args[index+1])
+			if tmp <= 0 || tmp > 255 {
+				panic("Bad FPS value")
+			}
+			fps = uint8(tmp)
 		}
 		if arg == "-h" {
 			tmp, _ := strconv.Atoi(os.Args[index+1])
@@ -259,8 +310,8 @@ func GetConfig() {
 		if arg == "-c" {
 			filePalette = os.Args[index+1]
 		}
-		if arg == "-d" {
-			dirMode = true
+		if arg == "-m" {
+			mode = os.Args[index+1]
 		}
 	}
 	if height <= 0 && width <= 0 {

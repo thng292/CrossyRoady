@@ -59,6 +59,6 @@ namespace ConsoleGame {
     Vec2 GetMousePos();
 
     uint16_t HostToBigEndian(uint16_t num);
-    uint32_t HostToBigEndian(uint32_t num);
+    uint32_t BigEndianToHost(uint32_t num);
     uint16_t BigEndianToHost(uint16_t num);
 }  // namespace ConsoleGame
