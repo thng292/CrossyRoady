@@ -10,3 +10,4 @@
 #include "../Sprite.h"
 #include "../AniSprite.h"
 #include "../Palette.h"
+#include "../Font.h"

@@ -71,7 +71,7 @@ func ToConsoleColor(rgb color.RGBA) ConsoleColor {
 			return ConsoleColor(i)
 		}
 	}
-	panic("Image contain unknown color")
+	return BLACK
 }
 
 var filenameIn = ""

@@ -10,8 +10,7 @@ class DevScreen : public ConsoleGame::AbstractScreen {
     //int moveY = 0;
 
     //const ConsoleGame::Vec2 dim{.width = 10, .height = 10};
-
-    ConsoleGame::AniSprite badapple;
+    int fontSize = 1;
 
    public:
     static const std::wstring_view ScreenName();

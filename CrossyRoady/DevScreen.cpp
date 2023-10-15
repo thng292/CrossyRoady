@@ -12,16 +12,7 @@ const std::wstring_view DevScreen::ScreenName() { return L"DevScreen"sv; }
 
 std::wstring_view DevScreen::getName() { return ScreenName(); }
 
-void DevScreen::Init(const std::any& args)
-{
-    auto tmp =
-        std::filesystem::directory_iterator(std::filesystem::current_path());
-    for (const auto& file : tmp) {
-        if (file.path().string().find("anisprite") != std::string::npos) {
-            badapple.Load(file);
-        }
-    }
-}
+void DevScreen::Init(const std::any& args) {}
 
 AbstractScreen* DevScreen::Clone() const { return new DevScreen; }
 
@@ -29,10 +20,12 @@ AbstractNavigation::NavigationRes DevScreen::Update(
     float deltaTime, const AbstractNavigation* navigation
 )
 {
-    if (!badapple.IsPlaying()) {
-        badapple.Play();
-    } else {
-        badapple.AutoUpdateFrame(deltaTime);
+    if (IsKeyDown('W')) {
+        fontSize += 1;
+    }
+    if (IsKeyDown('S')) {
+        fontSize -= 1;
+        fontSize = std::max(fontSize, 0);
     }
     // if (IsKeyDown('W')) {
     //     moveY = max(moveY - 5, 0);
@@ -56,5 +49,5 @@ void DevScreen::Draw(AbstractCanvas* canvas) const
     //         (*canvas)[i + moveY][j + moveX] = Color::YELLOW;
     //     }
     // }
-    badapple.Paint(canvas, {-1000,1000});
+    Font::DrawString(canvas, "Hello A New World!", {-20, 50}, fontSize);
 }
