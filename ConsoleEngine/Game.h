@@ -39,10 +39,8 @@ namespace ConsoleGame {
         Canvas::CanvasBuffer_t backup;  // Preserve a canvas buffer for popup,
                                         // make it more efficient
 
-        const uint32_t targetFPS = 60;
-        const std::chrono::nanoseconds _targetFrameTime =
-            std::chrono::nanoseconds(std::chrono::seconds(1)) / targetFPS;
-        const float targetFrameTime = 1.0f / targetFPS;
+        const uint32_t targetFPS;
+        const std::chrono::nanoseconds _targetFrameTime;
 
        public:
         Game(uint32_t fps = 60);

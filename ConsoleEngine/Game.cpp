@@ -21,7 +21,15 @@
 
 namespace ConsoleGame {
 
-    Game::Game(uint32_t fps) : targetFPS(fps) {}
+    Game::Game(uint32_t fps)
+        : targetFPS(fps),
+          /*_targetFrameTime(
+              std::chrono::nanoseconds(std::chrono::seconds(1)) /
+              targetFPS
+          )*/
+          _targetFrameTime(std::chrono::milliseconds(16))
+    {
+    }
 
     void Game::Init()
     {
@@ -189,11 +197,17 @@ namespace ConsoleGame {
             navigationRes.ActionType =
                 AbstractNavigation::NavigationAction::None;
 
+            auto start = std::chrono::steady_clock::now();
             // Navigation will be delay 1 frame
             while (navigationRes.ActionType ==
                    AbstractNavigation::NavigationAction::None) {
-                //
-                const auto start = std::chrono::high_resolution_clock::now();
+#ifdef _SHOW_FPS_
+                SetConsoleTitle(
+                    std::format(L"Crossy Roady - FPS: {}", 1.0f / deltaTime)
+                        .c_str()
+                );
+#endif
+
                 navigationRes = currentScreen.Screen->Update(deltaTime, &navi);
 
 #ifdef _ENABLE_ASYNC_DRAW_
@@ -210,24 +224,14 @@ namespace ConsoleGame {
 #else
                 DrawFunc();
 #endif
+                constexpr auto secondToNano =
+                    std::chrono::nanoseconds(std::chrono::seconds(1)).count();
 
                 const auto nextFrame = start + _targetFrameTime;
-                const auto now = std::chrono::high_resolution_clock::now();
-                if (nextFrame < now) {
-                    constexpr auto secondToNano =
-                        std::chrono::nanoseconds(std::chrono::seconds(1))
-                            .count();
-                    deltaTime = float((now - start).count()) / secondToNano;
-                } else {
-                    deltaTime = targetFrameTime;
-                    std::this_thread::sleep_until(nextFrame);
-                }
-#ifdef _SHOW_FPS_
-                SetConsoleTitle(
-                    std::format(L"Crossy Roady - FPS: {}", 1 / deltaTime)
-                        .c_str()
-                );
-#endif
+                std::this_thread::sleep_until(nextFrame);
+                const auto now = std::chrono::steady_clock::now();
+                deltaTime = float((now - start).count()) / secondToNano;
+                start = now;
             }
 
             naviStack.back().Screen->Unmount();
