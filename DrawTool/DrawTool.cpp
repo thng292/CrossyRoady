@@ -60,21 +60,21 @@ public:
         }
 
         if (IsKeyDown('W')) {
-            cursorPos.y = max(cursorPos.y - 1, 0);
+            cursorPos.y = std::max(cursorPos.y - 1, 0);
         }
         if (IsKeyDown('S')) {
             if (IsKeyDown(VK_CONTROL)) {
                 board.Save("./out.sprite");
             }
             else {
-                cursorPos.y = min(cursorPos.y + 1, _CanvasSize.y);
+                cursorPos.y = std::min(cursorPos.y + 1, _CanvasSize.y);
             }
         }
         if (IsKeyDown('D')) {
-            cursorPos.x = min(cursorPos.x + 1, _CanvasSize.x);
+            cursorPos.x = std::min(cursorPos.x + 1, _CanvasSize.x);
         }
         if (IsKeyDown('A')) {
-            cursorPos.x = max(cursorPos.x - 1, 0);
+            cursorPos.x = std::max(cursorPos.x - 1, 0);
         }
         if (IsKeyDown(VK_TAB)) {
             currentColor = Color(((char)currentColor + 1) % 16);

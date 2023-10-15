@@ -2,6 +2,9 @@
 
 #include <Windows.h>
 
+#undef min
+#undef max
+
 #include <cstdint>
 #include <memory>
 

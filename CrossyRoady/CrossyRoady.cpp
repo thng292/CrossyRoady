@@ -1,7 +1,7 @@
-#include "ConsoleGame.h"
-#include "DevScreen.h"
 #include <memory>
 
+#include "ConsoleGame.h"
+#include "DevScreen.h"
 using namespace ConsoleGame;
 
 auto main() -> int

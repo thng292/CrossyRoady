@@ -56,5 +56,5 @@ void DevScreen::Draw(AbstractCanvas* canvas) const
     //         (*canvas)[i + moveY][j + moveX] = Color::YELLOW;
     //     }
     // }
-    badapple.Paint(canvas, {0, 0});
+    badapple.Paint(canvas, {-1000,1000});
 }

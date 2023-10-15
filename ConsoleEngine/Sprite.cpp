@@ -48,23 +48,31 @@ void ConsoleGame::Sprite::Clear()
 
 void ConsoleGame::Sprite::Paint(AbstractCanvas* canvas, Vec2 coord) const
 {
-    int i = 0;
-    if (coord.y < 0) {
-        i = -coord.y;
-    }
-    if (i + coord.y >= _ScreenSize.height) {
+    if (coord.x >= _CanvasSize.width || coord.y >= _CanvasSize.height) {
         return;
     }
-    for (; i < dim.height; i++) {
-        int j = 0;
-        if (coord.x < 0) {
-            j = -coord.x;
-        }
-        for (; j < dim.width; j++) {
-            if (j + coord.x >= _ScreenSize.width) {
-                continue;
-            }
-            (*canvas)[i + coord.y][j + coord.x] = data[i * dim.width + j];
+    if (coord.x + dim.width < 0 || coord.y + dim.height < 0) {
+        return;
+    }
+
+    int pX = coord.x;
+    int pY = coord.y;
+    int left = 0;
+    if (coord.x < 0) {
+        left = -coord.x;
+        pX = 0;
+    }
+    int top = 0;
+    if (coord.y < 0) {
+        top = -coord.y;
+        pY = 0;
+    }
+    int right = std::min(_CanvasSize.width, coord.x + dim.width);
+    int bottom = std::min(_CanvasSize.height, coord.y + dim.height);
+
+    for (int i = top, tmpY = pY; i < bottom; i++, tmpY++) {
+        for (int j = left, tmpX = pX; j < right; j++, tmpX++) {
+            (*canvas)[tmpY][tmpX] = data[i * dim.width + j];
         }
     }
 }

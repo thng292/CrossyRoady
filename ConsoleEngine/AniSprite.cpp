@@ -1,5 +1,6 @@
 #include "AniSprite.h"
 
+#include <algorithm>
 #include <fstream>
 
 namespace ConsoleGame {
@@ -63,20 +64,34 @@ namespace ConsoleGame {
 
     void AniSprite::Paint(AbstractCanvas* canvas, Vec2 coord) const
     {
+        if (coord.x >= _CanvasSize.width || coord.y >= _CanvasSize.height) {
+            return;
+        }
+        if (coord.x + dim.width < 0 || coord.y + dim.height < 0) {
+            return;
+        }
+
         const size_t frameOffset =
             size_t(dim.width) * dim.height * playingFrame;
-        int i = 0;
-        if (coord.y < 0) {
-            i = -coord.y;
+
+        int pX = coord.x;
+        int pY = coord.y;
+        int left = 0;
+        if (coord.x < 0) {
+            left = -coord.x;
+            pX = 0;
         }
-        for (; i < dim.height; i++) {
-            int j = 0;
-            if (coord.x < 0) {
-                j = -coord.x;
-            }
-            for (; j < dim.width; j++) {
-                (*canvas)[i + coord.y][j + coord.x] =
-                    data[frameOffset + i * dim.width + j];
+        int top = 0;
+        if (coord.y < 0) {
+            top = -coord.y;
+            pY = 0;
+        }
+        int right = std::min(_CanvasSize.width, coord.x + dim.width);
+        int bottom = std::min(_CanvasSize.height, coord.y + dim.height);
+
+        for (int i = top, tmpY = pY; i < bottom; i++, tmpY++) {
+            for (int j = left, tmpX = pX; j < right; j++, tmpX++) {
+                (*canvas)[tmpY][tmpX] = data[frameOffset + i * dim.width + j];
             }
         }
     }
@@ -97,7 +112,7 @@ namespace ConsoleGame {
         if (!playing) {
             return;
         }
-        //timePassed += deltaTime * 2; somehow this work?????????????
+        // timePassed += deltaTime * 2; somehow this work?????????????
         timePassed += deltaTime;
         playingFrame = timePassed / frameDuration;
         if (playingFrame >= totalFrame) {
