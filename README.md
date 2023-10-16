@@ -2,6 +2,20 @@
 
 <img width="2076" alt="gameing" src="https://github.com/thng292/CrossyRoady/assets/61302586/0a0a2b98-bf85-4422-b049-0d11984aff31">
 
+# Note:
+
+- Story (progress):
+  - Hidden experience system. Sum of player's score. Passing a threshold -> unlock new map and character
+  - At first only one map is available -> grind to unlock more
+  - After unlock map, play it through a certain threshold will unlock new character.
+  - Should have some thing to indicate that the map's character is unlocked or not
+- Gameplay:
+  - The player can only unlock a character if choose the character's map (random mode does not count)
+  - The new character is spawn at safe place and unlock by interact with them. Should show a quick dialouge.
+  - If the player choose a specific map to play, they only play on that map
+  - Random mode will choose a random map. After reach a certain score threshold, the map will change (Stage up).
+  - A counter should be present on the screen.
+
 # How to use spritegen
 
 ## Demo
