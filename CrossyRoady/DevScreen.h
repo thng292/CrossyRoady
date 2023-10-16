@@ -6,10 +6,10 @@
 
 class DevScreen : public ConsoleGame::AbstractScreen {
 
-    //int moveX = 0;
-    //int moveY = 0;
+    int moveX = 0;
+    int moveY = 0;
 
-    //const ConsoleGame::Vec2 dim{.width = 10, .height = 10};
+    const ConsoleGame::Vec2 dim{.width = 20, .height = 20};
     int fontSize = 1;
 
    public:

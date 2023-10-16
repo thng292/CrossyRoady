@@ -47,7 +47,7 @@ namespace ConsoleGame {
         void Init() override;
         void Run(const std::wstring_view screenName) override;
 
-        AbstractGame* AddScreen(std::unique_ptr<AbstractScreen>) override;
+        AbstractGame* AddScreen(std::unique_ptr<AbstractScreen> screen) override;
 
         ~Game();
     };
