@@ -15,6 +15,7 @@
   - If the player choose a specific map to play, they only play on that map
   - Random mode will choose a random map. After reach a certain score threshold, the map will change (Stage up).
   - A counter should be present on the screen.
+  - The character's skill can be used when the "power bar" is filled up, in order to fill it up the player must progresses through the map.
 
 # How to use spritegen
 
