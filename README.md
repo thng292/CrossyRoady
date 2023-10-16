@@ -16,6 +16,11 @@
   - Random mode will choose a random map. After reach a certain score threshold, the map will change (Stage up).
   - A counter should be present on the screen.
   - The character's skill can be used when the "power bar" is filled up, in order to fill it up the player must progresses through the map.
+- Sprite size (same for hitbox) (1 = 16px):
+  - Character: w = 2, h = 2.5
+  - Mob: w = 2, h = 2
+  - Item: w = 2, h = 2
+   
 
 # How to use spritegen
 
