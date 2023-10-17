@@ -7,18 +7,10 @@ using namespace ConsoleGame;
 
 auto main() -> int
 {
-    int fps = 60;
-    {
-        // Get display's refresh rate
-        DEVMODE devMode;
-        devMode.dmSize = sizeof(devMode);
-        bool ok = EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &devMode);
-        if (ok) {
-            fps = devMode.dmDisplayFrequency;
-        }
-    }
     Font::Load("test.font");
-    auto game = std::make_unique<Game>(fps);
+    // LocalStorage::LoadFromFile();
+    // defer { LocalStorage::SaveToFile(); };
+    auto game = std::make_unique<Game>(GetDisplayRefreshRate());
     game->Init();
     game->AddScreen(std::make_unique<AniScreen>());
     game->Run(AniScreen::ScreenName());

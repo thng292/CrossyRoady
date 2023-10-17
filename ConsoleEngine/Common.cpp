@@ -29,6 +29,17 @@ namespace ConsoleGame {
         return Vec2{.x = pos.x / pixSize.width, .y = pos.y / pixSize.height};
     }
 
+    auto GetDisplayRefreshRate() -> int
+    {
+        DEVMODE devMode;
+        devMode.dmSize = sizeof(devMode);
+        bool ok = EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &devMode);
+        if (ok) {
+            return devMode.dmDisplayFrequency;
+        }
+        return 60;
+    }
+
     static constexpr bool isHostBigEndian =
         std::endian::native == std::endian::big;
 

@@ -80,6 +80,7 @@ namespace ConsoleGame {
     // https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
     bool IsKeyDown(int keyCode);
     Vec2 GetMousePos();
+    int GetDisplayRefreshRate();
 
     uint16_t HostToBigEndian(uint16_t num);
     uint32_t BigEndianToHost(uint32_t num);
