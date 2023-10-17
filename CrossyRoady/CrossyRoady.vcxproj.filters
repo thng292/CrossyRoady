@@ -24,9 +24,15 @@
     <ClCompile Include="DevScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AniScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DevScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AniScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

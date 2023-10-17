@@ -16,7 +16,26 @@
 #define _CONSOLE_HEIGHT_ 112
 #endif
 
-// Ratio: 25:14
+#ifndef defer
+struct defer_dummy {};
+
+template <class F>
+struct deferrer {
+    F f;
+
+    ~deferrer() { f(); }
+};
+
+template <class F>
+deferrer<F> operator*(defer_dummy, F f)
+{
+    return {f};
+}
+
+#define DEFER_(LINE) zz_defer##LINE
+#define DEFER(LINE) DEFER_(LINE)
+#define defer auto DEFER(__LINE__) = defer_dummy{} *[&]()
+#endif  // defer
 
 namespace ConsoleGame {
 
@@ -33,6 +52,8 @@ namespace ConsoleGame {
 
     constexpr Vec2 _ScreenSize{
         .width = _CONSOLE_WIDTH_, .height = _CONSOLE_HEIGHT_};
+
+    // Ratio: 25:14
     constexpr Vec2 _CanvasSize{
         .width = _ScreenSize.width, .height = 2 * _ScreenSize.height};
     enum class Color : char {

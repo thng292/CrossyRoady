@@ -15,6 +15,8 @@
 #include "Signal.h"
 
 #define _SHOW_FPS_
+// #define _SHOULD_SKIP_FRAME_
+
 #ifndef _DEBUG
 #define _ENABLE_ASYNC_DRAW_
 #endif
@@ -23,11 +25,9 @@ namespace ConsoleGame {
 
     Game::Game(uint32_t fps)
         : targetFPS(fps),
-          /*_targetFrameTime(
-              std::chrono::nanoseconds(std::chrono::seconds(1)) /
-              targetFPS
-          )*/
-          _targetFrameTime(std::chrono::milliseconds(16))
+          _targetFrameTime(
+              std::chrono::nanoseconds(std::chrono::seconds(1)) / targetFPS
+          )
     {
     }
 
@@ -150,8 +150,12 @@ namespace ConsoleGame {
             .ActionType = AbstractNavigation::NavigationAction::None,
             .Payload = std::any()};
 
+        // OS scheduler delay
+        timeBeginPeriod(1);
+        defer { timeEndPeriod(1); };
         float deltaTime = 0;
         bool redraw = false;
+        using clock = std::chrono::steady_clock;
 
         auto DrawFunc = [&] {
             const auto& currentScreen = naviStack.back();
@@ -197,7 +201,7 @@ namespace ConsoleGame {
             navigationRes.ActionType =
                 AbstractNavigation::NavigationAction::None;
 
-            auto start = std::chrono::steady_clock::now();
+            auto start = clock::now();
             // Navigation will be delay 1 frame
             while (navigationRes.ActionType ==
                    AbstractNavigation::NavigationAction::None) {
@@ -227,9 +231,17 @@ namespace ConsoleGame {
                 constexpr auto secondToNano =
                     std::chrono::nanoseconds(std::chrono::seconds(1)).count();
 
-                const auto nextFrame = start + _targetFrameTime;
-                std::this_thread::sleep_until(nextFrame);
-                const auto now = std::chrono::steady_clock::now();
+                constexpr auto OS_SchedulerDelay = std::chrono::milliseconds(1);
+                 const auto nextFrame = start + _targetFrameTime - OS_SchedulerDelay;
+                 std::this_thread::sleep_until(nextFrame);
+
+                const auto now = clock::now();
+
+                /*auto dbgVal = float((now - nextFrame).count()) / 1'000'000;
+                SetConsoleTitle(
+                    std::format(L"Crossy Roady - FPS: {}", dbgVal).c_str()
+                );*/
+
                 deltaTime = float((now - start).count()) / secondToNano;
                 start = now;
             }
