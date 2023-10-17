@@ -11,7 +11,7 @@ auto main() -> int
     {
         // Get display's refresh rate
         DEVMODE devMode;
-        devMode.dmSize = sizeof(*devMode);
+        devMode.dmSize = sizeof(devMode);
         bool ok = EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &devMode);
         if (ok) {
             fps = devMode.dmDisplayFrequency;
