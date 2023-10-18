@@ -5,37 +5,12 @@
 #undef min
 #undef max
 
+#include <bit>
+#include <concepts>
 #include <cstdint>
 #include <memory>
 
-#ifndef _CONSOLE_WIDTH_
-#define _CONSOLE_WIDTH_ 384
-#endif
-
-#ifndef _CONSOLE_HEIGHT_
-#define _CONSOLE_HEIGHT_ 112
-#endif
-
-#ifndef defer
-struct defer_dummy {};
-
-template <class F>
-struct deferrer {
-    F f;
-
-    ~deferrer() { f(); }
-};
-
-template <class F>
-deferrer<F> operator*(defer_dummy, F f)
-{
-    return {f};
-}
-
-#define DEFER_(LINE) zz_defer##LINE
-#define DEFER(LINE) DEFER_(LINE)
-#define defer auto DEFER(__LINE__) = defer_dummy{} *[&]()
-#endif  // defer
+#include "Defer.h"
 
 namespace ConsoleGame {
 
@@ -49,6 +24,8 @@ namespace ConsoleGame {
     };
 
     // clang-format on
+    constexpr int _CONSOLE_WIDTH_ = 384;
+    constexpr int _CONSOLE_HEIGHT_ = 112;
 
     constexpr Vec2 _ScreenSize{
         .width = _CONSOLE_WIDTH_, .height = _CONSOLE_HEIGHT_};
@@ -82,7 +59,30 @@ namespace ConsoleGame {
     Vec2 GetMousePos();
     int GetDisplayRefreshRate();
 
-    uint16_t HostToBigEndian(uint16_t num);
-    uint32_t BigEndianToHost(uint32_t num);
-    uint16_t BigEndianToHost(uint16_t num);
+    template <std::unsigned_integral T>
+    T HostToBigEndian(T num)
+    {
+        if constexpr (std::endian::native == std::endian::big) {
+            return num;
+        } else {
+            union {
+                uint8_t bytes_rep[sizeof(T)];
+                T num_rep;
+            } tmp{};
+
+            tmp.num_rep = num;
+            for (int i = 0, j = sizeof(T) - 1; i < j; i++, j--) {
+                uint8_t ttt = tmp.bytes_rep[i];
+                tmp.bytes_rep[i] = tmp.bytes_rep[j];
+                tmp.bytes_rep[j] = ttt;
+            }
+            return tmp.num_rep;
+        }
+    }
+
+    template <std::unsigned_integral T>
+    T BigEndianToHost(T num)
+    {
+        return HostToBigEndian(num);
+    }
 }  // namespace ConsoleGame

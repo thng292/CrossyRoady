@@ -153,6 +153,7 @@
     <ClInclude Include="Audio.h" />
     <ClInclude Include="Canvas.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="Defer.h" />
     <ClInclude Include="LocalStorage.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Game.h" />

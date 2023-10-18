@@ -13,7 +13,7 @@ namespace ConsoleGame {
     void Signal::WaitStartJobSignal()
     {
         std::unique_lock ulock(lock);
-        cv.wait(ulock, [&] { return jobRunning; });
+        cv.wait(ulock, [&] { return jobRunning.load(); });
     }
 
     void Signal::DoneJob()
@@ -25,6 +25,6 @@ namespace ConsoleGame {
     void Signal::WaitUntilJobDone()
     {
         std::unique_lock ulock(jobLock);
-        jobCv.wait(ulock, [&] { return !jobRunning; });
+        jobCv.wait(ulock, [&] { return !jobRunning.load(); });
     }
 }  // namespace ConsoleGame

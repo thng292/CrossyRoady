@@ -69,6 +69,9 @@
     <ClInclude Include="LocalStorage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Defer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">

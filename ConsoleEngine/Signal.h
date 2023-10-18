@@ -4,7 +4,7 @@
 
 namespace ConsoleGame {
     class Signal {
-        bool jobRunning = false;
+        std::atomic_bool jobRunning = false;
         std::mutex lock;
         std::mutex jobLock;
         std::condition_variable cv;

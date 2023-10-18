@@ -14,8 +14,8 @@
 #include "Palette.h"
 #include "Signal.h"
 
-#define _SHOW_FPS_
-// #define _SHOULD_SKIP_FRAME_
+constexpr bool ShowFPS = true;
+constexpr bool ShouldSkipFrame = true;
 
 #ifndef _DEBUG
 #define _ENABLE_ASYNC_DRAW_
@@ -205,26 +205,26 @@ namespace ConsoleGame {
             // Navigation will be delay 1 frame
             while (navigationRes.ActionType ==
                    AbstractNavigation::NavigationAction::None) {
-#ifdef _SHOW_FPS_
-                SetConsoleTitle(
-                    std::format(L"Crossy Roady - FPS: {}", 1.0f / deltaTime)
-                        .c_str()
-                );
-#endif
+                if constexpr (ShowFPS) {
+                    SetConsoleTitle(
+                        std::format(L"Crossy Roady - FPS: {}", 1.0f / deltaTime)
+                            .c_str()
+                    );
+                }
 
                 navigationRes = currentScreen.Screen->Update(deltaTime, &navi);
 
 #ifdef _ENABLE_ASYNC_DRAW_
-#ifdef _SHOULD_SKIP_FRAME_
-                // Signal to draw
-                // Skip a frame if draw takes lots of time
-                if (startDrawSignal.JobDone()) {
+                if constexpr (ShouldSkipFrame) {
+                    // Signal to draw
+                    // Skip a frame if draw takes lots of time
+                    if (startDrawSignal.JobDone()) {
+                        startDrawSignal.StartJob();
+                    }
+                } else {
+                    startDrawSignal.WaitUntilJobDone();
                     startDrawSignal.StartJob();
                 }
-#else
-                startDrawSignal.WaitUntilJobDone();
-                startDrawSignal.StartJob();
-#endif
 #else
                 DrawFunc();
 #endif
@@ -232,15 +232,11 @@ namespace ConsoleGame {
                     std::chrono::nanoseconds(std::chrono::seconds(1)).count();
 
                 constexpr auto OS_SchedulerDelay = std::chrono::milliseconds(1);
-                 const auto nextFrame = start + _targetFrameTime - OS_SchedulerDelay;
-                 std::this_thread::sleep_until(nextFrame);
+                const auto nextFrame =
+                    start + _targetFrameTime - OS_SchedulerDelay;
+                std::this_thread::sleep_until(nextFrame);
 
                 const auto now = clock::now();
-
-                /*auto dbgVal = float((now - nextFrame).count()) / 1'000'000;
-                SetConsoleTitle(
-                    std::format(L"Crossy Roady - FPS: {}", dbgVal).c_str()
-                );*/
 
                 deltaTime = float((now - start).count()) / secondToNano;
                 start = now;
