@@ -161,6 +161,7 @@
     <ClInclude Include="Navigation.h" />
     <ClInclude Include="Palette.h" />
     <ClInclude Include="Signal.h" />
+    <ClInclude Include="SocketWrapper.h" />
     <ClInclude Include="Sprite.h" />
   </ItemGroup>
   <ItemGroup>
@@ -174,6 +175,7 @@
     <ClCompile Include="Navigation.cpp" />
     <ClCompile Include="Palette.cpp" />
     <ClCompile Include="Signal.cpp" />
+    <ClCompile Include="SocketWrapper.cpp" />
     <ClCompile Include="Sprite.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

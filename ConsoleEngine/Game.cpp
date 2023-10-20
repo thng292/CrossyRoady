@@ -14,8 +14,8 @@
 #include "Palette.h"
 #include "Signal.h"
 
-constexpr bool ShowFPS = true;
-constexpr bool ShouldSkipFrame = true;
+constexpr bool SHOW_FPS = true;
+constexpr bool SHOULD_SKIP_FRAME = true;
 
 #ifndef _DEBUG
 #define _ENABLE_ASYNC_DRAW_
@@ -28,10 +28,6 @@ namespace ConsoleGame {
           _targetFrameTime(
               std::chrono::nanoseconds(std::chrono::seconds(1)) / targetFPS
           )
-    {
-    }
-
-    void Game::Init()
     {
         hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
         hGameScreen = CreateConsoleScreenBuffer(
@@ -153,6 +149,7 @@ namespace ConsoleGame {
         // OS scheduler delay
         timeBeginPeriod(1);
         defer { timeEndPeriod(1); };
+
         float deltaTime = 0;
         bool redraw = false;
         using clock = std::chrono::steady_clock;
@@ -193,6 +190,13 @@ namespace ConsoleGame {
                 }
             }
         });
+
+        defer
+        {
+            DrawingThread.request_stop();
+            startDrawSignal.StartJob();
+        };
+
 #endif
 
         while (!naviStack.empty()) {
@@ -205,7 +209,7 @@ namespace ConsoleGame {
             // Navigation will be delay 1 frame
             while (navigationRes.ActionType ==
                    AbstractNavigation::NavigationAction::None) {
-                if constexpr (ShowFPS) {
+                if constexpr (SHOW_FPS) {
                     SetConsoleTitle(
                         std::format(L"Crossy Roady - FPS: {}", 1.0f / deltaTime)
                             .c_str()
@@ -215,7 +219,7 @@ namespace ConsoleGame {
                 navigationRes = currentScreen.Screen->Update(deltaTime, &navi);
 
 #ifdef _ENABLE_ASYNC_DRAW_
-                if constexpr (ShouldSkipFrame) {
+                if constexpr (SHOULD_SKIP_FRAME) {
                     // Signal to draw
                     // Skip a frame if draw takes lots of time
                     if (startDrawSignal.JobDone()) {
@@ -242,6 +246,9 @@ namespace ConsoleGame {
                 start = now;
             }
 
+#ifdef _ENABLE_ASYNC_DRAW_
+            startDrawSignal.WaitUntilJobDone();
+#endif
             naviStack.back().Screen->Unmount();
             switch (navigationRes.ActionType) {
                 case AbstractNavigation::NavigationAction::Back:
@@ -279,13 +286,9 @@ namespace ConsoleGame {
             naviStack.back().Screen->Mount(navigationRes.Payload);
             redraw = naviStack.back().IsPopup;
         }
-#ifdef _ENABLE_ASYNC_DRAW_
-        DrawingThread.request_stop();
-        startDrawSignal.StartJob();
-#endif
     }
 
-    AbstractGame* Game::AddScreen(std::unique_ptr<AbstractScreen> screen)
+    Game* Game::AddScreen(std::unique_ptr<AbstractScreen> screen)
     {
         auto name = screen->getName();
         screens[name] = std::move(screen);

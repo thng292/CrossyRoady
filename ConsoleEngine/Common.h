@@ -1,14 +1,16 @@
 #pragma once
 
-#include <Windows.h>
-
+#include <winsock2.h>
+#include <ws2tcpip.h>
 #undef min
 #undef max
+#pragma comment(lib, "Ws2_32.lib")
 
 #include <bit>
 #include <concepts>
 #include <cstdint>
 #include <memory>
+#include <string_view>
 
 #include "Defer.h"
 
@@ -26,6 +28,8 @@ namespace ConsoleGame {
     // clang-format on
     constexpr int _CONSOLE_WIDTH_ = 384;
     constexpr int _CONSOLE_HEIGHT_ = 112;
+    constexpr int PORT = 6969;
+    constexpr std::string_view PORT_STR = "6969";
 
     constexpr Vec2 _ScreenSize{
         .width = _CONSOLE_WIDTH_, .height = _CONSOLE_HEIGHT_};

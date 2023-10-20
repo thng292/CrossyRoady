@@ -21,13 +21,18 @@
   - Mob: w = 2, h = 2
   - Item: w = 2, h = 2
 - Palette (max 16):
+
   - Character selection: 13 character, 2 black and white, 1 grey.
   - Single player: 6 character, 7 map, 2 black and white, 1 shadow .
   - Character info: null.
   - Map selection: null.
   - Settings: null
   - Two player: null.
-  - Credits: null 
+  - Credits: null
+
+- Impl:
+  - Should have a wrapper over Sprite or AniSprite to display and update game's object
+
 # How to use spritegen
 
 ## Demo

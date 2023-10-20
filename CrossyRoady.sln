@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestingGround", "TestingGro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrawTool", "DrawTool\DrawTool.vcxproj", "{3CE52216-4285-4552-BC5C-936959BC08AE}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetTest", "NetTest\NetTest.vcxproj", "{CF852E82-A238-42B0-892E-AD61BFD0BF81}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -51,6 +53,14 @@ Global
 		{3CE52216-4285-4552-BC5C-936959BC08AE}.Release|x64.Build.0 = Release|x64
 		{3CE52216-4285-4552-BC5C-936959BC08AE}.Release|x86.ActiveCfg = Release|Win32
 		{3CE52216-4285-4552-BC5C-936959BC08AE}.Release|x86.Build.0 = Release|Win32
+		{CF852E82-A238-42B0-892E-AD61BFD0BF81}.Debug|x64.ActiveCfg = Debug|x64
+		{CF852E82-A238-42B0-892E-AD61BFD0BF81}.Debug|x64.Build.0 = Debug|x64
+		{CF852E82-A238-42B0-892E-AD61BFD0BF81}.Debug|x86.ActiveCfg = Debug|Win32
+		{CF852E82-A238-42B0-892E-AD61BFD0BF81}.Debug|x86.Build.0 = Debug|Win32
+		{CF852E82-A238-42B0-892E-AD61BFD0BF81}.Release|x64.ActiveCfg = Release|x64
+		{CF852E82-A238-42B0-892E-AD61BFD0BF81}.Release|x64.Build.0 = Release|x64
+		{CF852E82-A238-42B0-892E-AD61BFD0BF81}.Release|x86.ActiveCfg = Release|Win32
+		{CF852E82-A238-42B0-892E-AD61BFD0BF81}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

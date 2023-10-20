@@ -5,12 +5,12 @@
 #include <unordered_map>
 #include <vector>
 
-#include "Abstract/AbstractGame.h"
+#include "Abstract/AbstractScreen.h"
 #include "Canvas.h"
 #include "Navigation.h"
 
 namespace ConsoleGame {
-    class Game final : public AbstractGame {
+    class Game {
         struct NavigationStackEntry {
             std::unique_ptr<AbstractScreen> Screen;
             bool IsPopup;
@@ -44,11 +44,10 @@ namespace ConsoleGame {
 
        public:
         Game(uint32_t fps = 60);
-        void Init() override;
-        void Run(const std::wstring_view screenName) override;
-
-        AbstractGame* AddScreen(std::unique_ptr<AbstractScreen> screen) override;
-
         ~Game();
+        void Run(const std::wstring_view screenName);
+
+        Game* AddScreen(std::unique_ptr<AbstractScreen> screen);
+
     };
 }  // namespace ConsoleGame
