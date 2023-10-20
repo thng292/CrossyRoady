@@ -286,25 +286,6 @@ class TestScreenClient : public AbstractScreen {
         }
 
         worker = std::jthread([&](std::stop_token stoken) {
-            addrinfo hints = {0};
-            addrinfo* res;
-
-            hints.ai_family = AF_INET;
-            hints.ai_socktype = SOCK_STREAM;
-            hints.ai_protocol = IPPROTO_UDP;
-            hints.ai_flags = AI_PASSIVE;
-            getaddrinfo(NULL, PORT_STR.data(), &hints, &res);
-
-            SOCKET listenSocket =
-                socket(res->ai_family, res->ai_socktype, res->ai_protocol);
-            freeaddrinfo(res);
-            bind(listenSocket, res->ai_addr, (int)res->ai_addrlen);
-
-            listen(listenSocket, SOMAXCONN);
-
-            clientSocket = accept(listenSocket, NULL, NULL);
-            closesocket(listenSocket);
-
             int err = 0;
             char buff[512] = {0};
             WSABUF wsaBuff{.len = sizeof(buff), .buf = buff};
