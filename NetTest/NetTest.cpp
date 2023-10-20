@@ -38,6 +38,7 @@ class TestScreenServer : public AbstractScreen {
     int queueCursor = 0;
     std::jthread worker;
     SOCKET clientSocket;
+    Color idid = Color::BLACK;
 
    public:
     TestScreenServer()
@@ -79,24 +80,41 @@ class TestScreenServer : public AbstractScreen {
         worker = std::jthread([&](std::stop_token stoken) {
             addrinfo hints = {0};
             addrinfo* res;
+            int tmp = 0;
 
             hints.ai_family = AF_INET;
             hints.ai_socktype = SOCK_STREAM;
-            hints.ai_protocol = IPPROTO_UDP;
+            hints.ai_protocol = IPPROTO_TCP;
             hints.ai_flags = AI_PASSIVE;
-            getaddrinfo(NULL, PORT_STR.data(), &hints, &res);
+            int err = getaddrinfo(NULL, PORT_STR.data(), &hints, &res);
+            if (err != 0) {
+                tmp = WSAGetLastError();
+            }
 
             SOCKET listenSocket =
                 socket(res->ai_family, res->ai_socktype, res->ai_protocol);
+            if (listenSocket == INVALID_SOCKET) {
+                tmp = WSAGetLastError();
+            }
+            err = bind(listenSocket, res->ai_addr, (int)res->ai_addrlen);
             freeaddrinfo(res);
-            bind(listenSocket, res->ai_addr, (int)res->ai_addrlen);
+            if (err == SOCKET_ERROR) {
+                tmp = WSAGetLastError();
+            }
 
-            listen(listenSocket, SOMAXCONN);
-
+            err = listen(listenSocket, SOMAXCONN);
+            if (err == SOCKET_ERROR) {
+                idid = Color::RED;
+                tmp = WSAGetLastError();
+            }
             clientSocket = accept(listenSocket, NULL, NULL);
+            if (clientSocket == INVALID_SOCKET) {
+                idid = Color::LIGHT_RED;
+                tmp = WSAGetLastError();
+            }
             closesocket(listenSocket);
 
-            int err = 0;
+            // idid = Color::GREEN;
             char buff[512] = {0};
             WSABUF wsaBuff{.len = sizeof(buff), .buf = buff};
             DWORD numberOfBytesRecv = 0;
@@ -214,7 +232,7 @@ class TestScreenServer : public AbstractScreen {
 
     void Draw(AbstractCanvas* canvas) const override
     {
-        Font::DrawString(canvas, hostAddress, {10, 10});
+        Font::DrawString(canvas, hostAddress, {10, 10}, 1, idid);
         local.Draw(canvas);
         net.Draw(canvas);
     }
@@ -243,7 +261,7 @@ class TestScreenClient : public AbstractScreen {
         addrinfo hints = {0};
         addrinfo* res;
         hints.ai_family = AF_UNSPEC;
-        hints.ai_socktype = SOCK_STREAM;
+        hints.ai_socktype = SOCK_DGRAM;
         hints.ai_protocol = IPPROTO_UDP;
 
         int err = getaddrinfo("00000", PORT_STR.data(), &hints, &res);
@@ -403,7 +421,11 @@ class TestScreenClient : public AbstractScreen {
         return navigation->NoChange();
     }
 
-    void Draw(AbstractCanvas* canvas) const override {}
+    void Draw(AbstractCanvas* canvas) const override
+    {
+        local.Draw(canvas);
+        net.Draw(canvas);
+    }
 };
 
 auto main() -> int
