@@ -6,7 +6,8 @@ namespace ConsoleGame {
 
     bool ConsoleGame::IsKeyDown(int key)
     {
-        return (GetAsyncKeyState(key) & (1 << 16));
+        return (GetAsyncKeyState(key) & (1 << 16)) &&
+               (GetConsoleWindow() == GetForegroundWindow());
     }
 
     Vec2 getCanvasPixelSize(HWND hConsoleWindow)

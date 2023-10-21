@@ -109,7 +109,7 @@ public:
 };
 
 auto main() -> int {
-    auto game = std::make_unique<Game>(100000);
+    auto game = std::make_unique<Game>(L"Draw Tool", GetDisplayRefreshRate());
     game->AddScreen(std::make_unique<DrawScreen>());
     game->Run(DrawScreen::ScreenName());
     return 0;

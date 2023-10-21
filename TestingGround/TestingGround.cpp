@@ -5,7 +5,7 @@
 using namespace ConsoleGame;
 
 auto main() -> int {
-    auto game = std::make_unique<Game>(1);
+    auto game = std::make_unique<Game>(L"Preview Screen", 1);
     game->AddScreen(std::make_unique<PreviewScreen>());
     game->Run(PreviewScreen::ScreenName());
     return 0;

@@ -41,13 +41,13 @@ namespace ConsoleGame {
 
         const uint32_t targetFPS;
         const std::chrono::nanoseconds _targetFrameTime;
+        const std::wstring_view windowName;
 
        public:
-        Game(uint32_t fps = 60);
+        Game(const std::wstring_view& winName, uint32_t fps = 60);
         ~Game();
         void Run(const std::wstring_view screenName);
 
         Game* AddScreen(std::unique_ptr<AbstractScreen> screen);
-
     };
 }  // namespace ConsoleGame

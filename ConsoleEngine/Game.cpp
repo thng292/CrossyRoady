@@ -23,11 +23,12 @@ constexpr bool SHOULD_SKIP_FRAME = true;
 
 namespace ConsoleGame {
 
-    Game::Game(uint32_t fps)
+    Game::Game(const std::wstring_view& winName, uint32_t fps)
         : targetFPS(fps),
           _targetFrameTime(
               std::chrono::nanoseconds(std::chrono::seconds(1)) / targetFPS
-          )
+          ),
+          windowName(winName)
     {
         hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
         hGameScreen = CreateConsoleScreenBuffer(
@@ -99,7 +100,7 @@ namespace ConsoleGame {
         debugError(err);
 
         // Update console title
-        SetConsoleTitle(TEXT("Crossy Roady"));
+        SetConsoleTitle(windowName.data());
 
         // Set IO Unicode
         oldOutTranslationMode = _setmode(_fileno(stdout), _O_WTEXT);
@@ -211,7 +212,9 @@ namespace ConsoleGame {
                    AbstractNavigation::NavigationAction::None) {
                 if constexpr (SHOW_FPS) {
                     SetConsoleTitle(
-                        std::format(L"Crossy Roady - FPS: {}", 1.0f / deltaTime)
+                        std::format(
+                            L"{} - FPS: {}", windowName, 1.0f / deltaTime
+                        )
                             .c_str()
                     );
                 }
