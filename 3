@@ -29,7 +29,7 @@ namespace ConsoleGame {
         hints.ai_protocol = IPPROTO_TCP;
         int err = getaddrinfo(hostAddress, PORT_STR.data(), &hints, &res);
         if (err != 0) {
-            return "";
+            exit(err);
         }
         defer { freeaddrinfo(res); };
         void* addr;
@@ -50,7 +50,7 @@ namespace ConsoleGame {
         addrinfo* res;
         int tmp = 0;
 
-        hints.ai_family = AF_INET;
+        hints.ai_family = AF_INET6;
         hints.ai_socktype = SOCK_DGRAM;
         hints.ai_protocol = IPPROTO_UDP;
         hints.ai_flags = AI_PASSIVE;
@@ -61,7 +61,7 @@ namespace ConsoleGame {
         }
         defer { freeaddrinfo(res); };
 
-        for (auto ptr = res; ptr != NULL; ptr = ptr->ai_next) {
+        for (auto ptr = res; ptr != NULL, ptr = ptr->ai_next) {
             sock = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
             if (sock == INVALID_SOCKET) {
                 return WSAGetLastError();
@@ -78,16 +78,13 @@ namespace ConsoleGame {
     {
         addrinfo hints = {0};
         addrinfo* res;
-        hints.ai_family = AF_INET;
+        hints.ai_family = AF_INET6;
         hints.ai_socktype = SOCK_DGRAM;
         hints.ai_protocol = IPPROTO_UDP;
 
         int err = getaddrinfo(addr.c_str(), port.c_str(), &hints, &res);
-        if (err == SOCKET_ERROR) {
-            return WSAGetLastError();
-        }
         defer { freeaddrinfo(res); };
-
+        // Attempt to connect to an address until one succeeds
         for (auto ptr = res; ptr != NULL; ptr = ptr->ai_next) {
             sock = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
             if (sock == INVALID_SOCKET) {
@@ -189,7 +186,8 @@ namespace ConsoleGame {
         if (instanceCount.load() == 0) {
             WSACleanup();
         }
-        closesocket(sock);
+        closesocket(inSock);
+        closesocket(outSock);
     }
 
 }  // namespace ConsoleGame

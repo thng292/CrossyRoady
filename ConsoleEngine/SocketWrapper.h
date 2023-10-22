@@ -14,13 +14,16 @@ namespace ConsoleGame {
 
     class SocketWrapper {
         static std::atomic_int instanceCount;
-        SOCKET inSock;
-        SOCKET outSock;
+        SOCKET sock;
+
         std::jthread recvWorker;
         std::vector<char> recvBuffer;
         std::mutex recvBufferMutex;
-        int recvError = 0;
         int recvBufferCursor = 0;
+        int sError = 0;
+
+        sockaddr dest = {0};
+        int destLen = sizeof(dest);
 
         // From a MSdoc's example:
         // https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-wsarecv#example-code
@@ -31,7 +34,7 @@ namespace ConsoleGame {
 
         static std::string GetHostLocalIP();
 
-        int ListenAndAccept(const std::string& port);
+        int Bind(const std::string& port);
         int Connect(const std::string& addr, const std::string& port);
         void Send(const SendData& sendData);
         void StartRecive();

@@ -35,7 +35,6 @@ class TestScreenServer : public AbstractScreen {
     Color idid = Color::BLACK;
     std::string hostAddress;
     SocketWrapper sockWrap;
-    std::jthread listenThrd;
 
     std::vector<uint8_t> netInputBuff;
 
@@ -52,15 +51,12 @@ class TestScreenServer : public AbstractScreen {
     void Init(const std::any& args) override
     {
         hostAddress = sockWrap.GetHostLocalIP();
-        listenThrd = std::jthread([&] {
-            int err = sockWrap.ListenAndAccept(std::string(PORT_STR));
-            if (err != 0) {
-                exit(err);
-            }
-            idid = Color::GREEN;
-            sockWrap.StartRecive();
-        });
-        listenThrd.detach();
+        int err = sockWrap.Bind(std::string(PORT_STR));
+        if (err != 0) {
+            exit(err);
+        }
+        idid = Color::GREEN;
+        sockWrap.StartRecive();
     }
 
     AbstractScreen* Clone() const override { return new TestScreenServer; }
@@ -121,7 +117,10 @@ class TestScreenClient : public AbstractScreen {
 
     void Init(const std::any& args) override
     {
-        sockWrap.Connect("127.0.0.1", std::string(PORT_STR));
+        int err = sockWrap.Connect("127.0.0.1", std::string(PORT_STR));
+        if (err != 0) {
+            exit(err);
+        }
         sockWrap.StartRecive();
     }
 
