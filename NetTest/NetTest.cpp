@@ -1,4 +1,5 @@
 #include <thread>
+
 #include "ConsoleGame.h"
 
 using namespace ConsoleGame;
@@ -34,6 +35,9 @@ class TestScreenServer : public AbstractScreen {
     Color idid = Color::BLACK;
     std::string hostAddress;
     SocketWrapper sockWrap;
+    std::jthread listenThrd;
+
+    std::vector<uint8_t> netInputBuff;
 
    public:
     TestScreenServer()
@@ -48,13 +52,15 @@ class TestScreenServer : public AbstractScreen {
     void Init(const std::any& args) override
     {
         hostAddress = sockWrap.GetHostLocalIP();
-        std::jthread([&] {
+        listenThrd = std::jthread([&] {
             int err = sockWrap.ListenAndAccept(std::string(PORT_STR));
             if (err != 0) {
                 exit(err);
             }
             idid = Color::GREEN;
-        }).detach();
+            sockWrap.StartRecive();
+        });
+        listenThrd.detach();
     }
 
     AbstractScreen* Clone() const override { return new TestScreenServer; }
@@ -64,6 +70,7 @@ class TestScreenServer : public AbstractScreen {
     ) override
     {
         constexpr int speed = 300;
+        size_t cursor = 0;
         if (IsKeyDown('W')) {
             local.coord.y -= speed * deltaTime;
         }
@@ -75,6 +82,15 @@ class TestScreenServer : public AbstractScreen {
         }
         if (IsKeyDown('D')) {
             local.coord.x += speed * deltaTime;
+        }
+        sockWrap.Send(
+            {.data = (char*)&local.coord, .length = sizeof(local.coord)}
+        );
+        sockWrap.ReceiveFromBuffer(netInputBuff);
+        auto data = (Vec2*)netInputBuff.data();
+        size_t length = netInputBuff.size() / sizeof(Vec2);
+        if (length > 0) {
+            net.coord = data[length - 1];
         }
         return navigation->NoChange();
     }
@@ -89,8 +105,9 @@ class TestScreenServer : public AbstractScreen {
 
 class TestScreenClient : public AbstractScreen {
     Square local, net;
-    Color idid = Color::BLACK;
     SocketWrapper sockWrap;
+
+    std::vector<uint8_t> netInputBuff;
 
    public:
     TestScreenClient()
@@ -105,6 +122,7 @@ class TestScreenClient : public AbstractScreen {
     void Init(const std::any& args) override
     {
         sockWrap.Connect("127.0.0.1", std::string(PORT_STR));
+        sockWrap.StartRecive();
     }
 
     AbstractScreen* Clone() const override { return new TestScreenClient; }
@@ -114,6 +132,7 @@ class TestScreenClient : public AbstractScreen {
     ) override
     {
         constexpr int speed = 300;
+        size_t cursor = 0;
         if (IsKeyDown('W')) {
             local.coord.y -= speed * deltaTime;
         }
@@ -126,6 +145,15 @@ class TestScreenClient : public AbstractScreen {
         if (IsKeyDown('D')) {
             local.coord.x += speed * deltaTime;
         }
+        sockWrap.Send(
+            {.data = (char*)&local.coord, .length = sizeof(local.coord)}
+        );
+        sockWrap.ReceiveFromBuffer(netInputBuff);
+        auto data = (Vec2*)netInputBuff.data();
+        size_t length = netInputBuff.size() / sizeof(Vec2);
+        if (length > 0) {
+            net.coord = data[length - 1];
+        }
         return navigation->NoChange();
     }
 
@@ -137,13 +165,12 @@ class TestScreenClient : public AbstractScreen {
 };
 
 class BeginTest : public AbstractScreen {
-public:
+   public:
     static const std::wstring_view ScreenName() { return L"BeginTest"; }
-    
+
     std::wstring_view getName() override { return ScreenName(); }
 
-    void Init(const std::any& args) override {
-    }
+    void Init(const std::any& args) override {}
 
     AbstractScreen* Clone() const override { return new BeginTest; }
 
@@ -172,8 +199,8 @@ auto main() -> int
     Font::Load("../CrossyRoady/test.font");
     auto game = std::make_unique<Game>(L"Net test", GetDisplayRefreshRate());
     game->AddScreen(std::make_unique<TestScreenServer>())
-    ->AddScreen(std::make_unique<TestScreenClient>())
-    ->AddScreen(std::make_unique<BeginTest>());
+        ->AddScreen(std::make_unique<TestScreenClient>())
+        ->AddScreen(std::make_unique<BeginTest>());
     game->Run(BeginTest::ScreenName());
     return 0;
 }

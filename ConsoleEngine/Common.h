@@ -63,7 +63,7 @@ namespace ConsoleGame {
     Vec2 GetMousePos();
     int GetDisplayRefreshRate();
 
-    template <std::unsigned_integral T>
+    template <std::integral T>
     T HostToBigEndian(T num)
     {
         if constexpr (std::endian::native == std::endian::big) {
@@ -84,7 +84,7 @@ namespace ConsoleGame {
         }
     }
 
-    template <std::unsigned_integral T>
+    template <std::integral T>
     T BigEndianToHost(T num)
     {
         return HostToBigEndian(num);

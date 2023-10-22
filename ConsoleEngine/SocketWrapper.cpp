@@ -91,6 +91,7 @@ namespace ConsoleGame {
         }
 
         closesocket(listenSocket);
+        return 0;
     }
 
     int SocketWrapper::Connect(const std::string& addr, const std::string& port)
@@ -98,8 +99,8 @@ namespace ConsoleGame {
         addrinfo hints = {0};
         addrinfo* res;
         hints.ai_family = AF_UNSPEC;
-        hints.ai_socktype = SOCK_DGRAM;
-        hints.ai_protocol = IPPROTO_UDP;
+        hints.ai_socktype = SOCK_STREAM;
+        hints.ai_protocol = IPPROTO_TCP;
 
         int err = getaddrinfo(addr.c_str(), port.c_str(), &hints, &res);
         defer { freeaddrinfo(res); };
@@ -136,7 +137,7 @@ namespace ConsoleGame {
 
     void SocketWrapper::Send(const SendData& sendData)
     {
-        send(outSock, sendData.data, sendData.length, 0);
+        send(outSock, sendData.data, (int)sendData.length, 0);
     }
 
     void SocketWrapper::StartRecive()
@@ -168,7 +169,7 @@ namespace ConsoleGame {
                     recvError = WSAGetLastError();
                     break;
                 }
-                if (err == WSA_WAIT_IO_COMPLETION) {
+                if (err == WSA_WAIT_IO_COMPLETION || err == WSA_WAIT_EVENT_0) {
                     if (!WSAGetOverlappedResult(
                             inSock, &overlapped, &byteTranfered, TRUE, &flags
                         )) {
@@ -186,6 +187,9 @@ namespace ConsoleGame {
                         }
                     }
                 }
+                if (err == WSA_WAIT_TIMEOUT) {
+                    continue;
+                }
                 WSAResetEvent(overlapped.hEvent);
             }
         });
@@ -195,10 +199,10 @@ namespace ConsoleGame {
 
     void SocketWrapper::ReceiveFromBuffer(std::vector<uint8_t>& out)
     {
+        std::lock_guard lock(recvBufferMutex);
         if (out.size() < recvBufferCursor) {
             out.resize(recvBufferCursor, 0);
         }
-        std::lock_guard lock(recvBufferMutex);
         std::copy_n(recvBuffer.begin(), recvBufferCursor, out.begin());
         recvBufferCursor = 0;
     }
