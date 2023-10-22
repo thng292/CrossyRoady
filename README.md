@@ -2,6 +2,7 @@
 
 <img width="2076" alt="gameing" src="https://github.com/thng292/CrossyRoady/assets/61302586/0a0a2b98-bf85-4422-b049-0d11984aff31">
 ![ASD](https://github.com/thng292/CrossyRoady/assets/62800118/08eb14c7-95ca-495f-a25e-f6c792baf8b1)
+
 # Note:
 
 - Story (progress):
