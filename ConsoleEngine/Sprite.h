@@ -8,6 +8,7 @@
 
 namespace ConsoleGame {
     class Sprite {
+       protected:
         std::vector<Color> data;
         Vec2 dim;
         std::filesystem::path openFile;

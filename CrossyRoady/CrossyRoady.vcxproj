@@ -155,11 +155,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AniScreen.cpp" />
     <ClCompile Include="CharaSelectScreen.cpp" />
+    <ClCompile Include="About.cpp" />
+    <ClCompile Include="CharactersInfo.cpp" />
     <ClCompile Include="CrossyRoady.cpp" />
-    <ClCompile Include="DevScreen.cpp" />
-    <ClCompile Include="Test.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="Setting.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ConsoleEngine\ConsoleEngine.vcxproj">
@@ -167,9 +168,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AniScreen.h" />
+    <ClInclude Include="About.h" />
+    <ClInclude Include="CharactersInfo.h" />
+    <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="Setting.h" />
     <ClInclude Include="CharaSelectScreen.h" />
-    <ClInclude Include="DevScreen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

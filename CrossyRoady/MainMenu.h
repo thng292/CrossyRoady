@@ -1,8 +1,7 @@
 #pragma once
 #include "ConsoleGame.h"
 
-class AniScreen : public ConsoleGame::AbstractScreen {
-    ConsoleGame::AniSprite animation;
+class MainMenu : public ConsoleGame::AbstractScreen {
    public:
     static const std::wstring_view ScreenName();
     std::wstring_view getName() override;
