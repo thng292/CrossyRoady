@@ -1,6 +1,7 @@
 # Idea
 
 <img width="2076" alt="gameing" src="https://github.com/thng292/CrossyRoady/assets/61302586/0a0a2b98-bf85-4422-b049-0d11984aff31">
+![ASD](https://github.com/thng292/CrossyRoady/assets/62800118/08eb14c7-95ca-495f-a25e-f6c792baf8b1)
 
 # Note:
 
@@ -22,8 +23,8 @@
   - Item: w = 2, h = 2
 - Palette (max 16):
 
-  - Character selection: 13 character, 2 black and white, 1 grey.
-  - Single player: 6 character, 7 map, 2 black and white, 1 shadow .
+  - Character selection: 10 character, 2 bacgkround, 1 ui, 2 black and white, 1 gray (hsv(0, 0, 30)).
+  - Single player: 6 character, 7 map, 2 black and white, 1 shadow.
   - Character info: null.
   - Map selection: null.
   - Settings: null
