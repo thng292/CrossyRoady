@@ -13,27 +13,42 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\ScreenHeader">
+      <UniqueIdentifier>{618de151-ae59-41da-8506-31b5401fd997}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ScreenImpl">
+      <UniqueIdentifier>{9cc318cb-10f9-48cd-b9fb-f084d90b0b90}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CrossyRoady.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Test.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="About.cpp">
+      <Filter>Source Files\ScreenImpl</Filter>
     </ClCompile>
-    <ClCompile Include="DevScreen.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="CharactersInfo.cpp">
+      <Filter>Source Files\ScreenImpl</Filter>
     </ClCompile>
-    <ClCompile Include="AniScreen.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Source Files\ScreenImpl</Filter>
+    </ClCompile>
+    <ClCompile Include="Setting.cpp">
+      <Filter>Source Files\ScreenImpl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DevScreen.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="About.h">
+      <Filter>Header Files\ScreenHeader</Filter>
     </ClInclude>
-    <ClInclude Include="AniScreen.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="CharactersInfo.h">
+      <Filter>Header Files\ScreenHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Header Files\ScreenHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="Setting.h">
+      <Filter>Header Files\ScreenHeader</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

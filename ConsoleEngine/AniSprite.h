@@ -8,7 +8,7 @@
 
 namespace ConsoleGame {
     class AniSprite {
-       private:
+       protected:
         std::vector<Color> data;
         Vec2 dim;
         std::filesystem::path filePath;

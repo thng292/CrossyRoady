@@ -31,7 +31,9 @@
   - Credits: null
 
 - Impl:
-  - Should have a wrapper over Sprite or AniSprite to display and update game's object
+  - All game object should be condensed (i.e. Store only position, direction, speed). Use struct for this.
+  - All game object that use the same Sprite/AniSprie should share the same class instance
+  -
 
 # How to use spritegen
 
