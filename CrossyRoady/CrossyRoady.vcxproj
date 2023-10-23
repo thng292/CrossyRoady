@@ -156,6 +156,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AniScreen.cpp" />
+    <ClCompile Include="CharaSelectScreen.cpp" />
     <ClCompile Include="CrossyRoady.cpp" />
     <ClCompile Include="DevScreen.cpp" />
     <ClCompile Include="Test.cpp" />
@@ -167,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AniScreen.h" />
+    <ClInclude Include="CharaSelectScreen.h" />
     <ClInclude Include="DevScreen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
