@@ -37,7 +37,7 @@
       <Filter>Source Files\ScreenImpl</Filter>
     </ClCompile>
     <ClCompile Include="CharaSelectScreen.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\ScreenImpl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -54,7 +54,7 @@
       <Filter>Header Files\ScreenHeader</Filter>
     </ClInclude>
     <ClInclude Include="CharaSelectScreen.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\ScreenHeader</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -155,7 +155,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AniScreen.cpp" />
     <ClCompile Include="CharaSelectScreen.cpp" />
     <ClCompile Include="About.cpp" />
     <ClCompile Include="CharactersInfo.cpp" />
@@ -173,9 +172,7 @@
     <ClInclude Include="CharactersInfo.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Setting.h" />
-    <ClInclude Include="AniScreen.h" />
     <ClInclude Include="CharaSelectScreen.h" />
-    <ClInclude Include="DevScreen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
