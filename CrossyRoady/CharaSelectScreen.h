@@ -3,8 +3,8 @@
 
 class CharaSelectScreen : public ConsoleGame::AbstractScreen {
     ConsoleGame::Palette palette;
-    const std::string_view fileName = "../spritegen/chara-select.sprite";
-    const std::string_view paletteName = "../spritegen/chara-select.palette";
+    const std::string_view fileName = "../spritegen/chara.sprite";
+    const std::string_view paletteName = "../spritegen/temp1.palette";
     ConsoleGame::Sprite bg;
     const ConsoleGame::Vec2 DRAW_COORD{.x = 0, .y = 0};
 
