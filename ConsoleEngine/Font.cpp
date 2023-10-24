@@ -6,6 +6,8 @@ namespace ConsoleGame {
     std::vector<bool> Font::data{};
     Vec2 Font::dim{0};
 
+    Vec2 Font::GetDim() { return dim; }
+
     void Font::Load(std::filesystem::path path)
     {
         std::fstream in(path, std::ios::in | std::ios::binary);

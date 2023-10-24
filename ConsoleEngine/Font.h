@@ -16,6 +16,7 @@ namespace ConsoleGame {
 
        public:
         Font() = delete;
+        static Vec2 GetDim();
         static void Load(std::filesystem::path path);
         static void DrawString(
             AbstractCanvas* canvas,
