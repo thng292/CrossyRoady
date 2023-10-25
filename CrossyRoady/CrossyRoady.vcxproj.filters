@@ -19,6 +19,12 @@
     <Filter Include="Source Files\ScreenImpl">
       <UniqueIdentifier>{9cc318cb-10f9-48cd-b9fb-f084d90b0b90}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\UIComponent">
+      <UniqueIdentifier>{3bf5a665-bfcf-411b-bf0d-379ad5a06c12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UIComponent">
+      <UniqueIdentifier>{2d9fe8a9-241c-4901-8136-4fde898b1e29}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CrossyRoady.cpp">
@@ -39,6 +45,9 @@
     <ClCompile Include="CharaSelectScreen.cpp">
       <Filter>Source Files\ScreenImpl</Filter>
     </ClCompile>
+    <ClCompile Include="Surface.cpp">
+      <Filter>Source Files\UIComponent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="About.h">
@@ -55,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="CharaSelectScreen.h">
       <Filter>Header Files\ScreenHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="Surface.h">
+      <Filter>Header Files\UIComponent</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
