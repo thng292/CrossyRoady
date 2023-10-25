@@ -14,12 +14,9 @@
 #include "Palette.h"
 #include "Signal.h"
 
+#define _ENABLE_ASYNC_DRAW_
 constexpr bool SHOW_FPS = true;
 constexpr bool SHOULD_SKIP_FRAME = true;
-
-#ifndef _DEBUG
-#define _ENABLE_ASYNC_DRAW_
-#endif
 
 namespace ConsoleGame {
 
