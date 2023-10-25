@@ -12,7 +12,7 @@ auto main() -> int
     // defer { LocalStorage::SaveToFile(); };
     auto game =
         std::make_unique<Game>(L"Crossy Roady", GetDisplayRefreshRate());
-    game->AddScreen(std::make_unique<CharaSelectScreen>());
-    game->Run(CharaSelectScreen::ScreenName());
+    game->AddScreen(std::make_unique<MainMenu>());
+    game->Run(MainMenu::ScreenName());
     return 0;
 }
