@@ -171,8 +171,10 @@
   <ItemGroup>
     <ClInclude Include="About.h" />
     <ClInclude Include="Surface.h" />
+    <ClInclude Include="Character.h" />
     <ClInclude Include="CharactersInfo.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="Forest.h" />
     <ClInclude Include="Setting.h" />
     <ClInclude Include="CharaSelectScreen.h" />
   </ItemGroup>

@@ -15,6 +15,7 @@ std::wstring_view CharaSelectScreen::getName() { return ScreenName(); }
 void CharaSelectScreen::Init(const std::any& args)
 {
     bg.Load(fileName);
+    // black.Load(fileName1);
     palette.Load(paletteName);
     ChangeColorPalette(palette);
 }
@@ -34,4 +35,5 @@ AbstractNavigation::NavigationRes CharaSelectScreen::Update(
 void CharaSelectScreen::Draw(AbstractCanvas* canvas) const
 {
     bg.Paint(canvas, DRAW_COORD);
+    // black.Paint(canvas, DRAW_COORD_1);
 }
