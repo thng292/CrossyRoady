@@ -44,6 +44,8 @@ namespace ConsoleGame {
         if (!ok) {
             tmp = GetLastError();
         }
+        bufferInfo.srWindow.Right = _ScreenSize.width;
+        bufferInfo.srWindow.Bottom = _ScreenSize.height;
         return bufferInfo;
     }
 
