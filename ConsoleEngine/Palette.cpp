@@ -46,6 +46,9 @@ namespace ConsoleGame {
         }
         bufferInfo.srWindow.Right = _ScreenSize.width;
         bufferInfo.srWindow.Bottom = _ScreenSize.height;
+        bufferInfo.dwMaximumWindowSize = {
+            _ScreenSize.width, _ScreenSize.height};
+        bufferInfo.dwSize = bufferInfo.dwMaximumWindowSize;
         return bufferInfo;
     }
 
