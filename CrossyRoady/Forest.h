@@ -1,17 +1,15 @@
 #pragma once
+#include "Character.h"
 #include "ConsoleGame.h"
 
-class CharaSelectScreen : public ConsoleGame::AbstractScreen {
+class Forest : public ConsoleGame::AbstractScreen {
     ConsoleGame::Palette palette;
-    const std::string_view fileName = "../spritegen/bg.sprite";
-    const std::string_view fileName1 = "../spritegen/thing.sprite";
-
-    const std::string_view paletteName = "../spritegen/temp2.hex";
-    ConsoleGame::Sprite bg;
-    ConsoleGame::Sprite black;
-
-    const ConsoleGame::Vec2 DRAW_COORD{.x = 0, .y = 0};
-    const ConsoleGame::Vec2 DRAW_COORD_1{.x = 50, .y = 50};
+    ConsoleGame::Sprite backgroundSprite;
+    const std::string_view backgroundSpritePath = "";
+    const std::string_view palettePath = "";
+    Character character;
+    // map data (sprite paths) => reads map data
+    //
 
    public:
     static const std::wstring_view ScreenName();

@@ -10,8 +10,9 @@ auto main() -> int
     Font::Load("test.font");
     // LocalStorage::LoadFromFile();
     // defer { LocalStorage::SaveToFile(); };
-    auto game = std::make_unique<Game>(L"Crossy Roady", GetDisplayRefreshRate());
-    game->AddScreen(std::make_unique<MainMenu>());
-    game->Run(MainMenu::ScreenName());
+    auto game =
+        std::make_unique<Game>(L"Crossy Roady", GetDisplayRefreshRate());
+    game->AddScreen(std::make_unique<CharaSelectScreen>());
+    game->Run(CharaSelectScreen::ScreenName());
     return 0;
 }
