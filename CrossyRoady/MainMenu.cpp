@@ -23,8 +23,8 @@ AbstractNavigation::NavigationRes MainMenu::Update(
 
 void MainMenu::Draw(AbstractCanvas* canvas) const
 {
-    auto dd = Font::GetDim();
+    auto dd = Font::GetDim(0);
     for (int i = 0; i < 16; i++) {
-        Font::DrawString(canvas, "Hello World", {0, i * dd.height}, 1, (Color)i);
+        Font::DrawString(canvas, "Hello World", {0, i * dd.height}, 1, 0, (Color)i);
     }
 }
