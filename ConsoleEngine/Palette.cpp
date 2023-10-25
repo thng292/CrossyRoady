@@ -9,13 +9,18 @@ namespace ConsoleGame {
     void Palette::Load(std::filesystem::path path)
     {
         filePath = path;
+        std::ifstream in(path, std::ios::in);
         uint8_t r, g, b;
-        std::ifstream in(path, std::ios::in | std::ios::binary);
+        char hex[2] = {0};
         for (auto& color : data) {
-            in.read((char*)&r, 1);
-            in.read((char*)&g, 1);
-            in.read((char*)&b, 1);
+            in.read(hex, sizeof(hex));
+            r = std::stoi(hex, 0, 16);
+            in.read(hex, sizeof(hex));
+            g = std::stoi(hex, 0, 16);
+            in.read(hex, sizeof(hex));
+            b = std::stoi(hex, 0, 16);
             color = RGB(r, g, b);
+            in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
     }
 
@@ -32,9 +37,13 @@ namespace ConsoleGame {
     {
         CONSOLE_SCREEN_BUFFER_INFOEX bufferInfo;
         bufferInfo.cbSize = sizeof(bufferInfo);
-        GetConsoleScreenBufferInfoEx(
-            GetStdHandle(STD_INPUT_HANDLE), &bufferInfo
+        bool ok = GetConsoleScreenBufferInfoEx(
+            GetStdHandle(STD_OUTPUT_HANDLE), &bufferInfo
         );
+        int tmp;
+        if (!ok) {
+            tmp = GetLastError();
+        }
         return bufferInfo;
     }
 
@@ -42,10 +51,14 @@ namespace ConsoleGame {
     {
         static CONSOLE_SCREEN_BUFFER_INFOEX bufferInfo =
             prepareChangeColorPalette();
-        static HANDLE hStdOut = GetStdHandle(STD_INPUT_HANDLE);
+        static HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
         for (int i = 0; i < Palette::ColorPaletteSize; i++) {
             bufferInfo.ColorTable[i] = palette[i];
         }
-        SetConsoleScreenBufferInfoEx(hStdOut, &bufferInfo);
+        bool ok = SetConsoleScreenBufferInfoEx(hStdOut, &bufferInfo);
+        int tmp;
+        if (!ok) {
+            tmp = GetLastError();
+        }
     }
 }  // namespace ConsoleGame

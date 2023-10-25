@@ -93,7 +93,7 @@ class TestScreenServer : public AbstractScreen {
 
     void Draw(AbstractCanvas* canvas) const override
     {
-        Font::DrawString(canvas, hostAddress, {10, 10}, 1, idid);
+        Font::DrawString(canvas, hostAddress, {10, 10}, 1, 0, idid);
         local.Draw(canvas);
         net.Draw(canvas);
     }

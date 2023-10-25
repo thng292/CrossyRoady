@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"encoding/binary"
 	"fmt"
 	"image"
@@ -97,6 +98,7 @@ func main() {
 
 	if filePalette != "" {
 		LoadPalette(filePalette)
+		fmt.Println(consoleColorMap)
 	}
 
 	switch mode {
@@ -270,9 +272,16 @@ func LoadPalette(filename string) {
 	if err != nil {
 		panic(err)
 	}
-	buff := make([]byte, 16*3)
-	file.Read(buff)
-	for i := 0; i < 16*3; i += 3 {
-		consoleColorMap[i/3] = color.RGBA{buff[i], buff[i+1], buff[i+2], 255}
+	scanner := bufio.NewScanner(file)
+
+	for i := 0; i < 16; i++ {
+		if !scanner.Scan() {
+			panic("File seem wrong")
+		}
+		tmp := scanner.Text()
+		r, _ := strconv.ParseUint(tmp[:2], 16, 8)
+		g, _ := strconv.ParseUint(tmp[:2], 16, 8)
+		b, _ := strconv.ParseUint(tmp[:2], 16, 8)
+		consoleColorMap[i] = color.RGBA{uint8(r), uint8(g), uint8(b), 255}
 	}
 }
