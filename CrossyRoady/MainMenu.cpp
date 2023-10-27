@@ -2,16 +2,22 @@
 
 using namespace ConsoleGame;
 
+using namespace std::literals;
+
 MainMenu::MainMenu()
-    : test(SurfaceArgs{
-          .size = {100, 20},
-          .pos = {50, 50},
-          .cornerSize = 3,
-          .hasBorder = true,
-          .background = Color::LIGHT_BLUE,
-          .border = Color::BLACK,
-          .ring = Color::YELLOW,
-})
+    : test(
+          SurfaceArgs{
+              .size = Vec2{100, 20},
+              .pos = Vec2{50,  50},
+              .cornerSize = 3,
+              .hasBorder = true,
+              .background = Color::LIGHT_BLUE,
+              .border = Color::BLACK
+},
+          "Single Player"sv,
+          Color::BLACK,
+          1
+      )
 {
 }
 
@@ -21,9 +27,8 @@ std::wstring_view MainMenu::getName() { return ScreenName(); }
 
 void MainMenu::Init(const std::any& args)
 {
-    //Palette pal("another.hex");
-    //ChangeColorPalette(pal);
-    test.ringState = true;
+    // Palette pal("another.hex");
+    // ChangeColorPalette(pal);
 }
 
 AbstractScreen* MainMenu::Clone() const { return new MainMenu; }
@@ -37,6 +42,8 @@ AbstractNavigation::NavigationRes MainMenu::Update(
 
 void MainMenu::Draw(AbstractCanvas* canvas) const
 {
-    Font::DrawString(canvas, "Hello World", {0, 0});
+    if (test.IsHover(GetMousePos())) {
+        Font::DrawString(canvas, "Hello World", {0, 0});
+    }
     test.Draw(canvas);
 }

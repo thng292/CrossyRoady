@@ -1,9 +1,10 @@
 #pragma once
+#include "Button.h"
 #include "ConsoleGame.h"
-#include "Surface.h"
 
 class MainMenu : public ConsoleGame::AbstractScreen {
-    Surface test;
+    Button test;
+
    public:
     MainMenu();
     static const std::wstring_view ScreenName();

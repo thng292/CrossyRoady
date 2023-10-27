@@ -21,25 +21,19 @@ bool PointNotInTriangle(Vec2 pt, Vec2 v1, Vec2 v2, Vec2 v3)
     has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0);
     has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);
 
-    return !(has_neg && has_pos);
+    return (has_neg && has_pos);
 }
 
-bool Surface::IsHover(ConsoleGame::Vec2 mousePos)
+bool Surface::IsHover(ConsoleGame::Vec2 mousePos) const
 {
     int x = mousePos.x - props.pos.x;
     int y = mousePos.y - props.pos.y;
 
+    bool tmp1 = y >= props.size.height - props.cornerSize && x >= props.size.width - props.cornerSize + y;
+    bool tmp2 = y <= props.cornerSize && x <= props.cornerSize - y;
+
     return x >= 0 && y >= 0 && x <= props.size.width &&
-           y <= props.size.height &&
-           PointNotInTriangle(
-               {x, y}, {0, 0}, {0, props.cornerSize}, {props.cornerSize, 0}
-           ) &&
-           PointNotInTriangle(
-               {x, y},
-               {props.size.width - props.cornerSize, 0},
-               {0, props.size.height - props.cornerSize},
-               {props.cornerSize, 0}
-           );
+           y <= props.size.height && !tmp1 && !tmp2;
 }
 
 void Surface::Draw(ConsoleGame::AbstractCanvas* canvas) const

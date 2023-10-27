@@ -9,15 +9,13 @@ struct SurfaceArgs {
     bool hasBorder = false;
     ConsoleGame::Color background = ConsoleGame::Color::C_TRANSPARENT;
     ConsoleGame::Color border = ConsoleGame::Color::C_TRANSPARENT;
-    ConsoleGame::Color ring = ConsoleGame::Color::C_TRANSPARENT;
 };
 
 class Surface {
    public:
-    bool ringState = false;
     SurfaceArgs props;
 
     Surface(SurfaceArgs args);
-    bool IsHover(ConsoleGame::Vec2 mousePos);
+    bool IsHover(ConsoleGame::Vec2 mousePos) const;
     void Draw(ConsoleGame::AbstractCanvas* canvas) const;
 };
