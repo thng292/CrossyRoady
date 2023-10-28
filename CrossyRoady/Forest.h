@@ -8,9 +8,6 @@ class Forest : public ConsoleGame::AbstractScreen {
     const std::string_view backgroundSpritePath = "";
     const std::string_view palettePath = "";
     Character character;
-    // map data (sprite paths) => reads map data
-    //
-
    public:
     static const std::wstring_view ScreenName();
 
