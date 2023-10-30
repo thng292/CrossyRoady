@@ -20,7 +20,12 @@ class Rail {
 
     int getHeight() { return height; };
 
-    std::deque<int> getListMob() { return listMob; };
+    std::deque<int> getListMob() { 
+        std::deque<int> newList = listMob;
+        for (int i = 0; i < newList.size(); i++) {
+            newList[i] /= 600;
+        }
+        return newList; };
 
     Mob getMob() { return mob; };
 
@@ -34,7 +39,13 @@ class Rail {
 
     void setHeight(int Height) { height = Height; };
 
-    void setListMob(std::deque<int> ListMob) { listMob = ListMob; };
+    void setListMob(std::deque<int> ListMob) { 
+        
+        for (int i = 0; i < ListMob.size(); i++) {
+            ListMob[i] *= 600;
+        }
+        
+        listMob = ListMob; };
 
     void setMob(Mob mob0) { mob = mob0; };
 

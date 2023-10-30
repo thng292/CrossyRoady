@@ -18,7 +18,14 @@ class SafeZone {
 
     int getHeight() { return height; };
 
-    std::deque<int> getListBlock() { return listBlock; };
+    std::deque<int> getListBlock()
+    {
+        std::deque<int> newList = listBlock;
+        for (int i = 0; i < newList.size(); i++) {
+            newList[i] /= 600;
+        }
+        return newList;
+    };
 
     Block getBlock() { return block; };
 
@@ -28,7 +35,12 @@ class SafeZone {
 
     void setHeight(int Height) { height = Height; };
 
-    void setListBlock(std::deque<int> ListBlock) { listBlock = ListBlock; };
+    void setListBlock(std::deque<int> ListBlock) { 
+        for (int i = 0; i < ListBlock.size(); i++) {
+            ListBlock[i] *= 600;
+        }
+        listBlock = ListBlock;
+    };
 
     void setBlock(Block block0) { block = block0; };
 

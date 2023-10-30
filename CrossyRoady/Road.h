@@ -9,8 +9,8 @@ class Road {
     int height;
     std::deque<int> listMob;
     Mob mob;
-    bool direc;         
-    int velocity;           // Unit: (1/600)/frequency  (pixel/s)
+    bool direc;
+    int velocity;  // Unit: (1/600)/frequency  (pixel/s)
    public:
     Road(int Y, int Height, Mob mob0, bool Direc)
         : y(Y), height(Height), mob(mob0), direc(Direc){};
@@ -19,7 +19,14 @@ class Road {
 
     int getHeight() { return height; };
 
-    std::deque<int> getListMob() { return listMob; };
+    std::deque<int> getListMob()
+    {
+        std::deque<int> newList = listMob;
+        for (int i = 0; i < newList.size(); i++) {
+            newList[i] /= 600;
+        }
+        return newList;
+    };
 
     Mob getMob() { return mob; };
 
@@ -33,7 +40,14 @@ class Road {
 
     void setHeight(int Height) { height = Height; };
 
-    void setListMob(std::deque<int> ListMob) { listMob = ListMob; };
+    void setListMob(std::deque<int> ListMob)
+    {
+        for (int i = 0; i < ListMob.size(); i++) {
+            ListMob[i] *= 600;
+        }
+
+        listMob = ListMob;
+    };
 
     void setMob(Mob mob0) { mob = mob0; };
 
@@ -41,9 +55,11 @@ class Road {
 
     std::string className() { return "Road"; }
 
+    void Init();
+
     void createEntity();
 
-    void Init();
+    void deleteEntity();
 
     void updateCoord();
 };
