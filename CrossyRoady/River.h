@@ -8,8 +8,8 @@ class River {
     int height;
     std::deque<int> listLog;
     Log log;
-    bool direc;
-
+    bool direc;         
+    int velocity;  // Unit: (1/600)/frequency  (pixel/s)
    public:
     River(int Y, int Height, Log log0, bool Direc)
         : y(Y), height(Height), log(log0), direc(Direc){};
@@ -23,6 +23,10 @@ class River {
     Log getLog() { return log; };
 
     bool getDirec() { return direc; }
+
+    int getVelocity() { return velocity; }
+
+    void setVelocity(int Velocity) { velocity = Velocity; }
 
     void setY(int Y) { y = Y; };
 

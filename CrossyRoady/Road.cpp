@@ -1,38 +1,66 @@
 #include "Road.h"
 
-void Road::createEntity()
-{
-    if (direc) {
-        if (listMob.back() >= mob.getSize().width - 2) {
-            listMob.push_back(
-                listMob.back() -
-                (rand() %
-                 abs(ConsoleGame::_CONSOLE_WIDTH_ / 2 - mob.getSize().width))
-            );
-        }
-    } else {
-        if (listMob.back() <=
-            ConsoleGame::_CONSOLE_WIDTH_ - mob.getSize().width + 1) {
-            listMob.push_back(
-                listMob.back() +
-                (rand() %
-                 abs(ConsoleGame::_CONSOLE_WIDTH_ / 2 - mob.getSize().width))
-            );
-        }
-    }
-}
-
 void Road::Init()
 {
     if (direc) {
-        listMob.push_back(ConsoleGame::_CONSOLE_WIDTH_ - 1);
-        while (listMob.back() >= mob.getSize().width - 2) {
+        listMob.push_back(600 * (ConsoleGame::_CONSOLE_WIDTH_ - 1));
+        while (listMob.back() >= 600 * (mob.getSize().width - 2)) {
             createEntity();
         }
     } else {
         listMob.push_back(0);
         while (listMob.back() <=
-               ConsoleGame::_CONSOLE_WIDTH_ - mob.getSize().width + 1) {
+               600 * (ConsoleGame::_CONSOLE_WIDTH_ - mob.getSize().width + 1)) {
             createEntity();
         }
     }
+}
+
+void Road::createEntity()
+{
+    if (direc) {
+        if (listMob.back() >= 600 * (mob.getSize().width - 2)) {
+            listMob.push_back(
+                listMob.back() - (rand() % (ConsoleGame::_CONSOLE_WIDTH_ / 2) +
+                                  mob.getSize().width) *
+                                     600
+            );
+        }
+    } else {
+        if (listMob.back() <=
+            600 * (ConsoleGame::_CONSOLE_WIDTH_ - mob.getSize().width + 1)) {
+            listMob.push_back(
+                listMob.back() + (rand() % (ConsoleGame::_CONSOLE_WIDTH_ / 2) +
+                                  mob.getSize().width) *
+                                     600
+            );
+        }
+    }
+}
+
+void Road::deleteEntity()
+{
+    if (direc) {
+        if (listMob.front() >=
+            600 * (ConsoleGame::_CONSOLE_WIDTH_ - 1 + mob.getSize().width)) {
+            listMob.pop_front();
+        }
+    } else {
+        if (listMob.front() <=
+            600 * (0- mob.getSize().width)) {
+            listMob.pop_front();
+        }
+    }
+}
+
+void Road::updateCoord()
+{
+    for (int i = 0; i < listMob.size(); i++) {
+        listMob[i] += velocity;
+    }
+    createEntity();
+    deleteEntity();
+}
+
+
+

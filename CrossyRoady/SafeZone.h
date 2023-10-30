@@ -10,7 +10,6 @@ class SafeZone {
     std::deque<int> listBlock;
     Block block;
     bool direc;
-
    public:
     SafeZone(int Y, int Height, Block block0, bool Direc)
         : y(Y), height(Height), block(block0), direc(Direc){};

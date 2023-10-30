@@ -159,7 +159,6 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityAni.cpp" />
     <ClCompile Include="EntityStatic.cpp" />
-    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="Mob.cpp" />
     <ClCompile Include="Rail.cpp" />

@@ -10,6 +10,7 @@ class Rail {
     std::deque<int> listMob;
     Mob mob;
     bool direc;
+    int velocity;  // Unit: (1/600)/frequency  (pixel/s)
 
    public:
     Rail(int Y, int Height, Mob mob0, bool Direc)
@@ -25,6 +26,10 @@ class Rail {
 
     bool getDirec() { return direc; }
 
+    int getVelocity() { return velocity; }
+
+    void setVelocity(int Velocity) { velocity = Velocity; }
+
     void setY(int Y) { y = Y; };
 
     void setHeight(int Height) { height = Height; };
@@ -37,7 +42,11 @@ class Rail {
 
     std::string className() { return "Rail"; }
 
+    void Init();
+
     void createEntity();
 
-    void Init();
+    void deleteEntity();
+
+    void updateCoord();
 };
