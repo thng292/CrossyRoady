@@ -9,8 +9,8 @@ void Rail::createEntity()
                  i <= ConsoleGame::_CONSOLE_WIDTH_ / mob.getSize().width;
                  i++) {
                 listMob.push_back(
-                    dem - 4 * ConsoleGame::_CONSOLE_WIDTH_*600 -
-                    i * mob.getSize().width *600
+                    dem - 4 * ConsoleGame::_CONSOLE_WIDTH_ -
+                    i * mob.getSize().width 
                 );
             }
         }
@@ -21,8 +21,8 @@ void Rail::createEntity()
                  i <= ConsoleGame::_CONSOLE_WIDTH_ / mob.getSize().width;
                  i++) {
                 listMob.push_back(
-                    dem + 4 * ConsoleGame::_CONSOLE_WIDTH_ *600+
-                    i * mob.getSize().width*600
+                    dem + 4 * ConsoleGame::_CONSOLE_WIDTH_ +
+                    i * mob.getSize().width
                 );
             }
         }
@@ -44,7 +44,7 @@ void Rail::Init()
         for (int i = 0; i <= ConsoleGame::_CONSOLE_WIDTH_ / mob.getSize().width;
              i++) {
             listMob.push_back(
-                i * mob.getSize().width*600
+                i * mob.getSize().width
             );
         }
         createEntity();
@@ -56,7 +56,7 @@ void Rail::deleteEntity()
 {
     if (direc) {
         if (listMob.front() >=
-            600 * (ConsoleGame::_CONSOLE_WIDTH_ *2- 1 +3* mob.getSize().width)) {
+             (ConsoleGame::_CONSOLE_WIDTH_ *2- 1 +3* mob.getSize().width)) {
             for (int i = 0;
                  i <= ConsoleGame::_CONSOLE_WIDTH_ / mob.getSize().width;
                  i++) {
@@ -65,7 +65,7 @@ void Rail::deleteEntity()
         }
     } else {
         if (listMob.front() <=
-            600 * (0 - ConsoleGame::_CONSOLE_WIDTH_- 3*mob.getSize().width)) {
+             (0 - ConsoleGame::_CONSOLE_WIDTH_- 3*mob.getSize().width)) {
             for (int i = 0;
                  i <= ConsoleGame::_CONSOLE_WIDTH_ / mob.getSize().width;
                  i++) {
