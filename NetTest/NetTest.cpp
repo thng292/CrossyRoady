@@ -191,7 +191,7 @@ class BeginTest : public AbstractScreen {
         Font::DrawString(canvas, "1. Client", {10, 10});
         Font::DrawString(canvas, "2. Server", {10, 30});
         Font::DrawString(canvas, "Regain full heath", {10, 50});
-        Font::DrawString(canvas, "Regain full heath", {11, 65},1,1);
+        Font::DrawString(canvas, "Regain full heath", {11, 65}, 1, 1);
     }
 };
 

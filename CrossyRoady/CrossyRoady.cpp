@@ -3,6 +3,7 @@
 #include "CharaSelectScreen.h"
 #include "ConsoleGame.h"
 #include "MainMenu.h"
+#include "TestScreen.h"
 using namespace ConsoleGame;
 
 auto main() -> int
@@ -13,7 +14,7 @@ auto main() -> int
     // defer { LocalStorage::SaveToFile(); };
     auto game =
         std::make_unique<Game>(L"Crossy Roady", GetDisplayRefreshRate());
-    game->AddScreen(std::make_unique<MainMenu>());
-    game->Run(MainMenu::ScreenName());
+    game->AddScreen(std::make_unique<TestScreen>());
+    game->Run(TestScreen::ScreenName());
     return 0;
 }

@@ -172,6 +172,7 @@
     <ClCompile Include="CrossyRoady.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Setting.cpp" />
+    <ClCompile Include="TestScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ConsoleEngine\ConsoleEngine.vcxproj">
@@ -197,6 +198,7 @@
     <ClInclude Include="Forest.h" />
     <ClInclude Include="Setting.h" />
     <ClInclude Include="CharaSelectScreen.h" />
+    <ClInclude Include="TestScreen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
