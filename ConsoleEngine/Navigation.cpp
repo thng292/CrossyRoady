@@ -27,16 +27,6 @@ namespace ConsoleGame {
             .Payload = payload};
     }
 
-    AbstractNavigation::NavigationRes Navigation::NavigatePopup(
-        std::wstring_view screenName, std::any payload
-    ) const
-    {
-        return NavigationRes{
-            .ActionType = NavigationAction::NavigatePopup,
-            .ActionData = screenName,
-            .Payload = payload};
-    }
-
     AbstractNavigation::NavigationRes Navigation::PopBackTo(
         std::wstring_view screenName, std::any payload
     ) const

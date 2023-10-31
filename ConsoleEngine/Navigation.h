@@ -11,10 +11,6 @@ namespace ConsoleGame {
         NavigationRes Navigate(std::wstring_view screenName, std::any payload)
             const override;
 
-        NavigationRes NavigatePopup(
-            std::wstring_view screenName, std::any payload
-        ) const override;
-
         NavigationRes PopBackTo(std::wstring_view screenName, std::any payload)
             const override;
 

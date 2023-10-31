@@ -72,7 +72,7 @@ func ToConsoleColor(rgb color.RGBA) ConsoleColor {
 			return ConsoleColor(i)
 		}
 	}
-	return BLACK
+	panic(fmt.Sprintf("Unknown color: %v\n", rgb))
 }
 
 var filenameIn = ""
@@ -98,7 +98,6 @@ func main() {
 
 	if filePalette != "" {
 		LoadPalette(filePalette)
-		fmt.Println(consoleColorMap)
 	}
 
 	switch mode {
@@ -131,7 +130,7 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-		outFile, err := os.Create("out.anisprite")
+		outFile, err := os.Create(filenameOut)
 		if err != nil {
 			panic(err)
 		}
