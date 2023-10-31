@@ -273,13 +273,6 @@ namespace ConsoleGame {
                         );
                     }
                     break;
-                case AbstractNavigation::NavigationAction::NavigatePopup:
-                    if (screens.contains(navigationRes.ActionData)) {
-                        naviStack.emplace_back(
-                            screens[navigationRes.ActionData]->Clone(), true
-                        );
-                    }
-                    break;
                 case AbstractNavigation::NavigationAction::Exit:
                     return;
             }
