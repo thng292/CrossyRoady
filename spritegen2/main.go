@@ -72,7 +72,7 @@ func ToConsoleColor(rgb color.RGBA) ConsoleColor {
 			return ConsoleColor(i)
 		}
 	}
-	return BLACK
+	panic(fmt.Sprintf("Unknown color: %v\n", rgb))
 }
 
 var filenameIn = ""
@@ -98,7 +98,6 @@ func main() {
 
 	if filePalette != "" {
 		LoadPalette(filePalette)
-		fmt.Println(consoleColorMap)
 	}
 
 	switch mode {
@@ -131,7 +130,7 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-		outFile, err := os.Create("out.anisprite")
+		outFile, err := os.Create(filenameOut)
 		if err != nil {
 			panic(err)
 		}
@@ -280,8 +279,9 @@ func LoadPalette(filename string) {
 		}
 		tmp := scanner.Text()
 		r, _ := strconv.ParseUint(tmp[:2], 16, 8)
-		g, _ := strconv.ParseUint(tmp[:2], 16, 8)
-		b, _ := strconv.ParseUint(tmp[:2], 16, 8)
+		g, _ := strconv.ParseUint(tmp[2:4], 16, 8)
+		b, _ := strconv.ParseUint(tmp[4:6], 16, 8)
 		consoleColorMap[i] = color.RGBA{uint8(r), uint8(g), uint8(b), 255}
 	}
+	fmt.Println(consoleColorMap)
 }

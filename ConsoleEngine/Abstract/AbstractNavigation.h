@@ -9,7 +9,6 @@ namespace ConsoleGame {
         enum class NavigationAction : char {
             Back,
             Navigate,
-            NavigatePopup,
             PopBackTo,
             Exit,
             None,
@@ -26,10 +25,6 @@ namespace ConsoleGame {
         virtual NavigationRes Back(std::any payload = std::any()) const = 0;
 
         virtual NavigationRes Navigate(
-            std::wstring_view screenName, std::any payload = std::any()
-        ) const = 0;
-
-        virtual NavigationRes NavigatePopup(
             std::wstring_view screenName, std::any payload = std::any()
         ) const = 0;
 

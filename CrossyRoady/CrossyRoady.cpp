@@ -7,8 +7,8 @@ using namespace ConsoleGame;
 
 auto main() -> int
 {
-    Font::Load("test.font");
-    Font::Load("fontsm.font", 1);
+    Font::Load("resource/font/small.font");
+    Font::Load("resource/font/big.font", 1);
     // LocalStorage::LoadFromFile();
     // defer { LocalStorage::SaveToFile(); };
     auto game =
