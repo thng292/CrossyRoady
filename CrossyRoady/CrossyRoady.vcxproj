@@ -156,6 +156,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="StringRes.cpp" />
     <ClCompile Include="Surface.cpp" />
     <ClCompile Include="CharaSelectScreen.cpp" />
     <ClCompile Include="About.cpp" />
@@ -172,6 +173,7 @@
   <ItemGroup>
     <ClInclude Include="About.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="StringRes.h" />
     <ClInclude Include="Surface.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="CharactersInfo.h" />

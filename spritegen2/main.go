@@ -279,8 +279,9 @@ func LoadPalette(filename string) {
 		}
 		tmp := scanner.Text()
 		r, _ := strconv.ParseUint(tmp[:2], 16, 8)
-		g, _ := strconv.ParseUint(tmp[:2], 16, 8)
-		b, _ := strconv.ParseUint(tmp[:2], 16, 8)
+		g, _ := strconv.ParseUint(tmp[2:4], 16, 8)
+		b, _ := strconv.ParseUint(tmp[4:6], 16, 8)
 		consoleColorMap[i] = color.RGBA{uint8(r), uint8(g), uint8(b), 255}
 	}
+	fmt.Println(consoleColorMap)
 }
