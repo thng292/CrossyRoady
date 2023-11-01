@@ -37,6 +37,12 @@
     <Filter Include="Source Files\UIComponent">
       <UniqueIdentifier>{2d9fe8a9-241c-4901-8136-4fde898b1e29}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Game">
+      <UniqueIdentifier>{2bf8bff1-c416-4550-adae-54cc2c103a07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameImpl">
+      <UniqueIdentifier>{a4b794a7-fc0a-4a58-b512-41e0d838b61b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CrossyRoady.cpp">
@@ -66,6 +72,12 @@
     <ClCompile Include="StringRes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameMap.cpp">
+      <Filter>Source Files\LevelImpl</Filter>
+    </ClCompile>
+    <ClCompile Include="Road.cpp">
+      <Filter>Source Files\GameImpl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="About.h">
@@ -89,14 +101,23 @@
     <ClInclude Include="Character.h">
       <Filter>Header Files\CharHeader</Filter>
     </ClInclude>
-    <ClInclude Include="Forest.h">
-      <Filter>Header Files\LevelHeader</Filter>
-    </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>Header Files\UIComponent</Filter>
     </ClInclude>
     <ClInclude Include="StringRes.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMap.h">
+      <Filter>Header Files\LevelHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="Road.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Water.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Rail.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
