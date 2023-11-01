@@ -7,24 +7,24 @@
 class SafeZone {
     int y;
     int height;
-    std::deque<int> listBlock;
+    std::deque<double> listBlock;
     Block block;
     bool direc;
    public:
     SafeZone(int Y, int Height, Block block0, bool Direc)
-        : y(Y), height(Height), block(block0), direc(Direc){};
+        : y(Y),
+          height(Height),
+          block(block0),
+          direc(Direc){};
 
     int getY() { return y; };
 
     int getHeight() { return height; };
 
-    std::deque<int> getListBlock()
+    std::deque<double> getListBlock()
     {
-        std::deque<int> newList = listBlock;
-        for (int i = 0; i < newList.size(); i++) {
-            newList[i] /= 600;
-        }
-        return newList;
+        
+        return listBlock;
     };
 
     Block getBlock() { return block; };
@@ -35,10 +35,7 @@ class SafeZone {
 
     void setHeight(int Height) { height = Height; };
 
-    void setListBlock(std::deque<int> ListBlock) { 
-        for (int i = 0; i < ListBlock.size(); i++) {
-            ListBlock[i] *= 600;
-        }
+    void setListBlock(std::deque<double> ListBlock) {     
         listBlock = ListBlock;
     };
 
