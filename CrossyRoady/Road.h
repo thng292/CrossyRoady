@@ -10,9 +10,10 @@ class Road {
     std::deque<double> listMob;
     Mob mob;
     bool direc;
-    int velocity = 300;  // Unit: (1/600)/frequency  (pixel/s)
-    double velocity;  
+    double velocity = 1;
+
    public:
+    Road() = default;
     Road(int Y, int Height, Mob mob0, bool Direc)
         : y(Y), height(Height), mob(mob0), direc(Direc){};
 
@@ -20,10 +21,7 @@ class Road {
 
     int getHeight() { return height; };
 
-    std::deque<int> getListMob()
-    {
-        return listMob;
-    };
+    std::deque<double> getListMob() const { return listMob; };
 
     Mob getMob() { return mob; };
 
@@ -37,10 +35,7 @@ class Road {
 
     void setHeight(int Height) { height = Height; };
 
-    void setListMob(std::deque<double> ListMob)
-    {
-        listMob = ListMob;
-    };
+    void setListMob(std::deque<double> ListMob) { listMob = ListMob; };
 
     void setMob(Mob mob0) { mob = mob0; };
 

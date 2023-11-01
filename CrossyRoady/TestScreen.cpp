@@ -10,7 +10,6 @@ std::wstring_view TestScreen::getName() { return ScreenName(); }
 void TestScreen::Init(const std::any& args)
 {
     Mob mob;
-    mob.setSize(size);
     road.setY(poss.y);
     road.setMob(mob);
     road.setHeight(32);
@@ -35,7 +34,8 @@ void TestScreen::Draw(AbstractCanvas* canvas) const
     for (auto pos : listMob) {
         for (int i = 0; i < 5; ++i) {
             for (int j = 0; j < 5; ++j) {
-                if (pos > 0) (*canvas)[road.getY() + i][pos + j] = color;
+                int posInt = (int)pos;
+                if (posInt > 0) (*canvas)[road.getY() + i][posInt + j] = color;
             }
         }
     }
