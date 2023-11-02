@@ -157,6 +157,7 @@
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="GameMap.cpp" />
+    <ClCompile Include="MapForest.cpp" />
     <ClCompile Include="Road.cpp" />
     <ClCompile Include="StringRes.cpp" />
     <ClCompile Include="Surface.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="GameType.h" />
     <ClInclude Include="GameMap.h" />
+    <ClInclude Include="MapForest.h" />
     <ClInclude Include="Rail.h" />
     <ClInclude Include="Road.h" />
     <ClInclude Include="StringRes.h" />

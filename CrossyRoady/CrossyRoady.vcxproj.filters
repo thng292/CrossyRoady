@@ -78,6 +78,9 @@
     <ClCompile Include="Road.cpp">
       <Filter>Source Files\GameImpl</Filter>
     </ClCompile>
+    <ClCompile Include="MapForest.cpp">
+      <Filter>Source Files\LevelImpl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="About.h">
@@ -121,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="GameType.h">
       <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="MapForest.h">
+      <Filter>Header Files\LevelHeader</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
