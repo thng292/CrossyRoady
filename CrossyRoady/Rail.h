@@ -36,12 +36,7 @@ class Rail {
 
     void setHeight(int Height) { height = Height; };
 
-    void setListMob(std::deque<double> ListMob) { 
-        
-        for (int i = 0; i < ListMob.size(); i++) {
-            ListMob[i] *= 600;
-        }
-        
+    void setListMob(std::deque<double> ListMob) {              
         listMob = ListMob; };
 
     void setMob(Mob mob0) { mob = mob0; };

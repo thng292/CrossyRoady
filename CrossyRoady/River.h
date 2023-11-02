@@ -21,11 +21,7 @@ class River {
 
     std::deque<double> getListLog()
     {
-        std::deque<double> newList = listLog;
-        for (int i = 0; i < newList.size(); i++) {
-            newList[i] /= 600;
-        }
-        return newList;
+        return listLog;
     };
 
     Log getLog() { return log; };
@@ -42,9 +38,6 @@ class River {
 
     void setListLog(std::deque<double> ListLog)
     {
-        for (int i = 0; i < ListLog.size(); i++) {
-            ListLog[i] *= 600;
-        }
 
         listLog = ListLog;
     };
