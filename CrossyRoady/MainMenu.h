@@ -4,7 +4,7 @@
 
 class MainMenu : public ConsoleGame::AbstractScreen {
     Button test;
-    ConsoleGame::Sprite pre;
+    ConsoleGame::AniSprite pre;
     ConsoleGame::Palette prep;
 
    public:

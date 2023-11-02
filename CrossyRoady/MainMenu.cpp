@@ -26,12 +26,13 @@ MainMenu::MainMenu()
 const std::wstring_view MainMenu::ScreenName() { return L"Main menu"; }
 
 std::wstring_view MainMenu::getName() { return ScreenName(); }
-
+// spritegen2.exe ani -m ani -fps 5 -c .\bae.hex -o baeR.anisprite
 void MainMenu::Init(const std::any& args)
 {
-    prep.Load("resource/character/sana.hex");
+    prep.Load("resource/character/bae.hex");
     ChangeColorPalette(prep);
-    pre.Load("resource/character/back-1.sprite");
+    pre.Load("resource/character/baeR.anisprite");
+    pre.Play(true);
 }
 
 AbstractScreen* MainMenu::Clone() const { return new MainMenu; }
@@ -40,6 +41,7 @@ AbstractNavigation::NavigationRes MainMenu::Update(
     float deltaTime, const AbstractNavigation* navigation
 )
 {
+    pre.AutoUpdateFrame(deltaTime);
     return navigation->NoChange();
 }
 
@@ -47,8 +49,7 @@ void MainMenu::Draw(AbstractCanvas* canvas) const
 {
     /*if (test.IsHover(GetMousePos())) {
         Font::DrawString(canvas, "Hello World", {0, 0});
-    }
-    test.Draw(canvas);*/
+    } */
     pre.Paint(canvas, {0, 0});
     for (char i = 0; i < 16; i++) {
         Font::DrawString(canvas, "Test", {100, i * 9}, 1, 0, (Color)i);
