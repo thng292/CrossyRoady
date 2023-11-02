@@ -156,6 +156,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="GameMap.cpp" />
+    <ClCompile Include="Road.cpp" />
     <ClCompile Include="StringRes.cpp" />
     <ClCompile Include="Surface.cpp" />
     <ClCompile Include="CharaSelectScreen.cpp" />
@@ -173,14 +175,17 @@
   <ItemGroup>
     <ClInclude Include="About.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="GameMap.h" />
+    <ClInclude Include="Rail.h" />
+    <ClInclude Include="Road.h" />
     <ClInclude Include="StringRes.h" />
     <ClInclude Include="Surface.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="CharactersInfo.h" />
     <ClInclude Include="MainMenu.h" />
-    <ClInclude Include="Forest.h" />
     <ClInclude Include="Setting.h" />
     <ClInclude Include="CharaSelectScreen.h" />
+    <ClInclude Include="Water.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
