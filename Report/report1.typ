@@ -48,8 +48,7 @@
 
 
 #pagebreak()
-
-= Table of Contents
+#heading(numbering: none)[Mục lục]
 #outline(
     title: none,
     indent: true
@@ -59,7 +58,7 @@
 
 = Nhiệm vụ đã giao:
 
-== Tuần 1
+== Tuần 2
 
 #table(
     columns: (auto, auto, auto, auto, auto),
@@ -73,21 +72,21 @@
 )
 
 
-== Tuần 2
+== Tuần 3
 
 #table(
     columns: (auto, auto, auto, auto, auto),
     inset: 5pt,
     align: horizon,
     [*Thành viên*], [*Công Việc*], [*Yêu Cầu*], [*Thời gian*], [*Đánh giá*],
-    [Nguyễn Quang Thông], [Sửa các lỗi liên quan tới màn hình], [Màn hình phù hợp tới kích thược nhân vật, vừa di chuyển và update khung hình], [20-26/10], [Hoàn thành tốt],
+    [Nguyễn Quang Thông], [Sửa các lỗi liên quan tới màn hình], [Màn hình phù hợp tới kích thước nhân vật, vừa di chuyển và update màn hình], [20-26/10], [Hoàn thành tốt],
     [Võ Nhật Phước], [Thiết kế logic game], [Có sơ đồ ý tưởng về logic game], [20-26/10], [Hoàn thành tốt],
     [Nguyễn Anh Vũ], [Vẽ nhân vật, map, hiệu ứng của nhân vật, hoạt ảnh], [Đẹp, đúng kích thước được giao], [20-26/10], [Hoàn thành tốt],
     [Nguyễn Thế Quan], [Load font chữ lên màn hình], [In được lên màn hình với nhiều màu, đúng kích thước], [20-26/10], [Hoàn thành tốt],
 )
 
 
-== Tuần 3
+== Tuần 4
 
 #table(
     columns: (auto, auto, auto, auto, auto),
@@ -101,7 +100,12 @@
 )
 
 = Các tính năng đã hoàn thành:
-
+- Hình vẽ cho nhân vật
+- Đề ra các định dạng file nhị phân
+- Hoàn thành phần code để vẽ và quản lí màn hình
 
 = Kế hoạch cho tương lai:
-
+- Hoàn thành các menu: main menu, setting, pause,...
+- Thống nhất các âm thanh trong game
+- Hoàn thiện sơ bộ phần game
+- Vẽ UML cho các lớp sẽ sử dụng
