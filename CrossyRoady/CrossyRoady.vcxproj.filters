@@ -119,5 +119,8 @@
     <ClInclude Include="Rail.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
+    <ClInclude Include="GameType.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

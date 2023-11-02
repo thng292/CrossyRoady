@@ -175,6 +175,7 @@
   <ItemGroup>
     <ClInclude Include="About.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="GameType.h" />
     <ClInclude Include="GameMap.h" />
     <ClInclude Include="Rail.h" />
     <ClInclude Include="Road.h" />
