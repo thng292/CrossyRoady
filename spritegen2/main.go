@@ -118,8 +118,8 @@ func main() {
 			panic(err)
 		}
 		_ = os.Mkdir(filenameOut, os.ModeDir)
-		outfolder := "./" + strings.TrimFunc(filenameOut, IsOk) + "/"
-		infolder := "./" + strings.TrimFunc(filenameIn, IsOk) + "/"
+		outfolder := strings.TrimFunc(filenameOut, IsOk) + "/"
+		infolder := strings.TrimFunc(filenameIn, IsOk) + "/"
 		for _, file := range dir {
 			outfile := outfolder + file.Name()[:strings.LastIndex(file.Name(), ".")] + outputExtention
 			infile := infolder + file.Name()
@@ -136,7 +136,7 @@ func main() {
 		}
 		defer outFile.Close()
 
-		folder := "./" + strings.TrimFunc(filenameIn, IsOk) + "/"
+		folder := strings.TrimFunc(filenameIn, IsOk) + "/"
 		tmpImg, err := os.Open(folder + dir[0].Name())
 		if err != nil {
 			panic(err)
