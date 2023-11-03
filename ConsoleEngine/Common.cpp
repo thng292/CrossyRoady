@@ -4,12 +4,71 @@
 
 namespace ConsoleGame {
 
+    static const auto wind = GetConsoleWindow();
+
     bool ConsoleGame::IsKeyDown(int key)
     {
         return (GetAsyncKeyState(key) & (1 << 16)) &&
-               (GetConsoleWindow() == GetForegroundWindow());
+               (wind == GetForegroundWindow());
     }
 
+    bool IsKeyMeanUp()
+    {
+        return ((GetAsyncKeyState('W') | GetAsyncKeyState(VK_UP) |
+                 GetAsyncKeyState(VK_GAMEPAD_DPAD_UP) |
+                 GetAsyncKeyState(VK_GAMEPAD_LEFT_THUMBSTICK_UP)) &
+                (1 << 16)) &&
+               (wind == GetForegroundWindow());
+    }
+
+    bool IsKeyMeanDown()
+    {
+        return ((GetAsyncKeyState('S') | GetAsyncKeyState(VK_DOWN) |
+                 GetAsyncKeyState(VK_GAMEPAD_DPAD_DOWN) |
+                 GetAsyncKeyState(VK_GAMEPAD_LEFT_THUMBSTICK_DOWN)) &
+                (1 << 16)) &&
+               (wind == GetForegroundWindow());
+    }
+
+    bool IsKeyMeanLeft()
+    {
+        return ((GetAsyncKeyState('A') | GetAsyncKeyState(VK_LEFT) |
+                 GetAsyncKeyState(VK_GAMEPAD_DPAD_LEFT) |
+                 GetAsyncKeyState(VK_GAMEPAD_LEFT_THUMBSTICK_LEFT)) &
+                (1 << 16)) &&
+               (wind == GetForegroundWindow());
+    }
+
+    bool IsKeyMeanRight()
+    {
+        return ((GetAsyncKeyState('D') | GetAsyncKeyState(VK_RIGHT) |
+                 GetAsyncKeyState(VK_GAMEPAD_DPAD_RIGHT) |
+                 GetAsyncKeyState(VK_GAMEPAD_LEFT_THUMBSTICK_RIGHT)) &
+                (1 << 16)) &&
+               (wind == GetForegroundWindow());
+    }
+
+    bool IsKeyMeanSelect()
+    {
+        return ((GetAsyncKeyState(VK_RETURN) | GetAsyncKeyState('F') |
+                 GetAsyncKeyState(VK_GAMEPAD_A)) &
+                (1 << 16)) &&
+               (wind == GetForegroundWindow());
+    }
+
+    bool IsKeyMeanBack()
+    {
+        return ((GetAsyncKeyState('B') | GetAsyncKeyState(VK_GAMEPAD_B)) &
+                (1 << 16)) &&
+               (wind == GetForegroundWindow());
+    }
+
+    bool IsKeyMeanEscape()
+    {
+        return ((GetAsyncKeyState(VK_ESCAPE) | GetAsyncKeyState(VK_GAMEPAD_MENU)) &
+                (1 << 16)) &&
+               (wind == GetForegroundWindow());
+    }
     Vec2 getCanvasPixelSize(HWND hConsoleWindow)
     {
         RECT windowRect;
@@ -22,11 +81,10 @@ namespace ConsoleGame {
 
     Vec2 ConsoleGame::GetMousePos()
     {
-        static const HWND hConsoleWindow = GetConsoleWindow();
-        static const Vec2 pixSize = getCanvasPixelSize(hConsoleWindow);
+        static const Vec2 pixSize = getCanvasPixelSize(wind);
         POINT pos{0};
         GetCursorPos(&pos);
-        ScreenToClient(hConsoleWindow, &pos);
+        ScreenToClient(wind, &pos);
         return Vec2{.x = pos.x / pixSize.width, .y = pos.y / pixSize.height};
     }
 

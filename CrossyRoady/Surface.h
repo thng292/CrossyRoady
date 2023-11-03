@@ -15,6 +15,7 @@ class Surface {
    public:
     SurfaceArgs props;
 
+    Surface() = default;
     Surface(SurfaceArgs args);
     bool IsHover(ConsoleGame::Vec2 mousePos) const;
     void Draw(ConsoleGame::AbstractCanvas* canvas) const;

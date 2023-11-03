@@ -1,11 +1,22 @@
 #pragma once
+#include <array>
+
 #include "Button.h"
 #include "ConsoleGame.h"
 
 class MainMenu : public ConsoleGame::AbstractScreen {
-    Button test;
+    std::array<Button, 5> buttons;
     ConsoleGame::AniSprite pre;
     ConsoleGame::Palette prep;
+    static constexpr int gap = 5;
+    static constexpr ConsoleGame::Vec2 buttDim = {100, 18};
+    static constexpr ConsoleGame::Vec2 startPos = {
+        (384 - 100) / 2, 90};
+    uint8_t selected = 0;
+    uint8_t currentScr = 0;
+    float timePassed = 0;
+    static constexpr float buttonDelay = 1.0f/5;
+    bool lastIsUp = false;
 
    public:
     MainMenu();

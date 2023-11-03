@@ -60,6 +60,14 @@ namespace ConsoleGame {
     // Get KeyCode:
     // https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
     bool IsKeyDown(int keyCode);
+    bool IsKeyMeanUp();
+    bool IsKeyMeanDown();
+    bool IsKeyMeanLeft();
+    bool IsKeyMeanRight();
+    bool IsKeyMeanSelect();
+    bool IsKeyMeanEscape();
+    bool IsKeyMeanBack();
+
     Vec2 GetMousePos();
     int GetDisplayRefreshRate();
 
