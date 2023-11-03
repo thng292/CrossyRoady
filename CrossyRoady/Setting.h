@@ -14,6 +14,7 @@ class Setting : ConsoleGame::AbstractScreen {
     bool lastIsUp = false;
 
    public:
+    Setting();
     static const std::wstring_view ScreenName();
     std::wstring_view getName() override;
     void Init(const std::any& args) override;
