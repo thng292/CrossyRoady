@@ -29,6 +29,8 @@ namespace ConsoleGame {
         const AniSprite operator=(const AniSprite& other);
 
         Vec2 GetDim() const;
+        float GetFrameDuration();
+        void SetFrameDuration(float dur);
         const std::vector<Color>& GetData() const;
 
         void Play(bool repeat = false);

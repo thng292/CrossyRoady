@@ -34,6 +34,10 @@ namespace ConsoleGame {
 
     const std::vector<Color>& AniSprite::GetData() const { return data; }
 
+    float AniSprite::GetFrameDuration() { return frameDuration; }
+
+    void AniSprite::SetFrameDuration(float dur) { frameDuration = dur; }
+
     void AniSprite::Play(bool repeat)
     {
         playing = true;
@@ -87,10 +91,11 @@ namespace ConsoleGame {
             pY = 0;
         }
         int right = std::min(_CanvasSize.width, coord.x + dim.width);
-        int bottom = std::min(_CanvasSize.height, coord.y + dim.height);
+        int bottom =
+            std::min(_CanvasSize.height, coord.y + dim.height);
 
-        for (int i = top, tmpY = pY; i < bottom; i++, tmpY++) {
-            for (int j = left, tmpX = pX; j < right; j++, tmpX++) {
+        for (int i = top, tmpY = pY; tmpY < bottom; i++, tmpY++) {
+            for (int j = left, tmpX = pX; tmpX < right; j++, tmpX++) {
                 (*canvas)[tmpY][tmpX] = data[frameOffset + i * dim.width + j];
             }
         }
@@ -112,7 +117,6 @@ namespace ConsoleGame {
         if (!playing) {
             return;
         }
-        // timePassed += deltaTime * 2; somehow this work?????????????
         timePassed += deltaTime;
         playingFrame = timePassed / frameDuration;
         if (playingFrame >= totalFrame) {
