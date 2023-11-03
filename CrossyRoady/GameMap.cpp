@@ -1,20 +1,26 @@
-//#include "GameMap.h"
+// #include "GameMap.h"
 //
-//using namespace ConsoleGame;
+// using namespace ConsoleGame;
 //
-//const std::wstring_view GameMap::ScreenName() { return L"GameMap"; }
+// const std::wstring_view GameMap::ScreenName() { return L"GameMap"; }
 //
-//std::wstring_view GameMap::getName() { return ScreenName(); }
+// void GameMap::InitRoadPosList() {}
 //
-//void GameMap::Init(const std::any& args) {}
+// void GameMap::AddRoad() {}
 //
-//AbstractScreen* GameMap::Clone() const { return new GameMap; }
+// void GameMap::DeleteRoad() {}
 //
-//AbstractNavigation::NavigationRes GameMap::Update(
-//    float deltaTime, const AbstractNavigation* navigation
+// std::wstring_view GameMap::getName() { return ScreenName(); }
+//
+// void GameMap::Init(const std::any& args) {}
+//
+// AbstractScreen* GameMap::Clone() const { return new GameMap; }
+//
+// AbstractNavigation::NavigationRes GameMap::Update(
+//     float deltaTime, const AbstractNavigation* navigation
 //)
 //{
-//    return navigation->NoChange();
-//}
+//     return navigation->NoChange();
+// }
 //
-//void GameMap::Draw(AbstractCanvas* canvas) const {}
+// void GameMap::Draw(AbstractCanvas* canvas) const {}
