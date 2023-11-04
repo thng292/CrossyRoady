@@ -11,8 +11,8 @@ class Character {
     ConsoleGame::Vec2 coord, size = {.width = 32, .height = 32};
     int maxHealth, curHealth;
     GameType::CharaType _type;
-    double speed;
-    ConsoleGame::AniSprite& currentSprite;
+    double _speed;
+    ConsoleGame::AniSprite currentSprite;
     ConsoleGame::AniSprite leftSprite, upSprite, rightSprite, downSprite;
 
    public:
@@ -22,7 +22,7 @@ class Character {
     {
         coord = {.x = 50, .y = 50};
         maxHealth = GameType::CHARA_HEALTH[type];
-        speed = GameType::CHARA_SPEED[type];
+        _speed = GameType::CHARA_SPEED[type];
         curHealth = maxHealth;
         _type = type;
 
@@ -35,9 +35,39 @@ class Character {
         currentSprite = upSprite;
     };
 
-    void MoveLeft()
+    void MoveLeft(const double& distance)
     {
-        coord.x -= speed;
+        coord.x -= distance;
         currentSprite = leftSprite;
     };
+
+    void MoveRight(const double& distance)
+    {
+        coord.x += distance;
+        currentSprite = leftSprite;
+    };
+
+    void MoveUp(const double& distance)
+    {
+        coord.y -= distance;
+        currentSprite = upSprite;
+    };
+
+    void MoveDown(const double& distance)
+    {
+        coord.y += distance;
+        currentSprite = downSprite;
+    };
+
+    void SetCurHealth(int health) { curHealth = health; }
+
+    void SetMaxHealth(int health) { maxHealth = health; }
+
+    void SetSpeed(const double& speed) { _speed = speed; }
+
+    int GetCurHealth() const { return curHealth; }
+
+    int getMaxHealth() const { return maxHealth; }
+
+    int getSpeed() const { return _speed; }
 };

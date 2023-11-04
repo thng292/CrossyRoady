@@ -1,3 +1,1 @@
-// #include "MapForest.h"
-//
-// void MapForest::Init() { gameMap. }
+#include "MapForest.h"
