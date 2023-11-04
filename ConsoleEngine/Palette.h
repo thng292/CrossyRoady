@@ -21,7 +21,6 @@ namespace ConsoleGame {
         };
 
       private:
-        std::filesystem::path filePath;
         ColorPalette_t data;
       public:
         Palette() = default;

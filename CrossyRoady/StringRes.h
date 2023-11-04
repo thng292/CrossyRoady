@@ -8,6 +8,8 @@
 #define FONT_PATH "font/"
 #define MAP_PATH "map/"
 #define EXTRA_PATH "extra/"
+#define BGM_PATH "bgm/"
+#define SFX_PATH "sfx/"
 
 enum class StrRes : uint32_t {
     SinglePlayer,
@@ -18,8 +20,8 @@ enum class StrRes : uint32_t {
     Back,
     MusicToggle,
     SfxToggle,
-    On,
-    Off,
+    OnOpt,
+    OffOpt,
 };
 
 class StringRes {

@@ -1,0 +1,2 @@
+Music=On
+Sfx=On

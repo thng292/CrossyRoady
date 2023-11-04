@@ -11,8 +11,7 @@ namespace ConsoleGame {
        protected:
         std::vector<Color> data;
         Vec2 dim;
-        std::filesystem::path filePath;
-        float frameDuration;
+        float frameDuration = 0;
 
         uint32_t playingFrame = 0;
         uint32_t totalFrame = 0;
@@ -23,20 +22,17 @@ namespace ConsoleGame {
        public:
         AniSprite() = default;
         AniSprite(std::filesystem::path path);
-        AniSprite(const AniSprite&);
-        AniSprite(AniSprite&& other) noexcept;
-
-        const AniSprite operator=(const AniSprite& other);
 
         Vec2 GetDim() const;
         float GetFrameDuration();
         void SetFrameDuration(float dur);
         const std::vector<Color>& GetData() const;
 
+        void Load(std::filesystem::path path);
+        void Unload();
         void Play(bool repeat = false);
         bool IsPlaying() const;
         void Stop();
-        void Load(std::filesystem::path path);
         void Paint(AbstractCanvas* canvas, Vec2 coord) const;
         void ResetFrame();
         void AdvanceFrame();

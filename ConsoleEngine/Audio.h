@@ -5,16 +5,16 @@
 
 namespace ConsoleGame {
     class Audio {
-        std::filesystem::path audioFile;
         bool _isPlaying = false;
 
-        void Open();
        public:
+        Audio() = default;
         Audio(std::filesystem::path file);
 
         Audio(Audio&&) = delete;
         Audio(const Audio&) = delete;
 
+        void Open(std::filesystem::path file);
         bool IsPlaying();
         void Play(bool fromStart = true, bool repeat = false);
         void Pause();
@@ -24,4 +24,6 @@ namespace ConsoleGame {
         void ChangeSong(std::filesystem::path file);
         ~Audio();
     };
+
+    void PlayAndForget(std::filesystem::path path);
 }  // namespace ConsoleGame

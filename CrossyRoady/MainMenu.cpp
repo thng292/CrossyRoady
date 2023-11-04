@@ -5,7 +5,11 @@
 using namespace ConsoleGame;
 using namespace std::literals;
 
-MainMenu::MainMenu()
+const std::wstring_view MainMenu::ScreenName() { return L"Main menu"; }
+
+std::wstring_view MainMenu::getName() { return ScreenName(); }
+
+void MainMenu::Init(const std::any& args)
 {
     for (int i = 0, tmp = startPos.y; i < buttons.size();
          i++, tmp += buttDim.height + gap) {
@@ -27,17 +31,20 @@ MainMenu::MainMenu()
     buttons[2].ChangeText(StringRes::Get(StrRes::Progress));
     buttons[3].ChangeText(StringRes::Get(StrRes::Setting));
     buttons[4].ChangeText(StringRes::Get(StrRes::Exit));
+
+    sfxOpt = &LocalStorage::Get(StringRes::Get(StrRes::SfxToggle));
 }
 
-const std::wstring_view MainMenu::ScreenName() { return L"Main menu"; }
-
-std::wstring_view MainMenu::getName() { return ScreenName(); }
-
-// spritegen2.exe ani -m ani -fps 5 -c .\bae.hex -o baeR.anisprite
-void MainMenu::Init(const std::any& args)
+void MainMenu::Mount(const std::any& args)
 {
     Palette levelPalette(RESOURCE_PATH MAP_PATH "forest/forest.hex");
     ChangeColorPalette(levelPalette);
+    bgMusic.Open(RESOURCE_PATH BGM_PATH "menu.mp3");
+    hoverSfx.Open(RESOURCE_PATH SFX_PATH "select.wav");
+    if (LocalStorage::Get(StringRes::Get(StrRes::SfxToggle)) ==
+        StringRes::Get(StrRes::OnOpt)) {
+        bgMusic.Play(true, true);
+    }
 }
 
 AbstractScreen* MainMenu::Clone() const { return new MainMenu; }
@@ -70,10 +77,19 @@ AbstractNavigation::NavigationRes MainMenu::Update(
         }
     }
 
+    if (selected != lastSelected && *sfxOpt == StringRes::Get(StrRes::OnOpt)) {
+        hoverSfx.Play(true);
+        lastSelected = selected;
+    }
+
     if (IsKeyMeanSelect() || IsKeyDown(VK_LBUTTON)) {
+        if (*sfxOpt == StringRes::Get(StrRes::OnOpt)) {
+            PlayAndForget(RESOURCE_PATH SFX_PATH "select.wav");
+        }
         switch (selected) {
             case 4:
                 return navigation->Exit();
+                break;
         }
     }
 
@@ -95,4 +111,10 @@ void MainMenu::Draw(AbstractCanvas* canvas) const
     for (const auto& butt : buttons) {
         butt.Draw(canvas);
     }
+}
+
+void MainMenu::Unmount()
+{
+    bgMusic.Close();
+    hoverSfx.Close();
 }

@@ -8,10 +8,14 @@ namespace ConsoleGame {
     void LocalStorage::LoadFromFile(std::filesystem::path path)
     {
         std::ifstream in(path, std::ios::in);
+        if (in.fail()) {
+            std::filesystem::create_directories(path.remove_filename());
+            in.open(path, std::ios::in);
+        }
         std::string buff;
         while (1) {
             std::getline(in, buff);
-            if (in.eof()) {
+            if (in.eof() || in.fail()) {
                 break;
             }
             size_t eqPos = buff.find('=');
@@ -25,18 +29,25 @@ namespace ConsoleGame {
     void LocalStorage::SaveToFile(std::filesystem::path path)
     {
         std::ofstream out(path, std::ios::out);
+        if (out.fail()) {
+            std::filesystem::create_directories(path.remove_filename());
+            out.open(path, std::ios::out);
+        }
+
         for (const auto& iVal : data) {
             out << iVal.first << "=" << iVal.second << std::endl;
         }
     }
 
-    std::string LocalStorage::Get(const std::string_view& config)
+    std::string& LocalStorage::Get(const std::string_view& config)
     {
-        return data[config];
+        return data[config.data()];
     }
 
-    void LocalStorage::Set(const std::string_view& config, const std::string& value)
+    void LocalStorage::Set(
+        const std::string_view& config, const std::string& value
+    )
     {
-        data[config] = value;
+        data[config.data()] = value;
     }
 }  // namespace ConsoleGame

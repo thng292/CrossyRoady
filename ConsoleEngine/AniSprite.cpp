@@ -7,29 +7,6 @@ namespace ConsoleGame {
 
     AniSprite::AniSprite(std::filesystem::path path) { Load(path); }
 
-    AniSprite::AniSprite(const AniSprite& other) { *this = other; }
-
-    AniSprite::AniSprite(AniSprite&& other) noexcept
-    {
-        data = std::move(other.data);
-        dim = other.dim;
-        frameDuration = other.frameDuration;
-        playingFrame = other.playingFrame;
-        filePath = other.filePath;
-    }
-
-    const AniSprite AniSprite::operator=(const AniSprite& other)
-    {
-        data = other.data;
-        filePath = other.filePath;
-        timePassed = other.timePassed;
-        playing = other.playing;
-        playingFrame = other.playingFrame;
-        frameDuration = other.frameDuration;
-        dim = other.dim;
-        return other;
-    }
-
     Vec2 AniSprite::GetDim() const { return dim; }
 
     const std::vector<Color>& AniSprite::GetData() const { return data; }
@@ -50,7 +27,6 @@ namespace ConsoleGame {
 
     void AniSprite::Load(std::filesystem::path path)
     {
-        filePath = path;
         std::ifstream file(path, std::ios::in | std::ios::binary);
         uint16_t buff = 0;
         file.read((char*)&buff, sizeof(buff));
@@ -91,12 +67,15 @@ namespace ConsoleGame {
             pY = 0;
         }
         int right = std::min(_CanvasSize.width, coord.x + dim.width);
-        int bottom =
-            std::min(_CanvasSize.height, coord.y + dim.height);
+        int bottom = std::min(_CanvasSize.height, coord.y + dim.height);
 
         for (int i = top, tmpY = pY; tmpY < bottom; i++, tmpY++) {
             for (int j = left, tmpX = pX; tmpX < right; j++, tmpX++) {
-                (*canvas)[tmpY][tmpX] = data[frameOffset + i * dim.width + j];
+                if (data[frameOffset + i * dim.width + j] !=
+                    Color::C_TRANSPARENT) {
+                    (*canvas)[tmpY][tmpX] =
+                        data[frameOffset + i * dim.width + j];
+                }
             }
         }
     }
@@ -127,4 +106,6 @@ namespace ConsoleGame {
             }
         }
     }
+
+    void AniSprite::Unload() { data.clear(); }
 }  // namespace ConsoleGame

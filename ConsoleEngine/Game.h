@@ -11,16 +11,7 @@
 
 namespace ConsoleGame {
     class Game {
-        struct NavigationStackEntry {
-            std::unique_ptr<AbstractScreen> Screen;
-            bool IsPopup;
-
-            NavigationStackEntry(AbstractScreen* ptr, bool isPopup)
-                : Screen(ptr), IsPopup(isPopup)
-            {
-            }
-        };
-
+        using NavigationStackEntry = std::unique_ptr<AbstractScreen>;
         std::vector<NavigationStackEntry> naviStack;
         std::unordered_map<std::wstring_view, std::unique_ptr<AbstractScreen>>
             screens;

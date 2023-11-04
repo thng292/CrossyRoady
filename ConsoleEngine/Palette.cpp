@@ -8,7 +8,6 @@ namespace ConsoleGame {
 
     void Palette::Load(std::filesystem::path path)
     {
-        filePath = path;
         std::ifstream in(path, std::ios::in);
         uint8_t r, g, b;
         char hex[2] = {0};

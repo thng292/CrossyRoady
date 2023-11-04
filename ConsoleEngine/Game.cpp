@@ -139,7 +139,7 @@ namespace ConsoleGame {
         HANDLE hStdIn = GetStdHandle(STD_INPUT_HANDLE);
 
         naviStack.reserve(screens.size());
-        naviStack.emplace_back(screens[screenName]->Clone(), false);
+        naviStack.emplace_back(screens[screenName]->Clone());
         AbstractNavigation::NavigationRes navigationRes{
             .ActionType = AbstractNavigation::NavigationAction::None,
             .Payload = std::any()};
@@ -149,28 +149,12 @@ namespace ConsoleGame {
         defer { timeEndPeriod(1); };
 
         float deltaTime = 0;
-        bool redraw = false;
+        bool lastWasBack = false;
         using clock = std::chrono::steady_clock;
 
         auto DrawFunc = [&] {
             const auto& currentScreen = naviStack.back();
-            canvas.Clear();
-            if (redraw) {
-                const auto stackSize = naviStack.size() - 1;
-                auto i = stackSize;
-                while (naviStack[i].IsPopup) {
-                    i--;
-                }
-                for (; i < stackSize; i++) {
-                    naviStack[i].Screen->Draw(&canvas);
-                }
-                const auto& cbuff = canvas.ReadCanvas();
-                std::copy(cbuff.begin(), cbuff.end(), backup.begin());
-                redraw = false;
-            } else if (currentScreen.IsPopup) {
-                canvas.WriteCanvas(backup);
-            }
-            currentScreen.Screen->Draw(&canvas);
+            currentScreen->Draw(&canvas);
             canvas.DrawToScreen();
         };
 
@@ -199,12 +183,16 @@ namespace ConsoleGame {
 
         while (!naviStack.empty()) {
             const auto& currentScreen = naviStack.back();
-            currentScreen.Screen->Init(navigationRes.Payload);
+            if (lastWasBack) {
+                currentScreen->Mount(navigationRes.Payload);
+            } else {
+                currentScreen->Init(navigationRes.Payload);
+                currentScreen->Mount(std::any());
+            }
             navigationRes.ActionType =
                 AbstractNavigation::NavigationAction::None;
 
             auto start = clock::now();
-            // Navigation will be delay 1 frame
             while (navigationRes.ActionType ==
                    AbstractNavigation::NavigationAction::None) {
                 if constexpr (SHOW_FPS) {
@@ -216,7 +204,7 @@ namespace ConsoleGame {
                     );
                 }
 
-                navigationRes = currentScreen.Screen->Update(deltaTime, &navi);
+                navigationRes = currentScreen->Update(deltaTime, &navi);
 
 #ifdef _ENABLE_ASYNC_DRAW_
                 if constexpr (SHOULD_SKIP_FRAME) {
@@ -244,40 +232,43 @@ namespace ConsoleGame {
 
                 deltaTime = float((now - start).count()) / secondToNano;
                 start = now;
-            }
+            } // Out of screen's loop
 
 #ifdef _ENABLE_ASYNC_DRAW_
             startDrawSignal.WaitUntilJobDone();
 #endif
-            naviStack.back().Screen->Unmount();
+
+            naviStack.back()->Unmount();
             switch (navigationRes.ActionType) {
                 case AbstractNavigation::NavigationAction::Back:
                     naviStack.pop_back();
+                    lastWasBack = true;
                     break;
                 case AbstractNavigation::NavigationAction::PopBackTo:
                     for (auto it = naviStack.rbegin(), rend = naviStack.rend();
                          it != rend;
                          it++) {
-                        if (it->Screen->getName() == navigationRes.ActionData) {
+                        if ((*it)->getName() == navigationRes.ActionData) {
                             for (auto tmp = it.base(); tmp != naviStack.end();
                                  tmp++) {
                             }
                             naviStack.erase(it.base(), naviStack.end());
                         }
                     }
+                    lastWasBack = true;
                     break;
                 case AbstractNavigation::NavigationAction::Navigate:
                     if (screens.contains(navigationRes.ActionData)) {
                         naviStack.emplace_back(
-                            screens[navigationRes.ActionData]->Clone(), false
+                            screens[navigationRes.ActionData]->Clone()
                         );
                     }
+                    lastWasBack = false;
                     break;
                 case AbstractNavigation::NavigationAction::Exit:
                     return;
             }
-            naviStack.back().Screen->Mount(navigationRes.Payload);
-            redraw = naviStack.back().IsPopup;
+            naviStack.back()->Mount(navigationRes.Payload);
         }
     }
 
