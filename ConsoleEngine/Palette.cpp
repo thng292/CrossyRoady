@@ -26,6 +26,8 @@ namespace ConsoleGame {
 
     void Palette::LoadDefault() { data = _DefaultColorPalette; }
 
+    COLORREF& Palette::operator[](size_t index) { return data[index]; }
+
     COLORREF Palette::operator[](size_t index) const { return data[index]; }
 
     const Palette::ColorPalette_t& Palette::GetColorPalette() const
