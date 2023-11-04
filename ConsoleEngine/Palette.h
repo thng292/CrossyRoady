@@ -29,6 +29,7 @@ namespace ConsoleGame {
         void Load(std::filesystem::path path);
         void LoadDefault();
         const ColorPalette_t& GetColorPalette() const;
+        COLORREF& operator[](size_t index);
         COLORREF operator[](size_t index) const;
 
         friend void ChangeColorPalette(const Palette& palette);

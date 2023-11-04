@@ -70,8 +70,8 @@ void ConsoleGame::Sprite::Paint(AbstractCanvas* canvas, Vec2 coord) const
     int right = std::min(_CanvasSize.width, coord.x + dim.width);
     int bottom = std::min(_CanvasSize.height, coord.y + dim.height);
 
-    for (int i = top, tmpY = pY; i < bottom; i++, tmpY++) {
-        for (int j = left, tmpX = pX; j < right; j++, tmpX++) {
+    for (int i = top, tmpY = pY; tmpY < bottom; i++, tmpY++) {
+        for (int j = left, tmpX = pX; tmpX < right; j++, tmpX++) {
             (*canvas)[tmpY][tmpX] = data[i * dim.width + j];
         }
     }

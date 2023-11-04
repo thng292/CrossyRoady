@@ -13,6 +13,7 @@ class Button : private Surface {
     void calculateTextPos();
 
    public:
+    Button() = default;
     Button(
         SurfaceArgs surfaceArgs,
         const std::string_view& text,
