@@ -1,82 +1,70 @@
-// #include "Road.h"
-//
-// using namespace ConsoleGame;
-//
-// Road::Road(
-//     Vec2 mobSize,
-//     int mobType,
-//     double mobSpeed,
-//     AniSprite& anisprite,
-//     Sprite& roadSprite
-//)
-//     : mobSize(mobSize),
-//       mobType(mobType),
-//       mobSpeed(mobSpeed),
-//       anisprite(anisprite),
-//       roadSprite(roadSprite){};
-//
-// void Road::Init()
-//{
-//     isLeftToRight = rand() % 2;
-//     if (isLeftToRight) {
-//         mobPosList.push_back((ConsoleGame::_CONSOLE_WIDTH_ - 1));
-//         while (mobPosList.back() >= (mobSize.width - 2)) {
-//             CreateMob();
-//         }
-//     } else {
-//         mobPosList.push_back(0);
-//         while (mobPosList.back() <=
-//                (ConsoleGame::_CONSOLE_WIDTH_ - mobSize.width + 1)) {
-//             CreateMob();
-//         }
-//     }
-// }
-//
-// std::vector<double>& Road::GetPosList() { return mobPosList; }
-//
-// void Road::CreateMob()
-//{
-//     if (isLeftToRight) {
-//         if (mobPosList.back() >= (mobSize.width - 2)) {
-//             mobPosList.push_back(
-//                 mobPosList.back() -
-//                 (rand() % (ConsoleGame::_CONSOLE_WIDTH_ / 2) + mobSize.width)
-//             );
-//         }
-//     } else {
-//         if (mobPosList.back() <=
-//             (ConsoleGame::_CONSOLE_WIDTH_ - mobSize.width + 1)) {
-//             mobPosList.push_back(
-//                 mobPosList.back() +
-//                 (rand() % (ConsoleGame::_CONSOLE_WIDTH_ / 2) + mobSize.width)
-//             );
-//         }
-//     }
-// }
-//
-// void Road::DeleteMob()
-//{
-//     if (isLeftToRight) {
-//         if (mobPosList.front() >=
-//             (ConsoleGame::_CONSOLE_WIDTH_ - 1 + mobSize.width)) {
-//             mobPosList.erase(mobPosList.begin());
-//         }
-//     } else {
-//         if (mobPosList.front() <= (0 - mobSize.width)) {
-//             mobPosList.erase(mobPosList.begin());
-//         }
-//     }
-// }
-//
-// void Road::UpdatePos()
-//{
-//     for (int i = 0; i < mobPosList.size(); i++) {
-//         mobPosList[i] += mobSpeed;
-//     }
-//     DeleteMob();
-//     CreateMob();
-// }
-//
-// void Road::UpdateSprite() { anisprite.AdvanceFrame(); }
-//
-// void Road::DrawRoad() {}
+#include "Road.h"
+
+using namespace ConsoleGame;
+
+
+void Road::Init()
+{
+   /* isLeftToRight = rand() % 2;
+    if (isLeftToRight) {
+        mobPosList.push_back((ConsoleGame::_CONSOLE_WIDTH_ - 1));
+        while (mobPosList.back() >= (mobSize.width - 2)) {
+            CreateMob();
+        }
+    } else {
+        mobPosList.push_back(0);
+        while (mobPosList.back() <=
+               (ConsoleGame::_CONSOLE_WIDTH_ - mobSize.width + 1)) {
+            CreateMob();
+        }
+    }*/
+}
+
+std::vector<double>& Road::GetPosList() { return mobPosList; }
+
+void Road::CreateMob()
+{
+  /*  if (isLeftToRight) {
+        if (mobPosList.back() >= (mobSize.width - 2)) {
+            mobPosList.push_back(
+                mobPosList.back() -
+                (rand() % (ConsoleGame::_CONSOLE_WIDTH_ / 2) + mobSize.width)
+            );
+        }
+    } else {
+        if (mobPosList.back() <=
+            (ConsoleGame::_CONSOLE_WIDTH_ - mobSize.width + 1)) {
+            mobPosList.push_back(
+                mobPosList.back() +
+                (rand() % (ConsoleGame::_CONSOLE_WIDTH_ / 2) + mobSize.width)
+            );
+        }
+    }*/
+}
+
+void Road::DeleteMob()
+{
+   /* if (isLeftToRight) {
+        if (mobPosList.front() >=
+            (ConsoleGame::_CONSOLE_WIDTH_ - 1 + mobSize.width)) {
+            mobPosList.erase(mobPosList.begin());
+        }
+    } else {
+        if (mobPosList.front() <= (0 - mobSize.width)) {
+            mobPosList.erase(mobPosList.begin());
+        }
+    }*/
+}
+
+void Road::UpdatePos()
+{
+    /*for (int i = 0; i < mobPosList.size(); i++) {
+        mobPosList[i] += mobSpeed;
+    }
+    DeleteMob();
+    CreateMob();*/
+}
+
+void Road::UpdateSprite() { /*mobSprite.AdvanceFrame();*/ }
+
+void Road::DrawRoad() {}

@@ -78,8 +78,8 @@
     <ClCompile Include="Road.cpp">
       <Filter>Source Files\GameImpl</Filter>
     </ClCompile>
-    <ClCompile Include="MapForest.cpp">
-      <Filter>Source Files\LevelImpl</Filter>
+    <ClCompile Include="GameUtils.cpp">
+      <Filter>Header Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -125,8 +125,8 @@
     <ClInclude Include="GameType.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="MapForest.h">
-      <Filter>Header Files\LevelHeader</Filter>
+    <ClInclude Include="GameUtils.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
