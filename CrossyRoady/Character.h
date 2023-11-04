@@ -5,6 +5,7 @@
 
 #include "ConsoleGame.h"
 #include "GameType.h"
+#include "StringRes.h"
 
 class Character {
    private:
@@ -12,7 +13,7 @@ class Character {
     int maxHealth, curHealth;
     GameType::CharaType _type;
     double _speed;
-    ConsoleGame::AniSprite currentSprite;
+    ConsoleGame::AniSprite* currentSprite;
     ConsoleGame::AniSprite leftSprite, upSprite, rightSprite, downSprite;
 
    public:
@@ -27,37 +28,60 @@ class Character {
         _type = type;
 
         std::string_view charNameFile = GameType::CHARA_NAME_FILE[type];
-        leftSprite.Load(std::format("{}-left.anisprite", charNameFile));
-        rightSprite.Load(std::format("{}-right.anisprite", charNameFile));
-        upSprite.Load(std::format("{}-up.anisprite", charNameFile));
-        downSprite.Load(std::format("{}-down.anisprite", charNameFile));
+        leftSprite.Load(std::format(
+            "{}{}{}L.anisprite", RESOURCE_PATH, CHARACTER_PATH, charNameFile
+        ));
+        rightSprite.Load(std::format(
+            "{}{}{}R.anisprite", RESOURCE_PATH, CHARACTER_PATH, charNameFile
+        ));
+        upSprite.Load(std::format(
+            "{}{}{}B.anisprite", RESOURCE_PATH, CHARACTER_PATH, charNameFile
+        ));
+        downSprite.Load(std::format(
+            "{}{}{}F.anisprite", RESOURCE_PATH, CHARACTER_PATH, charNameFile
+        ));
 
-        currentSprite = upSprite;
+        leftSprite.Play(1);
+        rightSprite.Play(1);
+        upSprite.Play(1);
+        downSprite.Play(1);
+
+        currentSprite = &upSprite;
     };
 
-    void MoveLeft(const double& distance)
+    void MoveLeft(float deltaTime)
     {
-        coord.x -= distance;
-        currentSprite = leftSprite;
+        coord.x -= deltaTime * _speed;
+        currentSprite = &leftSprite;
+        currentSprite->AutoUpdateFrame(deltaTime);
     };
 
-    void MoveRight(const double& distance)
+    void MoveRight(float deltaTime)
     {
-        coord.x += distance;
-        currentSprite = leftSprite;
+        coord.x += deltaTime * _speed;
+        currentSprite = &rightSprite;
+        currentSprite->AutoUpdateFrame(deltaTime);
+        // currentSprite.AdvanceFrame();
     };
 
-    void MoveUp(const double& distance)
+    void MoveUp(float deltaTime)
     {
-        coord.y -= distance;
-        currentSprite = upSprite;
+        coord.y -= deltaTime * _speed;
+        currentSprite = &upSprite;
+        currentSprite->AutoUpdateFrame(deltaTime);
     };
 
-    void MoveDown(const double& distance)
+    void MoveDown(float deltaTime)
     {
-        coord.y += distance;
-        currentSprite = downSprite;
+        coord.y += deltaTime * _speed;
+        currentSprite = &downSprite;
+        currentSprite->AutoUpdateFrame(deltaTime);
     };
+
+    void Draw(ConsoleGame::AbstractCanvas*& canvas) const
+    {
+        currentSprite->Paint(canvas, coord);
+    }
 
     void SetCurHealth(int health) { curHealth = health; }
 

@@ -1,27 +1,22 @@
 #pragma once
 #include <functional>
+#include <queue>
 #include <vector>
 
 #include "Character.h"
 #include "ConsoleGame.h"
 #include "GameType.h"
+#include "GameUtils.h"
 #include "Road.h"
 
+using Debuff = std::function<void()>;
+
 class GameMap : public ConsoleGame::AbstractScreen {
-    Character gameChara;
     std::vector<Road> roadPosList;
-
-    ConsoleGame::Sprite roadSprite;
-    ConsoleGame::Sprite blockSprite;
-    ConsoleGame::Sprite logSprite;
-
-    GameType::MobSprite mobEasySprite;
-    GameType::MobSprite mobNormalSprite;
-    GameType::MobSprite mobHardSprite;
-
-    std::function<void()> debuff;
-
-    const std::wstring_view ScreenName();
+    std::queue<Debuff> debuffQueue;
+    GameType::GameMapData gameData;
+    GameType::GameMapSprites gameSprites;
+    Character character;
 
     // Inherited via AbstractScreen
     virtual std::wstring_view getName() override;
@@ -33,20 +28,13 @@ class GameMap : public ConsoleGame::AbstractScreen {
     virtual void Draw(ConsoleGame::AbstractCanvas* canvas) const override;
 
    public:
+    GameMap() = default;
+
+    GameMap(const GameType::GameMapData& gameData);
+
+    static const std::wstring_view ScreenName();
     void InitRoadPosList();
     void AddRoad();
     void DeleteRoad();
-
-    void SetMapArgs(const GameType::GameMapArgs& mapArgs)
-    {
-        roadSprite = mapArgs.roadSprite;
-        logSprite = mapArgs.logSprite;
-        blockSprite = mapArgs.blockSprite;
-
-        mobEasySprite = mapArgs.mobSpriteEasy;
-        mobNormalSprite = mapArgs.mobSpriteNormal;
-        mobHardSprite = mapArgs.mobSpriteHard;
-
-        gameChara.Init(mapArgs.charaType);
-    };
+    void HandlePlayerInput(float deltaTime);
 };
