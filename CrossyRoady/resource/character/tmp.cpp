@@ -57,7 +57,7 @@ auto main() -> int
                 data.resize((size_t)width * height * totalframe + headerSize);
                 in.read((char*)data.data(), data.size());
             }
-            data[8] = 5;
+            data[8] = 12;
             {
                 std::ofstream out(
                     entry.path(), std::ios::binary | std::ios::out
