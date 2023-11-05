@@ -1,23 +1,23 @@
 #pragma once
 #include "ConsoleGame.h"
-#include "Button.h"
-#include "Menu.h"
+#include "SubMenuCommon.h"
+#include "MainMenu.h"
 
-class Setting : ConsoleGame::AbstractScreen {
-    static constexpr ConsoleGame::Vec2 MenuStartPos = {0, 0};
-    static constexpr ConsoleGame::Vec2 ButtDim = {200, 19};
+class MainMenuWrapper : public ConsoleGame::AbstractScreen {
+    ConsoleGame::Audio bgMusic;
+    ConsoleGame::Audio hoverSfx;
 
-    Button title;
-    Menu<4> menu;
-    std::string* sfxOpt = nullptr;
-
+    SubMenu currentScr = SubMenu::MainMenu;
+    std::array<AbstractSubMenu*, 1> SubMenu;
    public:
     static const std::wstring_view ScreenName();
     std::wstring_view getName() override;
     void Init(const std::any& args) override;
+    void Mount(const std::any& args) override;
     ConsoleGame::AbstractScreen* Clone() const override;
     ConsoleGame::AbstractNavigation::NavigationRes Update(
         float deltaTime, const ConsoleGame::AbstractNavigation* navigation
     ) override;
     void Draw(ConsoleGame::AbstractCanvas* canvas) const override;
+    void Unmount() override;
 };

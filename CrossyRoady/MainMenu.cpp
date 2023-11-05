@@ -6,15 +6,8 @@ using namespace ConsoleGame;
 using namespace std::literals;
 using enum AbstractNavigation::NavigationAction;
 
-const std::wstring_view MainMenu::ScreenName() { return L"Main menu"; }
-
-std::wstring_view MainMenu::getName() { return ScreenName(); }
-
-void MainMenu::Init(const std::any& args)
+void MainMenu::Init()
 {
-    sfxOpt =
-        (std::string*)&LocalStorage::Get(StringRes::Get(StrRes::SfxToggle));
-
     menu.Init(
         startPos,
         buttDim,
@@ -27,26 +20,13 @@ void MainMenu::Init(const std::any& args)
     );
 }
 
-void MainMenu::Mount(const std::any& args)
-{
-    Palette levelPalette(RESOURCE_PATH MAP_PATH "forest/forest.hex");
-    Palette faunaPalette(RESOURCE_PATH CHARACTER_PATH "fauna.hex");
-    for (int i = 0; i < 6; i++) {
-        levelPalette[i] = faunaPalette[i];
-    }
-    ChangeColorPalette(levelPalette);
-    bgMusic.Open(RESOURCE_PATH BGM_PATH "menu.mp3");
-    hoverSfx.Open(RESOURCE_PATH SFX_PATH "select.wav");
-    if (LocalStorage::Get(StringRes::Get(StrRes::SfxToggle)) ==
-        StringRes::Get(StrRes::OnOpt)) {
-        bgMusic.Play(true, true);
-    }
-}
-
-AbstractScreen* MainMenu::Clone() const { return new MainMenu; }
+void MainMenu::Mount() {}
 
 AbstractNavigation::NavigationRes MainMenu::Update(
-    float deltaTime, const AbstractNavigation* navigation
+    float deltaTime,
+    const AbstractNavigation* navigation,
+    SubMenu& currentScreen
+
 )
 {
     AbstractNavigation::NavigationRes res = navigation->NoChange();
@@ -54,7 +34,7 @@ AbstractNavigation::NavigationRes MainMenu::Update(
         deltaTime,
         [&](uint8_t selected) noexcept {
             if (*sfxOpt == StringRes::Get(StrRes::OnOpt)) {
-                hoverSfx.Play();
+                hoverSfx->Play();
             }
         },
         [&](uint8_t selection) noexcept {
@@ -62,6 +42,9 @@ AbstractNavigation::NavigationRes MainMenu::Update(
                 PlayAndForget(RESOURCE_PATH SFX_PATH "select.wav");
             }
             switch (selection) {
+                case 3:
+                    currentScreen = SubMenu::Setting;
+                    break;
                 case 4:
                     res = navigation->Exit();
                     break;
@@ -78,8 +61,4 @@ void MainMenu::Draw(AbstractCanvas* canvas) const
     menu.Draw(canvas);
 }
 
-void MainMenu::Unmount()
-{
-    bgMusic.Close();
-    hoverSfx.Close();
-}
+void MainMenu::Unmount() {}

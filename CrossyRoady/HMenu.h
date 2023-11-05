@@ -1,5 +1,7 @@
 #pragma once
 
+#pragma once
+
 #include <concepts>
 #include <type_traits>
 
@@ -29,12 +31,12 @@ class Menu {
         std::array<const std::string_view, N> buttonLabels
     )
     {
-        for (int i = 0, tmp = startPos.y; i < buttons.size();
-             i++, tmp += buttonSize.height + gap) {
+        for (int i = 0, tmp = startPos.x; i < buttons.size();
+             i++, tmp += buttonSize.width + gap) {
             buttons[i] = Button(
                 {
                     .size = buttonSize,
-                    .pos = {startPos.x, tmp},
+                    .pos = {tmp, startPos.y},
                     .cornerSize = 5,
                     .hasBorder = true,
                     .background = (ConsoleGame::Color)14,

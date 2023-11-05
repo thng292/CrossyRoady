@@ -43,21 +43,15 @@
     <Filter Include="Source Files\GameImpl">
       <UniqueIdentifier>{a4b794a7-fc0a-4a58-b512-41e0d838b61b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\ScreenImpl\SubMenu">
+      <UniqueIdentifier>{386d3903-38d2-4746-85a6-219c197f7c50}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CrossyRoady.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="About.cpp">
-      <Filter>Source Files\ScreenImpl</Filter>
-    </ClCompile>
     <ClCompile Include="CharactersInfo.cpp">
-      <Filter>Source Files\ScreenImpl</Filter>
-    </ClCompile>
-    <ClCompile Include="MainMenu.cpp">
-      <Filter>Source Files\ScreenImpl</Filter>
-    </ClCompile>
-    <ClCompile Include="Setting.cpp">
       <Filter>Source Files\ScreenImpl</Filter>
     </ClCompile>
     <ClCompile Include="CharaSelectScreen.cpp">
@@ -84,11 +78,23 @@
     <ClCompile Include="Menu.cpp">
       <Filter>Source Files\UIComponent</Filter>
     </ClCompile>
+    <ClCompile Include="MainMenuWrapper.cpp">
+      <Filter>Source Files\ScreenImpl</Filter>
+    </ClCompile>
+    <ClCompile Include="HMenu.cpp">
+      <Filter>Source Files\UIComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Source Files\ScreenImpl\SubMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="Setting.cpp">
+      <Filter>Source Files\ScreenImpl\SubMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="SubMenuCommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="About.h">
-      <Filter>Header Files\ScreenHeader</Filter>
-    </ClInclude>
     <ClInclude Include="CharactersInfo.h">
       <Filter>Header Files\ScreenHeader</Filter>
     </ClInclude>
@@ -133,6 +139,15 @@
     </ClInclude>
     <ClInclude Include="Menu.h">
       <Filter>Header Files\UIComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="HMenu.h">
+      <Filter>Header Files\UIComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuWrapper.h">
+      <Filter>Header Files\ScreenHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="SubMenuCommon.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
