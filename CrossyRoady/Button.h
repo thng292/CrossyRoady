@@ -16,7 +16,7 @@ class Button : private Surface {
     Button() = default;
     Button(
         SurfaceArgs surfaceArgs,
-        const std::string_view& text,
+        const std::string_view text,
         ConsoleGame::Color textColor,
         uint8_t fontVariant = 0,
         uint8_t fontSize = 1
@@ -30,6 +30,6 @@ class Button : private Surface {
         ConsoleGame::Color backgroundColor,
         ConsoleGame::Color borderColor
     );
-    void ChangeText(const std::string_view& text);
+    void ChangeText(const std::string_view text);
     void Draw(ConsoleGame::AbstractCanvas* canvas) const;
 };

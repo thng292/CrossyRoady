@@ -4,6 +4,7 @@
 
 using namespace ConsoleGame;
 using namespace std::literals;
+using enum AbstractNavigation::NavigationAction;
 
 const std::wstring_view MainMenu::ScreenName() { return L"Main menu"; }
 
@@ -11,33 +12,28 @@ std::wstring_view MainMenu::getName() { return ScreenName(); }
 
 void MainMenu::Init(const std::any& args)
 {
-    for (int i = 0, tmp = startPos.y; i < buttons.size();
-         i++, tmp += buttDim.height + gap) {
-        buttons[i] = Button(
-            {
-                .size = buttDim,
-                .pos = {startPos.x, tmp},
-                .cornerSize = 5,
-                .hasBorder = true,
-                .background = (Color)14,
-                .border = (Color)13
-        },
-            StringRes::Get(StrRes::SinglePlayer),
-            (Color)13,
-            0
-        );
-    }
-    buttons[1].ChangeText(StringRes::Get(StrRes::TwoPlayer));
-    buttons[2].ChangeText(StringRes::Get(StrRes::Progress));
-    buttons[3].ChangeText(StringRes::Get(StrRes::Setting));
-    buttons[4].ChangeText(StringRes::Get(StrRes::Exit));
+    sfxOpt =
+        (std::string*)&LocalStorage::Get(StringRes::Get(StrRes::SfxToggle));
 
-    sfxOpt = &LocalStorage::Get(StringRes::Get(StrRes::SfxToggle));
+    menu.Init(
+        startPos,
+        buttDim,
+        std::array<const std::string_view, 5>{
+            StringRes::Get(StrRes::SinglePlayer),
+            StringRes::Get(StrRes::TwoPlayer),
+            StringRes::Get(StrRes::Progress),
+            StringRes::Get(StrRes::Setting),
+            StringRes::Get(StrRes::Exit)}
+    );
 }
 
 void MainMenu::Mount(const std::any& args)
 {
     Palette levelPalette(RESOURCE_PATH MAP_PATH "forest/forest.hex");
+    Palette faunaPalette(RESOURCE_PATH CHARACTER_PATH "fauna.hex");
+    for (int i = 0; i < 6; i++) {
+        levelPalette[i] = faunaPalette[i];
+    }
     ChangeColorPalette(levelPalette);
     bgMusic.Open(RESOURCE_PATH BGM_PATH "menu.mp3");
     hoverSfx.Open(RESOURCE_PATH SFX_PATH "select.wav");
@@ -53,64 +49,33 @@ AbstractNavigation::NavigationRes MainMenu::Update(
     float deltaTime, const AbstractNavigation* navigation
 )
 {
-    timePassed += deltaTime;
-    if (IsKeyMeanDown()) {
-        if (timePassed > buttonDelay || lastIsUp) {
-            lastIsUp = false;
-            timePassed = 0;
-            selected = (selected + 1 + buttons.size()) % buttons.size();
+    AbstractNavigation::NavigationRes res = navigation->NoChange();
+    menu.Update(
+        deltaTime,
+        [&](uint8_t selected) noexcept {
+            if (*sfxOpt == StringRes::Get(StrRes::OnOpt)) {
+                hoverSfx.Play();
+            }
+        },
+        [&](uint8_t selection) noexcept {
+            if (*sfxOpt == StringRes::Get(StrRes::OnOpt)) {
+                PlayAndForget(RESOURCE_PATH SFX_PATH "select.wav");
+            }
+            switch (selection) {
+                case 4:
+                    res = navigation->Exit();
+                    break;
+            }
         }
-    }
-    if (IsKeyMeanUp()) {
-        if (timePassed > buttonDelay || !lastIsUp) {
-            lastIsUp = true;
-            timePassed = 0;
-            selected = (selected - 1 + buttons.size()) % buttons.size();
-        }
-    }
-
-    auto mousePos = GetMousePos();
-
-    for (int i = 0; i < buttons.size(); i++) {
-        if (buttons[i].IsHover(mousePos)) {
-            selected = i;
-        }
-    }
-
-    if (selected != lastSelected && *sfxOpt == StringRes::Get(StrRes::OnOpt)) {
-        hoverSfx.Play(true);
-        lastSelected = selected;
-    }
-
-    if (IsKeyMeanSelect() || IsKeyDown(VK_LBUTTON)) {
-        if (*sfxOpt == StringRes::Get(StrRes::OnOpt)) {
-            PlayAndForget(RESOURCE_PATH SFX_PATH "select.wav");
-        }
-        switch (selected) {
-            case 4:
-                return navigation->Exit();
-                break;
-        }
-    }
-
-    for (int i = 0; i < buttons.size(); i++) {
-        if (selected == i) {
-            buttons[i].ChangeColor((Color)14, (Color)15, (Color)13);
-        } else {
-            buttons[i].ChangeColor((Color)13, (Color)14, (Color)13);
-        }
-    }
-
-    return navigation->NoChange();
+    );
+    return res;
 }
 
 void MainMenu::Draw(AbstractCanvas* canvas) const
 {
     canvas->Clear((Color)6);
     Font::DrawString(canvas, "Crossy Roady", {10, 10}, 3, 1, (Color)13);
-    for (const auto& butt : buttons) {
-        butt.Draw(canvas);
-    }
+    menu.Draw(canvas);
 }
 
 void MainMenu::Unmount()

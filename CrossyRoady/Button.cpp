@@ -4,7 +4,7 @@ using namespace ConsoleGame;
 
 Button::Button(
     SurfaceArgs surfaceArgs,
-    const std::string_view& text,
+    const std::string_view text,
     Color textColor,
     uint8_t fontVariant,
     uint8_t fontSize
@@ -47,7 +47,7 @@ void Button::ChangeColor(
     props.border = borderColor;
 }
 
-void Button::ChangeText(const std::string_view& text)
+void Button::ChangeText(const std::string_view text)
 {
     this->text = text;
     calculateTextPos();

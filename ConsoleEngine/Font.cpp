@@ -33,7 +33,7 @@ namespace ConsoleGame {
 
     void Font::DrawString(
         AbstractCanvas* canvas,
-        const std::string_view& str,
+        std::string_view str,
         Vec2 coord,
         uint8_t size,
         uint8_t variant,

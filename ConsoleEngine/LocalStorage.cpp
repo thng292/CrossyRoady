@@ -39,13 +39,13 @@ namespace ConsoleGame {
         }
     }
 
-    std::string& LocalStorage::Get(const std::string_view& config)
+    const std::string& LocalStorage::Get(const std::string_view config)
     {
         return data[config.data()];
     }
 
     void LocalStorage::Set(
-        const std::string_view& config, const std::string& value
+        const std::string_view config, const std::string& value
     )
     {
         data[config.data()] = value;
