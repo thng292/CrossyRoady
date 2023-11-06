@@ -20,7 +20,7 @@ namespace ConsoleGame {
         static void Load(std::filesystem::path path, uint8_t variant = 0);
         static void DrawString(
             AbstractCanvas* canvas,
-            const std::string_view& str,
+            std::string_view str,
             Vec2 coord,
             uint8_t size = 1,
             uint8_t variant = 0,

@@ -39,7 +39,7 @@ class StringRes {
     })};
 
    public:
-    static constexpr auto Get(StrRes res) -> const std::string_view&
+    static constexpr auto Get(StrRes res) -> const std::string_view
     {
         return resource[(uint32_t)res];
     };

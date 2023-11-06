@@ -81,6 +81,9 @@
     <ClCompile Include="GameUtils.cpp">
       <Filter>Header Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Source Files\UIComponent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="About.h">
@@ -127,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="GameUtils.h">
       <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Header Files\UIComponent</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
