@@ -8,9 +8,8 @@ void Lane::init()
             createEntity();
         }
     } else {
-        listMob.push_back(0);
-        while (listMob.back() <=
-               (ConsoleGame::_CONSOLE_WIDTH_ - mob.getSize().width + 1)) {
+        listMob.push_back(mob.getSize().width - 1);
+        while (listMob.back() <= ConsoleGame::_CONSOLE_WIDTH_) {
             createEntity();
         }
     }
@@ -24,8 +23,7 @@ void Lane::createEntity()
             listMob.push_back(listMob.back() - tmp - mob.getSize().width);
         }
     } else {
-        if (listMob.back() <=
-            (ConsoleGame::_CONSOLE_WIDTH_ - mob.getSize().width + 1)) {
+        if (listMob.back() <= ConsoleGame::_CONSOLE_WIDTH_) {
             listMob.push_back(
                 listMob.back() + (rand() % (ConsoleGame::_CONSOLE_WIDTH_ / 2) +
                                   mob.getSize().width)
@@ -42,7 +40,7 @@ void Lane::deleteEntity()
             listMob.pop_front();
         }
     } else {
-        if (listMob.front() <= (0 - mob.getSize().width)) {
+        if (listMob.front() <= -1) {
             listMob.pop_front();
         }
     }

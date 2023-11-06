@@ -16,11 +16,5 @@ class Road :public Lane{
 
     std::string className() { return "Road"; }
 
-    void init();
 
-    void createEntity();
-
-    void deleteEntity();
-
-    void updateCoord();
 };

@@ -1,7 +1,7 @@
 #pragma once
 #include "Lane.h"
 
-class SafeZone:public Lane {
+class SafeZone : public Lane {
    public:
     SafeZone() = default;
 
@@ -19,10 +19,7 @@ class SafeZone:public Lane {
 
     void createEntity();
 
-    void deleteEntity();
+    void deleteEntity(){};
 
-    void updateCoord();
+    void updateCoord(){};
 };
-
-
-

@@ -13,7 +13,7 @@ class Lane {
     double velocity = 1.0;
 
    public:
-    Lane()=default ;
+    Lane() = default;
     Lane(double Y, Mob mob0, bool Direc, double Velocity)
         : y(Y), mob(mob0), direc(Direc), velocity(Velocity){};
 

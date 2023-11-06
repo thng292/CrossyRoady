@@ -14,13 +14,5 @@ class River:public Lane {
     };
 
     std::string className() { return "River"; }
-
-    void init();
-
-    void createEntity();
-
-    void deleteEntity();
-
-    void updateCoord();
  
 };
