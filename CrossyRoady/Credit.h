@@ -1,9 +1,7 @@
 #pragma once
-#include <array>
 
 #include "Button.h"
 #include "ConsoleGame.h"
-#include "Menu.h"
 
 class Credit : public ConsoleGame::AbstractScreen {
     Button buttonTitle, buttonBack, buttonSurface;
