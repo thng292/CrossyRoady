@@ -8,7 +8,7 @@ namespace ConsoleGame {
 
     class AbstractGame {
        public:
-        virtual void Init() = 0;
+        virtual void init() = 0;
         virtual void Run(std::wstring_view screenName) = 0;
 
         virtual AbstractGame* AddScreen(std::unique_ptr<AbstractScreen>) = 0;

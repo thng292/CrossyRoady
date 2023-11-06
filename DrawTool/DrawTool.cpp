@@ -12,20 +12,20 @@ class DrawScreen : public AbstractScreen {
     void fill(Vec2 pos) {
         // BFS
         static constexpr Vec2 pp[] = { {1,0}, {-1,0}, {0,1}, {0, -1} };
-        auto InitialColor = board[pos.y][pos.x];
+        auto initialColor = board[pos.y][pos.x];
         std::queue<Vec2> queue;
         queue.push(pos);
         while (!queue.empty()) {
             auto p = queue.front();
             queue.pop();
-            if (board[p.y][p.x] != InitialColor || board[p.y][p.x] == currentColor) {
+            if (board[p.y][p.x] != initialColor || board[p.y][p.x] == currentColor) {
                 continue;
             }
             board[p.y][p.x] = currentColor;
             for (const auto& d : pp) {
                 auto u = p.x + d.x;
                 auto v = p.y + d.y;
-                if (u >= 0 && u < _CanvasSize.width && v >= 0 && v < _CanvasSize.height && board[v][u] == InitialColor) {
+                if (u >= 0 && u < _CanvasSize.width && v >= 0 && v < _CanvasSize.height && board[v][u] == initialColor) {
                     queue.push({ u, v });
                 }
             }
@@ -44,7 +44,7 @@ public:
     {
         return ScreenName();
     }
-    void Init(const std::any& args) override
+    void init(const std::any& args) override
     {
     }
 

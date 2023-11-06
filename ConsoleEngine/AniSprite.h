@@ -23,10 +23,6 @@ namespace ConsoleGame {
        public:
         AniSprite() = default;
         AniSprite(std::filesystem::path path);
-        AniSprite(const AniSprite&);
-        AniSprite(AniSprite&& other) noexcept;
-
-        const AniSprite operator=(const AniSprite& other);
 
         Vec2 GetDim() const;
         const std::vector<Color>& GetData() const;

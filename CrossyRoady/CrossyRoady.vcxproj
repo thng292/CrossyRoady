@@ -155,11 +155,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Block.cpp" />
-    <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="EntityAni.cpp" />
-    <ClCompile Include="EntityStatic.cpp" />
-    <ClCompile Include="Log.cpp" />
+    <ClCompile Include="Lane.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Mob.cpp" />
     <ClCompile Include="Rail.cpp" />
     <ClCompile Include="River.cpp" />
@@ -181,11 +178,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="About.h" />
-    <ClInclude Include="Block.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="EntityAni.h" />
-    <ClInclude Include="EntityStatic.h" />
-    <ClInclude Include="Log.h" />
+    <ClInclude Include="Lane.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="Mob.h" />
     <ClInclude Include="Rail.h" />
     <ClInclude Include="River.h" />

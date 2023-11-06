@@ -7,14 +7,14 @@ const std::wstring_view TestScreen::ScreenName() { return L"ScreenName"; }
 
 std::wstring_view TestScreen::getName() { return ScreenName(); }
 
-void TestScreen::Init(const std::any& args)
+void TestScreen::init(const std::any& args)
 {
     Mob mob;
     road.setY(poss.y);
     road.setMob(mob);
     road.setHeight(32);
     road.setDirec(1);
-    road.Init();
+    road.init();
 }
 
 AbstractScreen* TestScreen::Clone() const { return new TestScreen; }
@@ -35,7 +35,7 @@ void TestScreen::Draw(AbstractCanvas* canvas) const
         for (int i = 0; i < 5; ++i) {
             for (int j = 0; j < 5; ++j) {
                 int posInt = (int)pos;
-                if (posInt > 0) (*canvas)[road.getY() + i][posInt + j] = color;
+                if (posInt >= 0&& posInt<=ConsoleGame::_CONSOLE_WIDTH_-1) (*canvas)[road.getY() + i][posInt + j] = color;
             }
         }
     }

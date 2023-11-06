@@ -24,7 +24,7 @@ namespace ConsoleGame {
 
     void Signal::WaitUntilJobDone()
     {
-        std::unique_lock ulock(jobLock);
+        std::unique_lock ulock(jomob);
         jobCv.wait(ulock, [&] { return !jobRunning.load(); });
     }
 }  // namespace ConsoleGame

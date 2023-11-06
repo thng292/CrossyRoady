@@ -7,29 +7,6 @@ namespace ConsoleGame {
 
     AniSprite::AniSprite(std::filesystem::path path) { Load(path); }
 
-    AniSprite::AniSprite(const AniSprite& other) { *this = other; }
-
-    AniSprite::AniSprite(AniSprite&& other) noexcept
-    {
-        data = std::move(other.data);
-        dim = other.dim;
-        frameDuration = other.frameDuration;
-        playingFrame = other.playingFrame;
-        filePath = other.filePath;
-    }
-
-    const AniSprite AniSprite::operator=(const AniSprite& other)
-    {
-        data = other.data;
-        filePath = other.filePath;
-        timePassed = other.timePassed;
-        playing = other.playing;
-        playingFrame = other.playingFrame;
-        frameDuration = other.frameDuration;
-        dim = other.dim;
-        return other;
-    }
-
     Vec2 AniSprite::GetDim() const { return dim; }
 
     const std::vector<Color>& AniSprite::GetData() const { return data; }

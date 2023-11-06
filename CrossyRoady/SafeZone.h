@@ -1,51 +1,28 @@
 #pragma once
-#include <deque>
+#include "Lane.h"
 
-#include "Block.h"
-#include "ConsoleGame.h"
-
-class SafeZone {
-    int y;
-    int height;
-    std::deque<double> listBlock;
-    Block block;
-    bool direc;
+class SafeZone:public Lane {
    public:
-    SafeZone(int Y, int Height, Block block0, bool Direc)
-        : y(Y),
-          height(Height),
-          block(block0),
-          direc(Direc){};
+    SafeZone() = default;
 
-    int getY() { return y; };
-
-    int getHeight() { return height; };
-
-    std::deque<double> getListBlock()
+    SafeZone(double Y, Mob mob0, bool Direc, double Velocity)
     {
-        
-        return listBlock;
+        y = Y;
+        mob = mob0;
+        direc = Direc;
+        velocity = Velocity;
     };
-
-    Block getBlock() { return block; };
-
-    bool getDirec() { return direc; }
-
-    void setY(int Y) { y = Y; };
-
-    void setHeight(int Height) { height = Height; };
-
-    void setListBlock(std::deque<double> ListBlock) {     
-        listBlock = ListBlock;
-    };
-
-    void setBlock(Block block0) { block = block0; };
-
-    void setDirec(bool Direc) { direc = Direc; }
 
     std::string className() { return "SafeZone"; }
 
+    void init();
+
     void createEntity();
 
-    void Init();
+    void deleteEntity();
+
+    void updateCoord();
 };
+
+
+

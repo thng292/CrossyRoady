@@ -6,7 +6,7 @@ const std::wstring_view MainMenu::ScreenName() { return L"Main menu"; }
 
 std::wstring_view MainMenu::getName() { return ScreenName(); }
 
-void MainMenu::Init(const std::any& args)
+void MainMenu::init(const std::any& args)
 {
     Palette pal("another.hex");
     ChangeColorPalette(pal);

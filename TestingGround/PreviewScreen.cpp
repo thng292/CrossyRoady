@@ -13,7 +13,7 @@ std::wstring_view PreviewScreen::getName()
     return ScreenName();
 }
 
-void PreviewScreen::Init(const std::any& args)
+void PreviewScreen::init(const std::any& args)
 {
     preview.Load(fileName);
 }

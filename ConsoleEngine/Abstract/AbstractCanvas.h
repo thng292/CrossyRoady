@@ -12,7 +12,7 @@ namespace ConsoleGame {
         using CanvasBuffer_t =
             std::vector<Color>;
 
-        virtual void Init(HANDLE handleOut) = 0;
+        virtual void init(HANDLE handleOut) = 0;
         virtual Vec2 CanvasSize() const = 0;
         virtual const CanvasBuffer_t& ReadCanvas() const = 0;
         virtual void WriteCanvas(const CanvasBuffer_t buffer) = 0;

@@ -133,7 +133,7 @@ namespace ConsoleGame {
 
     void Game::Run(std::wstring_view screenName)
     {
-        canvas.Init(hGameScreen);
+        canvas.init(hGameScreen);
         canvas.Clear();
 
         HANDLE hStdIn = GetStdHandle(STD_INPUT_HANDLE);
@@ -199,7 +199,7 @@ namespace ConsoleGame {
 
         while (!naviStack.empty()) {
             const auto& currentScreen = naviStack.back();
-            currentScreen.Screen->Init(navigationRes.Payload);
+            currentScreen.Screen->init(navigationRes.Payload);
             navigationRes.ActionType =
                 AbstractNavigation::NavigationAction::None;
 

@@ -69,15 +69,6 @@
     <ClCompile Include="Mob.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Log.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Block.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
     <ClCompile Include="Road.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
@@ -87,17 +78,17 @@
     <ClCompile Include="River.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="EntityStatic.cpp">
-      <Filter>Source Files\Game</Filter>
+    <ClCompile Include="TestScreen.cpp">
+      <Filter>Source Files\ScreenImpl</Filter>
     </ClCompile>
-    <ClCompile Include="EntityAni.cpp">
+    <ClCompile Include="Map.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="Rail.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="TestScreen.cpp">
-      <Filter>Source Files\ScreenImpl</Filter>
+    <ClCompile Include="Lane.cpp">
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -128,15 +119,6 @@
     <ClInclude Include="Mob.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Log.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Block.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
     <ClInclude Include="Road.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
@@ -146,17 +128,17 @@
     <ClInclude Include="River.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="EntityStatic.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityAni.h">
-      <Filter>Header Files\Game</Filter>
+    <ClInclude Include="TestScreen.h">
+      <Filter>Source Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="Rail.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="TestScreen.h">
-      <Filter>Source Files\Game</Filter>
+    <ClInclude Include="Lane.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

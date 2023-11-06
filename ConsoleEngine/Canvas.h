@@ -13,7 +13,7 @@ namespace ConsoleGame {
 
         Canvas();
         // Inherited via AbstractCanvas
-        void Init(HANDLE handleOut) override;
+        void init(HANDLE handleOut) override;
         Vec2 CanvasSize() const override;
         const CanvasBuffer_t& ReadCanvas() const override;
         void WriteCanvas(const CanvasBuffer_t buffer) override;

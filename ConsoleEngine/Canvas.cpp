@@ -22,7 +22,7 @@ namespace ConsoleGame {
               _CanvasSize.width * _CanvasSize.height, Color::BRIGHT_WHITE
           ){};
 
-    void Canvas::Init(HANDLE handleOut)
+    void Canvas::init(HANDLE handleOut)
     {
         _handleOut = handleOut;
         DWORD charWritten = 0;
@@ -35,7 +35,7 @@ namespace ConsoleGame {
         );
         FillConsoleOutputCharacterW(
             _handleOut,
-            L'\u2584',  // Unicode Character "Lower Half block" (U+2584)
+            L'\u2584',  // Unicode Character "Lower Half mob" (U+2584)
             _ScreenSize.width * _ScreenSize.height,
             {0, 0},
             &charWritten

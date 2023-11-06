@@ -9,25 +9,6 @@ ConsoleGame::Sprite::Sprite(Vec2 dim)
 
 ConsoleGame::Sprite::Sprite(std::filesystem::path filePath) { Load(filePath); }
 
-ConsoleGame::Sprite::Sprite(const Sprite& other)
-{
-    dim = other.dim;
-    data = other.data;
-}
-
-ConsoleGame::Sprite::Sprite(Sprite&& other) noexcept
-{
-    dim = other.dim;
-    data = std::move(other.data);
-}
-
-const Sprite& ConsoleGame::Sprite::operator=(const Sprite& other)
-{
-    dim = other.dim;
-    data = other.data;
-    return *this;
-}
-
 void ConsoleGame::Sprite::Load(std::filesystem::path filePath)
 {
     openFile = filePath;

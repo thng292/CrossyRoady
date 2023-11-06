@@ -16,7 +16,7 @@ class Forest : public ConsoleGame::AbstractScreen {
 
     // Inherited via AbstractScreen
     std::wstring_view getName() override;
-    void Init(const std::any& args) override;
+    void init(const std::any& args) override;
     AbstractScreen* Clone() const override;
     ConsoleGame::AbstractNavigation::NavigationRes Update(
         float deltaTime, const ConsoleGame::AbstractNavigation* navigation

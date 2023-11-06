@@ -12,7 +12,7 @@ const std::wstring_view CharaSelectScreen::ScreenName()
 
 std::wstring_view CharaSelectScreen::getName() { return ScreenName(); }
 
-void CharaSelectScreen::Init(const std::any& args)
+void CharaSelectScreen::init(const std::any& args)
 {
     bg.Load(fileName);
     // black.Load(fileName1);

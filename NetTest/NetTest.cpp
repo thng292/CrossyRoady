@@ -48,7 +48,7 @@ class TestScreenServer : public AbstractScreen {
 
     std::wstring_view getName() override { return ScreenName(); }
 
-    void Init(const std::any& args) override
+    void init(const std::any& args) override
     {
         hostAddress = sockWrap.GetHostLocalIP();
         int err = sockWrap.Bind(std::string(PORT_STR));
@@ -115,7 +115,7 @@ class TestScreenClient : public AbstractScreen {
 
     std::wstring_view getName() override { return ScreenName(); }
 
-    void Init(const std::any& args) override
+    void init(const std::any& args) override
     {
         int err = sockWrap.Connect("127.0.0.1", std::string(PORT_STR));
         if (err != 0) {
@@ -169,7 +169,7 @@ class BeginTest : public AbstractScreen {
 
     std::wstring_view getName() override { return ScreenName(); }
 
-    void Init(const std::any& args) override {}
+    void init(const std::any& args) override {}
 
     AbstractScreen* Clone() const override { return new BeginTest; }
 

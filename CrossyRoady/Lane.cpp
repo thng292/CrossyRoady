@@ -1,6 +1,6 @@
-#include "Road.h"
+#include "Lane.h"
 
-void Road::init()
+void Lane::init()
 {
     if (direc) {
         listMob.push_back((ConsoleGame::_CONSOLE_WIDTH_ - 1));
@@ -16,7 +16,7 @@ void Road::init()
     }
 }
 
-void Road::createEntity()
+void Lane::createEntity()
 {
     if (direc) {
         if (listMob.back() >= (mob.getSize().width - 2)) {
@@ -34,7 +34,7 @@ void Road::createEntity()
     }
 }
 
-void Road::deleteEntity()
+void Lane::deleteEntity()
 {
     if (direc) {
         if (listMob.front() >=
@@ -48,7 +48,7 @@ void Road::deleteEntity()
     }
 }
 
-void Road::updateCoord()
+void Lane::updateCoord()
 {
     for (int i = 0; i < listMob.size(); i++) {
         listMob[i] += velocity;

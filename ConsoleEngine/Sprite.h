@@ -17,9 +17,6 @@ namespace ConsoleGame {
         Sprite() = default;
         Sprite(Vec2 dim);
         Sprite(std::filesystem::path filePath);
-        Sprite(const Sprite& other);
-        Sprite(Sprite&& other) noexcept;
-        const Sprite& operator=(const Sprite& other);
 
         void Load(std::filesystem::path filePath);
         void Save(std::filesystem::path filePath);
