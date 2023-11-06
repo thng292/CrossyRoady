@@ -1,5 +1,6 @@
 #pragma once
 #include <functional>
+#include <memory>
 #include <queue>
 #include <vector>
 
@@ -7,12 +8,13 @@
 #include "ConsoleGame.h"
 #include "GameType.h"
 #include "GameUtils.h"
+#include "Lane.h"
 #include "Road.h"
 
 using Debuff = std::function<void()>;
 
 class GameMap : public ConsoleGame::AbstractScreen {
-    std::vector<Road> roadPosList;
+    std::vector<std::unique_ptr<Lane>> laneList;
     std::queue<Debuff> debuffQueue;
     GameType::GameMapData gameData;
     GameType::GameMapSprites gameSprites;
@@ -27,14 +29,16 @@ class GameMap : public ConsoleGame::AbstractScreen {
     ) override;
     virtual void Draw(ConsoleGame::AbstractCanvas* canvas) const override;
 
+    virtual void Mount(const std::any& args) override;
+    void Unmount() override;
+
    public:
     GameMap() = default;
-
-    GameMap(const GameType::GameMapData& gameData);
 
     static const std::wstring_view ScreenName();
     void InitRoadPosList();
     void AddRoad();
     void DeleteRoad();
     void HandlePlayerInput(float deltaTime);
+    void SetGameMapData(const GameType::GameMapData& gmData);
 };

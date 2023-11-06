@@ -18,6 +18,8 @@ namespace GameType {
 
     enum SpriteType { ROAD, BLOCK, FLOAT };
 
+    enum LaneType { PATH, RAIL, WATER, SAFE };
+
     constexpr int CHARA_HEALTH[] = {3, 4, 3, 5, 5, 3};
     constexpr double CHARA_SPEED[] = {120, 120, 120, 120, 120, 120};
 

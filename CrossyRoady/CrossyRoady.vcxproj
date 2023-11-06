@@ -192,6 +192,7 @@
     <ClInclude Include="GameType.h" />
     <ClInclude Include="GameMap.h" />
     <ClInclude Include="GameUtils.h" />
+    <ClInclude Include="Lane.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Rail.h" />
     <ClInclude Include="Road.h" />

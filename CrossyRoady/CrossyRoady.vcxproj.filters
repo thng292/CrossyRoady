@@ -134,5 +134,8 @@
     <ClInclude Include="Menu.h">
       <Filter>Header Files\UIComponent</Filter>
     </ClInclude>
+    <ClInclude Include="Lane.h">
+      <Filter>Header Files\LevelHeader</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
