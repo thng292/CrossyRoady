@@ -94,26 +94,28 @@ class TabMenu {
         if (ConsoleGame::IsKeyMeanSelect()) {
             selected = hover;
             onTriggerCB(hover);
-        } else if (ConsoleGame::IsKeyDown(VK_LBUTTON) and hover >=0 and buttons[hover].IsHover(mousePos) and mouseCounter > buttonDelay) {
+        } else if (ConsoleGame::IsKeyDown(VK_LBUTTON) 
+            and hover >=0 and buttons[hover].IsHover(mousePos) 
+            and mouseCounter > buttonDelay) 
+        {
             mouseCounter = 0;
             selected = hover;
             onTriggerCB(hover);
         }
 
         for (int i = 0; i < buttons.size(); i++) {
-            if (hover == i) {
-                buttons[i].ChangeColor(
-                    (ConsoleGame::Color)14,
-                    (ConsoleGame::Color)15,
-                    (ConsoleGame::Color)13
-                );
-            } else if (selected == i) {
+            if (selected == i) {
                 buttons[i].ChangeColor(
                     (ConsoleGame::Color)14,
                     (ConsoleGame::Color)13,
                     (ConsoleGame::Color)13
                 );
-
+            } else if (hover == i) {
+                buttons[i].ChangeColor(
+                    (ConsoleGame::Color)14,
+                    (ConsoleGame::Color)15,
+                    (ConsoleGame::Color)13
+                );
             } else {
                 buttons[i].ChangeColor(
                     (ConsoleGame::Color)13,

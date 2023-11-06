@@ -11,54 +11,6 @@
 #define BGM_PATH "bgm/"
 #define SFX_PATH "sfx/"
 
-enum class StrRes : uint32_t {
-    SinglePlayer,
-    TwoPlayer,
-    Progress,
-    Setting,
-    Exit,
-    Back,
-    MusicToggle,
-    SfxToggle,
-    OnOpt,
-    OffOpt,
-
-    NameForest,
-    NameCity,
-    NameHouse,
-    NameDesert,
-    NameSpace,
-    NameCasino,
-
-    DebuffForest,
-    DebuffCity,
-    DebuffHouse,
-    DebuffDesert,
-    DebuffSpace,
-    DebuffCasino,
-
-    SkillFauna,
-    SkillIrys,
-    SkillMumei,
-    SkillKronii,
-    SkillSana,
-    SkillBae,
-
-    NameFauna,
-    NameIrys,
-    NameMumei,
-    NameKronii,
-    NameSana,
-    NameBae,
-
-    DescFauna,
-    DescIrys,
-    DescMumei,
-    DescKronii,
-    DescSana,
-    DescBae
-
-};
 struct StringResource {
     std::string_view Back = "Back";
 
@@ -105,64 +57,10 @@ struct StringResource {
 
     struct {
         std::string_view Title = "Exp";
+        std::string_view Level = "Level";
+        std::string_view TotalXP = "Total XP";
     } Exp;
 
-class StringRes {
-    static constexpr auto resource{std::to_array<const std::string_view>(
-        {"Single Player",
-         "Two Player",
-         "Progress",
-         "Setting",
-         "Exit",
-         "Back",
-         "Music",
-         "Sfx",
-         "On",
-         "Off",
-
-         "The Forest",
-         "The City",
-         "The Haunted House",
-         "The Desert",
-         "Space",
-         "The Casino",
-
-         "Removes one health whenever the character stops moving",
-         "Decreses the character's health to only one",
-         "Darkens the area around the character",
-         "Paralyzes the character's controls",
-         "Locks the character's skill until a threshold is passed",
-         "Randomly chooses a debuff from the other maps",
-
-         "Gains back full health and with two additional hearts",
-         "Tanks two hits without taking any damage",
-         "Becomes invincible and gains a speed boost",
-         "Stops every entity's movement",
-         "Removes any incoming/active debuff",
-         "Randomly chooses any skill, may confuses oneself",
-
-         "Ceres Fauna",
-         "Irys",
-         "Nanashi Mumei",
-         "Ouro Kronii",
-         "Tsukumo Sana",
-         "Hakos Baelz",
-
-         "The Keeper of Nature, a druidic kirin who materialized in the mortal "
-         "realm in a bid to save nature",
-         "A half-demon, half-angel also known as a Nephilim. She has arrived "
-         "to deliver hope and determination to the current era",
-         "The Guardian of Civilization, a traveling owl who has borne witness "
-         "to numerous events",
-         "The Speaker of Space, a concept unbridled by definition, and one "
-         "that continues to grow in scope limitlessly",
-         "The Warden of Time, the third concept birthed by the Gods and the "
-         "one most intrinsically linked with mankind",
-         "The very concept of Chaos, she believes that rules are not the "
-         "be-all and end-all, which is why she has come to break them all"
-
-        }
-    )};
     struct {
         std::string_view Title = "Characters";
     } CharInfo;
@@ -177,6 +75,97 @@ class StringRes {
         std::string_view OnOpt = "On";
         std::string_view OffOpt = "Off";
     } Config;
+
+    struct {
+        struct {
+            std::string_view Name = "Casino";
+            std::string_view Debuff =
+                "Randomly chooses a debuff from the other maps";
+        } Casino;
+
+        struct {
+            std::string_view Name = "City";
+            std::string_view Debuff =
+                "Decreses the character's health to only one";
+        } City;
+
+        struct {
+            std::string_view Name = "Dessert";
+            std::string_view Debuff = "Paralyzes the character's controls";
+        } Dessert;
+
+        struct {
+            std::string_view Name = "Forest";
+            std::string_view Debuff =
+                "Removes one health whenever the character stops moving";
+        } Forest;
+
+        struct {
+            std::string_view Name = "Haunted House";
+            std::string_view Debuff = "Darkens the area around the character";
+        } House;
+
+        struct {
+            std::string_view Name = "Space";
+            std::string_view Debuff =
+                "Locks the character's skill until a threshold is passed";
+        } Space;
+    } Map;
+
+    struct {
+        struct {
+            std::string_view Name = "Hakos Baelz";
+            std::string_view Skill =
+                "Randomly chooses any skill, may confuses oneself";
+            std::string_view Desc =
+                "The very concept of Chaos, she believes that rules are not "
+                "the be-all and end-all, which is why she has come to break "
+                "them all";
+        } Bae;
+
+        struct {
+            std::string_view Name = "Tsukumo Sana";
+            std::string_view Skill = "Removes any incoming/active debuff";
+            std::string_view Desc =
+                "The Warden of Time, the third concept birthed by the Gods and "
+                "the one most intrinsically linked with mankind";
+        } Sana;
+
+        struct {
+            std::string_view Name = "Irys";
+            std::string_view Skill = "Tanks two hits without taking any damage";
+            std::string_view Desc =
+                "A half-demon, half-angel also known as a Nephilim. She has "
+                "arrived to deliver hope and determination to the current era";
+        } Irys;
+
+        struct {
+            std::string_view Name = "Ceres Fauna";
+            std::string_view Skill =
+                "Gains back full health and with two additional hearts";
+            std::string_view Desc =
+                "The Keeper of Nature, a druidic kirin who materialized in the "
+                "mortal realm in a bid to save nature";
+        } Fauna;
+
+        struct {
+            std::string_view Name = "Nanashi Mumei";
+            std::string_view Skill =
+                "Becomes invincible and gains a speed boost";
+            std::string_view Desc =
+                "The Guardian of Civilization, a traveling owl who has borne "
+                "witness to numerous events";
+        } Mumei;
+
+        struct {
+            std::string_view Name = "Ouro Kronii";
+            std::string_view Skill = "Stops every entity's movement";
+            std::string_view Desc =
+                "The Speaker of Space, a concept unbridled by definition, and "
+                "one that continues to grow in scope limitlessly";
+        } Kronii;
+
+    } Character;
 };
 
 extern StringResource R;

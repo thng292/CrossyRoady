@@ -12,24 +12,9 @@ std::wstring_view Statistic::getName() { return ScreenName(); }
 void Statistic::Init(const std::any& args)
 {
     hoverSfx = std::any_cast<Audio*>(args);
-
-    titleButt = Button(
-        {
-            .size = {120,                           24},
-            .pos = {(_CanvasSize.width - 100) / 2, 40},
-            .cornerSize = 5,
-            .hasBorder = true,
-            .background = (Color)14,
-            .border = (Color)13
-    },
-        R.Statistic.Title,
-        (Color)13,
-        1
-    );
-
     surface.props = {
-        .size = {100,                           100                           },
-        .pos = {(_CanvasSize.width - 100) / 2, (_CanvasSize.height - 100) / 2},
+        .size = {284, 204},
+        .pos = {90,  10 },
         .cornerSize = 5,
         .hasBorder = true,
         .background = (Color)14,
@@ -43,12 +28,7 @@ AbstractNavigation::NavigationRes Statistic::Update(
     float deltaTime, const AbstractNavigation* navigation
 )
 {
-    auto res = navigation->NoChange();
-    return res;
+    return navigation->NoChange();
 }
 
-void Statistic::Draw(AbstractCanvas* canvas) const
-{
-    titleButt.Draw(canvas);
-    surface.Draw(canvas);
-}
+void Statistic::Draw(AbstractCanvas* canvas) const { surface.Draw(canvas); }

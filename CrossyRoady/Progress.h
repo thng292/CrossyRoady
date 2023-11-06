@@ -4,7 +4,6 @@
 #include "TabMenu.h"
 
 class Progress : public ConsoleGame::AbstractScreen {
-    Button title;
     TabMenu<4> menu;
 
     ConsoleGame::Audio* bgMusic;

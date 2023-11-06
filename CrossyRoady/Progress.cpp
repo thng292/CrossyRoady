@@ -19,22 +19,8 @@ void Progress::Init(const std::any& args)
     bgMusic = tmp.bgMusic;
     sfxOpt = (std::string*)&LocalStorage::Get(R.Config.SfxToggle);
 
-    title = Button(
-        {
-            .size = {80, 24},
-            .pos = {5,  5 },
-            .cornerSize = 5,
-            .hasBorder = true,
-            .background = (Color)14,
-            .border = (Color)13
-    },
-        R.Statistic.Title,
-        (Color)13,
-        1
-    );
-
     menu.Init(
-        {5, 30},
+        {5, 10},
         {80, 18},
         {R.Statistic.Title, R.Exp.Title, R.CharInfo.Title, R.Back}
     );

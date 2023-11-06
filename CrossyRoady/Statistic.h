@@ -1,16 +1,13 @@
 #pragma once
 #include "Button.h"
 #include "ConsoleGame.h"
-#include "Surface.h"
 #include "Menu.h"
 #include "MenuBG.h"
+#include "Surface.h"
 
 class Statistic : public ConsoleGame::AbstractScreen {
-    Button titleButt;
     Surface surface;
-
     ConsoleGame::Audio* hoverSfx;
-
     std::array<std::string, 5> data;
 
    public:

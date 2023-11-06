@@ -4,7 +4,9 @@
 #include "StringRes.h"
 
 class ExpScreen : public ConsoleGame::AbstractScreen {
+    Surface surface;
     ConsoleGame::Audio* hoverSfx;
+
    public:
     static const std::wstring_view ScreenName();
     std::wstring_view getName() override;
