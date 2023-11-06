@@ -4,22 +4,44 @@
 
 #include "ConsoleGame.h"
 #include "GameType.h"
+#include "Lane.h"
 
-class Road {
+class Road : public Lane {
    private:
-    std::vector<double> mobPosList;
-    GameType::MobData mobData;
-    GameType::RoadData roadData;
+    GameType::MobType _type;
+    ConsoleGame::Sprite _roadSprite;
+    ConsoleGame::AniSprite _mobSprite;
 
    public:
     Road() = default;
-    Road(const GameType::RoadData& roadData, const GameType::MobData& mobData)
-        : roadData(roadData), mobData(mobData){};
-    void Init();
-    std::vector<double>& GetPosList();
-    void CreateMob();
-    void DeleteMob();
-    void UpdatePos();
-    void UpdateSprite();
-    void DrawRoad();
+
+    Road(
+        int y,
+        int mobWidth,
+        int mobHeight,
+        GameType::MobType type,
+        const ConsoleGame::Sprite& roadSprite,
+        const ConsoleGame::AniSprite& mobSprite
+    )
+        : Lane(y, mobWidth, mobHeight, GameType::LaneType::PATH)
+    {
+        _type = type;
+        _roadSprite = roadSprite;
+        _mobSprite = mobSprite;
+    }
+
+    void UpdateSprite(float deltaTime)
+    {
+        _mobSprite.AutoUpdateFrame(deltaTime);
+    }
+
+    void Draw(ConsoleGame::AbstractCanvas* canvas) const override
+    {
+        // for (int i = 0; i < 384; i += 48) {
+        _roadSprite.Paint(canvas, {yPos, 0});
+        //}
+        for (auto x : entityList) {
+            _mobSprite.Paint(canvas, {yPos - 16, x});
+        }
+    }
 };

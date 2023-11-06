@@ -84,6 +84,9 @@
     <ClCompile Include="Menu.cpp">
       <Filter>Source Files\UIComponent</Filter>
     </ClCompile>
+    <ClCompile Include="Credit.cpp">
+      <Filter>Source Files\ScreenImpl</Filter>
+    </ClCompile>
     <ClCompile Include="Common.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -154,6 +157,12 @@
     </ClInclude>
     <ClInclude Include="Menu.h">
       <Filter>Header Files\UIComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Lane.h">
+      <Filter>Header Files\LevelHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="Credit.h">
+      <Filter>Header Files\ScreenHeader</Filter>
     </ClInclude>
     <ClInclude Include="Common.h">
       <Filter>Header Files</Filter>
