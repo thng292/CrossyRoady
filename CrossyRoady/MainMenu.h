@@ -1,21 +1,25 @@
 #pragma once
 #include <array>
+#include <memory>
 
 #include "Button.h"
 #include "ConsoleGame.h"
 #include "Menu.h"
+#include "MenuBG.h"
+#include "Common.h"
 
 class MainMenu : public ConsoleGame::AbstractScreen {
     static constexpr ConsoleGame::Vec2 buttDim = {100, 18};
     static constexpr ConsoleGame::Vec2 startPos = {(384 - 100) / 2, 90};
 
-    ConsoleGame::Palette prep;
     ConsoleGame::Audio bgMusic;
     ConsoleGame::Audio hoverSfx;
+    MenuBG bg;
+    SharedMenuStuff passArgs;
 
+    bool shouldCloseSharedResource = true;
     Menu<5> menu;
-    uint8_t currentScr = 0;
-    std::string* sfxOpt = nullptr;
+    std::string* sfxOpt;
 
    public:
     static const std::wstring_view ScreenName();

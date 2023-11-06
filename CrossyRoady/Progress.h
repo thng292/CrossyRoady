@@ -1,25 +1,19 @@
 #pragma once
-#include "Button.h"
 #include "ConsoleGame.h"
-#include "Menu.h"
 #include "MenuBG.h"
+#include "TabMenu.h"
 
-class Setting : public ConsoleGame::AbstractScreen {
-    static constexpr ConsoleGame::Vec2 buttDim = {150, 18};
-    static constexpr ConsoleGame::Vec2 startPos = {(384 - 150) / 2, 70};
-
+class Progress : public ConsoleGame::AbstractScreen {
     Button title;
-    Menu<5> menu;
-    std::string MusicTitle;
-    std::string SfxTitle;
-    std::string* sfxOpt;
+    TabMenu<4> menu;
 
     ConsoleGame::Audio* bgMusic;
     ConsoleGame::Audio* hoverSfx;
     MenuBG* bg;
 
-    void UpdateMusicTitle();
-    void UpdateSfxTitle();
+    std::string* sfxOpt;
+    std::array<std::unique_ptr<ConsoleGame::AbstractScreen>, 2> subScreen;
+    uint8_t oldSelected = 0;
 
    public:
     static const std::wstring_view ScreenName();
@@ -31,4 +25,5 @@ class Setting : public ConsoleGame::AbstractScreen {
         float deltaTime, const ConsoleGame::AbstractNavigation* navigation
     ) override;
     void Draw(ConsoleGame::AbstractCanvas* canvas) const override;
+    void Unmount() override;
 };

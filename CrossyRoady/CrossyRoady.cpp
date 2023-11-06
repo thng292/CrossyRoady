@@ -3,9 +3,11 @@
 #include "CharaSelectScreen.h"
 #include "ConsoleGame.h"
 #include "MainMenu.h"
+#include "Progress.h"
+#include "Setting.h"
 using namespace ConsoleGame;
 
-const char* configFilePath = "config.txt"; 
+const char* configFilePath = "config.txt";
 
 auto main() -> int
 {
@@ -16,6 +18,8 @@ auto main() -> int
     auto game =
         std::make_unique<Game>(L"Crossy Roady", GetDisplayRefreshRate());
     game->AddScreen(std::make_unique<MainMenu>());
+    game->AddScreen(std::make_unique<Setting>());
+    game->AddScreen(std::make_unique<Progress>());
     game->Run(MainMenu::ScreenName());
     return 0;
 }

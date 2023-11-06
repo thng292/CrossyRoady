@@ -11,36 +11,68 @@
 #define BGM_PATH "bgm/"
 #define SFX_PATH "sfx/"
 
-enum class StrRes : uint32_t {
-    SinglePlayer,
-    TwoPlayer,
-    Progress,
-    Setting,
-    Exit,
-    Back,
-    MusicToggle,
-    SfxToggle,
-    OnOpt,
-    OffOpt,
+struct StringResource {
+    std::string_view Back = "Back";
+
+    struct {
+        std::string_view Exit = "Exit";
+    } MainMenu;
+
+    struct {
+        std::string_view Title = "Single Player";
+    } SinglePlayer;
+
+    struct {
+        std::string_view Title = "Multi Player";
+    } MultiPlayer;
+
+    struct {
+        std::string_view Title = "Progress";
+    } Progress;
+
+    struct {
+        std::string_view Title = "Setting";
+        std::string_view Music = "Music";
+        std::string_view Sfx = "Sfx";
+        std::string_view OnOpt = "On";
+        std::string_view OffOpt = "Off";
+    } Setting;
+
+    struct {
+        std::string_view Title = "How to play";
+    } HowToPlay;
+
+    struct {
+        std::string_view Title = "Credit";
+    } Credit;
+
+    struct {
+        std::string_view Title = "Statistic";
+        std::string_view PlayTime = "Play Time";
+        std::string_view Deaths = "Deaths";
+        std::string_view CharUnlocked = "Character Unlocked";
+        std::string_view MapUnlocked = "Map Unlocked";
+        std::string_view Completion = "Completed";
+    } Statistic;
+
+    struct {
+        std::string_view Title = "Exp";
+    } Exp;
+
+    struct {
+        std::string_view Title = "Characters";
+    } CharInfo;
+
+    struct {
+        std::string_view PlayTime = "PlayTime";
+        std::string_view Deaths = "Deaths";
+        std::string_view CharUnlocked = "CharUnlocked";
+        std::string_view MapUnlocked = "MapUnlocked";
+        std::string_view MusicToggle = "Music";
+        std::string_view SfxToggle = "Sfx";
+        std::string_view OnOpt = "On";
+        std::string_view OffOpt = "Off";
+    } Config;
 };
 
-class StringRes {
-    static constexpr auto resource{std::to_array<const std::string_view>({
-        "Single Player",
-        "Two Player",
-        "Progress",
-        "Setting",
-        "Exit",
-        "Back",
-        "Music",
-        "Sfx",
-        "On",
-        "Off",
-    })};
-
-   public:
-    static constexpr auto Get(StrRes res) -> const std::string_view
-    {
-        return resource[(uint32_t)res];
-    };
-};
+extern StringResource R;

@@ -1,2 +1,2 @@
-Sfx=On
-Music=On
+Sfx=Off
+Music=Off
