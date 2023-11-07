@@ -41,4 +41,11 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void DeleteRoad();
     void HandlePlayerInput(float deltaTime);
     void SetGameMapData(const GameType::GameMapData& gmData);
+
+    void DrawFlat(ConsoleGame::AbstractCanvas* canvas) const;
+    void DrawEntity(ConsoleGame::AbstractCanvas* canvas) const;
+
+    void DrawHealth(ConsoleGame::AbstractCanvas* canvas) const;
+    void DrawSkill(ConsoleGame::AbstractCanvas* canvas) const;
+    void DrawDebuff(ConsoleGame::AbstractCanvas* canvas) const;
 };

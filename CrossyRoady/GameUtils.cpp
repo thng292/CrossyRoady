@@ -15,17 +15,34 @@ void GameUtils::LoadMobSprite(
     ));
 }
 
-void GameUtils::LoadStaticSprite(
+void GameUtils::LoadMapSprite(
     GameType::MapType mapType,
-    GameType::SpriteType spriteType,
-    ConsoleGame::Sprite& sprite
+    ConsoleGame::Sprite& sprite,
+    const std::string& src
+)
+{
+    sprite.Load(std::format("{}/{}.sprite", GetPathToMap(mapType), src));
+}
+
+void GameUtils::LoadCharaSprite(
+    GameType::CharaType charaType,
+    ConsoleGame::Sprite& sprite,
+    const std::string& src
 )
 {
     sprite.Load(std::format(
-        "{}/{}.sprite",
-        GetPathToMap(mapType),
-        GameType::SPRITE_NAME_FILE[spriteType]
+        "{}/{}-{}.sprite",
+        GetPathToChar(charaType),
+        GameType::CHARA_NAME_FILE[charaType],
+        src
     ));
+}
+
+void GameUtils::LoadExtraSprite(
+    ConsoleGame::Sprite& sprite, const std::string& src
+)
+{
+    sprite.Load(std::format("{}{}{}.sprite", RESOURCE_PATH, EXTRA_PATH, src));
 }
 
 ConsoleGame::Palette GameUtils::GetGamePalette(

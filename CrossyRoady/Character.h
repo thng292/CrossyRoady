@@ -12,7 +12,7 @@ class Character {
     ConsoleGame::Vec2 coord, size = {.width = 32, .height = 32};
     int maxHealth, curHealth;
     GameType::CharaType _type;
-    double _speed;
+    float _speed;
     ConsoleGame::AniSprite* currentSprite;
     ConsoleGame::AniSprite leftSprite, upSprite, rightSprite, downSprite;
 
@@ -24,6 +24,7 @@ class Character {
         coord = {.x = 50, .y = 50};
         maxHealth = GameType::CHARA_HEALTH[type];
         _speed = GameType::CHARA_SPEED[type];
+        _speed = 120;
         curHealth = maxHealth;
         _type = type;
 
@@ -41,6 +42,12 @@ class Character {
             "{}{}{}F.anisprite", RESOURCE_PATH, CHARACTER_PATH, charNameFile
         ));
 
+        float frameDur = 0.15f;
+        leftSprite.SetFrameDuration(frameDur);
+        leftSprite.SetFrameDuration(frameDur);
+        leftSprite.SetFrameDuration(frameDur);
+        leftSprite.SetFrameDuration(frameDur);
+
         leftSprite.Play(1);
         rightSprite.Play(1);
         upSprite.Play(1);
@@ -51,6 +58,7 @@ class Character {
 
     void MoveLeft(float deltaTime)
     {
+        float tmp = deltaTime * _speed;
         coord.x -= deltaTime * _speed;
         currentSprite = &leftSprite;
         currentSprite->AutoUpdateFrame(deltaTime);
@@ -58,6 +66,7 @@ class Character {
 
     void MoveRight(float deltaTime)
     {
+        float tmp = deltaTime * _speed;
         coord.x += deltaTime * _speed;
         currentSprite = &rightSprite;
         currentSprite->AutoUpdateFrame(deltaTime);
@@ -66,21 +75,21 @@ class Character {
 
     void MoveUp(float deltaTime)
     {
-        coord.y -= deltaTime * _speed;
+        coord.y += deltaTime * _speed;
         currentSprite = &upSprite;
         currentSprite->AutoUpdateFrame(deltaTime);
     };
 
     void MoveDown(float deltaTime)
     {
-        coord.y += deltaTime * _speed;
+        coord.y -= deltaTime * _speed;
         currentSprite = &downSprite;
         currentSprite->AutoUpdateFrame(deltaTime);
     };
 
     void Draw(ConsoleGame::AbstractCanvas*& canvas) const
     {
-        currentSprite->Paint(canvas, coord);
+        currentSprite->Paint(canvas, GetDrawCoord());
     }
 
     void SetCurHealth(int health) { curHealth = health; }
@@ -94,4 +103,22 @@ class Character {
     int getMaxHealth() const { return maxHealth; }
 
     int getSpeed() const { return _speed; }
+
+    ConsoleGame::Vec2 GetCoord() const { return coord; }
+
+    ConsoleGame::Vec2 GetCoordFeet() const
+    {
+        ConsoleGame::Vec2 feetCoord{
+            .x = coord.x,
+            .y = ConsoleGame::_CONSOLE_HEIGHT_ * 2 - coord.y +
+                 currentSprite->GetDim().height};
+        return feetCoord;
+    }
+
+    ConsoleGame::Vec2 GetDrawCoord() const
+    {
+        ConsoleGame::Vec2 drawCoord{
+            .x = coord.x, .y = ConsoleGame::_CONSOLE_HEIGHT_ * 2 - coord.y};
+        return drawCoord;
+    }
 };

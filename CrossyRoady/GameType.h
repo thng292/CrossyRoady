@@ -16,8 +16,6 @@ namespace GameType {
 
     enum MapMode { INF, NINF };
 
-    enum SpriteType { ROAD, BLOCK, FLOAT };
-
     enum LaneType { PATH, RAIL, WATER, SAFE };
 
     constexpr int CHARA_HEALTH[] = {3, 4, 3, 5, 5, 3};
@@ -31,7 +29,8 @@ namespace GameType {
 
     const std::string MOB_NAME_FILE[] = {"mob1", "mob2", "mob3"};
 
-    const std::string SPRITE_NAME_FILE[] = {"road", "block", "float"};
+    const std::string SPRITE_NAME_FILE[] = {
+        "road", "block", "float", "health", "skill", "debuff", "speed", "star"};
 
     struct MobData {
         MobType type;
@@ -51,8 +50,24 @@ namespace GameType {
     };
 
     struct GameMapSprites {
-        ConsoleGame::Sprite blockSprite, floatSprite, roadSprite;
-        MobSprite mobSpriteEasy, mobSpriteNormal, mobSpriteHard;
+        ConsoleGame::Sprite blockSprite;
+        ConsoleGame::Sprite floatSprite;
+        ConsoleGame::Sprite roadSprite;
+
+        ConsoleGame::Sprite emptyHealth;
+        ConsoleGame::Sprite health;
+        ConsoleGame::Sprite skill;
+        ConsoleGame::Sprite skillDebuff;
+
+        ConsoleGame::Sprite debuff;
+        ConsoleGame::Sprite debuffExtra;
+
+        ConsoleGame::Sprite itemSpeed;
+        ConsoleGame::Sprite itemStar;
+
+        MobSprite mobSpriteEasy;
+        MobSprite mobSpriteNormal;
+        MobSprite mobSpriteHard;
     };
 
     struct GameMapData {
