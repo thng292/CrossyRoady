@@ -9,7 +9,7 @@
 class Road : public Lane {
    private:
     GameType::MobType _type;
-    ConsoleGame::Sprite _roadSprite;
+    ConsoleGame::Sprite* _roadSprite;
     ConsoleGame::AniSprite _mobSprite;
 
    public:
@@ -20,14 +20,16 @@ class Road : public Lane {
         int mobWidth,
         int mobHeight,
         GameType::MobType type,
-        const ConsoleGame::Sprite& roadSprite,
+        ConsoleGame::Sprite& roadSprite,
         const ConsoleGame::AniSprite& mobSprite
     )
         : Lane(y, mobWidth, mobHeight, GameType::LaneType::PATH)
     {
         _type = type;
-        _roadSprite = roadSprite;
+        _roadSprite = &roadSprite;
         _mobSprite = mobSprite;
+        entityDrawY = laneDrawY + entityHeight / 2 + 5;
+        entityFeetY = entityDrawY + entityHeight;
     }
 
     void UpdateSprite(float deltaTime)
@@ -35,13 +37,24 @@ class Road : public Lane {
         _mobSprite.AutoUpdateFrame(deltaTime);
     }
 
-    void Draw(ConsoleGame::AbstractCanvas* canvas) const override
+    void DrawLane(ConsoleGame::AbstractCanvas* canvas) const override
     {
-        // for (int i = 0; i < 384; i += 48) {
-        _roadSprite.Paint(canvas, {yPos, 0});
-        //}
-        for (auto x : entityList) {
-            _mobSprite.Paint(canvas, {yPos - 16, x});
+        for (int i = 0; i < ConsoleGame::_CONSOLE_WIDTH_; i += 32) {
+            _roadSprite->Paint(canvas, {i, laneDrawY});
         }
+    }
+
+    void DrawEntity(ConsoleGame::AbstractCanvas* canvas) const override
+    {
+        for (auto x : entityList) {
+            _mobSprite.Paint(canvas, {x, entityDrawY});
+        }
+    }
+
+    int GetHeight() const override
+    {
+        return std::max(
+            _roadSprite->GetDim().height, _mobSprite.GetDim().height
+        );
     }
 };

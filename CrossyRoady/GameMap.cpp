@@ -38,14 +38,6 @@ AbstractNavigation::NavigationRes GameMap::Update(
     return navigation->NoChange();
 }
 
-void GameMap::Draw(AbstractCanvas* canvas) const
-{
-    character.Draw(canvas);
-    for (size_t i = 0; i < laneList.size(); ++i) {
-        laneList[i]->Draw(canvas);
-    }
-}
-
 void GameMap::Mount(const std::any& args)
 {
     /*const GameType::GameMapData& gameDataArg =
@@ -65,15 +57,15 @@ void GameMap::Mount(const std::any& args)
     );
     LoadMobSprite(gameData.mapType, MobType::HARD, gameSprites.mobSpriteHard);
 
-    LoadStaticSprite(
-        gameData.mapType, SpriteType::BLOCK, gameSprites.blockSprite
-    );
-    LoadStaticSprite(
-        gameData.mapType, SpriteType::FLOAT, gameSprites.floatSprite
-    );
-    LoadStaticSprite(
-        gameData.mapType, SpriteType::ROAD, gameSprites.roadSprite
-    );
+    LoadMapSprite(gameData.mapType, gameSprites.blockSprite, "block");
+    LoadMapSprite(gameData.mapType, gameSprites.floatSprite, "float");
+    LoadMapSprite(gameData.mapType, gameSprites.roadSprite, "road");
+    LoadMapSprite(gameData.mapType, gameSprites.debuff, "debuff");
+
+    LoadExtraSprite(gameSprites.emptyHealth, "health-empty");
+
+    LoadCharaSprite(gameData.charaType, gameSprites.health, "health");
+    LoadCharaSprite(gameData.charaType, gameSprites.skill, "skill");
 
     ChangeColorPalette(GetGamePalette(gameData.mapType, gameData.charaType));
 
@@ -109,4 +101,78 @@ void GameMap::SetGameMapData(const GameType::GameMapData& gmData)
     gameData.mapType = gmData.mapType;
     gameData.charaType = gmData.charaType;
     gameData.mapMode = gmData.mapMode;
+}
+
+void GameMap::DrawFlat(ConsoleGame::AbstractCanvas* canvas) const
+{
+    auto laneListEnd = laneList.end();
+    int screenHeight = _CONSOLE_HEIGHT_ * 2;
+    for (auto it = laneList.begin(); it != laneListEnd; ++it) {
+        Lane* lane = it->get();
+        if (lane->GetY() < screenHeight) {
+            lane->DrawLane(canvas);
+        }
+    }
+}
+
+void GameMap::Draw(AbstractCanvas* canvas) const
+{
+    DrawFlat(canvas);
+    DrawEntity(canvas);
+
+    DrawHealth(canvas);
+    DrawSkill(canvas);
+    DrawDebuff(canvas);
+}
+
+void GameMap::DrawEntity(ConsoleGame::AbstractCanvas* canvas) const
+{
+    auto laneListEnd = laneList.rend();
+    bool charaDrawn = false;
+    int charFeetY = character.GetCoordFeet().y;
+    int screenHeight = _CONSOLE_HEIGHT_ * 2;
+    int offset = 5;
+
+    for (auto it = laneList.rbegin(); it != laneListEnd; ++it) {
+        Lane* lane = it->get();
+        if (lane->GetY() < screenHeight) {
+            if (!charaDrawn) {
+                if (charFeetY < lane->GetEntityFeetY() + offset) {
+                    character.Draw(canvas);
+                    charaDrawn = true;
+                }
+            }
+            lane->DrawEntity(canvas);
+        }
+    }
+}
+
+void GameMap::DrawHealth(AbstractCanvas* canvas) const
+{
+    Vec2 coord{.x = 5, .y = 4};
+    size_t maxHealth = character.getMaxHealth();
+    size_t curHealth = character.GetCurHealth();
+    size_t margin = 0;
+    size_t space = 9 + margin;
+    for (size_t i = 0; i < maxHealth; ++i) {
+        gameSprites.emptyHealth.Paint(canvas, coord);
+        coord.x += space;
+    }
+    coord.x = 5;
+    for (size_t i = 0; i < curHealth; ++i) {
+        gameSprites.health.Paint(canvas, coord);
+        coord.x += space;
+    }
+}
+
+void GameMap::DrawSkill(ConsoleGame::AbstractCanvas* canvas) const
+{
+    Vec2 coord{.x = 3, .y = 12};
+    gameSprites.skill.Paint(canvas, coord);
+}
+
+void GameMap::DrawDebuff(ConsoleGame::AbstractCanvas* canvas) const
+{
+    Vec2 coord{.x = ConsoleGame::_CONSOLE_WIDTH_ - 21, .y = 4};
+    gameSprites.debuff.Paint(canvas, coord);
 }

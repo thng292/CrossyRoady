@@ -5,12 +5,15 @@
 
 class Lane {
    protected:
-    int yPos;
-    int entityHeight;
+    int laneY;
+    int laneDrawY;
     GameType::LaneType _type;
 
     std::deque<int> entityList;
     int entityWidth;
+    int entityHeight;
+    int entityDrawY;
+    int entityFeetY;
 
     bool IsLeftToRight;
     int speed = 120.0f;
@@ -61,7 +64,8 @@ class Lane {
     {
         entityWidth = width;
         entityHeight = height;
-        yPos = y;
+        laneY = y;
+        laneDrawY = ConsoleGame::_CONSOLE_HEIGHT_ * 2 - laneY;
         IsLeftToRight = 1;
         _type = type;
         Init();
@@ -76,5 +80,13 @@ class Lane {
         DeleteEntity();
     }
 
-    virtual void Draw(ConsoleGame::AbstractCanvas* canvas) const = 0;
+    int GetY() const { return laneY; }
+
+    int GetEntityFeetY() const { return entityFeetY; }
+
+    int GetDrawY() const { return laneDrawY; }
+
+    virtual void DrawLane(ConsoleGame::AbstractCanvas* canvas) const = 0;
+    virtual void DrawEntity(ConsoleGame::AbstractCanvas* canvas) const = 0;
+    virtual int GetHeight() const = 0;
 };
