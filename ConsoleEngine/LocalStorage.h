@@ -13,9 +13,8 @@ namespace ConsoleGame {
         static void LoadFromFile(std::filesystem::path path);
         static void SaveToFile(std::filesystem::path path);
         static const std::string& Get(const std::string_view config);
-        static void Set(
-            const std::string_view config, const std::string& value
-        );
+        static void Set(const std::string_view config, std::string value);
+        static void Set(const std::string_view config, std::string_view value);
     };
 
 }  // namespace ConsoleGame

@@ -1,6 +1,7 @@
 BasedOnStyle: Google    
 AlignAfterOpenBracket: BlockIndent
 AlignArrayOfStructures: Left
+AlignConsecutiveAssignments: AcrossEmptyLinesAndComments
 BinPackArguments: false
 BinPackParameters: false
 BreakBeforeBraces: WebKit

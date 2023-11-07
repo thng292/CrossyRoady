@@ -169,10 +169,15 @@
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Credit.cpp" />
+    <ClCompile Include="Common.cpp" />
+    <ClCompile Include="ExpScreen.cpp" />
     <ClCompile Include="GameMap.cpp" />
     <ClCompile Include="GameUtils.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Progress.cpp" />
     <ClCompile Include="Road.cpp" />
+    <ClCompile Include="MenuBG.cpp" />
+    <ClCompile Include="Statistic.cpp" />
     <ClCompile Include="StringRes.cpp" />
     <ClCompile Include="Surface.cpp" />
     <ClCompile Include="CharaSelectScreen.cpp" />
@@ -181,6 +186,8 @@
     <ClCompile Include="CrossyRoady.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Setting.cpp" />
+    <ClCompile Include="TabMenu.cpp" />
+    <ClCompile Include="TimePlayedTracker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ConsoleEngine\ConsoleEngine.vcxproj">
@@ -191,13 +198,18 @@
     <ClInclude Include="About.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Credit.h" />
+    <ClInclude Include="Common.h" />
+    <ClInclude Include="ExpScreen.h" />
     <ClInclude Include="GameType.h" />
     <ClInclude Include="GameMap.h" />
     <ClInclude Include="GameUtils.h" />
     <ClInclude Include="Lane.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="Progress.h" />
     <ClInclude Include="Rail.h" />
     <ClInclude Include="Road.h" />
+    <ClInclude Include="MenuBG.h" />
+    <ClInclude Include="Statistic.h" />
     <ClInclude Include="StringRes.h" />
     <ClInclude Include="Surface.h" />
     <ClInclude Include="Character.h" />
@@ -205,6 +217,8 @@
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Setting.h" />
     <ClInclude Include="CharaSelectScreen.h" />
+    <ClInclude Include="TabMenu.h" />
+    <ClInclude Include="TimePlayedTracker.h" />
     <ClInclude Include="Water.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

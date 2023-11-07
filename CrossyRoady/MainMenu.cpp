@@ -1,5 +1,7 @@
 #include "MainMenu.h"
 
+#include "Setting.h"
+#include "Progress.h"
 #include "StringRes.h"
 
 using namespace ConsoleGame;
@@ -12,19 +14,24 @@ std::wstring_view MainMenu::getName() { return ScreenName(); }
 
 void MainMenu::Init(const std::any& args)
 {
-    sfxOpt =
-        (std::string*)&LocalStorage::Get(StringRes::Get(StrRes::SfxToggle));
+    bg.Init();
+    sfxOpt = (std::string*)&LocalStorage::Get(R.Config.SfxToggle);
 
     menu.Init(
         startPos,
         buttDim,
         std::array<const std::string_view, 5>{
-            StringRes::Get(StrRes::SinglePlayer),
-            StringRes::Get(StrRes::TwoPlayer),
-            StringRes::Get(StrRes::Progress),
-            StringRes::Get(StrRes::Setting),
-            StringRes::Get(StrRes::Exit)}
+            R.SinglePlayer.Title,
+            R.MultiPlayer.Title,
+            R.Progress.Title,
+            R.Setting.Title,
+            R.MainMenu.Exit}
     );
+    passArgs = {
+        .bgMusic = &bgMusic,
+        .hoverSfx = &hoverSfx,
+        .menuBg = &bg,
+    };
 }
 
 void MainMenu::Mount(const std::any& args)
@@ -35,12 +42,15 @@ void MainMenu::Mount(const std::any& args)
         levelPalette[i] = faunaPalette[i];
     }
     ChangeColorPalette(levelPalette);
-    bgMusic.Open(RESOURCE_PATH BGM_PATH "menu.mp3");
-    hoverSfx.Open(RESOURCE_PATH SFX_PATH "select.wav");
-    if (LocalStorage::Get(StringRes::Get(StrRes::SfxToggle)) ==
-        StringRes::Get(StrRes::OnOpt)) {
-        bgMusic.Play(true, true);
+    if (shouldCloseSharedResource) {
+        bg.Mount();
+        bgMusic.Open(RESOURCE_PATH BGM_PATH "menu.mp3");
+        hoverSfx.Open(RESOURCE_PATH SFX_PATH "select.wav");
+        if (LocalStorage::Get(R.Config.MusicToggle) == R.Config.OnOpt) {
+            bgMusic.Play(true, true);
+        }
     }
+    menu.Mount();
 }
 
 AbstractScreen* MainMenu::Clone() const { return new MainMenu; }
@@ -49,20 +59,31 @@ AbstractNavigation::NavigationRes MainMenu::Update(
     float deltaTime, const AbstractNavigation* navigation
 )
 {
+    bg.Update(deltaTime);
     AbstractNavigation::NavigationRes res = navigation->NoChange();
     menu.Update(
         deltaTime,
-        [&](uint8_t selected) noexcept {
-            if (*sfxOpt == StringRes::Get(StrRes::OnOpt)) {
+        [&](uint8_t hover) noexcept {
+            if (*sfxOpt == R.Config.OnOpt) {
                 hoverSfx.Play();
             }
         },
         [&](uint8_t selection) noexcept {
-            if (*sfxOpt == StringRes::Get(StrRes::OnOpt)) {
+            if (*sfxOpt == R.Config.OnOpt) {
                 PlayAndForget(RESOURCE_PATH SFX_PATH "select.wav");
             }
             switch (selection) {
+                case 2:
+                    shouldCloseSharedResource = false;
+                    res =
+                        navigation->Navigate(Progress::ScreenName(), passArgs);
+                    break;
+                case 3:
+                    shouldCloseSharedResource = false;
+                    res = navigation->Navigate(Setting::ScreenName(), passArgs);
+                    break;
                 case 4:
+                    shouldCloseSharedResource = true;
                     res = navigation->Exit();
                     break;
             }
@@ -73,13 +94,16 @@ AbstractNavigation::NavigationRes MainMenu::Update(
 
 void MainMenu::Draw(AbstractCanvas* canvas) const
 {
-    canvas->Clear((Color)6);
+    bg.Draw(canvas);
     Font::DrawString(canvas, "Crossy Roady", {10, 10}, 3, 1, (Color)13);
     menu.Draw(canvas);
 }
 
 void MainMenu::Unmount()
 {
-    bgMusic.Close();
-    hoverSfx.Close();
+    if (shouldCloseSharedResource) {
+        bg.Unmount();
+        bgMusic.Close();
+        hoverSfx.Close();
+    }
 }

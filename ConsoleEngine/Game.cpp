@@ -140,9 +140,7 @@ namespace ConsoleGame {
 
         naviStack.reserve(screens.size());
         naviStack.emplace_back(screens[screenName]->Clone());
-        AbstractNavigation::NavigationRes navigationRes{
-            .ActionType = AbstractNavigation::NavigationAction::None,
-            .Payload = std::any()};
+        auto navigationRes = navi.NoChange();
 
         // OS scheduler delay
         timeBeginPeriod(1);
@@ -189,8 +187,7 @@ namespace ConsoleGame {
                 currentScreen->Init(navigationRes.Payload);
                 currentScreen->Mount(std::any());
             }
-            navigationRes.ActionType =
-                AbstractNavigation::NavigationAction::None;
+            navigationRes = navi.NoChange();
 
             auto start = clock::now();
             while (navigationRes.ActionType ==
@@ -268,7 +265,6 @@ namespace ConsoleGame {
                 case AbstractNavigation::NavigationAction::Exit:
                     return;
             }
-            naviStack.back()->Mount(navigationRes.Payload);
         }
     }
 

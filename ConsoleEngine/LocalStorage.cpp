@@ -44,8 +44,13 @@ namespace ConsoleGame {
         return data[config.data()];
     }
 
+    void LocalStorage::Set(const std::string_view config, std::string value)
+    {
+        data[config.data()] = std::move(value);
+    }
+
     void LocalStorage::Set(
-        const std::string_view config, const std::string& value
+        const std::string_view config, std::string_view value
     )
     {
         data[config.data()] = value;

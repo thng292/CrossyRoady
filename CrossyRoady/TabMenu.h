@@ -6,14 +6,12 @@
 
 #include "Button.h"
 #include "ConsoleGame.h"
-
-static void forVSintelisense(uint8_t sel) noexcept {};
-
-template <typename Func>
-concept MenuSelectedCB = std::is_nothrow_invocable_r_v<void, Func, uint8_t>;
+#include "Menu.h"
 
 template <size_t N>
-class Menu {
+class TabMenu {
+    static void forVSintelisense(uint8_t sel) noexcept {};
+
     static constexpr float buttonDelay = 1.0f / 5;
     static constexpr int gap = 5;
 
@@ -23,7 +21,8 @@ class Menu {
     bool lastIsUp = false;
 
    public:
-    uint8_t hover = 0;
+    int16_t hover = 0;
+    uint8_t selected = 0;
     std::array<Button, N> buttons;
 
     void Init(
@@ -59,6 +58,7 @@ class Menu {
     template <MenuSelectedCB Func1, MenuSelectedCB Func2>
     void Update(float deltaTime, Func1 onSelectChange, Func2 onTriggerCB)
     {
+        hover = -1;
         keyboardCounter += deltaTime;
         mouseCounter += deltaTime;
         if (ConsoleGame::IsKeyMeanDown()) {
@@ -86,18 +86,31 @@ class Menu {
 
         if (hover != lastHover) {
             lastHover = hover;
-            onSelectChange(hover);
+            if (hover >= 0) {
+                onSelectChange(hover);
+            }
         }
 
         if (ConsoleGame::IsKeyMeanSelect()) {
+            selected = hover;
             onTriggerCB(hover);
-        } else if (ConsoleGame::IsKeyDown(VK_LBUTTON) && buttons[hover].IsHover(mousePos) && mouseCounter > buttonDelay) {
+        } else if (ConsoleGame::IsKeyDown(VK_LBUTTON) 
+            and hover >=0 and buttons[hover].IsHover(mousePos) 
+            and mouseCounter > buttonDelay) 
+        {
             mouseCounter = 0;
+            selected = hover;
             onTriggerCB(hover);
         }
 
         for (int i = 0; i < buttons.size(); i++) {
-            if (hover == i) {
+            if (selected == i) {
+                buttons[i].ChangeColor(
+                    (ConsoleGame::Color)14,
+                    (ConsoleGame::Color)13,
+                    (ConsoleGame::Color)13
+                );
+            } else if (hover == i) {
                 buttons[i].ChangeColor(
                     (ConsoleGame::Color)14,
                     (ConsoleGame::Color)15,
