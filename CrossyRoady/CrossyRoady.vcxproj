@@ -167,6 +167,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ArrowButton.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Credit.cpp" />
     <ClCompile Include="Common.cpp" />
@@ -195,6 +196,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="About.h" />
+    <ClInclude Include="ArrowButton.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Credit.h" />
     <ClInclude Include="Common.h" />
