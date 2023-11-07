@@ -6,10 +6,12 @@ namespace ConsoleGame {
 
     static const auto wind = GetConsoleWindow();
 
+    bool IsWindowForeground() { return wind == GetForegroundWindow(); }
+
     bool ConsoleGame::IsKeyDown(int key)
     {
         return (GetAsyncKeyState(key) & (1 << 16)) &&
-               (wind == GetForegroundWindow());
+               (IsWindowForeground());
     }
 
     bool IsKeyMeanUp()
@@ -18,7 +20,7 @@ namespace ConsoleGame {
                  GetAsyncKeyState(VK_GAMEPAD_DPAD_UP) |
                  GetAsyncKeyState(VK_GAMEPAD_LEFT_THUMBSTICK_UP)) &
                 (1 << 16)) &&
-               (wind == GetForegroundWindow());
+               (IsWindowForeground());
     }
 
     bool IsKeyMeanDown()
@@ -27,7 +29,7 @@ namespace ConsoleGame {
                  GetAsyncKeyState(VK_GAMEPAD_DPAD_DOWN) |
                  GetAsyncKeyState(VK_GAMEPAD_LEFT_THUMBSTICK_DOWN)) &
                 (1 << 16)) &&
-               (wind == GetForegroundWindow());
+               (IsWindowForeground());
     }
 
     bool IsKeyMeanLeft()
@@ -36,7 +38,7 @@ namespace ConsoleGame {
                  GetAsyncKeyState(VK_GAMEPAD_DPAD_LEFT) |
                  GetAsyncKeyState(VK_GAMEPAD_LEFT_THUMBSTICK_LEFT)) &
                 (1 << 16)) &&
-               (wind == GetForegroundWindow());
+               (IsWindowForeground());
     }
 
     bool IsKeyMeanRight()
@@ -45,7 +47,7 @@ namespace ConsoleGame {
                  GetAsyncKeyState(VK_GAMEPAD_DPAD_RIGHT) |
                  GetAsyncKeyState(VK_GAMEPAD_LEFT_THUMBSTICK_RIGHT)) &
                 (1 << 16)) &&
-               (wind == GetForegroundWindow());
+               (IsWindowForeground());
     }
 
     bool IsKeyMeanSelect()
@@ -53,21 +55,21 @@ namespace ConsoleGame {
         return ((GetAsyncKeyState(VK_RETURN) | GetAsyncKeyState('F') |
                  GetAsyncKeyState(VK_GAMEPAD_A)) &
                 (1 << 16)) &&
-               (wind == GetForegroundWindow());
+               (IsWindowForeground());
     }
 
     bool IsKeyMeanBack()
     {
         return ((GetAsyncKeyState('B') | GetAsyncKeyState(VK_GAMEPAD_B)) &
                 (1 << 16)) &&
-               (wind == GetForegroundWindow());
+               (IsWindowForeground());
     }
 
     bool IsKeyMeanEscape()
     {
         return ((GetAsyncKeyState(VK_ESCAPE) | GetAsyncKeyState(VK_GAMEPAD_MENU)) &
                 (1 << 16)) &&
-               (wind == GetForegroundWindow());
+               (IsWindowForeground());
     }
     Vec2 getCanvasPixelSize(HWND hConsoleWindow)
     {

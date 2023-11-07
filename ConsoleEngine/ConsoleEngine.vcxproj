@@ -158,6 +158,7 @@
     <ClInclude Include="Font.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="include\ConsoleGame.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="Navigation.h" />
     <ClInclude Include="Palette.h" />
     <ClInclude Include="Signal.h" />
@@ -172,6 +173,7 @@
     <ClCompile Include="LocalStorage.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Navigation.cpp" />
     <ClCompile Include="Palette.cpp" />
     <ClCompile Include="Signal.cpp" />

@@ -9,6 +9,7 @@
 #include "../Font.h"
 #include "../Game.h"
 #include "../LocalStorage.h"
+#include "../Logger.h"
 #include "../Palette.h"
 #include "../Signal.h"
 #include "../SocketWrapper.h"

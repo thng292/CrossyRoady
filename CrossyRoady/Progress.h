@@ -1,18 +1,25 @@
 #pragma once
 #include "ConsoleGame.h"
+#include "Menu.h"
 #include "MenuBG.h"
-#include "TabMenu.h"
+#include "SharedAudio.h"
 
 class Progress : public ConsoleGame::AbstractScreen {
-    TabMenu<4> menu;
-
-    ConsoleGame::Audio* bgMusic;
-    ConsoleGame::Audio* hoverSfx;
+    Menu<1> backButt;
     MenuBG* bg;
-
-    std::string* sfxOpt;
-    std::array<std::unique_ptr<ConsoleGame::AbstractScreen>, 2> subScreen;
+    SharedAudio& audio = SharedAudio::GetInstance();
     uint8_t oldSelected = 0;
+    std::array<std::string, 8> data;
+    std::array<ConsoleGame::Vec2, 3> rectPos;
+    std::array<uint8_t, 3> rectR;
+    int earnedXP = 0;
+    int currentLevel = 10;
+
+    Surface surfaceStat;
+    Surface surfaceExp;
+    
+    void DrawStat(ConsoleGame::AbstractCanvas* canvas) const;
+    void DrawExp(ConsoleGame::AbstractCanvas* canvas) const;
 
    public:
     static const std::wstring_view ScreenName();

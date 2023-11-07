@@ -1,7 +1,7 @@
 #include "MainMenu.h"
 
-#include "Setting.h"
 #include "Progress.h"
+#include "Setting.h"
 #include "StringRes.h"
 
 using namespace ConsoleGame;
@@ -15,23 +15,17 @@ std::wstring_view MainMenu::getName() { return ScreenName(); }
 void MainMenu::Init(const std::any& args)
 {
     bg.Init();
-    sfxOpt = (std::string*)&LocalStorage::Get(R.Config.SfxToggle);
-
     menu.Init(
         startPos,
         buttDim,
-        std::array<const std::string_view, 5>{
+        std::array<const std::string_view, 6>{
             R.SinglePlayer.Title,
             R.MultiPlayer.Title,
             R.Progress.Title,
+            R.CharInfo.Title,
             R.Setting.Title,
             R.MainMenu.Exit}
     );
-    passArgs = {
-        .bgMusic = &bgMusic,
-        .hoverSfx = &hoverSfx,
-        .menuBg = &bg,
-    };
 }
 
 void MainMenu::Mount(const std::any& args)
@@ -42,14 +36,11 @@ void MainMenu::Mount(const std::any& args)
         levelPalette[i] = faunaPalette[i];
     }
     ChangeColorPalette(levelPalette);
-    if (shouldCloseSharedResource) {
+    if (bg.IsUnmounted()) {
         bg.Mount();
-        bgMusic.Open(RESOURCE_PATH BGM_PATH "menu.mp3");
-        hoverSfx.Open(RESOURCE_PATH SFX_PATH "select.wav");
-        if (LocalStorage::Get(R.Config.MusicToggle) == R.Config.OnOpt) {
-            bgMusic.Play(true, true);
-        }
     }
+    audio.SwitchMusic(BGMusic::Menu);
+    audio.PlayMusic();
     menu.Mount();
 }
 
@@ -63,27 +54,18 @@ AbstractNavigation::NavigationRes MainMenu::Update(
     AbstractNavigation::NavigationRes res = navigation->NoChange();
     menu.Update(
         deltaTime,
-        [&](uint8_t hover) noexcept {
-            if (*sfxOpt == R.Config.OnOpt) {
-                hoverSfx.Play();
-            }
-        },
+        [&](uint8_t hover) noexcept { audio.PlayHoverSfx(); },
         [&](uint8_t selection) noexcept {
-            if (*sfxOpt == R.Config.OnOpt) {
-                PlayAndForget(RESOURCE_PATH SFX_PATH "select.wav");
-            }
+            audio.PlayClickSfx();
             switch (selection) {
                 case 2:
-                    shouldCloseSharedResource = false;
                     res =
-                        navigation->Navigate(Progress::ScreenName(), passArgs);
-                    break;
-                case 3:
-                    shouldCloseSharedResource = false;
-                    res = navigation->Navigate(Setting::ScreenName(), passArgs);
+                        navigation->Navigate(Progress::ScreenName(), &bg);
                     break;
                 case 4:
-                    shouldCloseSharedResource = true;
+                    res = navigation->Navigate(Setting::ScreenName(), &bg);
+                    break;
+                case 5:
                     res = navigation->Exit();
                     break;
             }
@@ -101,9 +83,7 @@ void MainMenu::Draw(AbstractCanvas* canvas) const
 
 void MainMenu::Unmount()
 {
-    if (shouldCloseSharedResource) {
+    if (!bg.IsUnmounted()) {
         bg.Unmount();
-        bgMusic.Close();
-        hoverSfx.Close();
     }
 }

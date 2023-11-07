@@ -1,2 +1,14 @@
-Music=Off
 Sfx=Off
+Music=On
+CharacterUnlocked=
+ForestXP=
+MapUnlocked=
+CasinoXP=
+CityXP=
+Deaths=
+Walked=
+EarnedXP=
+DesertXP=
+HouseXP=
+SpaceXP=
+BaeUpgraded=

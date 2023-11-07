@@ -2,9 +2,17 @@
 
 #include "Button.h"
 #include "ConsoleGame.h"
+#include "Menu.h"
+#include "MenuBG.h"
+#include "SharedAudio.h"
+#include "Surface.h"
 
 class Credit : public ConsoleGame::AbstractScreen {
-    Button buttonTitle, buttonBack, buttonSurface;
+    Menu<1> backButt;
+    Button buttonTitle;
+    Surface surface;
+    MenuBG* bg;
+    SharedAudio& audio = SharedAudio::GetInstance();
 
    public:
     static const std::wstring_view ScreenName();

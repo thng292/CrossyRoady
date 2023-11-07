@@ -5,10 +5,13 @@
 #include "ConsoleGame.h"
 #include "MenuBG.h"
 
-struct SharedMenuStuff {
-    ConsoleGame::Audio* bgMusic = nullptr;
-    ConsoleGame::Audio* hoverSfx = nullptr;
-    MenuBG* menuBg = nullptr;
-};
+constexpr int LevelExpReq = 200;
 
 std::string SecondsToHMStr(std::chrono::seconds time);
+
+void DrawRhombus(
+    ConsoleGame::AbstractCanvas* canvas,
+    ConsoleGame::Vec2 center,
+    uint8_t R,
+    ConsoleGame::Color color
+);

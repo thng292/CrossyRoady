@@ -3,6 +3,7 @@
 #include "ConsoleGame.h"
 #include "Menu.h"
 #include "MenuBG.h"
+#include "SharedAudio.h"
 
 class Setting : public ConsoleGame::AbstractScreen {
     static constexpr ConsoleGame::Vec2 buttDim = {150, 18};
@@ -12,11 +13,8 @@ class Setting : public ConsoleGame::AbstractScreen {
     Menu<5> menu;
     std::string MusicTitle;
     std::string SfxTitle;
-    std::string* sfxOpt;
-
-    ConsoleGame::Audio* bgMusic;
-    ConsoleGame::Audio* hoverSfx;
     MenuBG* bg;
+    SharedAudio& audio = SharedAudio::GetInstance();
 
     void UpdateMusicTitle();
     void UpdateSfxTitle();

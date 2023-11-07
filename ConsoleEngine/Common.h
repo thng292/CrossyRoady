@@ -57,6 +57,8 @@ namespace ConsoleGame {
         C_TRANSPARENT = 0b11111
     };
 
+    bool IsWindowForeground();
+
     // Get KeyCode:
     // https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
     bool IsKeyDown(int keyCode);

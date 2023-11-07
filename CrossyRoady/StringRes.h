@@ -47,10 +47,13 @@ struct StringResource {
     } Credit;
 
     struct {
-        std::string_view Title = "Statistic";
+        std::string_view Title = "Stats";
         std::string_view PlayTime = "Play Time";
         std::string_view Deaths = "Deaths";
+        std::string_view Walked = "Walked";
+        std::string_view EarnedXP = "Earned XP";
         std::string_view CharUnlocked = "Character Unlocked";
+        std::string_view CharUpgraded = "Character Upgraded";
         std::string_view MapUnlocked = "Map Unlocked";
         std::string_view Completion = "Completed";
     } Statistic;
@@ -58,7 +61,10 @@ struct StringResource {
     struct {
         std::string_view Title = "Exp";
         std::string_view Level = "Level";
-        std::string_view TotalXP = "Total XP";
+        std::string_view Rewards = "Rewards";
+        std::string_view UnlockNewMap = "Unlock a new map";
+        std::string_view UnlockUpgradeToken = "An upgrade token";
+        std::string_view Unlock2UpgradeToken = "Two upgrade token";
     } Exp;
 
     struct {
@@ -68,12 +74,30 @@ struct StringResource {
     struct {
         std::string_view PlayTime = "PlayTime";
         std::string_view Deaths = "Deaths";
-        std::string_view CharUnlocked = "CharUnlocked";
+        std::string_view Walked = "Walked";
+        std::string_view CharUnlocked = "CharacterUnlocked";
         std::string_view MapUnlocked = "MapUnlocked";
         std::string_view MusicToggle = "Music";
         std::string_view SfxToggle = "Sfx";
         std::string_view OnOpt = "On";
         std::string_view OffOpt = "Off";
+        std::string_view True = "True";
+        std::string_view False = "False";
+
+        std::string_view BaeUpgraded = "BaeUpgraded";
+        std::string_view FaunaUpgraded = "BaeUpgraded";
+        std::string_view IrysUpgraded = "BaeUpgraded";
+        std::string_view KroniiUpgraded = "BaeUpgraded";
+        std::string_view MumeiUpgraded = "BaeUpgraded";
+        std::string_view SanaUpgraded = "BaeUpgraded";
+
+        std::string_view CasinoXP = "CasinoXP";
+        std::string_view CityXP = "CityXP";
+        std::string_view ForestXP = "ForestXP";
+        std::string_view HouseXP = "HouseXP";
+        std::string_view SpaceXP = "SpaceXP";
+        std::string_view DesertXP = "DesertXP";
+
     } Config;
 
     struct {

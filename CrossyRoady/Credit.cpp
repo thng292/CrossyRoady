@@ -1,6 +1,9 @@
 ﻿#include "Credit.h"
 
 #include <format>
+
+#include "Common.h"
+#include "StringRes.h"
 using namespace ConsoleGame;
 
 const std::wstring_view Credit::ScreenName() { return L"Credit"; }
@@ -9,46 +12,30 @@ std::wstring_view Credit::getName() { return ScreenName(); }
 
 void Credit::Init(const std::any& args)
 {
+    bg = std::any_cast<MenuBG*>(args);
     buttonTitle = Button(
         {
-            .size = {120,             18},
+            .size = {120,             22},
             .pos = {(384 - 120) / 2, 20},
             .cornerSize = 4,
             .hasBorder = true,
-            .background = (ConsoleGame::Color::LIGHT_YELLOW),
-            .border = (ConsoleGame::Color::LIGHT_MAGENTA)
+            .background = (Color)14,
+            .border = (Color)13,
     },
-        "Credits",
-        (ConsoleGame::Color::BLACK),
+        R.Credit.Title,
+        ((Color)13),
         1,
         1
     );
-    buttonBack = Button(
-        {
-            .size = {50,             15 },
-            .pos = {(384 - 50) / 2, 190},
-            .cornerSize = 3,
-            .hasBorder = true,
-            .background = (ConsoleGame::Color::BRIGHT_WHITE),
-            .border = (ConsoleGame::Color::BLACK)
-    },
-        "Back",
-        (ConsoleGame::Color::BLACK),
-        0
-    );
-    buttonSurface = Button(
-        {
-            .size = {350,             130},
-            .pos = {(384 - 350) / 2, 50 },
-            .cornerSize = 7,
-            .hasBorder = true,
-            .background = (ConsoleGame::Color::CYAN),
-            .border = (ConsoleGame::Color::BLACK)
-    },
-        "",
-        (ConsoleGame::Color::BLACK),
-        0
-    );
+    backButt.Init({(384 - 50) / 2, 190}, {50, 18}, {R.Back});
+    surface = Surface({
+        .size = {350,             130},
+        .pos = {(384 - 350) / 2, 50 },
+        .cornerSize = 7,
+        .hasBorder = true,
+        .background = (Color)14,
+        .border = ((Color)13)
+    });
 }
 
 ConsoleGame::AbstractScreen* Credit::Clone() const { return new Credit; }
@@ -57,20 +44,30 @@ ConsoleGame::AbstractNavigation::NavigationRes Credit::Update(
     float deltaTime, const ConsoleGame::AbstractNavigation* navigation
 )
 {
-    return navigation->NoChange();
+    auto res = navigation->NoChange();
+    bg->Update(deltaTime);
+    backButt.Update(
+        deltaTime,
+        [](uint8_t) noexcept {},
+        [&](uint8_t) noexcept {
+            audio.PlayClickSfx();
+            res = navigation->Back();
+        }
+    );
+    return res;
 }
 
 void Credit::Draw(ConsoleGame::AbstractCanvas* canvas) const
 {
-    canvas->Clear(Color::LIGHT_CYAN);
-    buttonSurface.Draw(canvas);
+    bg->Draw(canvas);
+    surface.Draw(canvas);
     Font::DrawString(
         canvas,
         std::format("{} {:>23}", "Developer", "Special Thanks"),
         {60, 65},
         1,
         1,
-        Color::LIGHT_YELLOW
+        (Color)15
     );
     Font::DrawString(
         canvas,
@@ -83,7 +80,7 @@ void Credit::Draw(ConsoleGame::AbstractCanvas* canvas) const
         {54, 90},
         1,
         0,
-        Color::BRIGHT_WHITE
+        (Color)13
     );
     Font::DrawString(
         canvas,
@@ -91,7 +88,7 @@ void Credit::Draw(ConsoleGame::AbstractCanvas* canvas) const
         {30, 110},
         1,
         0,
-        Color::BRIGHT_WHITE
+        (Color)13
     );
     Font::DrawString(
         canvas,
@@ -99,7 +96,7 @@ void Credit::Draw(ConsoleGame::AbstractCanvas* canvas) const
         {30, 130},
         1,
         0,
-        Color::BRIGHT_WHITE
+        (Color)13
     );
     Font::DrawString(
         canvas,
@@ -107,8 +104,8 @@ void Credit::Draw(ConsoleGame::AbstractCanvas* canvas) const
         {53, 150},
         1,
         0,
-        Color::BRIGHT_WHITE
+        (Color)13
     );
     buttonTitle.Draw(canvas);
-    buttonBack.Draw(canvas);
+    backButt.Draw(canvas);
 }

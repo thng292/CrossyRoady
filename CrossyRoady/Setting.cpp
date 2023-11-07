@@ -1,6 +1,7 @@
 #include "Setting.h"
 
 #include "Common.h"
+#include "Credit.h"
 #include "StringRes.h"
 
 using namespace ConsoleGame;
@@ -37,14 +38,9 @@ void Setting::UpdateSfxTitle()
 
 void Setting::Init(const std::any& args)
 {
-    auto tmp = std::any_cast<SharedMenuStuff>(args);
-    bg = tmp.menuBg;
-    hoverSfx = tmp.hoverSfx;
-    bgMusic = tmp.bgMusic;
+    bg = std::any_cast<MenuBG*>(args);
     UpdateMusicTitle();
     UpdateSfxTitle();
-
-    sfxOpt = (std::string*)&LocalStorage::Get(R.Config.SfxToggle);
 
     title = Button(
         {
@@ -63,11 +59,7 @@ void Setting::Init(const std::any& args)
         startPos,
         buttDim,
         std::array<const std::string_view, 5>{
-            MusicTitle,
-            SfxTitle,
-            R.HowToPlay.Title,
-            R.Credit.Title,
-            R.Back}
+            MusicTitle, SfxTitle, R.HowToPlay.Title, R.Credit.Title, R.Back}
     );
 }
 
@@ -83,16 +75,9 @@ AbstractNavigation::NavigationRes Setting::Update(
     bg->Update(deltaTime);
     menu.Update(
         deltaTime,
-        [&](uint8_t hover) noexcept {
-            if (*sfxOpt == R.Config.OnOpt) {
-                hoverSfx->Play();
-            }
-        },
+        [&](uint8_t hover) noexcept { audio.PlayHoverSfx(); },
         [&](uint8_t selection) noexcept {
-            if (*sfxOpt == R.Config.OnOpt) {
-                PlayAndForget(RESOURCE_PATH SFX_PATH "select.wav");
-            }
-
+            audio.PlayClickSfx();
             switch (selection) {
                 case 0:
                     if (LocalStorage::Get(R.Config.MusicToggle) ==
@@ -100,26 +85,23 @@ AbstractNavigation::NavigationRes Setting::Update(
                         LocalStorage::Set(
                             R.Config.MusicToggle, R.Config.OffOpt
                         );
-                        bgMusic->Pause();
                     } else {
-                        LocalStorage::Set(
-                            R.Config.MusicToggle, R.Config.OnOpt
-                        );
-                        bgMusic->Resume();
+                        LocalStorage::Set(R.Config.MusicToggle, R.Config.OnOpt);
                     }
+                    audio.UpdateMusicState();
                     UpdateMusicTitle();
                     break;
                 case 1:
-                    if (*sfxOpt == R.Config.OnOpt) {
-                        LocalStorage::Set(
-                            R.Config.SfxToggle, R.Config.OffOpt
-                        );
+                    if (LocalStorage::Get(R.Config.SfxToggle) ==
+                        R.Config.OnOpt) {
+                        LocalStorage::Set(R.Config.SfxToggle, R.Config.OffOpt);
                     } else {
-                        LocalStorage::Set(
-                            R.Config.SfxToggle, R.Config.OnOpt
-                        );
+                        LocalStorage::Set(R.Config.SfxToggle, R.Config.OnOpt);
                     }
                     UpdateSfxTitle();
+                    break;
+                case 3:
+                    res = navigation->Navigate(Credit::ScreenName(), bg);
                     break;
                 case 4:
                     res = navigation->Back();
