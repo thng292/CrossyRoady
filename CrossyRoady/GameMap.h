@@ -1,5 +1,4 @@
 #pragma once
-#include <deque>
 #include <functional>
 #include <memory>
 #include <queue>
@@ -11,18 +10,19 @@
 #include "GameUtils.h"
 #include "Lane.h"
 #include "Road.h"
+#include "Water.h"
 
 using Debuff = std::function<void()>;
 
 class GameMap : public ConsoleGame::AbstractScreen {
-    std::deque<std::unique_ptr<Lane>> laneList;
+    std::vector<std::unique_ptr<Lane>> laneList;
     std::queue<Debuff> debuffQueue;
 
     GameType::GameMapData gameData;
     GameType::GameMapSprites gameSprites;
     Character character;
 
-    float mapSpeed = 10.0f;
+    float mapSpeed = 100.0f;
 
     // Inherited via AbstractScreen
     virtual std::wstring_view getName() override;
@@ -46,42 +46,12 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void HandlePlayerInput(float deltaTime);
     void SetGameMapData(const GameType::GameMapData& gmData);
 
+    void DragMapDown(float deltatime);
+
     void DrawFlat(ConsoleGame::AbstractCanvas* canvas) const;
     void DrawEntity(ConsoleGame::AbstractCanvas* canvas) const;
 
     void DrawHealth(ConsoleGame::AbstractCanvas* canvas) const;
     void DrawSkill(ConsoleGame::AbstractCanvas* canvas) const;
     void DrawDebuff(ConsoleGame::AbstractCanvas* canvas) const;
-
-    void DragMapDown(float deltatime)
-    {
-        // auto laneListEnd = laneList.end();
-        /*for (auto it = laneList.begin(); it != laneListEnd; ++it) {
-            auto lane = it->get();
-            lane->SetY(lane->GetY() - deltatime * mapSpeed);
-            lane->GetY();
-        }*/
-        LogDebug("{}", laneList.size());
-        try {
-            for (size_t i = 0; i < laneList.size(); ++i) {
-                laneList[i]->SetY(laneList[i]->GetY() - deltatime * mapSpeed);
-                laneList[i]->GetY();
-            }
-            if (!laneList.empty() && laneList[0]->GetY() < 32) {
-                // laneList.erase(laneList.begin());
-                laneList.pop_front();
-                laneList.push_back(std::make_unique<Road>(
-                    laneList.back()->GetY() + 32,
-                    32,
-                    32,
-                    GameType::MobType::EASY,
-                    gameSprites.roadSprite,
-                    gameSprites.mobSpriteEasy.MobRight
-                ));
-                LogDebug("{}", laneList.size());
-            }
-        } catch (std::exception& e) {
-            LogDebug("size {}", laneList.size());
-        }
-    };
 };

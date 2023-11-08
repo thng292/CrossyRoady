@@ -132,9 +132,7 @@ class Character {
     ConsoleGame::Vec2 GetCoordFeet() const
     {
         ConsoleGame::Vec2 feetCoord{
-            .x = coord.x,
-            .y = ConsoleGame::_CONSOLE_HEIGHT_ * 2 - coord.y +
-                 currentSprite->GetDim().height};
+            .x = coord.x, .y = coord.y - currentSprite->GetDim().height};
         return feetCoord;
     }
 
