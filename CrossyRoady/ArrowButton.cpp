@@ -1,7 +1,7 @@
 #include "ArrowButton.h"
 
 ArrowButton::ArrowButton(
-    SurfaceArgs surfaceArgs, const std::string_view direction
+    SurfaceArgs surfaceArgs, bool direction
 )
     : Surface(surfaceArgs),  // no size, only conrnerSize
       direction(direction)   //"left" or "right"
@@ -18,13 +18,13 @@ double crossProduct(
 bool ArrowButton::IsHover(ConsoleGame::Vec2 mousePos) const
 {
     ConsoleGame::Vec2 A, B, C, D;
-    if (direction == "right") {
+    if (direction == 1) {
         A = {props.pos.x, props.pos.y};
         B = {props.pos.x, props.pos.y + props.cornerSize * 2 - 1};
         C = {
             props.pos.x + props.cornerSize, props.pos.y + props.cornerSize - 1};
         D = {props.pos.x + props.cornerSize, props.pos.y + props.cornerSize};
-    } else if (direction == "left") {
+    } else if (direction == 0) {
         A = {props.pos.x + props.cornerSize, props.pos.y};
         B = {
             props.pos.x + props.cornerSize,
@@ -52,7 +52,7 @@ bool ArrowButton::IsHover(ConsoleGame::Vec2 mousePos) const
 
 void ArrowButton::Draw(ConsoleGame::AbstractCanvas* canvas) const
 {
-    if (direction == "left") {
+    if (direction == 0) {
         int offStart = props.cornerSize;
         int offStart2 = props.cornerSize;
         int offEnd = 0;
@@ -92,7 +92,7 @@ void ArrowButton::Draw(ConsoleGame::AbstractCanvas* canvas) const
         for (int i = props.pos.y; i < props.pos.y + props.cornerSize * 2; i++) {
             (*canvas)[i][props.pos.x + props.cornerSize] = props.border;
         }
-    } else if (direction == "right") {
+    } else if (direction == 1) {
         int offStart = 0;
         int offStart2 = props.cornerSize;
         for (int i = props.pos.y; i < props.pos.y + props.cornerSize; i++) {
