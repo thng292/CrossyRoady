@@ -34,6 +34,8 @@ AbstractNavigation::NavigationRes GameMap::Update(
     float deltaTime, const AbstractNavigation* navigation
 )
 {
+    DragMapDown(deltaTime);
+    // LogDebug("{}", laneList[0]->GetY());
     HandlePlayerInput(deltaTime);
     return navigation->NoChange();
 }
@@ -105,12 +107,24 @@ void GameMap::SetGameMapData(const GameType::GameMapData& gmData)
 
 void GameMap::DrawFlat(ConsoleGame::AbstractCanvas* canvas) const
 {
-    auto laneListEnd = laneList.end();
+    // auto laneListEnd = laneList.end();
     int screenHeight = _CONSOLE_HEIGHT_ * 2;
-    for (auto it = laneList.begin(); it != laneListEnd; ++it) {
-        Lane* lane = it->get();
-        if (lane->GetY() < screenHeight) {
-            lane->DrawLane(canvas);
+    /*  for (auto it = laneList.begin(); it != laneListEnd; ++it) {
+          Lane* lane = it->get();
+          if (lane->GetY() < screenHeight) {
+              lane->DrawLane(canvas);
+          }
+      }*/
+    LogDebug("{}", laneList.size());
+
+    size_t laneListSize = laneList.size();
+    for (size_t i = 0; i < laneListSize; ++i) {
+        try {
+            if (laneList[i]->GetY() < screenHeight) {
+                laneList[i]->DrawLane(canvas);
+            }
+        } catch (const std::exception& e) {
+            LogDebug("{}, size: {}", i, laneListSize);
         }
     }
 }
@@ -118,7 +132,8 @@ void GameMap::DrawFlat(ConsoleGame::AbstractCanvas* canvas) const
 void GameMap::Draw(AbstractCanvas* canvas) const
 {
     DrawFlat(canvas);
-    DrawEntity(canvas);
+    // DrawEntity(canvas);
+    // LogDebug("{}, {}", laneList[1]->GetY(), laneList[1]->GetDrawY());
 
     DrawHealth(canvas);
     DrawSkill(canvas);
