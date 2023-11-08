@@ -105,6 +105,9 @@
     <ClCompile Include="SharedAudio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ArrowButton.cpp">
+      <Filter>Source Files\UIComponent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="About.h">
@@ -178,6 +181,9 @@
     </ClInclude>
     <ClInclude Include="SharedAudio.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ArrowButton.h">
+      <Filter>Header Files\UIComponent</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
