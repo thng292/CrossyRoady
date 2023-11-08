@@ -12,16 +12,17 @@ class Character {
     ConsoleGame::Vec2 coord, size = {.width = 32, .height = 32};
     int maxHealth, curHealth;
     GameType::CharaType _type;
-    float _speed;
+    float _speed, x = 0, y = 50;
     ConsoleGame::AniSprite* currentSprite;
     ConsoleGame::AniSprite leftSprite, upSprite, rightSprite, downSprite;
+    int inpR = 0, inpL = 0, distR = 0, distL = 0, timeL = 0, timeR = 0;
 
    public:
     Character() = default;
 
     void Init(GameType::CharaType type)
     {
-        coord = {.x = 50, .y = 50};
+        coord = {.x = 0, .y = 50};
         maxHealth = GameType::CHARA_HEALTH[type];
         _speed = GameType::CHARA_SPEED[type];
         _speed = 120;
@@ -59,6 +60,16 @@ class Character {
     void MoveLeft(float deltaTime)
     {
         float tmp = deltaTime * _speed;
+        distL += tmp;
+        timeL += deltaTime;
+        /* LogDebug(
+             "[Left] Dist: {}, Total: {}, Deltatime: {}, Pressed: {}, X: {}",
+             tmp,
+             distL,
+             deltaTime,
+             ++inpL,
+             coord.x
+         );*/
         coord.x -= deltaTime * _speed;
         currentSprite = &leftSprite;
         currentSprite->AutoUpdateFrame(deltaTime);
@@ -67,6 +78,18 @@ class Character {
     void MoveRight(float deltaTime)
     {
         float tmp = deltaTime * _speed;
+        distR += tmp;
+        timeR += deltaTime;
+
+        /*LogDebug(
+            "[Right] Dist: {}, Total: {}, Deltatime: {}, Pressed: {}, X: {}",
+            tmp,
+            distR,
+            deltaTime,
+            ++inpR,
+            coord.x
+        );*/
+
         coord.x += deltaTime * _speed;
         currentSprite = &rightSprite;
         currentSprite->AutoUpdateFrame(deltaTime);
