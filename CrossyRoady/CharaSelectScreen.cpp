@@ -18,6 +18,8 @@ void CharacterSelectScreen::Init(const std::any& args)
     } catch (...) {
         unlocked = 1;
     }
+
+    
 }
 
 void CharacterSelectScreen::Mount(const std::any& args)
@@ -40,4 +42,9 @@ AbstractNavigation::NavigationRes CharacterSelectScreen::Update(
 
 void CharacterSelectScreen::Draw(AbstractCanvas* canvas) const {}
 
-void CharacterSelectScreen::Unmount() {}
+void CharacterSelectScreen::Unmount()
+{
+    for (auto& sprite : charAvaMenu) {
+        sprite.Unload();
+    }
+}
