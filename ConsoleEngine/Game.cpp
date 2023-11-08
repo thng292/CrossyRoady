@@ -15,7 +15,7 @@
 #include "Signal.h"
 
 #define _ENABLE_ASYNC_DRAW_
-constexpr bool SHOW_FPS = true;
+constexpr bool SHOW_FPS          = true;
 constexpr bool SHOULD_SKIP_FRAME = true;
 
 namespace ConsoleGame {
@@ -27,7 +27,7 @@ namespace ConsoleGame {
           ),
           windowName(winName)
     {
-        hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+        hStdOut     = GetStdHandle(STD_OUTPUT_HANDLE);
         hGameScreen = CreateConsoleScreenBuffer(
             GENERIC_READ | GENERIC_WRITE,
             FILE_SHARE_READ | FILE_SHARE_WRITE,
@@ -51,8 +51,8 @@ namespace ConsoleGame {
         debugError(err);
 
         HWND consoleWindow = GetConsoleWindow();
-        LONG style = GetWindowLong(consoleWindow, GWL_STYLE);
-        oldStyle = style;
+        LONG style         = GetWindowLong(consoleWindow, GWL_STYLE);
+        oldStyle           = style;
 
         // Turn off maximize, resize, horizontal and vertical scrolling
         style = style & ~(WS_MAXIMIZEBOX) & ~(WS_THICKFRAME) & ~(WS_HSCROLL) &
@@ -63,7 +63,7 @@ namespace ConsoleGame {
         DWORD currMode;
         GetConsoleMode(hGameScreen, &currMode);
         oldMode = currMode;
-        err = SetConsoleMode(
+        err     = SetConsoleMode(
             hStdOut, (currMode & (ENABLE_EXTENDED_FLAGS | ENABLE_MOUSE_INPUT))
         );
         debugError(err);
@@ -76,18 +76,18 @@ namespace ConsoleGame {
         CONSOLE_CURSOR_INFO cursorInfo;
         err = GetConsoleCursorInfo(hGameScreen, &cursorInfo);
         debugError(err);
-        oldCursorInfo = cursorInfo;
+        oldCursorInfo       = cursorInfo;
 
         cursorInfo.bVisible = false;
-        err = SetConsoleCursorInfo(hGameScreen, &cursorInfo);
+        err                 = SetConsoleCursorInfo(hGameScreen, &cursorInfo);
         debugError(err);
 
         CONSOLE_FONT_INFOEX fontex;
         // Set font bold
         fontex.cbSize = sizeof(CONSOLE_FONT_INFOEX);
-        err = GetCurrentConsoleFontEx(hGameScreen, 0, &fontex);
+        err           = GetCurrentConsoleFontEx(hGameScreen, 0, &fontex);
         debugError(err);
-        oldFont = fontex;
+        oldFont             = fontex;
 
         // A character width is now 3 pixel
         fontex.dwFontSize.X = 6;
@@ -101,17 +101,17 @@ namespace ConsoleGame {
 
         // Set IO Unicode
         oldOutTranslationMode = _setmode(_fileno(stdout), _O_WTEXT);
-        oldInTranslationMode = _setmode(_fileno(stdin), _O_WTEXT);
+        oldInTranslationMode  = _setmode(_fileno(stdin), _O_WTEXT);
 
         // Set BufferSize
-        err = SetConsoleScreenBufferSize(
+        err                   = SetConsoleScreenBufferSize(
             hGameScreen, {_ScreenSize.width, _ScreenSize.height}
         );
         debugError(err);
 
         // Change color palette
         oldBuffer.cbSize = sizeof(oldBuffer);
-        err = GetConsoleScreenBufferInfoEx(hStdOut, &oldBuffer);
+        err              = GetConsoleScreenBufferInfoEx(hStdOut, &oldBuffer);
         debugError(err);
 
         auto newBuffer = oldBuffer;
@@ -146,15 +146,11 @@ namespace ConsoleGame {
         timeBeginPeriod(1);
         defer { timeEndPeriod(1); };
 
-        float deltaTime = 0;
+        float deltaTime  = 0;
         bool lastWasBack = false;
-        using clock = std::chrono::steady_clock;
+        using clock      = std::chrono::steady_clock;
 
-        auto DrawFunc = [&] {
-            const auto& currentScreen = naviStack.back();
-            currentScreen->Draw(&canvas);
-            canvas.DrawToScreen();
-        };
+        auto DrawFunc    = [&] { canvas.DrawToScreen(); };
 
 #ifdef _ENABLE_ASYNC_DRAW_
         Signal startDrawSignal;
@@ -189,7 +185,7 @@ namespace ConsoleGame {
             }
             navigationRes = navi.NoChange();
 
-            auto start = clock::now();
+            auto start    = clock::now();
             while (navigationRes.ActionType ==
                    AbstractNavigation::NavigationAction::None) {
                 if constexpr (SHOW_FPS) {
@@ -202,6 +198,7 @@ namespace ConsoleGame {
                 }
 
                 navigationRes = currentScreen->Update(deltaTime, &navi);
+                currentScreen->Draw(&canvas);
 
 #ifdef _ENABLE_ASYNC_DRAW_
                 if constexpr (SHOULD_SKIP_FRAME) {
@@ -227,9 +224,9 @@ namespace ConsoleGame {
 
                 const auto now = clock::now();
 
-                deltaTime = float((now - start).count()) / secondToNano;
-                start = now;
-            } // Out of screen's loop
+                deltaTime      = float((now - start).count()) / secondToNano;
+                start          = now;
+            }  // Out of screen's loop
 
 #ifdef _ENABLE_ASYNC_DRAW_
             startDrawSignal.WaitUntilJobDone();
@@ -270,7 +267,7 @@ namespace ConsoleGame {
 
     Game* Game::AddScreen(std::unique_ptr<AbstractScreen> screen)
     {
-        auto name = screen->getName();
+        auto name     = screen->getName();
         screens[name] = std::move(screen);
         return this;
     }
