@@ -5,14 +5,12 @@
 #include <type_traits>
 
 #include "Button.h"
+#include "Common.h"
 #include "ConsoleGame.h"
 #include "Menu.h"
 
 template <size_t N>
 class TabMenu {
-    static void forVSintelisense(uint8_t sel) noexcept {};
-
-    static constexpr float buttonDelay = 1.0f / 5;
     static constexpr int gap = 5;
 
     uint8_t lastHover = 0;
@@ -59,8 +57,12 @@ class TabMenu {
     void Update(float deltaTime, Func1 onSelectChange, Func2 onTriggerCB)
     {
         hover = -1;
-        keyboardCounter += deltaTime;
-        mouseCounter += deltaTime;
+        if (keyboardCounter <= buttonDelay) {
+            keyboardCounter += deltaTime;
+        }
+        if (mouseCounter <= buttonDelay) {
+            mouseCounter += deltaTime;
+        }
         if (ConsoleGame::IsKeyMeanDown()) {
             if (keyboardCounter > buttonDelay || lastIsUp) {
                 lastIsUp = false;

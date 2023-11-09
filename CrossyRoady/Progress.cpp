@@ -6,6 +6,27 @@
 
 using namespace ConsoleGame;
 
+Progress::Progress()
+    : leftArr(
+          SurfaceArgs{
+              .pos = {200, 70},
+              .cornerSize = 5,
+              .background = Color(14),
+              .border = Color(13)
+},
+          false
+      ),
+      rightArr(
+          SurfaceArgs{
+              .pos = {360, 70},
+              .cornerSize = 5,
+              .background = Color(14),
+              .border = Color(13)},
+          true
+      )
+{
+}
+
 const std::wstring_view Progress::ScreenName() { return L"Progress"; }
 
 std::wstring_view Progress::getName() { return ScreenName(); }
@@ -85,7 +106,11 @@ void Progress::Init(const std::any& args)
     }
 }
 
-void Progress::Mount(const std::any& args) {}
+void Progress::Mount(const std::any& args)
+{
+    leftArr.Mount();
+    rightArr.Mount();
+}
 
 AbstractScreen* Progress::Clone() const { return new Progress; }
 
@@ -95,6 +120,26 @@ AbstractNavigation::NavigationRes Progress::Update(
 {
     auto res = navigation->NoChange();
     bg->Update(deltaTime);
+    if (currentLevel != 0) {
+        leftArr.Update(
+            deltaTime,
+            [&] { audio.PlayHoverSfx(); },
+            [&] {
+                audio.PlayClickSfx();
+                currentLevel--;
+            }
+        );
+    }
+    if (currentLevel != 10) {
+        rightArr.Update(
+            deltaTime,
+            [&] { audio.PlayHoverSfx(); },
+            [&] {
+                audio.PlayClickSfx();
+                currentLevel++;
+            }
+        );
+    }
     backButt.Update(
         deltaTime,
         [&](uint8_t) noexcept {},
@@ -112,6 +157,12 @@ void Progress::Draw(AbstractCanvas* canvas) const
 
     DrawStat(canvas);
     DrawExp(canvas);
+    if (currentLevel != 0) {
+        leftArr.Draw(canvas);
+    }
+    if (currentLevel != 10) {
+        rightArr.Draw(canvas);
+    }
 
     backButt.Draw(canvas);
 }
