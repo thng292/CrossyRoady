@@ -26,6 +26,11 @@ namespace ConsoleGame {
     };
 
     // clang-format on
+
+    struct Box {
+        Vec2 coord;
+        Vec2 dim;
+    };
     constexpr int _CONSOLE_WIDTH_ = 384;
     constexpr int _CONSOLE_HEIGHT_ = 112;
     constexpr int PORT = 6969;

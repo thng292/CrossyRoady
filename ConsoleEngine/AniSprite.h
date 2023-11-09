@@ -10,20 +10,23 @@ namespace ConsoleGame {
     class AniSprite {
        protected:
         std::vector<Color> data;
+        Box hitBox;
         Vec2 dim;
-        float frameDuration = 0;
+        float frameDuration   = 0;
 
         uint32_t playingFrame = 0;
-        uint32_t totalFrame = 0;
-        float timePassed = 0;
-        bool playing = false;
-        bool repeat = false;
+        uint32_t totalFrame   = 0;
+        float timePassed      = 0;
+        bool playing          = false;
+        bool repeat           = false;
 
+        void findHitBox();
        public:
         AniSprite() = default;
         AniSprite(std::filesystem::path path);
 
         Vec2 GetDim() const;
+        const Box& GetHitBox() const;
         float GetFrameDuration();
         void SetFrameDuration(float dur);
         const std::vector<Color>& GetData() const;

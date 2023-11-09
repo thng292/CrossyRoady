@@ -11,12 +11,15 @@ namespace ConsoleGame {
        protected:
         std::vector<Color> data;
         Vec2 dim;
-
+        Box hitBox;
+ 
+        void findHitBox();
        public:
         Sprite() = default;
         Sprite(Vec2 dim);
         Sprite(std::filesystem::path filePath);
 
+        const Box& GetHitBox() const;
         void Load(std::filesystem::path filePath);
         void Unload();
         void Save(std::filesystem::path filePath);
