@@ -10,15 +10,19 @@
 #include "GameUtils.h"
 #include "Lane.h"
 #include "Road.h"
+#include "Water.h"
 
 using Debuff = std::function<void()>;
 
 class GameMap : public ConsoleGame::AbstractScreen {
     std::vector<std::unique_ptr<Lane>> laneList;
     std::queue<Debuff> debuffQueue;
+
     GameType::GameMapData gameData;
     GameType::GameMapSprites gameSprites;
     Character character;
+
+    float mapSpeed = 100.0f;
 
     // Inherited via AbstractScreen
     virtual std::wstring_view getName() override;
@@ -41,6 +45,8 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void DeleteRoad();
     void HandlePlayerInput(float deltaTime);
     void SetGameMapData(const GameType::GameMapData& gmData);
+
+    void DragMapDown(float deltatime);
 
     void DrawFlat(ConsoleGame::AbstractCanvas* canvas) const;
     void DrawEntity(ConsoleGame::AbstractCanvas* canvas) const;

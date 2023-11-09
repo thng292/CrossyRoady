@@ -173,6 +173,7 @@
     <ClCompile Include="Common.cpp" />
     <ClCompile Include="GameMap.cpp" />
     <ClCompile Include="GameUtils.cpp" />
+    <ClCompile Include="Lane.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Progress.cpp" />
     <ClCompile Include="Road.cpp" />
@@ -188,6 +189,7 @@
     <ClCompile Include="Setting.cpp" />
     <ClCompile Include="TabMenu.cpp" />
     <ClCompile Include="TimePlayedTracker.cpp" />
+    <ClCompile Include="Water.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ConsoleEngine\ConsoleEngine.vcxproj">

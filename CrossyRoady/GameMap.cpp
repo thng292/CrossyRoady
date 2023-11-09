@@ -34,6 +34,8 @@ AbstractNavigation::NavigationRes GameMap::Update(
     float deltaTime, const AbstractNavigation* navigation
 )
 {
+    DragMapDown(deltaTime);
+    // LogDebug("size: {}", character);
     HandlePlayerInput(deltaTime);
     return navigation->NoChange();
 }
@@ -69,7 +71,7 @@ void GameMap::Mount(const std::any& args)
 
     ChangeColorPalette(GetGamePalette(gameData.mapType, gameData.charaType));
 
-    for (int i = 0; i < 5; ++i) {
+    for (int i = 0; i < 10; ++i) {
         laneList.push_back(std::make_unique<Road>(
             32 * (i + 1),
             32,
@@ -103,26 +105,25 @@ void GameMap::SetGameMapData(const GameType::GameMapData& gmData)
     gameData.mapMode = gmData.mapMode;
 }
 
-void GameMap::DrawFlat(ConsoleGame::AbstractCanvas* canvas) const
-{
-    auto laneListEnd = laneList.end();
-    int screenHeight = _CONSOLE_HEIGHT_ * 2;
-    for (auto it = laneList.begin(); it != laneListEnd; ++it) {
-        Lane* lane = it->get();
-        if (lane->GetY() < screenHeight) {
-            lane->DrawLane(canvas);
-        }
-    }
-}
-
 void GameMap::Draw(AbstractCanvas* canvas) const
 {
     DrawFlat(canvas);
     DrawEntity(canvas);
-
     DrawHealth(canvas);
     DrawSkill(canvas);
     DrawDebuff(canvas);
+}
+
+void GameMap::DrawFlat(ConsoleGame::AbstractCanvas* canvas) const
+{
+    auto laneListEnd = laneList.end();
+    int screenHeight = _CONSOLE_HEIGHT_ * 2 + 32;
+    for (auto it = laneList.begin(); it != laneListEnd; ++it) {
+        Lane* lane = it->get();
+        if (lane->GetY() <= screenHeight) {
+            lane->DrawLane(canvas);
+        }
+    }
 }
 
 void GameMap::DrawEntity(ConsoleGame::AbstractCanvas* canvas) const
@@ -130,20 +131,23 @@ void GameMap::DrawEntity(ConsoleGame::AbstractCanvas* canvas) const
     auto laneListEnd = laneList.rend();
     bool charaDrawn = false;
     int charFeetY = character.GetCoordFeet().y;
-    int screenHeight = _CONSOLE_HEIGHT_ * 2;
+    int screenHeight = _CONSOLE_HEIGHT_ * 2 + 32;
     int offset = 5;
 
     for (auto it = laneList.rbegin(); it != laneListEnd; ++it) {
         Lane* lane = it->get();
-        if (lane->GetY() < screenHeight) {
+        if (lane->GetY() <= screenHeight) {
             if (!charaDrawn) {
-                if (charFeetY < lane->GetEntityFeetY() + offset) {
+                if (charFeetY > lane->GetEntityFeetY()) {
                     character.Draw(canvas);
                     charaDrawn = true;
                 }
             }
             lane->DrawEntity(canvas);
         }
+    }
+    if (!charaDrawn) {
+        character.Draw(canvas);
     }
 }
 
@@ -175,4 +179,43 @@ void GameMap::DrawDebuff(ConsoleGame::AbstractCanvas* canvas) const
 {
     Vec2 coord{.x = ConsoleGame::_CONSOLE_WIDTH_ - 21, .y = 4};
     gameSprites.debuff.Paint(canvas, coord);
+}
+
+void GameMap::DragMapDown(float deltatime)
+{
+    auto laneListEnd = laneList.end();
+    for (auto it = laneList.begin(); it != laneListEnd; ++it) {
+        auto lane = it->get();
+        lane->SetY(lane->GetY() - deltatime * mapSpeed);
+        lane->GetY();
+    }
+
+    if (!laneList.empty()) {
+        float roadTopY = laneList.front()->GetTopY();
+        if (roadTopY < 0) {
+            laneList.erase(laneList.begin());
+            int tmp = rand() % 2;
+            switch (tmp) {
+                case 0:
+                    laneList.push_back(std::make_unique<Road>(
+                        laneList.back()->GetY() + 32,
+                        32,
+                        32,
+                        GameType::MobType::NORMAL,
+                        gameSprites.roadSprite,
+                        gameSprites.mobSpriteNormal.MobRight
+                    ));
+                    break;
+                case 1:
+                    laneList.push_back(std::make_unique<Water>(
+                        laneList.back()->GetY() + 32,
+                        32,
+                        32,
+                        gameSprites.roadSprite,
+                        gameSprites.floatSprite
+                    ));
+                    break;
+            }
+        }
+    }
 }

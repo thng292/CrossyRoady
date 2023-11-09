@@ -108,6 +108,12 @@
     <ClCompile Include="ArrowButton.cpp">
       <Filter>Source Files\UIComponent</Filter>
     </ClCompile>
+    <ClCompile Include="Lane.cpp">
+      <Filter>Source Files\GameImpl</Filter>
+    </ClCompile>
+    <ClCompile Include="Water.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="About.h">
@@ -137,9 +143,6 @@
     <ClInclude Include="StringRes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameMap.h">
-      <Filter>Header Files\LevelHeader</Filter>
-    </ClInclude>
     <ClInclude Include="Road.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
@@ -157,9 +160,6 @@
     </ClInclude>
     <ClInclude Include="Menu.h">
       <Filter>Header Files\UIComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="Lane.h">
-      <Filter>Header Files\LevelHeader</Filter>
     </ClInclude>
     <ClInclude Include="Credit.h">
       <Filter>Header Files\ScreenHeader</Filter>
@@ -184,6 +184,12 @@
     </ClInclude>
     <ClInclude Include="ArrowButton.h">
       <Filter>Header Files\UIComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMap.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Lane.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
