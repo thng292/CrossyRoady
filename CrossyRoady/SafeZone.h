@@ -1,40 +1,38 @@
-// #pragma once
-#include "ConsoleGame.h"
+#pragma once
+#pragma once
 #include "Lane.h"
 
-class Water : public Lane {
-    // Inherited via Lane
-    ConsoleGame::Sprite _logSprite;
+class SafeZone : public Lane {
+    ConsoleGame::Sprite _blockSprite;
 
    public:
-    Water() = default;
+    SafeZone() = default;
 
-    Water(
+    SafeZone(
         float y,
         float mobWidth,
         float mobHeight,
-        const ConsoleGame::Sprite& waterSprite,
-        const ConsoleGame::Sprite& logSprite
+        const ConsoleGame::Sprite& safeSprite,
+        const ConsoleGame::Sprite& blockSprite
     )
-        : Lane(y, logSprite.GetHitBox(), waterSprite, GameType::LaneType::WATER)
+        : Lane(y, blockSprite.GetHitBox(), safeSprite, GameType::LaneType::SAFE)
     {
-        _logSprite = logSprite;
+        _blockSprite = blockSprite;
         Init();
     }
 
     void DrawEntity(ConsoleGame::AbstractCanvas* canvas) const override
     {
         size_t listSize = entityList.size();
-
         for (size_t i = 0; i < listSize; ++i) {
-            _logSprite.Paint(canvas, {(int)entityList[i], entityDrawY});
+            _blockSprite.Paint(canvas, {(int)entityList[i], entityDrawY});
             GameUtils::DrawHitbox(canvas, GetHitBox(i));
         }
     }
 
     ConsoleGame::Box GetHitBox(size_t ind) const
     {
-        ConsoleGame::Box hitbox = _logSprite.GetHitBox();
+        ConsoleGame::Box hitbox = _blockSprite.GetHitBox();
         hitbox.coord.x += entityList[ind];
         hitbox.coord.y = entityY - hitbox.coord.y;
 

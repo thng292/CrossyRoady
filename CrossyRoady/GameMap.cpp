@@ -23,6 +23,7 @@ AbstractNavigation::NavigationRes GameMap::Update(
 )
 {
     // DragMapDown(deltaTime);
+    tmpCol = 0;
     CollisionCheck();
     HandlePlayerInput(deltaTime);
     return navigation->NoChange();
@@ -55,17 +56,16 @@ void GameMap::Mount(const std::any& args)
     LoadMapSprite(gameData.mapType, gameSprites.roadSprite, "road");
     LoadMapSprite(gameData.mapType, gameSprites.debuff, "debuff");
 
-    // extra
     LoadExtraSprite(gameSprites.emptyHealth, "health-empty");
     LoadCharaSprite(gameData.charaType, gameSprites.health, "health");
     LoadCharaSprite(gameData.charaType, gameSprites.skill, "skill");
 
     ChangeColorPalette(GetGamePalette(gameData.mapType, gameData.charaType));
 
-    AniSprite cur = gameSprites.mobSpriteEasy.MobRight;
-    MobType ty = EASY;
+    AniSprite cur = gameSprites.mobSpriteHard.MobRight;
+    MobType ty = HARD;
 
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 0; i < 5; ++i) {
         laneList.push_back(std::make_unique<Road>(
             32 * (i + 1),
             cur.GetDim().width,
@@ -81,6 +81,13 @@ void GameMap::Mount(const std::any& args)
              gameSprites.roadSprite,
              gameSprites.floatSprite
          ));*/
+        /*laneList.push_back(std::make_unique<SafeZone>(
+            32 * (i + 1),
+            gameSprites.blockSprite.GetDim().width,
+            gameSprites.blockSprite.GetDim().height,
+            gameSprites.roadSprite,
+            gameSprites.blockSprite
+        ));*/
     }
 }
 
@@ -113,7 +120,10 @@ void GameMap::Draw(AbstractCanvas* canvas) const
     DrawHealth(canvas);
     DrawSkill(canvas);
     DrawDebuff(canvas);
-    if (tmpCol) *canvas[0][50] = Color::WHITE;
+    if (tmpCol) {
+        *canvas[0][50] = Color::WHITE;
+        LogDebug("{}", tmpCol);
+    }
 }
 
 void GameMap::DrawFlat(ConsoleGame::AbstractCanvas* canvas) const
@@ -184,10 +194,10 @@ void GameMap::DrawDebuff(ConsoleGame::AbstractCanvas* canvas) const
 
 void GameMap::CollisionCheck()
 {
-    tmpCol = false;
     for (auto& lane : laneList) {
-        if (lane->ContainsChara(character) && lane->CheckCollision(character))
-            tmpCol = true;
+        if (lane->ContainsChara(character) && lane->CheckCollision(character)) {
+            tmpCol = lane->GetY();
+        }
     }
 }
 

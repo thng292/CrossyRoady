@@ -10,6 +10,7 @@
 #include "GameUtils.h"
 #include "Lane.h"
 #include "Road.h"
+#include "SafeZone.h"
 #include "Water.h"
 
 using Debuff = std::function<void()>;
@@ -27,7 +28,7 @@ class GameMap : public ConsoleGame::AbstractScreen {
     bool isAllowedBack;
     bool isAllowedAdvance;
 
-    bool tmpCol;
+    int tmpCol;
 
     float mapSpeed = 30.0f;
 

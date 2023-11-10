@@ -12,149 +12,44 @@ class Lane {
     bool IsLeftToRight;
     float speed = 120.0f;
 
-    int laneDrawY;
-    int entityDrawY;
-
     float laneY;
+    int laneDrawY;
 
     float entityWidth;
     float entityHeight;
     float entityY;
     float entityFeetY;
+    int entityDrawY;
 
     ConsoleGame::Sprite _laneSprite;
 
    public:
-    void DeleteEntity()
-    {
-        {
-            if (IsLeftToRight) {
-                float maxX = ConsoleGame::_CONSOLE_WIDTH_ - entityWidth + 1;
-                if (entityList.front() >= maxX) {
-                    entityList.erase(entityList.begin());
-                }
-            } else {
-                float minX = -entityWidth;
-                if (entityList.front() <= minX) {
-                    entityList.erase(entityList.begin());
-                }
-            }
-        }
-    }
-
-    bool CheckCollision(const Character& character)
-    {
-        float charaX = character.GetX();
-        float charaY = character.GetY();
-        ConsoleGame::Vec2 charaSize = character.GetSize();
-
-        for (float entityX : entityList) {
-            if (charaX < entityX + entityWidth &&
-                charaX + charaSize.width > entityX &&
-                charaY < entityY + entityHeight &&
-                charaY + charaSize.height > entityY) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    void CreateEntity()
-    {
-        float tmp = rand() % (ConsoleGame::_CONSOLE_WIDTH_ / 2);
-        if (IsLeftToRight) {
-            entityList.push_back(entityList.back() + (tmp + entityWidth));
-
-        } else {
-            entityList.push_back(entityList.back() - tmp - entityWidth);
-        }
-    }
-
-    void Init()
-    {
-        if (IsLeftToRight) {
-            entityList.push_back(0);
-            float maxX = ConsoleGame::_CONSOLE_WIDTH_ - entityWidth + 1;
-            while (entityList.back() <= maxX) {
-                CreateEntity();
-            }
-        } else {
-            entityList.push_back(ConsoleGame::_CONSOLE_WIDTH_ - 1);
-            float minX = entityWidth - 2;
-            while (entityList.back() >= minX) {
-                CreateEntity();
-            }
-        }
-    }
-
-    bool ContainsChara(const Character& character)
-    {
-        float charaFeetY = character.GetBottomY();
-        return (laneY - 32 <= charaFeetY && charaFeetY <= laneY);
-    }
-
-    void UpdatePos(float deltaTime)
-    {
-        for (size_t i = 0; i < entityList.size(); i++) {
-            entityList[i] += speed * deltaTime;
-        }
-        CreateEntity();
-        DeleteEntity();
-    }
-
-    virtual void DrawEntity(ConsoleGame::AbstractCanvas* canvas) const = 0;
-
     Lane() = default;
-
     Lane(
         float y,
-        float width,
-        float height,
+        ConsoleGame::Box hitbox,
         const ConsoleGame::Sprite& laneSprite,
         GameType::LaneType type
-    )
-    {
-        _type = type;
-        _laneSprite = laneSprite;
-        IsLeftToRight = 1;
-        entityWidth = width;
-        entityHeight = height;
-        SetY(y);
-    }
+    );
 
-    void DrawLane(ConsoleGame::AbstractCanvas* canvas) const
-    {
-        for (int x = 0; x < ConsoleGame::_CONSOLE_WIDTH_; x += 32) {
-            _laneSprite.Paint(canvas, {x, laneDrawY});
-        }
-    }
+    void Init();
+    void DeleteEntity();
+    void CreateEntity();
+    void UpdatePos(float deltaTime);
+    bool ContainsChara(const Character& character);
 
-    float GetY() const { return laneY; }
+    float GetY() const;
+    float GetEntityFeetY() const;
+    int GetDrawY() const;
+    float GetTopY() const;
+    GameType::LaneType GetType() const;
 
-    float GetEntityFeetY() const { return entityFeetY; }
+    void SetY(float y);
 
-    float GetTopY() const { return entityFeetY + entityHeight; }
+    void DrawLane(ConsoleGame::AbstractCanvas* canvas) const;
 
-    int GetDrawY() const { return laneDrawY; }
+    bool CheckCollision(const Character& character) const;
 
-    GameType::LaneType GetType() const { return _type; }
-
-    void SetY(float y)
-    {
-        int screenHeight = ConsoleGame::_CONSOLE_HEIGHT_ * 2;
-        laneY = y;
-        laneDrawY = screenHeight - laneY;
-
-        switch (_type) {
-            case GameType::ROAD:
-                entityY = laneY + (entityHeight / 2 - 5);
-                break;
-            case GameType::WATER:
-                entityY = laneY;
-                break;
-        }
-
-        entityDrawY = screenHeight - entityY;
-        entityFeetY = entityY - entityHeight;
-    }
+    virtual ConsoleGame::Box GetHitBox(size_t index) const = 0;
+    virtual void DrawEntity(ConsoleGame::AbstractCanvas* canvas) const = 0;
 };
