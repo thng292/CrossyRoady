@@ -6,22 +6,26 @@
 
 using namespace ConsoleGame;
 
+constexpr Color Black = Color(13);
+constexpr Color White = Color(14);
+constexpr Color Gray = Color(15);
+
 Progress::Progress()
     : leftArr(
           SurfaceArgs{
-              .pos = {200, 70},
-              .cornerSize = 5,
-              .background = Color(14),
-              .border = Color(13)
+              .pos = {200, 70 - 8},
+              .cornerSize = 8,
+              .background = White,
+              .border = Black
 },
           false
       ),
       rightArr(
           SurfaceArgs{
-              .pos = {360, 70},
-              .cornerSize = 5,
-              .background = Color(14),
-              .border = Color(13)},
+              .pos = {360, 70 - 8},
+              .cornerSize = 8,
+              .background = White,
+              .border = Black},
           true
       )
 {
@@ -43,16 +47,16 @@ void Progress::Init(const std::any& args)
         .pos = {10,  10 },
         .cornerSize = 5,
         .hasBorder = true,
-        .background = (Color)14,
-        .border = (Color)13
+        .background = White,
+        .border = Black
     };
     surfaceExp.props = {
         .size = {180, 180},
         .pos = {194, 10 },
         .cornerSize = 5,
         .hasBorder = true,
-        .background = (Color)14,
-        .border = (Color)13
+        .background = White,
+        .border = Black
     };
 
     rectPos = {
@@ -119,11 +123,17 @@ AbstractNavigation::NavigationRes Progress::Update(
 )
 {
     auto res = navigation->NoChange();
+
+    leftArr.ChangeColor(Color::C_TRANSPARENT, Black);
+    rightArr.ChangeColor(Color::C_TRANSPARENT, Black);
     bg->Update(deltaTime);
     if (currentLevel != 0) {
         leftArr.Update(
             deltaTime,
-            [&] { audio.PlayHoverSfx(); },
+            [&] {
+                audio.PlayHoverSfx();
+                leftArr.ChangeColor(Black, Black);
+            },
             [&] {
                 audio.PlayClickSfx();
                 currentLevel--;
@@ -133,7 +143,10 @@ AbstractNavigation::NavigationRes Progress::Update(
     if (currentLevel != 10) {
         rightArr.Update(
             deltaTime,
-            [&] { audio.PlayHoverSfx(); },
+            [&] {
+                audio.PlayHoverSfx();
+                rightArr.ChangeColor(Black, Black);
+            },
             [&] {
                 audio.PlayClickSfx();
                 currentLevel++;
@@ -173,10 +186,10 @@ void Progress::DrawStat(ConsoleGame::AbstractCanvas* canvas) const
 {
     surfaceStat.Draw(canvas);
 
-    Font::DrawString(canvas, R.Statistic.Title, {20, 20}, 1, 1, (Color)13);
+    Font::DrawString(canvas, R.Statistic.Title, {20, 20}, 1, 1, Black);
     Vec2 tmp = {20, 60};
     for (int i = 0; i < data.size(); i++) {
-        Font::DrawString(canvas, data[i], tmp, 1, 0, (Color)13);
+        Font::DrawString(canvas, data[i], tmp, 1, 0, Black);
         tmp.y += Font::GetDim(0).height + 3;
     }
 }
@@ -184,9 +197,9 @@ void Progress::DrawStat(ConsoleGame::AbstractCanvas* canvas) const
 void Progress::DrawExp(ConsoleGame::AbstractCanvas* canvas) const
 {
     surfaceExp.Draw(canvas);
-    Font::DrawString(canvas, R.Exp.Level, {204, 20}, 1, 1, (Color)13);
+    Font::DrawString(canvas, R.Exp.Level, {204, 20}, 1, 1, Black);
     if (currentLevel != 0) {
-        DrawRhombus(canvas, rectPos[0], rectR[0], (Color)15);
+        DrawRhombus(canvas, rectPos[0], rectR[0], Gray);
         Font::DrawString(
             canvas,
             std::to_string(currentLevel - 1),
@@ -194,12 +207,12 @@ void Progress::DrawExp(ConsoleGame::AbstractCanvas* canvas) const
              rectPos[0].y - Font::GetDim(1).y / 2},
             1,
             1,
-            (Color)14
+            White
         );
     }
 
     auto tmpStr = std::to_string(currentLevel);
-    DrawRhombus(canvas, rectPos[1], rectR[1], (Color)13);
+    DrawRhombus(canvas, rectPos[1], rectR[1], Black);
     Font::DrawString(
         canvas,
         tmpStr,
@@ -207,11 +220,11 @@ void Progress::DrawExp(ConsoleGame::AbstractCanvas* canvas) const
          rectPos[1].y - Font::GetDim(1).y},
         2,
         1,
-        (Color)14
+        White
     );
     tmpStr = std::to_string(currentLevel + 1);
     if (currentLevel != 10) {
-        DrawRhombus(canvas, rectPos[2], rectR[2], (Color)15);
+        DrawRhombus(canvas, rectPos[2], rectR[2], Gray);
         Font::DrawString(
             canvas,
             tmpStr,
@@ -219,7 +232,7 @@ void Progress::DrawExp(ConsoleGame::AbstractCanvas* canvas) const
              rectPos[2].y - Font::GetDim(1).y / 2},
             1,
             1,
-            (Color)14
+            White
         );
     }
 
@@ -229,7 +242,7 @@ void Progress::DrawExp(ConsoleGame::AbstractCanvas* canvas) const
         {int(284 - Font::GetDim(1).x * R.Exp.Rewards.length() / 2), 110},
         1,
         1,
-        (Color)13
+        Black
     );
     auto reward = R.Exp.UnlockNewMap;
     if (currentLevel % 2 == 0) {
@@ -244,7 +257,7 @@ void Progress::DrawExp(ConsoleGame::AbstractCanvas* canvas) const
         {int(284 - Font::GetDim(0).x * reward.length() / 2), 140},
         1,
         0,
-        (Color)13
+        Black
     );
 }
 

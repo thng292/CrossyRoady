@@ -114,6 +114,9 @@
     <ClCompile Include="Water.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="HMenu.cpp">
+      <Filter>Source Files\UIComponent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="About.h">
@@ -190,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="Lane.h">
       <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="HMenu.h">
+      <Filter>Header Files\UIComponent</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

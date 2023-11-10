@@ -16,6 +16,7 @@ namespace ConsoleGame {
                         hitBox.coord.y++;
                         hitBox.dim.height--;
                     }
+                    break;
                 }
             }
             hitBox.coord.y++;
@@ -29,6 +30,7 @@ namespace ConsoleGame {
                     if (bottom == dim.height - 1) {
                         hitBox.dim.height--;
                     }
+                    break;
                 }
             }
             hitBox.dim.height--;
@@ -43,6 +45,7 @@ namespace ConsoleGame {
                         hitBox.coord.x++;
                         hitBox.dim.width--;
                     }
+                    break;
                 }
             }
             hitBox.dim.width--;
@@ -57,6 +60,7 @@ namespace ConsoleGame {
                     if (right != dim.width - 1) {
                         hitBox.dim.width--;
                     }
+                    break;
                 }
             }
             hitBox.dim.width--;

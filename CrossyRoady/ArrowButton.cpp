@@ -130,3 +130,11 @@ void ArrowButton::Draw(ConsoleGame::AbstractCanvas* canvas) const
         }
     }
 }
+
+void ArrowButton::ChangeColor(
+    ConsoleGame::Color backgroundColor, ConsoleGame::Color borderColor
+)
+{
+    this->props.background = backgroundColor;
+    this->props.border = borderColor;
+}

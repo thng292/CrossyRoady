@@ -39,6 +39,8 @@ auto main() -> int
     game->AddScreen(std::make_unique<GameMap>());
 
     game->Run(GameMap::ScreenName());
+    game->AddScreen(std::make_unique<CharactersInfo>());
+    game->Run(MainMenu::ScreenName());
 
     return 0;
 }

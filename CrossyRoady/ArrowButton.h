@@ -16,16 +16,27 @@ class ArrowButton : private Surface {
 
     void Mount() { count = 0; }
 
+    void ChangeColor(
+        ConsoleGame::Color backgroundColor, ConsoleGame::Color borderColor
+    );
+
     void Update(float deltaTime, auto onHover, auto onClick)
     {
-        if (count < buttonDelay) {
+        if (count <= buttonDelay) {
             count += deltaTime;
         }
-        if (IsHover(ConsoleGame::GetMousePos())) {
+        auto KeyFunc = ConsoleGame::IsKeyMeanLeft;
+        if (direction) {
+            KeyFunc = ConsoleGame::IsKeyMeanRight;
+        }
+        auto tmp = IsHover(ConsoleGame::GetMousePos());
+        if (tmp) {
             onHover();
-            if (ConsoleGame::IsKeyMeanSelect() && count > buttonDelay) {
-                onClick();
-            }
+        }
+        if (((ConsoleGame::IsKeyMeanSelect() and tmp) or KeyFunc()) and
+            count > buttonDelay) {
+            count = 0;
+            onClick();
         }
     }
 };

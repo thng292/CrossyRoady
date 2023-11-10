@@ -24,7 +24,6 @@ class Button : private Surface {
 
     void ChangeTextColor(ConsoleGame::Color textColor);
     bool IsHover(ConsoleGame::Vec2 mousePos) const;
-    void ChangeSurface(const SurfaceArgs& surface);
     void ChangeColor(
         ConsoleGame::Color textColor,
         ConsoleGame::Color backgroundColor,
