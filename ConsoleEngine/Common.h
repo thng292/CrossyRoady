@@ -62,11 +62,16 @@ namespace ConsoleGame {
         C_TRANSPARENT = 0b11111
     };
 
-    bool IsWindowForeground();
 
+    enum class KeyState: uint8_t { Normal, Holding, Released };
+    extern KeyState keyboardState[256];
+    extern bool isForeground; 
+    extern Vec2 mousePos;
+
+    bool IsWindowForeground();
     // Get KeyCode:
     // https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
-    bool IsKeyDown(int keyCode);
+    bool IsKeyDown(int key);
     bool IsKeyMeanUp();
     bool IsKeyMeanDown();
     bool IsKeyMeanLeft();
@@ -74,6 +79,15 @@ namespace ConsoleGame {
     bool IsKeyMeanSelect();
     bool IsKeyMeanEscape();
     bool IsKeyMeanBack();
+
+    bool UiIsKeyMeanUp();
+    bool UiIsKeyMeanDown();
+    bool UiIsKeyMeanLeft();
+    bool UiIsKeyMeanRight();
+    bool UiIsKeyMeanSelect();
+    bool UiIsKeyMeanEscape();
+    bool UiIsKeyMeanBack();
+    bool UiIsKeyMeanClick();
 
     Vec2 GetMousePos();
     int GetDisplayRefreshRate();

@@ -1,4 +1,4 @@
-Sfx=On
+Sfx=Off
 Music=Off
 CharacterUnlocked=
 ForestXP=

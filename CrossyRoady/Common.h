@@ -6,7 +6,7 @@
 #include "MenuBG.h"
 
 constexpr int LevelExpReq = 200;
-constexpr float buttonDelay = 0.12;
+constexpr float buttonDelay = 0.3;
 constexpr uint8_t numberOfChars = 6;
 
 constexpr std::array<std::string_view, 6> fileCharName = {

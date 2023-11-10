@@ -25,15 +25,15 @@ class ArrowButton : private Surface {
         if (count <= buttonDelay) {
             count += deltaTime;
         }
-        auto KeyFunc = ConsoleGame::IsKeyMeanLeft;
+        auto KeyFunc = ConsoleGame::UiIsKeyMeanLeft;
         if (direction) {
-            KeyFunc = ConsoleGame::IsKeyMeanRight;
+            KeyFunc = ConsoleGame::UiIsKeyMeanRight;
         }
         auto tmp = IsHover(ConsoleGame::GetMousePos());
         if (tmp) {
             onHover();
         }
-        if (((ConsoleGame::IsKeyMeanSelect() and tmp) or KeyFunc()) and
+        if (((ConsoleGame::UiIsKeyMeanSelect() and tmp) or KeyFunc()) and
             count > buttonDelay) {
             count = 0;
             onClick();

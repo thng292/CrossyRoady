@@ -11,9 +11,6 @@ class Menu {
     static constexpr int gap = 5;
 
     uint8_t lastHover = 0;
-    float keyboardCounter = 0;
-    float mouseCounter = 0;
-    bool lastIsUp = false;
 
    public:
     uint8_t hover = 0;
@@ -43,34 +40,14 @@ class Menu {
         }
     }
 
-    void Mount()
-    {
-        mouseCounter = 0;
-        keyboardCounter = 0;
-    }
-
     template <MenuSelectedCB Func1, MenuSelectedCB Func2>
     void Update(float deltaTime, Func1 onSelectChange, Func2 onTriggerCB)
     {
-        if (keyboardCounter <= buttonDelay) {
-            keyboardCounter += deltaTime;
+        if (ConsoleGame::UiIsKeyMeanDown()) {
+            hover = (hover + 1 + buttons.size()) % buttons.size();
         }
-        if (mouseCounter <= buttonDelay) {
-            mouseCounter += deltaTime;
-        }
-        if (ConsoleGame::IsKeyMeanDown()) {
-            if (keyboardCounter > buttonDelay || lastIsUp) {
-                lastIsUp = false;
-                keyboardCounter = 0;
-                hover = (hover + 1 + buttons.size()) % buttons.size();
-            }
-        }
-        if (ConsoleGame::IsKeyMeanUp()) {
-            if (keyboardCounter > buttonDelay || !lastIsUp) {
-                lastIsUp = true;
-                keyboardCounter = 0;
-                hover = (hover - 1 + buttons.size()) % buttons.size();
-            }
+        if (ConsoleGame::UiIsKeyMeanUp()) {
+            hover = (hover - 1 + buttons.size()) % buttons.size();
         }
 
         auto mousePos = ConsoleGame::GetMousePos();
@@ -86,10 +63,9 @@ class Menu {
             onSelectChange(hover);
         }
 
-        if (ConsoleGame::IsKeyMeanSelect()) {
+        if (ConsoleGame::UiIsKeyMeanSelect()) {
             onTriggerCB(hover);
-        } else if (ConsoleGame::IsKeyDown(VK_LBUTTON) && buttons[hover].IsHover(mousePos) && mouseCounter > buttonDelay) {
-            mouseCounter = 0;
+        } else if (ConsoleGame::UiIsKeyDown(VK_LBUTTON) && buttons[hover].IsHover(mousePos)) {
             onTriggerCB(hover);
         }
 

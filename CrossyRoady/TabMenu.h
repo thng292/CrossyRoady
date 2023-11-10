@@ -14,9 +14,6 @@ class TabMenu {
     static constexpr int gap = 5;
 
     uint8_t lastHover = 0;
-    float keyboardCounter = 0;
-    float mouseCounter = 0;
-    bool lastIsUp = false;
 
    public:
     int16_t hover = 0;
@@ -47,35 +44,15 @@ class TabMenu {
         }
     }
 
-    void Mount()
-    {
-        mouseCounter = 0;
-        keyboardCounter = 0;
-    }
-
     template <MenuSelectedCB Func1, MenuSelectedCB Func2>
     void Update(float deltaTime, Func1 onSelectChange, Func2 onTriggerCB)
     {
         hover = -1;
-        if (keyboardCounter <= buttonDelay) {
-            keyboardCounter += deltaTime;
+        if (ConsoleGame::UiIsKeyMeanDown()) {
+            hover = (hover + 1 + buttons.size()) % buttons.size();
         }
-        if (mouseCounter <= buttonDelay) {
-            mouseCounter += deltaTime;
-        }
-        if (ConsoleGame::IsKeyMeanDown()) {
-            if (keyboardCounter > buttonDelay || lastIsUp) {
-                lastIsUp = false;
-                keyboardCounter = 0;
-                hover = (hover + 1 + buttons.size()) % buttons.size();
-            }
-        }
-        if (ConsoleGame::IsKeyMeanUp()) {
-            if (keyboardCounter > buttonDelay || !lastIsUp) {
-                lastIsUp = true;
-                keyboardCounter = 0;
-                hover = (hover - 1 + buttons.size()) % buttons.size();
-            }
+        if (ConsoleGame::UiIsKeyMeanUp()) {
+            hover = (hover - 1 + buttons.size()) % buttons.size();
         }
 
         auto mousePos = ConsoleGame::GetMousePos();
@@ -93,14 +70,12 @@ class TabMenu {
             }
         }
 
-        if (ConsoleGame::IsKeyMeanSelect()) {
+        if (ConsoleGame::UiIsKeyMeanSelect()) {
             selected = hover;
             onTriggerCB(hover);
-        } else if (ConsoleGame::IsKeyDown(VK_LBUTTON) 
-            and hover >=0 and buttons[hover].IsHover(mousePos) 
-            and mouseCounter > buttonDelay) 
+        } else if (ConsoleGame::UiIsKeyDown(VK_LBUTTON) 
+            and hover >=0 and buttons[hover].IsHover(mousePos) )
         {
-            mouseCounter = 0;
             selected = hover;
             onTriggerCB(hover);
         }
