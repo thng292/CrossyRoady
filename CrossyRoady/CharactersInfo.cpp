@@ -47,7 +47,15 @@ const std::wstring_view CharactersInfo::ScreenName() { return L"CharInfo"; }
 
 std::wstring_view CharactersInfo::getName() { return ScreenName(); }
 
-void CharactersInfo::Init(const std::any& args) { LoadStuff(); }
+void CharactersInfo::Init(const std::any& args)
+{
+    backButt.Init(
+        {(_CanvasSize.width - 80) / 2, 200},
+        {80, 18},
+        {R.CharInfo.Upgrade, R.Back}
+    );
+    LoadStuff();
+}
 
 AbstractScreen* CharactersInfo::Clone() const { return new CharactersInfo; }
 
@@ -56,6 +64,39 @@ AbstractNavigation::NavigationRes CharactersInfo::Update(
 )
 {
     auto res = navigation->NoChange();
+    if (currentSelect != 0) {
+        leftArr.Update(
+            deltaTime,
+            [&] { audio.PlayHoverSfx(); },
+            [&] {
+                currentSelect--;
+                LoadStuff();
+            }
+        );
+    }
+    if (currentSelect != numberOfChars -1) {
+        rightArr.Update(
+            deltaTime,
+            [&] { audio.PlayHoverSfx(); },
+            [&] {
+                currentSelect++;
+                LoadStuff();
+            }
+        );
+    }
+    backButt.Update(
+        deltaTime,
+        [&](uint8_t) noexcept { audio.PlayHoverSfx(); },
+        [&](uint8_t selection) noexcept {
+            switch (selection) {
+                case 0:
+                    break;
+                case 1:
+                    res = navigation->Back();
+                    break;
+            }
+        }
+    );
     return res;
 }
 
@@ -66,7 +107,7 @@ void CharactersInfo::Draw(AbstractCanvas* canvas) const
     if (currentSelect != 0) {
         leftArr.Draw(canvas);
     }
-    if (currentSelect != numberOfChars) {
+    if (currentSelect != numberOfChars - 1) {
         rightArr.Draw(canvas);
     }
 }

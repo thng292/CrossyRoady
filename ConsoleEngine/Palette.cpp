@@ -13,11 +13,11 @@ namespace ConsoleGame {
         char hex[2] = {0};
         for (auto& color : data) {
             in.read(hex, sizeof(hex));
-            r = std::stoi(hex, 0, 16);
+            r = std::stoul(hex, 0, 16);
             in.read(hex, sizeof(hex));
-            g = std::stoi(hex, 0, 16);
+            g = std::stoul(hex, 0, 16);
             in.read(hex, sizeof(hex));
-            b = std::stoi(hex, 0, 16);
+            b = std::stoul(hex, 0, 16);
             color = RGB(r, g, b);
             in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
