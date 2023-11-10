@@ -35,6 +35,7 @@ auto main() -> int
     game->AddScreen(std::make_unique<Setting>());
     game->AddScreen(std::make_unique<Progress>());
     game->AddScreen(std::make_unique<Credit>());
+    game->AddScreen(std::make_unique<CharactersInfo>());
     game->Run(MainMenu::ScreenName());
 
     return 0;

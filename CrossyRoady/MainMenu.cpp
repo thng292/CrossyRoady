@@ -1,5 +1,6 @@
 #include "MainMenu.h"
 
+#include "CharactersInfo.h"
 #include "Progress.h"
 #include "Setting.h"
 #include "StringRes.h"
@@ -31,10 +32,10 @@ void MainMenu::Init(const std::any& args)
 void MainMenu::Mount(const std::any& args)
 {
     Palette levelPalette(RESOURCE_PATH MAP_PATH "forest/forest.hex");
-    Palette faunaPalette(RESOURCE_PATH CHARACTER_PATH "fauna.hex");
-    for (int i = 0; i < 6; i++) {
-        levelPalette[i] = faunaPalette[i];
-    }
+    /* Palette faunaPalette(RESOURCE_PATH CHARACTER_PATH "fauna.hex");
+     for (int i = 0; i < 6; i++) {
+         levelPalette[i] = faunaPalette[i];
+     }*/
     ChangeColorPalette(levelPalette);
     if (bg.IsUnmounted()) {
         bg.Mount();
@@ -59,8 +60,10 @@ AbstractNavigation::NavigationRes MainMenu::Update(
             audio.PlayClickSfx();
             switch (selection) {
                 case 2:
-                    res =
-                        navigation->Navigate(Progress::ScreenName(), &bg);
+                    res = navigation->Navigate(Progress::ScreenName(), &bg);
+                    break;
+                case 3:
+                    res = navigation->Navigate(CharactersInfo::ScreenName());
                     break;
                 case 4:
                     res = navigation->Navigate(Setting::ScreenName(), &bg);

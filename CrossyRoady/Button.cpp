@@ -32,12 +32,6 @@ void Button::ChangeTextColor(Color textColor) { this->textColor = textColor; }
 
 bool Button::IsHover(Vec2 mousePos) const { return Surface::IsHover(mousePos); }
 
-void Button::ChangeSurface(const SurfaceArgs& surface)
-{
-    Surface::props = surface;
-    calculateTextPos();
-}
-
 void Button::ChangeColor(
     Color textColor, Color backgroundColor, Color borderColor
 )
