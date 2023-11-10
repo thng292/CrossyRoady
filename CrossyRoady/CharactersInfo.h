@@ -1,7 +1,7 @@
 #pragma once
 #include "ArrowButton.h"
 #include "ConsoleGame.h"
-#include "HMenu.h"
+#include "Menu.h"
 #include "SharedAudio.h"
 
 class CharactersInfo : public ConsoleGame::AbstractScreen {
@@ -11,7 +11,7 @@ class CharactersInfo : public ConsoleGame::AbstractScreen {
     ArrowButton leftArr;
     ArrowButton rightArr;
     uint8_t currentSelect = 0;
-    HMenu<2> backButt;
+    Menu<2> backButt;
 
     void LoadStuff();
 

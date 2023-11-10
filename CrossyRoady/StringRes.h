@@ -69,6 +69,8 @@ struct StringResource {
 
     struct {
         std::string_view Title = "Characters";
+        std::string_view UpgradeAvail = "Upgrade Available";
+        std::string_view Upgrade = "Upgrade";
     } CharInfo;
 
     struct {
