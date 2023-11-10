@@ -1,53 +1,26 @@
 #include "ArrowButton.h"
 
-ArrowButton::ArrowButton(
-    SurfaceArgs surfaceArgs, bool direction
-)
+ArrowButton::ArrowButton(SurfaceArgs surfaceArgs, bool direction)
     : Surface(surfaceArgs),  // no size, only conrnerSize
       direction(direction)   //"left" or "right"
 {
 }
 
-double crossProduct(
-    ConsoleGame::Vec2 A, ConsoleGame::Vec2 B, ConsoleGame::Vec2 C
-)
-{
-    return (B.x - A.x) * (C.y - A.y) - (B.y - A.y) * (C.x - A.x);
-}
-
 bool ArrowButton::IsHover(ConsoleGame::Vec2 mousePos) const
 {
-    ConsoleGame::Vec2 A, B, C, D;
+    int x = mousePos.x - props.pos.x;
+    int y = mousePos.y - props.pos.y;
+    bool tmp1, tmp2;
     if (direction == 1) {
-        A = {props.pos.x, props.pos.y};
-        B = {props.pos.x, props.pos.y + props.cornerSize * 2 - 1};
-        C = {
-            props.pos.x + props.cornerSize, props.pos.y + props.cornerSize - 1};
-        D = {props.pos.x + props.cornerSize, props.pos.y + props.cornerSize};
+        tmp1 =( x <= props.cornerSize - y) && (y <= props.cornerSize);
+        tmp2 = (y > props.cornerSize) && (x <= props.cornerSize * 2 - y + 2);
+
     } else if (direction == 0) {
-        A = {props.pos.x + props.cornerSize, props.pos.y};
-        B = {
-            props.pos.x + props.cornerSize,
-            props.pos.y + props.cornerSize * 2 - 1};
-        C = {props.pos.x, props.pos.y + props.cornerSize - 1};
-        D = {props.pos.x, props.pos.y + props.cornerSize};
+        tmp1 = (y <= props.cornerSize) && (x >= props.cornerSize - 2 - y);
+        tmp2 = (y > props.cornerSize) && (x > y - props.cornerSize - 1);
     }
-    double ABC = abs(crossProduct(A, B, C));
-    double PAB = abs(crossProduct(mousePos, A, B));
-    double PAC = abs(crossProduct(mousePos, A, C));
-    double PBC = abs(crossProduct(mousePos, B, C));
-
-    double ACD = abs(crossProduct(A, C, D));
-    double PAD = abs(crossProduct(mousePos, A, D));
-    double PCD = abs(crossProduct(mousePos, C, D));
-    double PDA = abs(crossProduct(mousePos, D, A));
-    double totalArea = ABC + ACD;
-
-    if (PAB + PAC + PBC == ABC && PAD + PCD + PDA == ACD &&
-        PAB + PAC + PBC + PAD + PCD + PDA == totalArea) {
-        return true;
-    }
-    return false;
+    return (x >= 0) && (y >= 0) && (x <= props.cornerSize + 1) &&
+           (y <= props.cornerSize * 2) && (tmp1 || tmp2);
 }
 
 void ArrowButton::Draw(ConsoleGame::AbstractCanvas* canvas) const
