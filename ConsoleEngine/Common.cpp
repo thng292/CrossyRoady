@@ -4,19 +4,14 @@
 
 namespace ConsoleGame {
     KeyState keyboardState[8] = {KeyState::Normal};
-    bool isForeground           = true;
-    Vec2 mousePos               = {0, 0};
+    bool isForeground         = true;
+    Vec2 mousePos             = {0, 0};
 
     bool IsWindowForeground() { return isForeground; }
 
     bool ConsoleGame::IsKeyDown(int key)
     {
         return (GetAsyncKeyState(key) & 0x8000) and isForeground;
-    }
-
-    bool ConsoleGame::UiIsKeyDown(int key)
-    {
-        return keyboardState[key] == KeyState::Released and isForeground;
     }
 
     bool IsKeyMeanUp()
@@ -80,68 +75,21 @@ namespace ConsoleGame {
 
     using enum KeyState;
 
-    bool UiIsKeyMeanUp()
-    {
-        return (keyboardState['W'] == Released or
-                keyboardState[VK_UP] == Released or
-                keyboardState[VK_GAMEPAD_DPAD_UP] == Released or
-                keyboardState[VK_GAMEPAD_LEFT_THUMBSTICK_UP] == Released) and
-               isForeground;
-    }
+    bool UiIsKeyMeanUp() { return keyboardState[0] == Released; }
 
-    bool UiIsKeyMeanDown()
-    {
-        return (keyboardState['S'] == Released or
-                keyboardState[VK_DOWN] == Released or
-                keyboardState[VK_GAMEPAD_DPAD_DOWN] == Released or
-                keyboardState[VK_GAMEPAD_LEFT_THUMBSTICK_DOWN] == Released) and
-               isForeground;
-    }
+    bool UiIsKeyMeanDown() { return keyboardState[1] == Released; }
 
-    bool UiIsKeyMeanLeft()
-    {
-        return (keyboardState['A'] == Released or
-                keyboardState[VK_LEFT] == Released or
-                keyboardState[VK_GAMEPAD_DPAD_LEFT] == Released or
-                keyboardState[VK_GAMEPAD_LEFT_THUMBSTICK_LEFT] == Released) and
-               isForeground;
-    }
+    bool UiIsKeyMeanLeft() { return keyboardState[2] == Released; }
 
-    bool UiIsKeyMeanRight()
-    {
-        return (keyboardState['D'] == Released or
-                keyboardState[VK_RIGHT] == Released or
-                keyboardState[VK_GAMEPAD_DPAD_RIGHT] == Released or
-                keyboardState[VK_GAMEPAD_LEFT_THUMBSTICK_RIGHT] == Released) &&
-               isForeground;
-    }
+    bool UiIsKeyMeanRight() { return keyboardState[3] == Released; }
 
-    bool UiIsKeyMeanSelect()
-    {
-        return (keyboardState[VK_RETURN] == Released or
-                keyboardState['F'] == Released or
-                keyboardState[VK_GAMEPAD_A] == Released) and
-               isForeground;
-    }
+    bool UiIsKeyMeanSelect() { return keyboardState[4] == Released; }
 
-    bool UiIsKeyMeanBack()
-    {
-        return (keyboardState['B'] == Released or
-                keyboardState[VK_GAMEPAD_B] == Released) and
-               isForeground;
-    }
+    bool UiIsKeyMeanEscape() { return keyboardState[5] == Released; }
 
-    bool UiIsKeyMeanEscape()
-    {
-        return (keyboardState[VK_ESCAPE] == Released or
-                keyboardState[VK_GAMEPAD_MENU] == Released) and
-               isForeground;
-    }
+    bool UiIsKeyMeanBack() { return keyboardState[6] == Released; }
 
-    bool UiIsKeyMeanClick()
-    {
-        return keyboardState[VK_LBUTTON] == Released and isForeground;
-    }
+    bool UiIsKeyMeanClick() { return keyboardState[7] == Released; }
 
     Vec2 ConsoleGame::GetMousePos() { return mousePos; }
 

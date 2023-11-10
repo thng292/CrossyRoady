@@ -63,7 +63,7 @@ class HMenu {
 
         if (ConsoleGame::UiIsKeyMeanSelect()) {
             onTriggerCB(hover);
-        } else if (ConsoleGame::UiIsKeyDown(VK_LBUTTON) && buttons[hover].IsHover(mousePos)) {
+        } else if (ConsoleGame::UiIsKeyMeanClick() && buttons[hover].IsHover(mousePos)) {
             onTriggerCB(hover);
         }
 

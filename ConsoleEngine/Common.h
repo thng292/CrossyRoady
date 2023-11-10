@@ -64,7 +64,7 @@ namespace ConsoleGame {
 
 
     enum class KeyState: uint8_t { Normal, Holding, Released };
-    extern KeyState keyboardState[256];
+    extern KeyState keyboardState[8];
     extern bool isForeground; 
     extern Vec2 mousePos;
 

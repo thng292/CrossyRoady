@@ -73,7 +73,7 @@ class TabMenu {
         if (ConsoleGame::UiIsKeyMeanSelect()) {
             selected = hover;
             onTriggerCB(hover);
-        } else if (ConsoleGame::UiIsKeyDown(VK_LBUTTON) 
+        } else if (ConsoleGame::UiIsKeyMeanClick() 
             and hover >=0 and buttons[hover].IsHover(mousePos) )
         {
             selected = hover;
