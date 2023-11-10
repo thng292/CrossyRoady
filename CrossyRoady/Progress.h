@@ -3,6 +3,7 @@
 #include "Menu.h"
 #include "MenuBG.h"
 #include "SharedAudio.h"
+#include "ArrowButton.h"
 
 class Progress : public ConsoleGame::AbstractScreen {
     Menu<1> backButt;
@@ -14,6 +15,9 @@ class Progress : public ConsoleGame::AbstractScreen {
     std::array<uint8_t, 3> rectR;
     int earnedXP = 0;
     int currentLevel = 10;
+    
+    ArrowButton leftArr;
+    ArrowButton rightArr;
 
     Surface surfaceStat;
     Surface surfaceExp;
@@ -22,6 +26,7 @@ class Progress : public ConsoleGame::AbstractScreen {
     void DrawExp(ConsoleGame::AbstractCanvas* canvas) const;
 
    public:
+    Progress();
     static const std::wstring_view ScreenName();
     std::wstring_view getName() override;
     void Init(const std::any& args) override;
