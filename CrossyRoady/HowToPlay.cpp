@@ -58,7 +58,7 @@ ConsoleGame::AbstractNavigation::NavigationRes HowToPlay::Update(
 )
 {
     bg.Update(deltaTime);
-    AbstractNavigation::NavigationRes res = navigation->NoChange();
+    auto res = navigation->NoChange();
     menu.Update(
         deltaTime,
         [&](uint8_t hovering) noexcept {},
@@ -72,7 +72,6 @@ ConsoleGame::AbstractNavigation::NavigationRes HowToPlay::Update(
                     break;
                 case 3:
                     res = navigation->Back();
-                    menu.selected = 3;
                     break;
             }
         }

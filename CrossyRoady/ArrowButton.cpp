@@ -1,4 +1,5 @@
 #include "ArrowButton.h"
+using namespace ConsoleGame;
 
 ArrowButton::ArrowButton(SurfaceArgs surfaceArgs, bool direction)
     : Surface(surfaceArgs),  // no size, only conrnerSize
@@ -8,16 +9,18 @@ ArrowButton::ArrowButton(SurfaceArgs surfaceArgs, bool direction)
 
 bool ArrowButton::IsHover(ConsoleGame::Vec2 mousePos) const
 {
-    int x = mousePos.x - props.pos.x;
+    int x;
     int y = mousePos.y - props.pos.y;
     bool tmp1, tmp2;
     if (direction == 1) {
-        tmp1 =( x <= props.cornerSize - y) && (y <= props.cornerSize);
+        x = (mousePos.x - 25) - props.pos.x;
+        tmp1 = (x <= props.cornerSize - y) && (y <= props.cornerSize);
         tmp2 = (y > props.cornerSize) && (x <= props.cornerSize * 2 - y + 2);
 
     } else if (direction == 0) {
-        tmp1 = (y <= props.cornerSize) && (x >= props.cornerSize - 2 - y);
-        tmp2 = (y > props.cornerSize) && (x > y - props.cornerSize - 1);
+        x = (mousePos.x - 10) - props.pos.x;
+        tmp1 = (y <= props.cornerSize) && (x >= props.cornerSize + 1 - y);
+        tmp2 = (y > props.cornerSize) && (x >= y - props.cornerSize - 1);
     }
     return (x >= 0) && (y >= 0) && (x <= props.cornerSize + 1) &&
            (y <= props.cornerSize * 2) && (tmp1 || tmp2);

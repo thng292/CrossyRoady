@@ -42,8 +42,8 @@ void Upgrade::Draw(ConsoleGame::AbstractCanvas* canvas) const
         canvas, "You will receive Upgrade Points after", {137, 115}, 1, 0
     );
     Font::DrawString(canvas, "each level-up", {137, 130}, 1, 0);
-    Font::DrawString(canvas, "Menu", {137, 155}, 1, 0);
-    Font::DrawString(canvas, "Characters to upgrade your", {180, 155}, 1, 0);
+    Font::DrawString(canvas, "Menu ->", {137, 155}, 1, 0);
+    Font::DrawString(canvas, " Characters to upgrade your", {180, 155}, 1, 0);
     Font::DrawString(canvas, "characters.", {137, 170}, 1, 0);
 
     arrow.Draw(canvas);
