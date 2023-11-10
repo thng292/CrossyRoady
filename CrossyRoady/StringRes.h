@@ -40,6 +40,9 @@ struct StringResource {
 
     struct {
         std::string_view Title = "How to play";
+        std::string_view Control = "Control";
+        std::string_view Exp = "EXP";
+        std::string_view Upgrade = "Upgrade";
     } HowToPlay;
 
     struct {

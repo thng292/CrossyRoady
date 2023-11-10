@@ -30,6 +30,14 @@ namespace GameUtils {
         GameType::MapType mapType, GameType::CharaType charaType
     );
 
+    void DrawHitbox(
+        ConsoleGame::AbstractCanvas* canvas,
+        ConsoleGame::Box hitbox,
+        ConsoleGame::Color color = ConsoleGame::Color::BLACK
+    );
+
+    bool IsCollide(ConsoleGame::Box box1, ConsoleGame::Box box2);
+
     std::string GetPathToMap(GameType::MapType mapType);
     std::string GetPathToChar(GameType::CharaType charaType);
 }  // namespace GameUtils

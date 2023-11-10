@@ -4,10 +4,12 @@
 #include "CharactersInfo.h"
 #include "ConsoleGame.h"
 #include "Credit.h"
+#include "HowToPlay.h"
 #include "MainMenu.h"
 #include "Progress.h"
 #include "Setting.h"
 #include "StringRes.h"
+#include "GameMap.h"
 using namespace ConsoleGame;
 
 // #define _SHOW_OFF_
@@ -35,7 +37,11 @@ auto main() -> int
     game->AddScreen(std::make_unique<Setting>());
     game->AddScreen(std::make_unique<Progress>());
     game->AddScreen(std::make_unique<Credit>());
+    game->AddScreen(std::make_unique<GameMap>());
+
+    game->Run(GameMap::ScreenName());
     game->AddScreen(std::make_unique<CharactersInfo>());
+    game->AddScreen(std::make_unique<HowToPlay>());
     game->Run(MainMenu::ScreenName());
 
     return 0;

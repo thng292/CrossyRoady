@@ -2,8 +2,8 @@
 
 #include "Common.h"
 #include "Credit.h"
+#include "HowToPlay.h"
 #include "StringRes.h"
-
 using namespace ConsoleGame;
 
 const std::wstring_view Setting::ScreenName() { return L"SettingScreen"; }
@@ -99,6 +99,9 @@ AbstractNavigation::NavigationRes Setting::Update(
                         LocalStorage::Set(R.Config.SfxToggle, R.Config.OnOpt);
                     }
                     UpdateSfxTitle();
+                    break;
+                case 2:
+                    res = navigation->Navigate(HowToPlay::ScreenName(), bg);
                     break;
                 case 3:
                     res = navigation->Navigate(Credit::ScreenName(), bg);

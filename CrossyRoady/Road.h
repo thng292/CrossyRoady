@@ -22,7 +22,7 @@ class Road : public Lane {
         ConsoleGame::Sprite& roadSprite,
         const ConsoleGame::AniSprite& mobSprite
     )
-        : Lane(y, mobWidth, mobHeight, roadSprite, GameType::LaneType::ROAD)
+        : Lane(y, mobSprite.GetHitBox(), roadSprite, GameType::LaneType::ROAD)
     {
         _type = type;
         _mobSprite = mobSprite;
@@ -37,8 +37,18 @@ class Road : public Lane {
 
     void DrawEntity(ConsoleGame::AbstractCanvas* canvas) const override
     {
-        for (auto x : entityList) {
-            _mobSprite.Paint(canvas, {(int)x, entityDrawY});
+        size_t listSize = entityList.size();
+        for (size_t i = 0; i < listSize; ++i) {
+            _mobSprite.Paint(canvas, {(int)entityList[i], entityDrawY});
+            GameUtils::DrawHitbox(canvas, GetHitBox(i));
         }
+    }
+
+    ConsoleGame::Box GetHitBox(size_t ind) const
+    {
+        ConsoleGame::Box hitbox = _mobSprite.GetHitBox();
+        hitbox.coord.x += entityList[ind];
+        hitbox.coord.y = entityY - hitbox.coord.y;
+        return hitbox;
     }
 };

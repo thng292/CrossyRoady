@@ -5,141 +5,60 @@
 
 #include "ConsoleGame.h"
 #include "GameType.h"
+#include "GameUtils.h"
 #include "StringRes.h"
 
 class Character {
    private:
-    ConsoleGame::Vec2 coord, size = {.width = 32, .height = 32};
-    int maxHealth, curHealth;
     GameType::CharaType _type;
-    float _speed, x = 0, y = 50;
+    int maxHealth;
+    int curHealth;
+    float _speed;
+
+    float x;
+    float y;
+    int drawX;
+    int drawY;
+
     ConsoleGame::AniSprite* currentSprite;
     ConsoleGame::AniSprite leftSprite, upSprite, rightSprite, downSprite;
-    int inpR = 0, inpL = 0, distR = 0, distL = 0, timeL = 0, timeR = 0;
+
+    void UpdateHitBox(ConsoleGame::AniSprite& sprite);
 
    public:
     Character() = default;
 
-    void Init(GameType::CharaType type)
-    {
-        coord = {.x = 0, .y = 50};
-        maxHealth = GameType::CHARA_HEALTH[type];
-        _speed = GameType::CHARA_SPEED[type];
-        _speed = 120;
-        curHealth = maxHealth;
-        _type = type;
+    void Init(GameType::CharaType type);
 
-        std::string_view charNameFile = GameType::CHARA_NAME_FILE[type];
-        leftSprite.Load(std::format(
-            "{}{}{}L.anisprite", RESOURCE_PATH, CHARACTER_PATH, charNameFile
-        ));
-        rightSprite.Load(std::format(
-            "{}{}{}R.anisprite", RESOURCE_PATH, CHARACTER_PATH, charNameFile
-        ));
-        upSprite.Load(std::format(
-            "{}{}{}B.anisprite", RESOURCE_PATH, CHARACTER_PATH, charNameFile
-        ));
-        downSprite.Load(std::format(
-            "{}{}{}F.anisprite", RESOURCE_PATH, CHARACTER_PATH, charNameFile
-        ));
+    void MoveLeft(float deltaTime);
 
-        float frameDur = 0.15f;
-        leftSprite.SetFrameDuration(frameDur);
-        leftSprite.SetFrameDuration(frameDur);
-        leftSprite.SetFrameDuration(frameDur);
-        leftSprite.SetFrameDuration(frameDur);
+    void MoveRight(float deltaTime);
 
-        leftSprite.Play(1);
-        rightSprite.Play(1);
-        upSprite.Play(1);
-        downSprite.Play(1);
+    void MoveUp(float deltaTime);
 
-        currentSprite = &upSprite;
-    };
+    void MoveDown(float deltaTime);
 
-    void MoveLeft(float deltaTime)
-    {
-        float tmp = deltaTime * _speed;
-        distL += tmp;
-        timeL += deltaTime;
-        /* LogDebug(
-             "[Left] Dist: {}, Total: {}, Deltatime: {}, Pressed: {}, X: {}",
-             tmp,
-             distL,
-             deltaTime,
-             ++inpL,
-             coord.x
-         );*/
-        coord.x -= deltaTime * _speed;
-        currentSprite = &leftSprite;
-        currentSprite->AutoUpdateFrame(deltaTime);
-    };
+    void Draw(ConsoleGame::AbstractCanvas*& canvas) const;
 
-    void MoveRight(float deltaTime)
-    {
-        float tmp = deltaTime * _speed;
-        distR += tmp;
-        timeR += deltaTime;
+    void SetCurHealth(int health);
 
-        /*LogDebug(
-            "[Right] Dist: {}, Total: {}, Deltatime: {}, Pressed: {}, X: {}",
-            tmp,
-            distR,
-            deltaTime,
-            ++inpR,
-            coord.x
-        );*/
+    void SetMaxHealth(int health);
 
-        coord.x += deltaTime * _speed;
-        currentSprite = &rightSprite;
-        currentSprite->AutoUpdateFrame(deltaTime);
-        // currentSprite.AdvanceFrame();
-    };
+    void SetSpeed(const double& speed);
 
-    void MoveUp(float deltaTime)
-    {
-        coord.y += deltaTime * _speed;
-        currentSprite = &upSprite;
-        currentSprite->AutoUpdateFrame(deltaTime);
-    };
+    int GetCurHealth() const;
 
-    void MoveDown(float deltaTime)
-    {
-        coord.y -= deltaTime * _speed;
-        currentSprite = &downSprite;
-        currentSprite->AutoUpdateFrame(deltaTime);
-    };
+    int getMaxHealth() const;
 
-    void Draw(ConsoleGame::AbstractCanvas*& canvas) const
-    {
-        currentSprite->Paint(canvas, GetDrawCoord());
-    }
+    int getSpeed() const;
 
-    void SetCurHealth(int health) { curHealth = health; }
+    float GetBottomY() const;
 
-    void SetMaxHealth(int health) { maxHealth = health; }
+    ConsoleGame::Box GetHitBox() const;
 
-    void SetSpeed(const double& speed) { _speed = speed; }
+    float GetX() const;
 
-    int GetCurHealth() const { return curHealth; }
+    float GetY() const;
 
-    int getMaxHealth() const { return maxHealth; }
-
-    int getSpeed() const { return _speed; }
-
-    ConsoleGame::Vec2 GetCoord() const { return coord; }
-
-    ConsoleGame::Vec2 GetCoordFeet() const
-    {
-        ConsoleGame::Vec2 feetCoord{
-            .x = coord.x, .y = coord.y - currentSprite->GetDim().height};
-        return feetCoord;
-    }
-
-    ConsoleGame::Vec2 GetDrawCoord() const
-    {
-        ConsoleGame::Vec2 drawCoord{
-            .x = coord.x, .y = ConsoleGame::_CONSOLE_HEIGHT_ * 2 - coord.y};
-        return drawCoord;
-    }
+    ConsoleGame::Vec2 GetDrawCoord() const;
 };

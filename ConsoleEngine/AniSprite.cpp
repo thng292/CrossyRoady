@@ -71,6 +71,15 @@ namespace ConsoleGame {
 
     const Box& AniSprite::GetHitBox() const { return hitBox; }
 
+    void AniSprite::EditHitBox(Vec2 coordOffset, Vec2 dimOffset)
+    {
+        hitBox.coord.x += coordOffset.x;
+        hitBox.coord.y += coordOffset.y;
+
+        hitBox.dim.width += dimOffset.width;
+        hitBox.dim.height += dimOffset.height;
+    }
+
     Vec2 AniSprite::GetDim() const { return dim; }
 
     const std::vector<Color>& AniSprite::GetData() const { return data; }

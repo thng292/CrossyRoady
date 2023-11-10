@@ -169,16 +169,21 @@
   <ItemGroup>
     <ClCompile Include="ArrowButton.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Control.cpp" />
+    <ClCompile Include="Character.cpp" />
     <ClCompile Include="Credit.cpp" />
     <ClCompile Include="Common.cpp" />
+    <ClCompile Include="Exp.cpp" />
     <ClCompile Include="GameMap.cpp" />
     <ClCompile Include="GameUtils.cpp" />
     <ClCompile Include="HMenu.cpp" />
+    <ClCompile Include="HowToPlay.cpp" />
     <ClCompile Include="Lane.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Progress.cpp" />
     <ClCompile Include="Road.cpp" />
     <ClCompile Include="MenuBG.cpp" />
+    <ClCompile Include="SafeZone.cpp" />
     <ClCompile Include="SharedAudio.cpp" />
     <ClCompile Include="StringRes.cpp" />
     <ClCompile Include="Surface.cpp" />
@@ -190,6 +195,7 @@
     <ClCompile Include="Setting.cpp" />
     <ClCompile Include="TabMenu.cpp" />
     <ClCompile Include="TimePlayedTracker.cpp" />
+    <ClCompile Include="Upgrade.cpp" />
     <ClCompile Include="Water.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -201,18 +207,22 @@
     <ClInclude Include="About.h" />
     <ClInclude Include="ArrowButton.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Control.h" />
     <ClInclude Include="Credit.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="Exp.h" />
     <ClInclude Include="GameType.h" />
     <ClInclude Include="GameMap.h" />
     <ClInclude Include="GameUtils.h" />
     <ClInclude Include="HMenu.h" />
+    <ClInclude Include="HowToPlay.h" />
     <ClInclude Include="Lane.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Progress.h" />
     <ClInclude Include="Rail.h" />
     <ClInclude Include="Road.h" />
     <ClInclude Include="MenuBG.h" />
+    <ClInclude Include="SafeZone.h" />
     <ClInclude Include="SharedAudio.h" />
     <ClInclude Include="StringRes.h" />
     <ClInclude Include="Surface.h" />
@@ -223,6 +233,7 @@
     <ClInclude Include="CharaSelectScreen.h" />
     <ClInclude Include="TabMenu.h" />
     <ClInclude Include="TimePlayedTracker.h" />
+    <ClInclude Include="Upgrade.h" />
     <ClInclude Include="Water.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

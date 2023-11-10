@@ -21,12 +21,14 @@ namespace ConsoleGame {
         bool repeat           = false;
 
         void findHitBox();
+
        public:
         AniSprite() = default;
         AniSprite(std::filesystem::path path);
 
         Vec2 GetDim() const;
         const Box& GetHitBox() const;
+        void EditHitBox(Vec2 coordOffset, Vec2 dimOffset);
         float GetFrameDuration();
         void SetFrameDuration(float dur);
         const std::vector<Color>& GetData() const;
