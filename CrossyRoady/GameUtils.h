@@ -30,6 +30,13 @@ namespace GameUtils {
         GameType::MapType mapType, GameType::CharaType charaType
     );
 
+    void DrawHitbox(
+        ConsoleGame::AbstractCanvas* canvas,
+        int x,
+        int y,
+        ConsoleGame::Box hitbox
+    );
+
     std::string GetPathToMap(GameType::MapType mapType);
     std::string GetPathToChar(GameType::CharaType charaType);
 }  // namespace GameUtils

@@ -69,6 +69,28 @@ ConsoleGame::Palette GameUtils::GetGamePalette(
     return palette;
 }
 
+void GameUtils::DrawHitbox(
+    ConsoleGame::AbstractCanvas* canvas, int x, int y, ConsoleGame::Box hitbox
+)
+{
+    ConsoleGame::Color color = ConsoleGame::Color::BLACK;
+    int width = hitbox.dim.width;
+    int height = hitbox.dim.height;
+    int hitX = x + hitbox.coord.x;
+    int hitY = y + hitbox.coord.y;
+
+    if (hitX > 0) {
+        for (int i = 0; i < width; i++) {
+            (*canvas)[hitY][(int)hitX + i] = color;
+            (*canvas)[hitY + (int)height][(int)hitX + i] = color;
+        }
+        for (int i = 0; i < height; i++) {
+            (*canvas)[hitY + i][(int)hitX] = color;
+            (*canvas)[hitY + i][(int)hitX + (int)width] = color;
+        }
+    }
+}
+
 std::string GameUtils::GetPathToMap(GameType::MapType mapType)
 {
     std::string path = std::format(

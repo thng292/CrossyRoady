@@ -3,7 +3,8 @@
 namespace ConsoleGame {
     void Sprite::findHitBox()
     {
-        bool tmp = true;
+        hitBox.dim = dim;
+        bool tmp   = true;
         for (int top = 0; top < dim.height and tmp; top++) {
             for (int i = 0; i < dim.width; i++) {
                 if (data[top * dim.width + i] != Color::C_TRANSPARENT) {

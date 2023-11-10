@@ -8,6 +8,7 @@
 #include "Progress.h"
 #include "Setting.h"
 #include "StringRes.h"
+#include "GameMap.h"
 using namespace ConsoleGame;
 
 // #define _SHOW_OFF_
@@ -35,7 +36,9 @@ auto main() -> int
     game->AddScreen(std::make_unique<Setting>());
     game->AddScreen(std::make_unique<Progress>());
     game->AddScreen(std::make_unique<Credit>());
-    game->Run(MainMenu::ScreenName());
+    game->AddScreen(std::make_unique<GameMap>());
+
+    game->Run(GameMap::ScreenName());
 
     return 0;
 }

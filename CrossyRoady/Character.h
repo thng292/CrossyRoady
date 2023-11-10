@@ -9,23 +9,32 @@
 
 class Character {
    private:
-    ConsoleGame::Vec2 coord, size = {.width = 32, .height = 32};
-    int maxHealth, curHealth;
+    ConsoleGame::Vec2 size = {.width = 24, .height = 32};
+
     GameType::CharaType _type;
-    float _speed, x = 0, y = 50;
+    int maxHealth;
+    int curHealth;
+    float _speed;
+
+    float x;
+    float y;
+    int drawX;
+    int drawY;
+
     ConsoleGame::AniSprite* currentSprite;
     ConsoleGame::AniSprite leftSprite, upSprite, rightSprite, downSprite;
-    int inpR = 0, inpL = 0, distR = 0, distL = 0, timeL = 0, timeR = 0;
 
    public:
     Character() = default;
 
     void Init(GameType::CharaType type)
     {
-        coord = {.x = 0, .y = 50};
+        x = 0;
+        y = 100;
+
         maxHealth = GameType::CHARA_HEALTH[type];
         _speed = GameType::CHARA_SPEED[type];
-        _speed = 120;
+        _speed = 100;
         curHealth = maxHealth;
         _type = type;
 
@@ -45,9 +54,9 @@ class Character {
 
         float frameDur = 0.15f;
         leftSprite.SetFrameDuration(frameDur);
-        leftSprite.SetFrameDuration(frameDur);
-        leftSprite.SetFrameDuration(frameDur);
-        leftSprite.SetFrameDuration(frameDur);
+        rightSprite.SetFrameDuration(frameDur);
+        upSprite.SetFrameDuration(frameDur);
+        downSprite.SetFrameDuration(frameDur);
 
         leftSprite.Play(1);
         rightSprite.Play(1);
@@ -59,53 +68,28 @@ class Character {
 
     void MoveLeft(float deltaTime)
     {
-        float tmp = deltaTime * _speed;
-        distL += tmp;
-        timeL += deltaTime;
-        /* LogDebug(
-             "[Left] Dist: {}, Total: {}, Deltatime: {}, Pressed: {}, X: {}",
-             tmp,
-             distL,
-             deltaTime,
-             ++inpL,
-             coord.x
-         );*/
-        coord.x -= deltaTime * _speed;
+        x -= deltaTime * _speed;
         currentSprite = &leftSprite;
         currentSprite->AutoUpdateFrame(deltaTime);
     };
 
     void MoveRight(float deltaTime)
     {
-        float tmp = deltaTime * _speed;
-        distR += tmp;
-        timeR += deltaTime;
-
-        /*LogDebug(
-            "[Right] Dist: {}, Total: {}, Deltatime: {}, Pressed: {}, X: {}",
-            tmp,
-            distR,
-            deltaTime,
-            ++inpR,
-            coord.x
-        );*/
-
-        coord.x += deltaTime * _speed;
+        x += deltaTime * _speed;
         currentSprite = &rightSprite;
         currentSprite->AutoUpdateFrame(deltaTime);
-        // currentSprite.AdvanceFrame();
     };
 
     void MoveUp(float deltaTime)
     {
-        coord.y += deltaTime * _speed;
+        y += deltaTime * _speed;
         currentSprite = &upSprite;
         currentSprite->AutoUpdateFrame(deltaTime);
     };
 
     void MoveDown(float deltaTime)
     {
-        coord.y -= deltaTime * _speed;
+        y -= deltaTime * _speed;
         currentSprite = &downSprite;
         currentSprite->AutoUpdateFrame(deltaTime);
     };
@@ -113,6 +97,16 @@ class Character {
     void Draw(ConsoleGame::AbstractCanvas*& canvas) const
     {
         currentSprite->Paint(canvas, GetDrawCoord());
+        ConsoleGame::Color color = ConsoleGame::Color::BLACK;
+
+        /*for (int i = 0; i < size.width; i++) {
+            (*canvas)[GetDrawCoord().y][(int)x + i] = color;
+            (*canvas)[GetDrawCoord().y + (int)size.height][(int)x + i] = color;
+        }
+        for (int i = 0; i < size.height; i++) {
+            (*canvas)[GetDrawCoord().y + i][(int)x] = color;
+            (*canvas)[GetDrawCoord().y + i][(int)x + (int)size.width] = color;
+        }*/
     }
 
     void SetCurHealth(int health) { curHealth = health; }
@@ -127,19 +121,17 @@ class Character {
 
     int getSpeed() const { return _speed; }
 
-    ConsoleGame::Vec2 GetCoord() const { return coord; }
+    float GetBottomY() const { return y - currentSprite->GetDim().height; }
 
-    ConsoleGame::Vec2 GetCoordFeet() const
-    {
-        ConsoleGame::Vec2 feetCoord{
-            .x = coord.x, .y = coord.y - currentSprite->GetDim().height};
-        return feetCoord;
-    }
+    float GetX() const { return x; }
+
+    float GetY() const { return y; }
+
+    ConsoleGame::Vec2 GetSize() const { return size; }
 
     ConsoleGame::Vec2 GetDrawCoord() const
     {
-        ConsoleGame::Vec2 drawCoord{
-            .x = coord.x, .y = ConsoleGame::_CONSOLE_HEIGHT_ * 2 - coord.y};
-        return drawCoord;
+        int screenHeight = ConsoleGame::_CONSOLE_HEIGHT_ * 2;
+        return {.x = (int)x, .y = screenHeight - (int)y};
     }
 };

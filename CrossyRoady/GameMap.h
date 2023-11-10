@@ -22,7 +22,14 @@ class GameMap : public ConsoleGame::AbstractScreen {
     GameType::GameMapSprites gameSprites;
     Character character;
 
-    float mapSpeed = 100.0f;
+    bool isInWater;
+    bool isAllowedFoward;
+    bool isAllowedBack;
+    bool isAllowedAdvance;
+
+    bool tmpCol;
+
+    float mapSpeed = 30.0f;
 
     // Inherited via AbstractScreen
     virtual std::wstring_view getName() override;
@@ -54,4 +61,6 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void DrawHealth(ConsoleGame::AbstractCanvas* canvas) const;
     void DrawSkill(ConsoleGame::AbstractCanvas* canvas) const;
     void DrawDebuff(ConsoleGame::AbstractCanvas* canvas) const;
+
+    void CollisionCheck();
 };

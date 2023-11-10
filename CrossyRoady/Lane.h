@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 
+#include "Character.h"
 #include "ConsoleGame.h"
 #include "GameType.h"
 
@@ -41,6 +42,23 @@ class Lane {
         }
     }
 
+    bool CheckCollision(const Character& character)
+    {
+        float charaX = character.GetX();
+        float charaY = character.GetY();
+        ConsoleGame::Vec2 charaSize = character.GetSize();
+
+        for (float entityX : entityList) {
+            if (charaX < entityX + entityWidth &&
+                charaX + charaSize.width > entityX &&
+                charaY < entityY + entityHeight &&
+                charaY + charaSize.height > entityY) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     void CreateEntity()
     {
         float tmp = rand() % (ConsoleGame::_CONSOLE_WIDTH_ / 2);
@@ -69,6 +87,12 @@ class Lane {
         }
     }
 
+    bool ContainsChara(const Character& character)
+    {
+        float charaFeetY = character.GetBottomY();
+        return (laneY - 32 <= charaFeetY && charaFeetY <= laneY);
+    }
+
     void UpdatePos(float deltaTime)
     {
         for (size_t i = 0; i < entityList.size(); i++) {
@@ -90,12 +114,12 @@ class Lane {
         GameType::LaneType type
     )
     {
+        _type = type;
+        _laneSprite = laneSprite;
+        IsLeftToRight = 1;
         entityWidth = width;
         entityHeight = height;
         SetY(y);
-        _laneSprite = laneSprite;
-        IsLeftToRight = 1;
-        _type = type;
     }
 
     void DrawLane(ConsoleGame::AbstractCanvas* canvas) const
@@ -113,6 +137,8 @@ class Lane {
 
     int GetDrawY() const { return laneDrawY; }
 
+    GameType::LaneType GetType() const { return _type; }
+
     void SetY(float y)
     {
         int screenHeight = ConsoleGame::_CONSOLE_HEIGHT_ * 2;
@@ -124,7 +150,7 @@ class Lane {
                 entityY = laneY + (entityHeight / 2 - 5);
                 break;
             case GameType::WATER:
-                entityY = laneY - 1;
+                entityY = laneY;
                 break;
         }
 

@@ -26,6 +26,9 @@ class Water : public Lane {
     {
         for (auto x : entityList) {
             _logSprite.Paint(canvas, {(int)x, entityDrawY});
+            GameUtils::DrawHitbox(
+                canvas, x, entityDrawY, _logSprite.GetHitBox()
+            );
         }
     }
 };

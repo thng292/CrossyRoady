@@ -39,6 +39,9 @@ class Road : public Lane {
     {
         for (auto x : entityList) {
             _mobSprite.Paint(canvas, {(int)x, entityDrawY});
+            GameUtils::DrawHitbox(
+                canvas, x, entityDrawY, _mobSprite.GetHitBox()
+            );
         }
     }
 };
