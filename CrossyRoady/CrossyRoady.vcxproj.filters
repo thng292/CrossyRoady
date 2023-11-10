@@ -102,6 +102,18 @@
     <ClCompile Include="HMenu.cpp">
       <Filter>Source Files\UIComponent</Filter>
     </ClCompile>
+    <ClCompile Include="HowToPlay.cpp">
+      <Filter>Source Files\ScreenImpl</Filter>
+    </ClCompile>
+    <ClCompile Include="Upgrade.cpp">
+      <Filter>Source Files\ScreenImpl</Filter>
+    </ClCompile>
+    <ClCompile Include="Exp.cpp">
+      <Filter>Source Files\ScreenImpl</Filter>
+    </ClCompile>
+    <ClCompile Include="Control.cpp">
+      <Filter>Source Files\ScreenImpl</Filter>
+    </ClCompile>
     <ClCompile Include="SafeZone.cpp">
       <Filter>Source Files\GameImpl</Filter>
     </ClCompile>
@@ -190,6 +202,18 @@
     </ClInclude>
     <ClInclude Include="HMenu.h">
       <Filter>Header Files\UIComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="HowToPlay.h">
+      <Filter>Header Files\ScreenHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="Upgrade.h">
+      <Filter>Header Files\ScreenHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="Exp.h">
+      <Filter>Header Files\ScreenHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="Control.h">
+      <Filter>Header Files\ScreenHeader</Filter>
     </ClInclude>
     <ClInclude Include="SafeZone.h">
       <Filter>Header Files\Game</Filter>

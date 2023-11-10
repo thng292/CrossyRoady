@@ -4,6 +4,7 @@
 #include "CharactersInfo.h"
 #include "ConsoleGame.h"
 #include "Credit.h"
+#include "HowToPlay.h"
 #include "MainMenu.h"
 #include "Progress.h"
 #include "Setting.h"
@@ -40,6 +41,7 @@ auto main() -> int
 
     game->Run(GameMap::ScreenName());
     game->AddScreen(std::make_unique<CharactersInfo>());
+    game->AddScreen(std::make_unique<HowToPlay>());
     game->Run(MainMenu::ScreenName());
 
     return 0;

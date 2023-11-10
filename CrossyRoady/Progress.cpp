@@ -124,8 +124,8 @@ AbstractNavigation::NavigationRes Progress::Update(
 {
     auto res = navigation->NoChange();
 
-    leftArr.ChangeColor(Color::C_TRANSPARENT, Black);
-    rightArr.ChangeColor(Color::C_TRANSPARENT, Black);
+    leftArr.ChangeColor(White, Black);
+    rightArr.ChangeColor(White, Black);
     bg->Update(deltaTime);
     if (currentLevel != 0) {
         leftArr.Update(
