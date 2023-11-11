@@ -26,7 +26,7 @@ void CharactersInfo::LoadStuff()
 CharactersInfo::CharactersInfo()
     : leftArr(
           SurfaceArgs{
-              .pos = {5, 112},
+              .pos = {5, 112 - 5},
               .cornerSize = 10,
               .border = fontColor,
 },
@@ -34,7 +34,7 @@ CharactersInfo::CharactersInfo()
       ),
       rightArr(
           SurfaceArgs{
-              .pos = {369, 112},
+              .pos = {369, 112 - 5},
               .cornerSize = 10,
               .border = fontColor,
           },
@@ -49,11 +49,10 @@ std::wstring_view CharactersInfo::getName() { return ScreenName(); }
 
 void CharactersInfo::Init(const std::any& args)
 {
-    backButt.Init(
-        {(_CanvasSize.width - 80) / 2, 200},
-        {80, 18},
-        {R.CharInfo.Upgrade, R.Back}
-    );
+    menu.primaryColor = (Color)1;
+    menu.secondaryColor = (Color)0;
+    menu.tertiaryColor = (Color)2;
+    menu.Init({295, 175}, {80, 18}, {R.CharInfo.Upgrade, R.Back});
     LoadStuff();
 }
 
@@ -74,7 +73,7 @@ AbstractNavigation::NavigationRes CharactersInfo::Update(
             }
         );
     }
-    if (currentSelect != numberOfChars -1) {
+    if (currentSelect != numberOfChars - 1) {
         rightArr.Update(
             deltaTime,
             [&] { audio.PlayHoverSfx(); },
@@ -84,7 +83,7 @@ AbstractNavigation::NavigationRes CharactersInfo::Update(
             }
         );
     }
-    backButt.Update(
+    menu.Update(
         deltaTime,
         [&](uint8_t) noexcept { audio.PlayHoverSfx(); },
         [&](uint8_t selection) noexcept {
@@ -110,4 +109,5 @@ void CharactersInfo::Draw(AbstractCanvas* canvas) const
     if (currentSelect != numberOfChars - 1) {
         rightArr.Draw(canvas);
     }
+    menu.Draw(canvas);
 }

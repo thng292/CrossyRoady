@@ -11,7 +11,8 @@ class CharactersInfo : public ConsoleGame::AbstractScreen {
     ArrowButton leftArr;
     ArrowButton rightArr;
     uint8_t currentSelect = 0;
-    Menu<2> backButt;
+    uint8_t numberOfCharOwned = 0;
+    Menu<2> menu;
 
     void LoadStuff();
 
