@@ -13,7 +13,7 @@ std::wstring_view HowToPlay::getName() { return ScreenName(); }
 
 void HowToPlay::Init(const std::any& args)
 {
-    bg.Init();
+    bg = std::any_cast<MenuBG*>(args);
     Title = Button(
         {
             .size = {250,             22},
@@ -46,6 +46,9 @@ void HowToPlay::Init(const std::any& args)
     subScreen[0] = std::make_unique<Control>();
     subScreen[1] = std::make_unique<Exp>();
     subScreen[2] = std::make_unique<Upgrade>();
+    for (auto& tmp : subScreen) {
+        tmp->Init(std::any());
+    }
 }
 
 ConsoleGame::AbstractScreen* HowToPlay::Clone() const { return new HowToPlay; }
@@ -54,12 +57,13 @@ ConsoleGame::AbstractNavigation::NavigationRes HowToPlay::Update(
     float deltaTime, const ConsoleGame::AbstractNavigation* navigation
 )
 {
-    bg.Update(deltaTime);
+    bg->Update(deltaTime);
     auto res = navigation->NoChange();
     menu.Update(
         deltaTime,
-        [&](uint8_t hovering) noexcept {},
+        [&](uint8_t hovering) noexcept { audio.PlayHoverSfx(); },
         [&](uint8_t selected) noexcept {
+            audio.PlayClickSfx();
             switch (selected) {
                 case 0:
                     break;
@@ -68,6 +72,7 @@ ConsoleGame::AbstractNavigation::NavigationRes HowToPlay::Update(
                 case 2:
                     break;
                 case 3:
+                    menu.selected = 0;
                     res = navigation->Back();
                     break;
             }
@@ -78,7 +83,7 @@ ConsoleGame::AbstractNavigation::NavigationRes HowToPlay::Update(
 
 void HowToPlay::Draw(ConsoleGame::AbstractCanvas* canvas) const
 {
-    bg.Draw(canvas);
+    bg->Draw(canvas);
     Title.Draw(canvas);
     surface.Draw(canvas);
     menu.Draw(canvas);

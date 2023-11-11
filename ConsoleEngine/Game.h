@@ -33,7 +33,6 @@ namespace ConsoleGame {
         const std::chrono::nanoseconds _targetFrameTime;
         const std::wstring_view windowName;
 
-        void UpdateMousePos();
        public:
         Game(const std::wstring_view& winName, uint32_t fps = 60);
         ~Game();

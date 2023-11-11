@@ -1,6 +1,6 @@
-#include <format>
-
 #include "Control.h"
+
+#include <format>
 using namespace ConsoleGame;
 
 const std::wstring_view Control::ScreenName() { return L"Control"; }
@@ -10,11 +10,10 @@ std::wstring_view Control::getName() { return ScreenName(); }
 void Control::Init(const std::any& args)
 {
     test = Button(
-        {
-            .size = {60,             22},
-            .pos = {150 , 80},
+        SurfaceArgs{
+            .size = {60,  22},
+            .pos = {150, 80},
             .cornerSize = 4,
-            .hasBorder = true,
             .background = (Color)14,
             .border = (Color)13,
     },
@@ -25,10 +24,7 @@ void Control::Init(const std::any& args)
     );
 }
 
-ConsoleGame::AbstractScreen* Control::Clone() const
-{
-    return new Control;
-}
+ConsoleGame::AbstractScreen* Control::Clone() const { return new Control; }
 
 ConsoleGame::AbstractNavigation::NavigationRes Control::Update(
     float deltaTime, const ConsoleGame::AbstractNavigation* navigation

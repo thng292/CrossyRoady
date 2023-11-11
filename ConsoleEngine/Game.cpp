@@ -117,13 +117,6 @@ namespace ConsoleGame {
         err              = GetConsoleScreenBufferInfoEx(hStdOut, &oldBuffer);
         debugError(err);
 
-        auto newBuffer = oldBuffer;
-        for (int i = 0; i < Palette::_DefaultColorPalette.size(); i++) {
-            newBuffer.ColorTable[i] = Palette::_DefaultColorPalette[i];
-        }
-        err = SetConsoleScreenBufferInfoEx(hStdOut, &newBuffer);
-        debugError(err);
-
         system(std::format(
                    "MODE CON COLS={} LINES={}",
                    _ScreenSize.width,
