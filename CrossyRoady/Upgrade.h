@@ -1,10 +1,7 @@
 #pragma once
-#include "ArrowButton.h"
 #include "ConsoleGame.h"
 
 class Upgrade : public ConsoleGame::AbstractScreen {
-    ArrowButton arrow;
-
    public:
     static const std::wstring_view ScreenName();
     virtual std::wstring_view getName() override;
