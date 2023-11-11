@@ -40,10 +40,7 @@ void HowToPlay::Init(const std::any& args)
         {10, 80},
         {100, 18},
         std::array<const std::string_view, 4>{
-            R.HowToPlay.Control,
-            R.HowToPlay.Exp,
-            R.HowToPlay.Upgrade,
-            R.Back}
+            R.HowToPlay.Control, R.HowToPlay.Exp, R.HowToPlay.Upgrade, R.Back}
     );
 
     subScreen[0] = std::make_unique<Control>();
