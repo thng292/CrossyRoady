@@ -2,15 +2,14 @@
 #include "ConsoleGame.h"
 #include "MenuBG.h"
 #include "TabMenu.h"
+#include "SharedAudio.h"
 
 class HowToPlay : public ConsoleGame::AbstractScreen {
     Surface surface;
     Button Title;
     TabMenu<4> menu;
-    MenuBG bg;
-    ConsoleGame::Audio* bgMusic;
-    ConsoleGame::Audio* hoverSfx;
-    std::string* sfxOpt;
+    MenuBG* bg;
+    SharedAudio& audio = SharedAudio::GetInstance();
     std::array<std::unique_ptr<ConsoleGame::AbstractScreen>, 3> subScreen;
 
    public:

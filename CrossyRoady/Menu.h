@@ -9,10 +9,12 @@ static void forVSintelisense(uint8_t sel) noexcept {};
 template <size_t N>
 class Menu {
     static constexpr int gap = 5;
-
     uint8_t lastHover = 0;
 
    public:
+    ConsoleGame::Color primaryColor = (ConsoleGame::Color)13;
+    ConsoleGame::Color secondaryColor = (ConsoleGame::Color)15;
+    ConsoleGame::Color tertiaryColor = (ConsoleGame::Color)14;
     uint8_t hover = 0;
     std::array<Button, N> buttons;
 
@@ -30,11 +32,11 @@ class Menu {
                     .pos = {startPos.x, tmp},
                     .cornerSize = 5,
                     .hasBorder = true,
-                    .background = (ConsoleGame::Color)14,
-                    .border = (ConsoleGame::Color)13
+                    .background = tertiaryColor,
+                    .border = primaryColor
             },
                 buttonLabels[i],
-                (ConsoleGame::Color)13,
+                primaryColor,
                 0
             );
         }
@@ -72,15 +74,15 @@ class Menu {
         for (int i = 0; i < buttons.size(); i++) {
             if (hover == i) {
                 buttons[i].ChangeColor(
-                    (ConsoleGame::Color)14,
-                    (ConsoleGame::Color)15,
-                    (ConsoleGame::Color)13
+                    tertiaryColor,
+                    secondaryColor,
+                    primaryColor
                 );
             } else {
                 buttons[i].ChangeColor(
-                    (ConsoleGame::Color)13,
-                    (ConsoleGame::Color)14,
-                    (ConsoleGame::Color)13
+                    primaryColor,
+                    tertiaryColor,
+                    primaryColor
                 );
             }
         }

@@ -31,9 +31,10 @@ namespace ConsoleGame {
         Vec2 coord;
         Vec2 dim;
     };
-    constexpr int _CONSOLE_WIDTH_ = 384;
-    constexpr int _CONSOLE_HEIGHT_ = 112;
-    constexpr int PORT = 6969;
+
+    constexpr int _CONSOLE_WIDTH_       = 384;
+    constexpr int _CONSOLE_HEIGHT_      = 112;
+    constexpr int PORT                  = 6969;
     constexpr std::string_view PORT_STR = "6969";
 
     constexpr Vec2 _ScreenSize{
@@ -43,30 +44,26 @@ namespace ConsoleGame {
     constexpr Vec2 _CanvasSize{
         .width = _ScreenSize.width, .height = 2 * _ScreenSize.height};
     enum class Color : char {
-        BLACK = 0,
-        BLUE = 1,
-        GREEN = 2,
-        CYAN = 3,
-        RED = 4,
-        MAGENTA = 5,
-        YELLOW = 6,
-        WHITE = 7,
-        GRAY = 8,
-        LIGHT_BLUE = 9,
-        LIGHT_GREEN = 10,
-        LIGHT_CYAN = 11,
-        LIGHT_RED = 12,
+        BLACK         = 0,
+        BLUE          = 1,
+        GREEN         = 2,
+        CYAN          = 3,
+        RED           = 4,
+        MAGENTA       = 5,
+        YELLOW        = 6,
+        WHITE         = 7,
+        GRAY          = 8,
+        LIGHT_BLUE    = 9,
+        LIGHT_GREEN   = 10,
+        LIGHT_CYAN    = 11,
+        LIGHT_RED     = 12,
         LIGHT_MAGENTA = 13,
-        LIGHT_YELLOW = 14,
-        BRIGHT_WHITE = 15,
+        LIGHT_YELLOW  = 14,
+        BRIGHT_WHITE  = 15,
         C_TRANSPARENT = 0b11111
     };
 
-
-    enum class KeyState: uint8_t { Normal, Holding, Released };
-    extern KeyState keyboardState[8];
-    extern bool isForeground; 
-    extern Vec2 mousePos;
+    enum class KeyState : uint8_t { Normal, Pressed, Holding, Released };
 
     bool IsWindowForeground();
     // Get KeyCode:
@@ -105,7 +102,7 @@ namespace ConsoleGame {
 
             tmp.num_rep = num;
             for (int i = 0, j = sizeof(T) - 1; i < j; i++, j--) {
-                uint8_t ttt = tmp.bytes_rep[i];
+                uint8_t ttt      = tmp.bytes_rep[i];
                 tmp.bytes_rep[i] = tmp.bytes_rep[j];
                 tmp.bytes_rep[j] = ttt;
             }
