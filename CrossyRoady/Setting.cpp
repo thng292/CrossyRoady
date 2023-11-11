@@ -65,7 +65,7 @@ void Setting::Init(const std::any& args)
 
 AbstractScreen* Setting::Clone() const { return new Setting; }
 
-void Setting::Mount(const std::any& args) { menu.Mount(); }
+void Setting::Mount(const std::any& args) { }
 
 AbstractNavigation::NavigationRes Setting::Update(
     float deltaTime, const AbstractNavigation* navigation

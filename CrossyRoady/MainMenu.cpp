@@ -42,7 +42,6 @@ void MainMenu::Mount(const std::any& args)
     }
     audio.SwitchMusic(BGMusic::Menu);
     audio.PlayMusic();
-    menu.Mount();
 }
 
 AbstractScreen* MainMenu::Clone() const { return new MainMenu; }
