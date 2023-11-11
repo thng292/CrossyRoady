@@ -30,35 +30,31 @@ class Character {
 
     void Init(GameType::CharaType type);
 
-    void MoveLeft(float deltaTime);
-
-    void MoveRight(float deltaTime);
-
-    void MoveUp(float deltaTime);
-
-    void MoveDown(float deltaTime);
+    void MoveLeft(float dist);
+    void MoveRight(float dist);
+    void MoveUp(float dist);
+    void MoveDown(float dist);
 
     void Draw(ConsoleGame::AbstractCanvas*& canvas) const;
 
     void SetCurHealth(int health);
-
     void SetMaxHealth(int health);
-
     void SetSpeed(const double& speed);
+    void SetSpriteRight();
+    void SetSpriteLeft();
+    void SetSpriteUp();
+    void SetSpriteDown();
+
+    void UpdateFrame(float deltaTime);
+    void AdvanceFrame();
+    void ResetSprite();
 
     int GetCurHealth() const;
-
     int getMaxHealth() const;
-
     int getSpeed() const;
-
     float GetBottomY() const;
-
     ConsoleGame::Box GetHitBox() const;
-
     float GetX() const;
-
     float GetY() const;
-
     ConsoleGame::Vec2 GetDrawCoord() const;
 };

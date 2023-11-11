@@ -4,19 +4,21 @@ void Character::UpdateHitBox(ConsoleGame::AniSprite& sprite)
 {
     ConsoleGame::Box curHitbox = sprite.GetHitBox();
     int halfHeight = curHitbox.dim.height / 2;
-    ConsoleGame::Vec2 coordOffset = {.x = 0, .y = halfHeight};
-    ConsoleGame::Vec2 dimOffset = {.width = 0, .height = -halfHeight};
+    int widthOffset = 10;
+    ConsoleGame::Vec2 coordOffset = {.x = widthOffset / 2, .y = halfHeight};
+    ConsoleGame::Vec2 dimOffset = {
+        .width = -widthOffset, .height = -halfHeight};
     sprite.EditHitBox(coordOffset, dimOffset);
 }
 
 void Character::Init(GameType::CharaType type)
 {
-    x = 0;
-    y = 0;
+    x = 100;
+    y = 50;
 
     maxHealth = GameType::CHARA_HEALTH[type];
     _speed = GameType::CHARA_SPEED[type];
-    _speed = 100;
+    _speed = 50;
     curHealth = maxHealth;
     _type = type;
 
@@ -53,33 +55,13 @@ void Character::Init(GameType::CharaType type)
     currentSprite = &upSprite;
 };
 
-void Character::MoveLeft(float deltaTime)
-{
-    x -= deltaTime * _speed;
-    currentSprite = &leftSprite;
-    currentSprite->AutoUpdateFrame(deltaTime);
-};
+void Character::MoveLeft(float dist) { x -= dist; }
 
-void Character::MoveRight(float deltaTime)
-{
-    x += deltaTime * _speed;
-    currentSprite = &rightSprite;
-    currentSprite->AutoUpdateFrame(deltaTime);
-};
+void Character::MoveRight(float dist) { x += dist; }
 
-void Character::MoveUp(float deltaTime)
-{
-    y += deltaTime * _speed;
-    currentSprite = &upSprite;
-    currentSprite->AutoUpdateFrame(deltaTime);
-};
+void Character::MoveUp(float dist) { y += dist; }
 
-void Character::MoveDown(float deltaTime)
-{
-    y -= deltaTime * _speed;
-    currentSprite = &downSprite;
-    currentSprite->AutoUpdateFrame(deltaTime);
-};
+void Character::MoveDown(float dist) { y -= dist; }
 
 void Character::Draw(ConsoleGame::AbstractCanvas*& canvas) const
 {
@@ -95,13 +77,31 @@ void Character::SetSpeed(const double& speed) { _speed = speed; }
 
 int Character::GetCurHealth() const { return curHealth; }
 
+void Character::ResetSprite() { currentSprite->ResetFrame(); }
+
+void Character::SetSpriteRight() { currentSprite = &rightSprite; }
+
+void Character::UpdateFrame(float deltaTime)
+{
+    currentSprite->AutoUpdateFrame(deltaTime);
+}
+
+void Character::AdvanceFrame() { currentSprite->AdvanceFrame(); }
+
+void Character::SetSpriteLeft() { currentSprite = &leftSprite; }
+
+void Character::SetSpriteUp() { currentSprite = &upSprite; }
+
+void Character::SetSpriteDown() { currentSprite = &downSprite; }
+
 int Character::getMaxHealth() const { return maxHealth; }
 
 int Character::getSpeed() const { return _speed; }
 
 float Character::GetBottomY() const
 {
-    return y - currentSprite->GetDim().height;
+    ConsoleGame::Box box = GetHitBox();
+    return box.coord.y - box.coord.height;
 }
 
 ConsoleGame::Box Character::GetHitBox() const

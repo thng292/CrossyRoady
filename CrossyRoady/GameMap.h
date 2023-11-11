@@ -23,10 +23,9 @@ class GameMap : public ConsoleGame::AbstractScreen {
     GameType::GameMapSprites gameSprites;
     Character character;
 
-    bool isInWater;
-    bool isAllowedFoward;
-    bool isAllowedBack;
-    bool isAllowedAdvance;
+    GameType::CollisionFlags collisionFlags;
+    GameType::AllowedFlags allowedFlags;
+    GameType::CharacterState characterState;
 
     int tmpCol;
 
@@ -63,5 +62,10 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void DrawSkill(ConsoleGame::AbstractCanvas* canvas) const;
     void DrawDebuff(ConsoleGame::AbstractCanvas* canvas) const;
 
+    void ResetFlags();
     void CollisionCheck();
+    void HandleCollision(
+        const std::unique_ptr<Lane>& lane, GameType::CollisionType colType
+    );
+    void HandlePlayerAnimation();
 };

@@ -36,7 +36,9 @@ namespace GameUtils {
         ConsoleGame::Color color = ConsoleGame::Color::BLACK
     );
 
-    bool IsCollide(ConsoleGame::Box box1, ConsoleGame::Box box2);
+    GameType::CollisionType GetCollisionType(
+        ConsoleGame::Box box1, ConsoleGame::Box box2
+    );
 
     std::string GetPathToMap(GameType::MapType mapType);
     std::string GetPathToChar(GameType::CharaType charaType);

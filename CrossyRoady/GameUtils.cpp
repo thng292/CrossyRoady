@@ -1,39 +1,35 @@
 #include "GameUtils.h"
 
+using namespace GameType;
+
 void GameUtils::LoadMobSprite(
-    GameType::MapType mapType,
-    GameType::MobType mobType,
-    GameType::MobSprite& mobSprite
+    MapType mapType, MobType mobType, MobSprite& mobSprite
 )
 {
     std::string pathToMap = GetPathToMap(mapType);
-    mobSprite.MobLeft.Load(std::format(
-        "{}/{}L.anisprite", pathToMap, GameType::MOB_NAME_FILE[mobType]
-    ));
-    mobSprite.MobRight.Load(std::format(
-        "{}/{}R.anisprite", pathToMap, GameType::MOB_NAME_FILE[mobType]
-    ));
+    mobSprite.MobLeft.Load(
+        std::format("{}/{}L.anisprite", pathToMap, MOB_NAME_FILE[mobType])
+    );
+    mobSprite.MobRight.Load(
+        std::format("{}/{}R.anisprite", pathToMap, MOB_NAME_FILE[mobType])
+    );
 }
 
 void GameUtils::LoadMapSprite(
-    GameType::MapType mapType,
-    ConsoleGame::Sprite& sprite,
-    const std::string& src
+    MapType mapType, ConsoleGame::Sprite& sprite, const std::string& src
 )
 {
     sprite.Load(std::format("{}/{}.sprite", GetPathToMap(mapType), src));
 }
 
 void GameUtils::LoadCharaSprite(
-    GameType::CharaType charaType,
-    ConsoleGame::Sprite& sprite,
-    const std::string& src
+    CharaType charaType, ConsoleGame::Sprite& sprite, const std::string& src
 )
 {
     sprite.Load(std::format(
         "{}/{}-{}.sprite",
         GetPathToChar(charaType),
-        GameType::CHARA_NAME_FILE[charaType],
+        CHARA_NAME_FILE[charaType],
         src
     ));
 }
@@ -46,17 +42,15 @@ void GameUtils::LoadExtraSprite(
 }
 
 ConsoleGame::Palette GameUtils::GetGamePalette(
-    GameType::MapType mapType, GameType::CharaType charaType
+    MapType mapType, CharaType charaType
 )
 {
     auto padColor = RGB(85, 85, 85);
-    ConsoleGame::Palette mapPalette(std::format(
-        "{}/{}.hex", GetPathToMap(mapType), GameType::MAP_NAME_FILE[mapType]
-    ));
+    ConsoleGame::Palette mapPalette(
+        std::format("{}/{}.hex", GetPathToMap(mapType), MAP_NAME_FILE[mapType])
+    );
     ConsoleGame::Palette charaPalette(std::format(
-        "{}/{}.hex",
-        GetPathToChar(charaType),
-        GameType::CHARA_NAME_FILE[charaType]
+        "{}/{}.hex", GetPathToChar(charaType), CHARA_NAME_FILE[charaType]
     ));
     ConsoleGame::Palette palette;
 
@@ -102,35 +96,76 @@ void GameUtils::DrawHitbox(
     }
 }
 
-bool GameUtils::IsCollide(ConsoleGame::Box box1, ConsoleGame::Box box2)
+CollisionType GameUtils::GetCollisionType(
+    ConsoleGame::Box box1, ConsoleGame::Box box2
+)
 {
     int box1Left = box1.coord.x;
     int box1Right = box1.coord.x + box1.dim.width;
     int box1Top = box1.coord.y;
-    int box1Bottom = box1.coord.y + box1.dim.height;
+    int box1Bottom = box1.coord.y - box1.dim.height;
 
     int box2Left = box2.coord.x;
     int box2Right = box2.coord.x + box2.dim.width;
     int box2Top = box2.coord.y;
-    int box2Bottom = box2.coord.y + box2.dim.height;
+    int box2Bottom = box2.coord.y - box2.dim.height;
+    if (box2Right <= box1Left && box2Left >= 60)
+        LogDebug(
+            "{}, char:, {}, {}, {}, {}, block:, {}, {}, {}, {}, {}, {}, {}, {}",
+            box1Left <= box2Right && box1Right >= box2Left &&
+                box1Top >= box2Bottom && box1Bottom <= box2Top,
+            box1Left,
+            box1Right,
+            box1Top,
+            box1Bottom,
+            box2Left,
+            box2Right,
+            box2Top,
+            box2Bottom,
+            box1Left <= box2Right,
+            box1Right >= box2Left,
+            box1Top >= box2Bottom,
+            box1Bottom <= box2Top
+        );
 
     if (box1Left <= box2Right && box1Right >= box2Left &&
-        box1Top <= box2Bottom && box1Bottom >= box2Top) {
-        return true;
-    }
+        box1Top >= box2Bottom && box1Bottom <= box2Top) {
+        // Calculate overlap in x and y dimensions
+        int minDistX = std::min(
+            std::abs(box1Right - box2Left), std::abs(box1Left - box2Right)
+        );
+        int minDistY = std::min(
+            std::abs(box1Bottom - box2Top), std::abs(box1Top - box2Bottom)
+        );
 
-    return false;
+        // Determine the type of collision based on overlap
+        if (minDistX <= minDistY) {
+            bool isRightIn = box1Right >= box2Left && box1Right <= box2Right;
+            if (isRightIn) {
+                return CollisionType::Left;
+            } else {
+                return CollisionType::Right;
+            }
+        } else {
+            bool isBottomIn = box1Bottom >= box2Bottom && box1Bottom <= box2Top;
+            if (isBottomIn) {
+                return CollisionType::Top;
+            } else {
+                return CollisionType::Bottom;
+            }
+        }
+    }
+    return CollisionType::None;
 }
 
-std::string GameUtils::GetPathToMap(GameType::MapType mapType)
+std::string GameUtils::GetPathToMap(MapType mapType)
 {
-    std::string path = std::format(
-        "{}{}{}", RESOURCE_PATH, MAP_PATH, GameType::MAP_NAME_FILE[mapType]
-    );
+    std::string path =
+        std::format("{}{}{}", RESOURCE_PATH, MAP_PATH, MAP_NAME_FILE[mapType]);
     return path;
 }
 
-std::string GameUtils::GetPathToChar(GameType::CharaType charaType)
+std::string GameUtils::GetPathToChar(CharaType charaType)
 {
     std::string path = std::format("{}{}", RESOURCE_PATH, CHARACTER_PATH);
     return path;
