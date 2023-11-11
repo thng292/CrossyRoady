@@ -78,34 +78,39 @@ namespace GameType {
         MapMode mapMode;
     };
 
-    struct CollisionFlags {
-        bool damage : 1;
-        bool log : 1;
-        bool item : 1;
-        bool block : 1;
-    };
+    struct GameFlags {
+        // Collision
+        bool damageCollision: 1;
+        bool logCollision : 1;
+        bool itemCollision : 1;
+        bool blockCollision : 1;
 
-    struct AllowedFlags {
-        bool keyLeft : 1;
-        bool keyRight : 1;
-        bool keyUp : 1;
-        bool keyDown : 1;
+        // Keys
+        bool allowKeyLeft: 1;
+        bool allowKeyRight : 1;
+        bool allowKeyUp: 1;
+        bool allowKeyDown: 1;
 
-        bool moveLeft : 1;
-        bool moveRight : 1;
-        bool moveUp : 1;
-        bool moveDown : 1;
+        // Special
+        bool allowSkill: 1;
+        bool allowDebuffSkill: 1;
 
-        bool skill : 1;
-        bool debuff : 1;
-    };
+        // Movements
+        bool allowMoveLeft: 1;
+        bool allowMoveRight : 1;
+        bool allowMoveUp: 1;
+        bool allowMoveDown : 1;
 
-    struct CharacterState {
+        // States
         bool isMoving : 1;
         bool justMoved : 1;
-        bool facingLeft : 1;
-        bool facingRight : 1;
-        bool facingUp : 1;
-        bool facingDown : 1;
+        bool movingUp : 1;
+        bool movingDown : 1;
+        bool movingLeft : 1;
+        bool movingRight: 1;
     };
+
+   
+
+  
 }  // namespace GameType

@@ -16,8 +16,6 @@ class Road : public Lane {
 
     Road(
         float y,
-        float mobWidth,
-        float mobHeight,
         GameType::MobType type,
         ConsoleGame::Sprite& roadSprite,
         const ConsoleGame::AniSprite& mobSprite

@@ -10,8 +10,6 @@ class SafeZone : public Lane {
 
     SafeZone(
         float y,
-        float mobWidth,
-        float mobHeight,
         const ConsoleGame::Sprite& safeSprite,
         const ConsoleGame::Sprite& blockSprite
     )

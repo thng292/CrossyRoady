@@ -91,11 +91,73 @@ CollisionType Lane::GetCollision(const Character& character) const
     return CollisionType::None;
 }
 
+GameType::CollisionType Lane::GetLaneCollision(const Character& character) const
+{
+    std::vector<ConsoleGame::Box> laneHitBox = GetLaneHitBox();
+    size_t listSize = laneHitBox.size();
+    ConsoleGame::Box charaBox = character.GetHitBox();
+    for (size_t i = 0; i < listSize; ++i) {
+        CollisionType colType = GetCollisionType(charaBox, laneHitBox[i]);
+        if (colType != CollisionType::None) {
+            return colType;
+        }
+    }
+    return CollisionType::None;
+}
+
+std::vector<ConsoleGame::Box> Lane::GetLaneHitBox() const
+{
+    // Rewrite this thing
+    size_t listSize = entityList.size();
+    std::vector<ConsoleGame::Box> laneBoxList;
+    std::vector<ConsoleGame::Box> entityBoxList;
+    for (size_t i = 0; i < listSize; ++i) {
+        ConsoleGame::Box entityBox = GetHitBox(i);
+        entityBoxList.push_back(entityBox);
+    }
+
+    for (size_t i = 0; i < listSize - 1; ++i) {
+        int boxWidth = std::abs(
+            entityBoxList[i + 1].coord.x -
+            (entityBoxList[i].coord.x + entityBoxList[i].dim.width)
+        );
+        size_t idx = i;
+        if (!IsLeftToRight) idx = i + 1;
+        int boxX = entityBoxList[idx].coord.x + entityBoxList[idx].dim.width;
+        ConsoleGame::Vec2 boxCoord = {.x = boxX, .y = (int)laneY};
+        ConsoleGame::Vec2 boxDim = {.width = boxWidth, .height = 32};
+        ConsoleGame::Box newBox = {.coord = boxCoord, .dim = boxDim};
+        laneBoxList.push_back(newBox);
+    }
+    ConsoleGame::Vec2 lastBox;
+    ConsoleGame::Vec2 firstBox;
+    if (IsLeftToRight) {
+        int boxWidth = entityBoxList.front().coord.x;
+        ConsoleGame::Vec2 boxCoord = {.x = 0, .y = (int)laneY};
+        ConsoleGame::Vec2 boxDim = {.width = boxWidth, .height = 32};
+        ConsoleGame::Box firstBox = {.coord = boxCoord, .dim = boxDim};
+
+        int boxX =
+            entityBoxList.back().coord.x + entityBoxList.back().dim.width;
+        boxWidth = ConsoleGame::_CONSOLE_WIDTH_ - boxX;
+        boxCoord = {.x = boxX, .y = (int)laneY};
+        boxDim = {.width = boxWidth, .height = 32};
+        ConsoleGame::Box lastBox = {.coord = boxCoord, .dim = boxDim};
+
+    } else {
+    }
+    return laneBoxList;
+}
+
 void Lane::DrawLane(ConsoleGame::AbstractCanvas* canvas) const
 {
     for (int x = 0; x < ConsoleGame::_CONSOLE_WIDTH_; x += 32) {
         _laneSprite.Paint(canvas, {x, laneDrawY});
     }
+    std::vector<ConsoleGame::Box> laneHitBox = GetLaneHitBox();
+    /* for (auto i : laneHitBox) {
+         GameUtils::DrawHitbox(canvas, i, ConsoleGame::Color::BLUE);
+     }*/
 }
 
 float Lane::GetY() const { return laneY; }

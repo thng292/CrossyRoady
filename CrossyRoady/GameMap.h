@@ -17,19 +17,18 @@ using Debuff = std::function<void()>;
 
 class GameMap : public ConsoleGame::AbstractScreen {
     std::vector<std::unique_ptr<Lane>> laneList;
+
     std::queue<Debuff> debuffQueue;
 
     GameType::GameMapData gameData;
     GameType::GameMapSprites gameSprites;
     Character character;
 
-    GameType::CollisionFlags collisionFlags;
-    GameType::AllowedFlags allowedFlags;
-    GameType::CharacterState characterState;
+    GameType::GameFlags gameFlags;
 
     int tmpCol;
 
-    float mapSpeed = 30.0f;
+    float mapSpeed = 10.0f;
 
     // Inherited via AbstractScreen
     virtual std::wstring_view getName() override;
@@ -50,7 +49,6 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void InitRoadPosList();
     void AddRoad();
     void DeleteRoad();
-    void HandlePlayerInput(float deltaTime);
     void SetGameMapData(const GameType::GameMapData& gmData);
 
     void DragMapDown(float deltatime);
@@ -67,5 +65,9 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void HandleCollision(
         const std::unique_ptr<Lane>& lane, GameType::CollisionType colType
     );
-    void HandlePlayerAnimation();
+    void HandleWaterCollision(GameType::CollisionType colType);
+
+    void HandlePlayerInput();
+    void HandlePlayerAnimation(float deltaTime);
+    void HandlePlayerMovement(float deltaTime);
 };
