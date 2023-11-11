@@ -28,14 +28,10 @@ namespace ConsoleGame {
 
         Navigation navi;
         Canvas canvas;
-        Canvas::CanvasBuffer_t backup;  // Preserve a canvas buffer for popup,
-                                        // make it more efficient
 
         const uint32_t targetFPS;
         const std::chrono::nanoseconds _targetFrameTime;
         const std::wstring_view windowName;
-
-        Vec2 canvasPixelSize;
 
         void UpdateMousePos();
        public:

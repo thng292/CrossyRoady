@@ -20,16 +20,8 @@ constexpr bool SHOW_FPS          = true;
 constexpr bool SHOULD_SKIP_FRAME = true;
 
 namespace ConsoleGame {
-    constexpr std::array inputFunc = {
-        IsKeyMeanUp,
-        IsKeyMeanDown,
-        IsKeyMeanLeft,
-        IsKeyMeanRight,
-        IsKeyMeanSelect,
-        IsKeyMeanEscape,
-        IsKeyMeanBack,
-        +[] { return IsKeyDown(VK_LBUTTON); }
-    };
+    void SetupInput(HWND);
+    void GetInput();
 
     Game::Game(const std::wstring_view& winName, uint32_t fps)
         : targetFPS(fps),
@@ -139,17 +131,11 @@ namespace ConsoleGame {
         )
                    .c_str());
 
-        std::fill(backup.begin(), backup.end(), Color::BRIGHT_WHITE);
-        RECT windowRect;
-        GetWindowRect(consoleWindow, &windowRect);
-        canvasPixelSize = {
-            .width = (windowRect.right - windowRect.left) / _CanvasSize.width,
-            .height =
-                (windowRect.bottom - windowRect.top) / _CanvasSize.height};
     }
 
     void Game::Run(std::wstring_view screenName)
     {
+        SetupInput(consoleWindow);
         canvas.Init(hGameScreen);
         canvas.Clear();
 
@@ -214,29 +200,8 @@ namespace ConsoleGame {
                     );
                 }
 
-                isForeground = GetForegroundWindow() == consoleWindow;
-                if (isForeground) {
-                    POINT pos{0};
-                    GetCursorPos(&pos);
-                    ScreenToClient(consoleWindow, &pos);
-                    mousePos = Vec2{
-                        .x = pos.x / canvasPixelSize.width,
-                        .y = pos.y / canvasPixelSize.height};
-                }
-                for (int i = 0; i < inputFunc.size(); i++) {
-                    auto isDown = inputFunc[i]();
-                    if (isDown) {
-                        keyboardState[i] = KeyState::Holding;
-                    } else {
-                        if (keyboardState[i] == KeyState::Released) {
-                            keyboardState[i] = KeyState::Normal;
-                        } else if (keyboardState[i] == KeyState::Holding) {
-                            keyboardState[i] = KeyState::Released;
-                        } else {
-                            keyboardState[i] = KeyState::Normal;
-                        }
-                    }
-                }
+                GetInput();
+
                 navigationRes = currentScreen->Update(deltaTime, &navi);
                 currentScreen->Draw(&canvas);
 
@@ -322,6 +287,12 @@ namespace ConsoleGame {
         SetWindowLong(GetConsoleWindow(), GWL_STYLE, oldStyle);
         SetConsoleMode(hStdOut, oldMode);
         SetConsoleCursorInfo(hStdOut, &oldCursorInfo);
+        system(std::format(
+                   "MODE CON COLS={} LINES={}",
+                   oldBuffer.dwSize.X,
+                   oldBuffer.dwSize.Y
+        )
+                   .c_str());
     }
 
 }  // namespace ConsoleGame

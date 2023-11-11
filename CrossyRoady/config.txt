@@ -1,11 +1,11 @@
-Music=Off
 Sfx=Off
+Music=Off
 CharacterUnlocked=
 ForestXP=
 MapUnlocked=
+CasinoXP=
 CityXP=
 Deaths=
-CasinoXP=
 Walked=
 EarnedXP=
 DesertXP=

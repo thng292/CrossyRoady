@@ -1,11 +1,66 @@
 #include "Common.h"
 
+#include <array>
 #include <bit>
 
 namespace ConsoleGame {
+    constexpr std::array inputFunc = {
+        IsKeyMeanUp,
+        IsKeyMeanDown,
+        IsKeyMeanLeft,
+        IsKeyMeanRight,
+        IsKeyMeanSelect,
+        IsKeyMeanEscape,
+        IsKeyMeanBack,
+        +[] { return IsKeyDown(VK_LBUTTON); }};
+
     KeyState keyboardState[8] = {KeyState::Normal};
     bool isForeground         = true;
     Vec2 mousePos             = {0, 0};
+    Vec2 canvasPixelSize      = {0, 0};
+    HWND consoleWindow        = 0;
+
+    void SetupInput(HWND window)
+    {
+        consoleWindow = window;
+        RECT windowRect;
+        GetWindowRect(window, &windowRect);
+        canvasPixelSize = {
+            .width = (windowRect.right - windowRect.left) / _CanvasSize.width,
+            .height =
+                (windowRect.bottom - windowRect.top) / _CanvasSize.height};
+    }
+
+    void GetInput()
+    {
+        isForeground = GetForegroundWindow() == consoleWindow;
+        if (isForeground) {
+            POINT pos{0};
+            GetCursorPos(&pos);
+            ScreenToClient(consoleWindow, &pos);
+            mousePos = Vec2{
+                .x = pos.x / canvasPixelSize.width,
+                .y = pos.y / canvasPixelSize.height};
+        }
+        for (int i = 0; i < inputFunc.size(); i++) {
+            auto isDown = inputFunc[i]();
+            if (isDown) {
+                if (keyboardState[i] == KeyState::Normal) {
+                    keyboardState[i] = KeyState::Pressed;
+                } else {
+                    keyboardState[i] = KeyState::Holding;
+                }
+            } else {
+                if (keyboardState[i] == KeyState::Released) {
+                    keyboardState[i] = KeyState::Normal;
+                } else if (keyboardState[i] == KeyState::Holding) {
+                    keyboardState[i] = KeyState::Released;
+                } else {
+                    keyboardState[i] = KeyState::Normal;
+                }
+            }
+        }
+    }
 
     bool IsWindowForeground() { return isForeground; }
 
@@ -75,21 +130,21 @@ namespace ConsoleGame {
 
     using enum KeyState;
 
-    bool UiIsKeyMeanUp() { return keyboardState[0] == Released; }
+    bool UiIsKeyMeanUp() { return keyboardState[0] == Pressed; }
 
-    bool UiIsKeyMeanDown() { return keyboardState[1] == Released; }
+    bool UiIsKeyMeanDown() { return keyboardState[1] == Pressed; }
 
-    bool UiIsKeyMeanLeft() { return keyboardState[2] == Released; }
+    bool UiIsKeyMeanLeft() { return keyboardState[2] == Pressed; }
 
-    bool UiIsKeyMeanRight() { return keyboardState[3] == Released; }
+    bool UiIsKeyMeanRight() { return keyboardState[3] == Pressed; }
 
-    bool UiIsKeyMeanSelect() { return keyboardState[4] == Released; }
+    bool UiIsKeyMeanSelect() { return keyboardState[4] == Pressed; }
 
-    bool UiIsKeyMeanEscape() { return keyboardState[5] == Released; }
+    bool UiIsKeyMeanEscape() { return keyboardState[5] == Pressed; }
 
-    bool UiIsKeyMeanBack() { return keyboardState[6] == Released; }
+    bool UiIsKeyMeanBack() { return keyboardState[6] == Pressed; }
 
-    bool UiIsKeyMeanClick() { return keyboardState[7] == Released; }
+    bool UiIsKeyMeanClick() { return keyboardState[7] == Pressed; }
 
     Vec2 ConsoleGame::GetMousePos() { return mousePos; }
 
