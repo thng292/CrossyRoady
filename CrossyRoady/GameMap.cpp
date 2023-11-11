@@ -22,22 +22,23 @@ AbstractNavigation::NavigationRes GameMap::Update(
     float deltaTime, const AbstractNavigation* navigation
 )
 {
+    ResetFlags();
     // DragMapDown(deltaTime);
-    tmpCol = 0;
     CollisionCheck();
     HandlePlayerInput(deltaTime);
+    HandlePlayerAnimation();
     return navigation->NoChange();
 }
 
 void GameMap::Mount(const std::any& args)
 {
     /*const GameType::GameMapData& gameDataArg =
-        std::any_cast<const GameType::GameMapData&>(args);*/
+        std::any_cast<const GameMapData&>(args);*/
 
-    GameType::GameMapData gm;
-    gm.charaType = GameType::IRYS;
-    gm.mapMode = GameType::INF;
-    gm.mapType = GameType::FOREST;
+    GameMapData gm;
+    gm.charaType = IRYS;
+    gm.mapMode = INF;
+    gm.mapType = ::FOREST;
 
     SetGameMapData(gm);
 
@@ -66,14 +67,14 @@ void GameMap::Mount(const std::any& args)
     MobType ty = HARD;
 
     for (int i = 0; i < 5; ++i) {
-        laneList.push_back(std::make_unique<Road>(
+        /*laneList.push_back(std::make_unique<Road>(
             32 * (i + 1),
             cur.GetDim().width,
             cur.GetDim().height,
             ty,
             gameSprites.roadSprite,
             cur
-        ));
+        ));*/
         /* laneList.push_back(std::make_unique<Water>(
              32 * (i + 1),
              gameSprites.floatSprite.GetDim().width,
@@ -81,13 +82,13 @@ void GameMap::Mount(const std::any& args)
              gameSprites.roadSprite,
              gameSprites.floatSprite
          ));*/
-        /*laneList.push_back(std::make_unique<SafeZone>(
+        laneList.push_back(std::make_unique<SafeZone>(
             32 * (i + 1),
             gameSprites.blockSprite.GetDim().width,
             gameSprites.blockSprite.GetDim().height,
             gameSprites.roadSprite,
             gameSprites.blockSprite
-        ));*/
+        ));
     }
 }
 
@@ -95,18 +96,33 @@ void GameMap::Unmount() {}
 
 void GameMap::HandlePlayerInput(float deltaTime)
 {
-    if (IsKeyMeanUp()) {
-        character.MoveUp(deltaTime);
-    } else if (IsKeyMeanDown()) {
-        character.MoveDown(deltaTime);
-    } else if (IsKeyMeanLeft()) {
-        character.MoveLeft(deltaTime);
-    } else if (IsKeyMeanRight()) {
-        character.MoveRight(deltaTime);
+    float distance = (character.getSpeed() - mapSpeed) * deltaTime;
+    if (IsKeyMeanUp() && allowedFlags.keyUp) {
+        if (allowedFlags.moveUp) {
+            character.MoveUp(distance);
+        }
+        characterState.facingUp = true;
+    } else if (IsKeyMeanDown() && allowedFlags.keyDown) {
+        if (allowedFlags.moveDown) {
+            character.MoveDown(distance);
+        }
+        characterState.facingDown = true;
+    } else if (IsKeyMeanLeft() && allowedFlags.keyLeft) {
+        if (allowedFlags.moveLeft) {
+            character.MoveLeft(distance);
+        }
+        characterState.facingLeft = true;
+    } else if (IsKeyMeanRight() && allowedFlags.keyRight) {
+        if (allowedFlags.moveRight) {
+            character.MoveRight(distance);
+        }
+        characterState.facingRight = true;
+    } else {
+        characterState.isMoving = false;
     }
 }
 
-void GameMap::SetGameMapData(const GameType::GameMapData& gmData)
+void GameMap::SetGameMapData(const GameMapData& gmData)
 {
     gameData.mapType = gmData.mapType;
     gameData.charaType = gmData.charaType;
@@ -192,11 +208,61 @@ void GameMap::DrawDebuff(ConsoleGame::AbstractCanvas* canvas) const
     gameSprites.debuff.Paint(canvas, coord);
 }
 
+void GameMap::ResetFlags()
+{
+    allowedFlags.keyLeft = true;
+    allowedFlags.keyRight = true;
+    allowedFlags.keyUp = true;
+    allowedFlags.keyDown = true;
+
+    collisionFlags.damage = false;
+    collisionFlags.block = false;
+    collisionFlags.log = false;
+    collisionFlags.item = false;
+}
+
 void GameMap::CollisionCheck()
 {
     for (auto& lane : laneList) {
-        if (lane->ContainsChara(character) && lane->CheckCollision(character)) {
-            tmpCol = lane->GetY();
+        CollisionType colType = lane->GetCollision(character);
+        if (colType != CollisionType::None) {
+            HandleCollision(lane, colType);
+            LogDebug("{}", lane->GetY());
+        }
+    }
+}
+
+void GameMap::HandleCollision(
+    const std::unique_ptr<Lane>& lane, CollisionType colType
+)
+{
+    int newHealth;
+    Road* road = nullptr;
+    switch (lane->GetType()) {
+        case ROAD || RAIL:
+            road = dynamic_cast<Road*>(lane.get());
+            newHealth = character.GetCurHealth() - road->GetMobType();
+
+            character.SetCurHealth(newHealth);
+            collisionFlags.damage = true;
+            break;
+        case SAFE:
+            if (colType == CollisionType::Left) allowedFlags.moveRight = false;
+            if (colType == CollisionType::Right) allowedFlags.moveLeft = false;
+            if (colType == CollisionType::Top) allowedFlags.moveDown = false;
+            if (colType == CollisionType::Bottom) allowedFlags.moveUp = false;
+            collisionFlags.block = true;
+            break;
+        case WATER:
+            collisionFlags.log = true;
+            break;
+    }
+}
+
+void GameMap::HandlePlayerAnimation()
+{
+    if (characterState.isMoving) {
+        if (characterState.justMoved) {
         }
     }
 }
@@ -221,7 +287,7 @@ void GameMap::DragMapDown(float deltatime)
                         laneList.back()->GetY() + 32,
                         32,
                         32,
-                        GameType::MobType::NORMAL,
+                        MobType::NORMAL,
                         gameSprites.roadSprite,
                         gameSprites.mobSpriteNormal.MobRight
                     ));

@@ -1,10 +1,12 @@
 #include "Lane.h"
+using namespace GameType;
+using namespace GameUtils;
 
 Lane::Lane(
     float y,
     ConsoleGame::Box hitbox,
     const ConsoleGame::Sprite& laneSprite,
-    GameType::LaneType type
+    LaneType type
 )
 {
     _type = type;
@@ -75,17 +77,18 @@ void Lane::UpdatePos(float deltaTime)
     DeleteEntity();
 }
 
-bool Lane::CheckCollision(const Character& character) const
+CollisionType Lane::GetCollision(const Character& character) const
 {
     size_t listSize = entityList.size();
     ConsoleGame::Box charaBox = character.GetHitBox();
     for (size_t i = 0; i < listSize; ++i) {
         ConsoleGame::Box entityBox = GetHitBox(i);
-        if (GameUtils::IsCollide(charaBox, entityBox)) {
-            return true;
+        CollisionType colType = GetCollisionType(charaBox, entityBox);
+        if (colType != CollisionType::None) {
+            return colType;
         }
     }
-    return false;
+    return CollisionType::None;
 }
 
 void Lane::DrawLane(ConsoleGame::AbstractCanvas* canvas) const
@@ -97,7 +100,8 @@ void Lane::DrawLane(ConsoleGame::AbstractCanvas* canvas) const
 
 float Lane::GetY() const { return laneY; }
 
-float Lane::GetBottomY() const { 
+float Lane::GetBottomY() const
+{
     ConsoleGame::Box box = GetHitBox(0);
     return box.coord.y - box.dim.height;
 }
@@ -110,7 +114,7 @@ float Lane::GetTopY() const
     return box.coord.y;
 }
 
-GameType::LaneType Lane::GetType() const { return _type; }
+LaneType Lane::GetType() const { return _type; }
 
 void Lane::SetY(float y)
 {
@@ -119,13 +123,13 @@ void Lane::SetY(float y)
     laneDrawY = screenHeight - laneY;
 
     switch (_type) {
-        case GameType::ROAD:
+        case ROAD:
             entityY = laneY + (entityHeight / 2 - 5);
             break;
-        case GameType::WATER:
+        case WATER:
             entityY = laneY;
             break;
-        case GameType::SAFE:
+        case SAFE:
             entityY = laneY;
             break;
     }

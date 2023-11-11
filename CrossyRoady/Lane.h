@@ -48,7 +48,7 @@ class Lane {
 
     void DrawLane(ConsoleGame::AbstractCanvas* canvas) const;
 
-    bool CheckCollision(const Character& character) const;
+    GameType::CollisionType GetCollision(const Character& character) const;
 
     virtual ConsoleGame::Box GetHitBox(size_t index) const = 0;
     virtual void DrawEntity(ConsoleGame::AbstractCanvas* canvas) const = 0;

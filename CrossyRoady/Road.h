@@ -44,6 +44,8 @@ class Road : public Lane {
         }
     }
 
+    GameType::MobType GetMobType() { return _type; }
+
     ConsoleGame::Box GetHitBox(size_t ind) const
     {
         ConsoleGame::Box hitbox = _mobSprite.GetHitBox();
