@@ -39,7 +39,7 @@ class Lane {
     bool ContainsChara(const Character& character);
 
     float GetY() const;
-    float GetEntityFeetY() const;
+    float GetBottomY() const;
     int GetDrawY() const;
     float GetTopY() const;
     GameType::LaneType GetType() const;

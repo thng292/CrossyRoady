@@ -97,11 +97,18 @@ void Lane::DrawLane(ConsoleGame::AbstractCanvas* canvas) const
 
 float Lane::GetY() const { return laneY; }
 
-float Lane::GetEntityFeetY() const { return entityFeetY; }
+float Lane::GetBottomY() const { 
+    ConsoleGame::Box box = GetHitBox(0);
+    return box.coord.y - box.dim.height;
+}
 
 int Lane::GetDrawY() const { return laneDrawY; }
 
-float Lane::GetTopY() const { return entityFeetY + entityHeight; }
+float Lane::GetTopY() const
+{
+    ConsoleGame::Box box = GetHitBox(0);
+    return box.coord.y;
+}
 
 GameType::LaneType Lane::GetType() const { return _type; }
 
@@ -124,5 +131,4 @@ void Lane::SetY(float y)
     }
 
     entityDrawY = screenHeight - entityY;
-    entityFeetY = entityY - entityHeight;
 }

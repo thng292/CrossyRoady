@@ -101,7 +101,8 @@ int Character::getSpeed() const { return _speed; }
 
 float Character::GetBottomY() const
 {
-    return y - currentSprite->GetDim().height;
+    ConsoleGame::Box box = GetHitBox();
+    return box.coord.y - box.coord.height;
 }
 
 ConsoleGame::Box Character::GetHitBox() const

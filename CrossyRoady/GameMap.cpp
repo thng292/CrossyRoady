@@ -142,14 +142,14 @@ void GameMap::DrawEntity(ConsoleGame::AbstractCanvas* canvas) const
 {
     auto laneListEnd = laneList.rend();
     bool charaDrawn = false;
-    float charFeetY = character.GetBottomY();
+    float charBottomY = character.GetBottomY();
     int screenHeight = _CONSOLE_HEIGHT_ * 2 + 32;
 
     for (auto it = laneList.rbegin(); it != laneListEnd; ++it) {
         Lane* lane = it->get();
         if (lane->GetY() <= screenHeight) {
             if (!charaDrawn && lane->GetType() != WATER) {
-                if (charFeetY > lane->GetEntityFeetY()) {
+                if (charBottomY > lane->GetBottomY()) {
                     character.Draw(canvas);
                     charaDrawn = true;
                 }

@@ -31,34 +31,22 @@ class Character {
     void Init(GameType::CharaType type);
 
     void MoveLeft(float deltaTime);
-
     void MoveRight(float deltaTime);
-
     void MoveUp(float deltaTime);
-
     void MoveDown(float deltaTime);
 
     void Draw(ConsoleGame::AbstractCanvas*& canvas) const;
 
     void SetCurHealth(int health);
-
     void SetMaxHealth(int health);
-
     void SetSpeed(const double& speed);
 
     int GetCurHealth() const;
-
     int getMaxHealth() const;
-
     int getSpeed() const;
-
     float GetBottomY() const;
-
     ConsoleGame::Box GetHitBox() const;
-
     float GetX() const;
-
     float GetY() const;
-
     ConsoleGame::Vec2 GetDrawCoord() const;
 };
