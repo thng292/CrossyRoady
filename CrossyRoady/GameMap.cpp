@@ -14,19 +14,7 @@ void GameMap::DeleteRoad() {}
 
 std::wstring_view GameMap::getName() { return ScreenName(); }
 
-void GameMap::Init(const std::any& args)
-{
-    /*for (int i = 0; i < 5; ++i) {
-        laneList.push_back(std::make_unique<Road>(
-            32 * (i + 1),
-            32,
-            32,
-            MobType::EASY,
-            gameSprites.roadSprite,
-            gameSprites.mobSpriteEasy.MobRight
-        ));
-    }*/
-}
+void GameMap::Init(const std::any& args) {}
 
 AbstractScreen* GameMap::Clone() const { return new GameMap; }
 
@@ -34,8 +22,9 @@ AbstractNavigation::NavigationRes GameMap::Update(
     float deltaTime, const AbstractNavigation* navigation
 )
 {
-    DragMapDown(deltaTime);
-    // LogDebug("size: {}", character);
+    // DragMapDown(deltaTime);
+    tmpCol = 0;
+    CollisionCheck();
     HandlePlayerInput(deltaTime);
     return navigation->NoChange();
 }
@@ -46,40 +35,59 @@ void GameMap::Mount(const std::any& args)
         std::any_cast<const GameType::GameMapData&>(args);*/
 
     GameType::GameMapData gm;
-    gm.charaType = GameType::BAE;
+    gm.charaType = GameType::IRYS;
     gm.mapMode = GameType::INF;
     gm.mapType = GameType::FOREST;
 
     SetGameMapData(gm);
 
     character.Init(gameData.charaType);
+
+    // mob sprites
     LoadMobSprite(gameData.mapType, MobType::EASY, gameSprites.mobSpriteEasy);
     LoadMobSprite(
         gameData.mapType, MobType::NORMAL, gameSprites.mobSpriteNormal
     );
     LoadMobSprite(gameData.mapType, MobType::HARD, gameSprites.mobSpriteHard);
 
+    // static sprites
     LoadMapSprite(gameData.mapType, gameSprites.blockSprite, "block");
     LoadMapSprite(gameData.mapType, gameSprites.floatSprite, "float");
     LoadMapSprite(gameData.mapType, gameSprites.roadSprite, "road");
     LoadMapSprite(gameData.mapType, gameSprites.debuff, "debuff");
 
     LoadExtraSprite(gameSprites.emptyHealth, "health-empty");
-
     LoadCharaSprite(gameData.charaType, gameSprites.health, "health");
     LoadCharaSprite(gameData.charaType, gameSprites.skill, "skill");
 
     ChangeColorPalette(GetGamePalette(gameData.mapType, gameData.charaType));
 
-    for (int i = 0; i < 10; ++i) {
+    AniSprite cur = gameSprites.mobSpriteHard.MobRight;
+    MobType ty = HARD;
+
+    for (int i = 0; i < 5; ++i) {
         laneList.push_back(std::make_unique<Road>(
             32 * (i + 1),
-            32,
-            32,
-            MobType::EASY,
+            cur.GetDim().width,
+            cur.GetDim().height,
+            ty,
             gameSprites.roadSprite,
-            gameSprites.mobSpriteEasy.MobRight
+            cur
         ));
+        /* laneList.push_back(std::make_unique<Water>(
+             32 * (i + 1),
+             gameSprites.floatSprite.GetDim().width,
+             32,
+             gameSprites.roadSprite,
+             gameSprites.floatSprite
+         ));*/
+        /*laneList.push_back(std::make_unique<SafeZone>(
+            32 * (i + 1),
+            gameSprites.blockSprite.GetDim().width,
+            gameSprites.blockSprite.GetDim().height,
+            gameSprites.roadSprite,
+            gameSprites.blockSprite
+        ));*/
     }
 }
 
@@ -112,6 +120,10 @@ void GameMap::Draw(AbstractCanvas* canvas) const
     DrawHealth(canvas);
     DrawSkill(canvas);
     DrawDebuff(canvas);
+    if (tmpCol) {
+        *canvas[0][50] = Color::WHITE;
+        LogDebug("{}", tmpCol);
+    }
 }
 
 void GameMap::DrawFlat(ConsoleGame::AbstractCanvas* canvas) const
@@ -130,14 +142,13 @@ void GameMap::DrawEntity(ConsoleGame::AbstractCanvas* canvas) const
 {
     auto laneListEnd = laneList.rend();
     bool charaDrawn = false;
-    int charFeetY = character.GetCoordFeet().y;
+    float charFeetY = character.GetBottomY();
     int screenHeight = _CONSOLE_HEIGHT_ * 2 + 32;
-    int offset = 5;
 
     for (auto it = laneList.rbegin(); it != laneListEnd; ++it) {
         Lane* lane = it->get();
         if (lane->GetY() <= screenHeight) {
-            if (!charaDrawn) {
+            if (!charaDrawn && lane->GetType() != WATER) {
                 if (charFeetY > lane->GetEntityFeetY()) {
                     character.Draw(canvas);
                     charaDrawn = true;
@@ -181,6 +192,15 @@ void GameMap::DrawDebuff(ConsoleGame::AbstractCanvas* canvas) const
     gameSprites.debuff.Paint(canvas, coord);
 }
 
+void GameMap::CollisionCheck()
+{
+    for (auto& lane : laneList) {
+        if (lane->ContainsChara(character) && lane->CheckCollision(character)) {
+            tmpCol = lane->GetY();
+        }
+    }
+}
+
 void GameMap::DragMapDown(float deltatime)
 {
     auto laneListEnd = laneList.end();
@@ -194,7 +214,7 @@ void GameMap::DragMapDown(float deltatime)
         float roadTopY = laneList.front()->GetTopY();
         if (roadTopY < 0) {
             laneList.erase(laneList.begin());
-            int tmp = rand() % 2;
+            int tmp = rand() % 1;
             switch (tmp) {
                 case 0:
                     laneList.push_back(std::make_unique<Road>(

@@ -69,6 +69,59 @@ ConsoleGame::Palette GameUtils::GetGamePalette(
     return palette;
 }
 
+void GameUtils::DrawHitbox(
+    ConsoleGame::AbstractCanvas* canvas,
+    ConsoleGame::Box hitbox,
+    ConsoleGame::Color color
+)
+{
+    int width = hitbox.dim.width;
+    int height = hitbox.dim.height;
+    int hitX = hitbox.coord.x;
+    int hitY = ConsoleGame::_CONSOLE_HEIGHT_ * 2 - hitbox.coord.y;
+
+    for (int i = 0; i < width; i++) {
+        int curX = hitX + i;
+        if (curX > 0 && curX < ConsoleGame::_CONSOLE_WIDTH_) {
+            (*canvas)[hitY][curX] = color;
+            int bottomY = hitY + height;
+            if (bottomY > 0 && bottomY < ConsoleGame::_CONSOLE_HEIGHT_ * 2) {
+                (*canvas)[bottomY][curX] = color;
+            }
+        }
+    }
+    for (int i = 0; i < height; i++) {
+        int curY = hitY + i;
+        if (curY > 0 && curY < ConsoleGame::_CONSOLE_HEIGHT_ * 2) {
+            (*canvas)[curY][hitX] = color;
+            int rightX = hitX + width;
+            if (rightX > 0 && rightX < ConsoleGame::_CONSOLE_WIDTH_) {
+                (*canvas)[curY][rightX] = color;
+            }
+        }
+    }
+}
+
+bool GameUtils::IsCollide(ConsoleGame::Box box1, ConsoleGame::Box box2)
+{
+    int box1Left = box1.coord.x;
+    int box1Right = box1.coord.x + box1.dim.width;
+    int box1Top = box1.coord.y;
+    int box1Bottom = box1.coord.y + box1.dim.height;
+
+    int box2Left = box2.coord.x;
+    int box2Right = box2.coord.x + box2.dim.width;
+    int box2Top = box2.coord.y;
+    int box2Bottom = box2.coord.y + box2.dim.height;
+
+    if (box1Left <= box2Right && box1Right >= box2Left &&
+        box1Top <= box2Bottom && box1Bottom >= box2Top) {
+        return true;
+    }
+
+    return false;
+}
+
 std::string GameUtils::GetPathToMap(GameType::MapType mapType)
 {
     std::string path = std::format(

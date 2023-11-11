@@ -22,15 +22,6 @@
     <Filter Include="Header Files\LevelHeader">
       <UniqueIdentifier>{14343920-bed3-4a5a-b3b1-bd112efee60f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\CharHeader">
-      <UniqueIdentifier>{999fd8a0-d624-4faf-bc0b-31e51cb507d3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\LevelImpl">
-      <UniqueIdentifier>{126b21ac-ac93-4568-be0b-70ac67634315}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\CharImpl">
-      <UniqueIdentifier>{f8da00ca-78c2-4a73-8896-caa23c5a16fc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\UIComponent">
       <UniqueIdentifier>{3bf5a665-bfcf-411b-bf0d-379ad5a06c12}</UniqueIdentifier>
     </Filter>
@@ -72,14 +63,8 @@
     <ClCompile Include="StringRes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameMap.cpp">
-      <Filter>Source Files\LevelImpl</Filter>
-    </ClCompile>
     <ClCompile Include="Road.cpp">
       <Filter>Source Files\GameImpl</Filter>
-    </ClCompile>
-    <ClCompile Include="GameUtils.cpp">
-      <Filter>Header Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="Menu.cpp">
       <Filter>Source Files\UIComponent</Filter>
@@ -129,6 +114,18 @@
     <ClCompile Include="Control.cpp">
       <Filter>Source Files\ScreenImpl</Filter>
     </ClCompile>
+    <ClCompile Include="SafeZone.cpp">
+      <Filter>Source Files\GameImpl</Filter>
+    </ClCompile>
+    <ClCompile Include="GameUtils.cpp">
+      <Filter>Source Files\GameImpl</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMap.cpp">
+      <Filter>Source Files\GameImpl</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Source Files\GameImpl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="About.h">
@@ -148,9 +145,6 @@
     </ClInclude>
     <ClInclude Include="Surface.h">
       <Filter>Header Files\UIComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>Header Files\CharHeader</Filter>
     </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>Header Files\UIComponent</Filter>
@@ -220,6 +214,12 @@
     </ClInclude>
     <ClInclude Include="Control.h">
       <Filter>Header Files\ScreenHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="SafeZone.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

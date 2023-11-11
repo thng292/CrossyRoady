@@ -170,6 +170,7 @@
     <ClCompile Include="ArrowButton.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Control.cpp" />
+    <ClCompile Include="Character.cpp" />
     <ClCompile Include="Credit.cpp" />
     <ClCompile Include="Common.cpp" />
     <ClCompile Include="Exp.cpp" />
@@ -182,6 +183,7 @@
     <ClCompile Include="Progress.cpp" />
     <ClCompile Include="Road.cpp" />
     <ClCompile Include="MenuBG.cpp" />
+    <ClCompile Include="SafeZone.cpp" />
     <ClCompile Include="SharedAudio.cpp" />
     <ClCompile Include="StringRes.cpp" />
     <ClCompile Include="Surface.cpp" />
@@ -220,6 +222,7 @@
     <ClInclude Include="Rail.h" />
     <ClInclude Include="Road.h" />
     <ClInclude Include="MenuBG.h" />
+    <ClInclude Include="SafeZone.h" />
     <ClInclude Include="SharedAudio.h" />
     <ClInclude Include="StringRes.h" />
     <ClInclude Include="Surface.h" />

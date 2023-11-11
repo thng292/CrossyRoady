@@ -3,15 +3,15 @@
 #include <bit>
 
 namespace ConsoleGame {
+    KeyState keyboardState[8] = {KeyState::Normal};
+    bool isForeground         = true;
+    Vec2 mousePos             = {0, 0};
 
-    static const auto wind = GetConsoleWindow();
-
-    bool IsWindowForeground() { return wind == GetForegroundWindow(); }
+    bool IsWindowForeground() { return isForeground; }
 
     bool ConsoleGame::IsKeyDown(int key)
     {
-        return (GetAsyncKeyState(key) & (1 << 16)) &&
-               (IsWindowForeground());
+        return (GetAsyncKeyState(key) & 0x8000) and isForeground;
     }
 
     bool IsKeyMeanUp()
@@ -19,8 +19,8 @@ namespace ConsoleGame {
         return ((GetAsyncKeyState('W') | GetAsyncKeyState(VK_UP) |
                  GetAsyncKeyState(VK_GAMEPAD_DPAD_UP) |
                  GetAsyncKeyState(VK_GAMEPAD_LEFT_THUMBSTICK_UP)) &
-                (1 << 16)) &&
-               (IsWindowForeground());
+                0x8000) &&
+               isForeground;
     }
 
     bool IsKeyMeanDown()
@@ -28,8 +28,8 @@ namespace ConsoleGame {
         return ((GetAsyncKeyState('S') | GetAsyncKeyState(VK_DOWN) |
                  GetAsyncKeyState(VK_GAMEPAD_DPAD_DOWN) |
                  GetAsyncKeyState(VK_GAMEPAD_LEFT_THUMBSTICK_DOWN)) &
-                (1 << 16)) &&
-               (IsWindowForeground());
+                0x8000) &&
+               isForeground;
     }
 
     bool IsKeyMeanLeft()
@@ -37,8 +37,8 @@ namespace ConsoleGame {
         return ((GetAsyncKeyState('A') | GetAsyncKeyState(VK_LEFT) |
                  GetAsyncKeyState(VK_GAMEPAD_DPAD_LEFT) |
                  GetAsyncKeyState(VK_GAMEPAD_LEFT_THUMBSTICK_LEFT)) &
-                (1 << 16)) &&
-               (IsWindowForeground());
+                0x8000) &&
+               isForeground;
     }
 
     bool IsKeyMeanRight()
@@ -46,49 +46,52 @@ namespace ConsoleGame {
         return ((GetAsyncKeyState('D') | GetAsyncKeyState(VK_RIGHT) |
                  GetAsyncKeyState(VK_GAMEPAD_DPAD_RIGHT) |
                  GetAsyncKeyState(VK_GAMEPAD_LEFT_THUMBSTICK_RIGHT)) &
-                (1 << 16)) &&
-               (IsWindowForeground());
+                0x8000) &&
+               isForeground;
     }
 
     bool IsKeyMeanSelect()
     {
         return ((GetAsyncKeyState(VK_RETURN) | GetAsyncKeyState('F') |
                  GetAsyncKeyState(VK_GAMEPAD_A)) &
-                (1 << 16)) &&
-               (IsWindowForeground());
+                0x8000) and
+               isForeground;
     }
 
     bool IsKeyMeanBack()
     {
         return ((GetAsyncKeyState('B') | GetAsyncKeyState(VK_GAMEPAD_B)) &
-                (1 << 16)) &&
-               (IsWindowForeground());
+                0x8000) and
+               isForeground;
     }
 
     bool IsKeyMeanEscape()
     {
-        return ((GetAsyncKeyState(VK_ESCAPE) | GetAsyncKeyState(VK_GAMEPAD_MENU)) &
-                (1 << 16)) &&
-               (IsWindowForeground());
-    }
-    Vec2 getCanvasPixelSize(HWND hConsoleWindow)
-    {
-        RECT windowRect;
-        GetWindowRect(hConsoleWindow, &windowRect);
-        return Vec2{
-            .width = (windowRect.right - windowRect.left) / _CanvasSize.width,
-            .height =
-                (windowRect.bottom - windowRect.top) / _CanvasSize.height};
+        return ((GetAsyncKeyState(VK_ESCAPE) | GetAsyncKeyState(VK_GAMEPAD_MENU)
+                ) &
+                0x8000) and
+               isForeground;
     }
 
-    Vec2 ConsoleGame::GetMousePos()
-    {
-        static const Vec2 pixSize = getCanvasPixelSize(wind);
-        POINT pos{0};
-        GetCursorPos(&pos);
-        ScreenToClient(wind, &pos);
-        return Vec2{.x = pos.x / pixSize.width, .y = pos.y / pixSize.height};
-    }
+    using enum KeyState;
+
+    bool UiIsKeyMeanUp() { return keyboardState[0] == Released; }
+
+    bool UiIsKeyMeanDown() { return keyboardState[1] == Released; }
+
+    bool UiIsKeyMeanLeft() { return keyboardState[2] == Released; }
+
+    bool UiIsKeyMeanRight() { return keyboardState[3] == Released; }
+
+    bool UiIsKeyMeanSelect() { return keyboardState[4] == Released; }
+
+    bool UiIsKeyMeanEscape() { return keyboardState[5] == Released; }
+
+    bool UiIsKeyMeanBack() { return keyboardState[6] == Released; }
+
+    bool UiIsKeyMeanClick() { return keyboardState[7] == Released; }
+
+    Vec2 ConsoleGame::GetMousePos() { return mousePos; }
 
     auto GetDisplayRefreshRate() -> int
     {
@@ -100,4 +103,5 @@ namespace ConsoleGame {
         }
         return 60;
     }
+
 }  // namespace ConsoleGame

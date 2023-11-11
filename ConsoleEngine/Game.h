@@ -16,6 +16,7 @@ namespace ConsoleGame {
         std::unordered_map<std::wstring_view, std::unique_ptr<AbstractScreen>>
             screens;
 
+        HWND consoleWindow;
         HANDLE hStdOut, hGameScreen;
         CONSOLE_SCREEN_BUFFER_INFOEX oldBuffer;
         LONG oldStyle;
@@ -34,6 +35,9 @@ namespace ConsoleGame {
         const std::chrono::nanoseconds _targetFrameTime;
         const std::wstring_view windowName;
 
+        Vec2 canvasPixelSize;
+
+        void UpdateMousePos();
        public:
         Game(const std::wstring_view& winName, uint32_t fps = 60);
         ~Game();
