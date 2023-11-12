@@ -1,6 +1,5 @@
 BasedOnStyle: Google    
 AlignAfterOpenBracket: BlockIndent
-AlignArrayOfStructures: Left
 BinPackArguments: false
 BinPackParameters: false
 BreakBeforeBraces: WebKit
