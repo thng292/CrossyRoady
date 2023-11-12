@@ -1,7 +1,9 @@
 #include "ConsoleGame.h"
-#include"Button.h"
+#include "Menu.h"
+
 class Control : public ConsoleGame::AbstractScreen {
-    Button test;
+    Menu<6> ListButton1, ListButton2, ListFeature;
+
    public:
     static const std::wstring_view ScreenName();
     virtual std::wstring_view getName() override;

@@ -9,19 +9,32 @@ std::wstring_view Control::getName() { return ScreenName(); }
 
 void Control::Init(const std::any& args)
 {
-    test = Button(
-        SurfaceArgs{
-            .size = {60,  22},
-            .pos = {150, 80},
-            .cornerSize = 4,
-            .hasBorder = true,
-            .background = (Color)14,
-            .border = (Color)13,
-    },
-        "Test",
-        ((Color)13),
-        1,
-        1
+    ListButton1.tertiaryColor = (Color)6;
+    ListButton1.primaryColor = (Color)13;
+    ListButton2.tertiaryColor = (Color)6;
+    ListButton2.primaryColor = (Color)13;
+    ListFeature.primaryColor = (Color)13;
+    ListButton1.Init(
+        {132, 58},
+        {50, 18},
+        std::array<const std::string_view, 6>{"W", "S", "A", "D", "F", "Esc"}
+    );
+    ListButton2.Init(
+        {187, 58},
+        {50, 18},
+        std::array<const std::string_view, 6>{
+            "Up", "Down", "Left", "Right", "Enter", ""}
+    );
+    ListFeature.Init(
+        {245, 58},
+        {120, 18},
+        std::array<const std::string_view, 6>{
+            "Move up",
+            "Move down",
+            "Move left",
+            "Move right",
+            "Select/use skills",
+            "Pause game"}
     );
 }
 
@@ -36,5 +49,7 @@ ConsoleGame::AbstractNavigation::NavigationRes Control::Update(
 
 void Control::Draw(ConsoleGame::AbstractCanvas* canvas) const
 {
-    test.Draw(canvas);
+    ListButton1.Draw(canvas);
+    ListButton2.Draw(canvas);
+    ListFeature.Draw(canvas);
 }
