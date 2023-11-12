@@ -12,9 +12,11 @@ class CharactersInfo : public ConsoleGame::AbstractScreen {
     ArrowButton leftArr;
     ArrowButton rightArr;
     uint8_t currentSelect = 0;
+    uint8_t lastSelect = -1;
     bool redraw = true;
     uint8_t numberOfCharOwned = 0;
     CharStuff* charStuff;
+    std::string UpgradePointStr;
     Menu<2> menu;
 
     void LoadStuff();

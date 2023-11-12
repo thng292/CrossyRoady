@@ -1,8 +1,8 @@
 #pragma once
 
 #include <array>
-#include <string_view>
 #include <filesystem>
+#include <string_view>
 
 #define RESOURCE_PATH "resource/"
 #define CHARACTER_PATH "character/"
@@ -11,6 +11,15 @@
 #define EXTRA_PATH "extra/"
 #define BGM_PATH "bgm/"
 #define SFX_PATH "sfx/"
+
+constexpr int LevelExpReq = 200;
+constexpr uint8_t numberOfChars = 6;
+
+constexpr std::array<std::string_view, 6> fileCharName = {
+    "fauna", "irys", "mumei", "kronii", "sana", "bae"};
+
+constexpr std::array<std::string_view, 6> fileMapName = {
+    "forest", "city", "house", "desert", "space", "casino"};
 
 struct CharStuff {
     std::string_view Name;
@@ -35,6 +44,22 @@ struct StringResource {
 
     struct {
         std::string_view Title = "Progress";
+        std::string_view Stat_Title = "Stats";
+        std::string_view PlayTime = "Play Time";
+        std::string_view Deaths = "Deaths";
+        std::string_view Walked = "Walked";
+        std::string_view EarnedXP = "Earned XP";
+        std::string_view CharUnlocked = "Character Unlocked";
+        std::string_view CharUpgraded = "Character Upgraded";
+        std::string_view MapUnlocked = "Map Unlocked";
+        std::string_view Completion = "Completed";
+        std::string_view Exp_Title = "Exp";
+        std::string_view Level = "Level";
+        std::string_view Rewards = "Rewards";
+        std::string_view UnlockNewMap = "Unlock a new map";
+        std::string_view UnlockUpgradeToken = "An upgrade token";
+        std::string_view Unlock2UpgradeToken = "Two upgrade token";
+
     } Progress;
 
     struct {
@@ -57,27 +82,6 @@ struct StringResource {
     } Credit;
 
     struct {
-        std::string_view Title = "Stats";
-        std::string_view PlayTime = "Play Time";
-        std::string_view Deaths = "Deaths";
-        std::string_view Walked = "Walked";
-        std::string_view EarnedXP = "Earned XP";
-        std::string_view CharUnlocked = "Character Unlocked";
-        std::string_view CharUpgraded = "Character Upgraded";
-        std::string_view MapUnlocked = "Map Unlocked";
-        std::string_view Completion = "Completed";
-    } Statistic;
-
-    struct {
-        std::string_view Title = "Exp";
-        std::string_view Level = "Level";
-        std::string_view Rewards = "Rewards";
-        std::string_view UnlockNewMap = "Unlock a new map";
-        std::string_view UnlockUpgradeToken = "An upgrade token";
-        std::string_view Unlock2UpgradeToken = "Two upgrade token";
-    } Exp;
-
-    struct {
         std::string_view Title = "Characters";
         std::string_view UpgradeAvail = "Upgrade Available";
         std::string_view Upgraded = "Upgraded";
@@ -85,14 +89,15 @@ struct StringResource {
         std::string_view Upgrade = "Upgrade";
         std::string_view Skill = "Skill:";
         std::string_view Status = "Status:";
+        std::string_view UpgradePoint = "Upgrade Point: ";
     } CharInfo;
 
     struct {
         struct {
-            std::string_view Name = "Casino";
+            std::string_view Name = "Forest";
             std::string_view Debuff =
-                "Randomly chooses a debuff from the other maps";
-        } Casino;
+                "Removes one health whenever the character stops moving";
+        } Forest;
 
         struct {
             std::string_view Name = "City";
@@ -101,30 +106,30 @@ struct StringResource {
         } City;
 
         struct {
-            std::string_view Name = "Dessert";
-            std::string_view Debuff = "Paralyzes the character's controls";
-        } Dessert;
-
-        struct {
-            std::string_view Name = "Forest";
-            std::string_view Debuff =
-                "Removes one health whenever the character stops moving";
-        } Forest;
-
-        struct {
             std::string_view Name = "Haunted House";
             std::string_view Debuff = "Darkens the area around the character";
         } House;
+
+        struct {
+            std::string_view Name = "Dessert";
+            std::string_view Debuff = "Paralyzes the character's controls";
+        } Dessert;
 
         struct {
             std::string_view Name = "Space";
             std::string_view Debuff =
                 "Locks the character's skill until a threshold is passed";
         } Space;
+
+        struct {
+            std::string_view Name = "Casino";
+            std::string_view Debuff =
+                "Randomly chooses a debuff from the other maps";
+        } Casino;
     } Map;
 
     struct {
-        CharStuff Fauna{
+        CharStuff Fauna = {
             .Name = "Ceres Fauna",
             .Skill = "Gains back full health and with two additional hearts",
             .Desc =
@@ -186,8 +191,8 @@ struct CharStat {
 struct CharsStat {
     CharStat Fauna;
     CharStat Irys;
-    CharStat Kronii;
     CharStat Mumei;
+    CharStat Kronii;
     CharStat Sana;
     CharStat Bae;
 };
@@ -209,16 +214,22 @@ struct Config {
     uint8_t Music : 1 = 1;
     uint8_t Sfx : 1 = 1;
 
-    uint8_t BaeUpgraded : 1 = 0;
     uint8_t FaunaUpgraded : 1 = 0;
     uint8_t IrysUpgraded : 1 = 0;
-    uint8_t KroniiUpgraded : 1 = 0;
     uint8_t MumeiUpgraded : 1 = 0;
+    uint8_t KroniiUpgraded : 1 = 0;
     uint8_t SanaUpgraded : 1 = 0;
+    uint8_t BaeUpgraded : 1 = 0;
+    uint8_t UpgradePoint : 3 = 0;
 
     void Load(std::filesystem::path path);
     void Save(std::filesystem::path path);
+    bool GetCharUpgradeStatus(uint8_t character);
+    uint64_t GetTotalXP();
+    uint8_t GetCurrentLevel();
 };
+
+constexpr auto tmp = sizeof(Config);
 
 struct Resource {
     const StringResource String;

@@ -11,9 +11,7 @@ const std::wstring_view CharacterSelectScreen::ScreenName()
 
 std::wstring_view CharacterSelectScreen::getName() { return ScreenName(); }
 
-void CharacterSelectScreen::Init(const std::any& args)
-{
-}
+void CharacterSelectScreen::Init(const std::any& args) {}
 
 void CharacterSelectScreen::Mount(const std::any& args)
 {

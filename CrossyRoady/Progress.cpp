@@ -16,8 +16,7 @@ Progress::Progress()
               .pos = {200, 70 - 8},
               .cornerSize = 8,
               .background = White,
-              .border = Black
-},
+              .border = Black},
           false
       ),
       rightArr(
@@ -36,7 +35,6 @@ const std::wstring_view Progress::ScreenName() { return L"Progress"; }
 std::wstring_view Progress::getName() { return ScreenName(); }
 
 int GetCharUpgraded();
-uint64_t GetTotalXP();
 
 void Progress::Init(const std::any& args)
 {
@@ -46,42 +44,36 @@ void Progress::Init(const std::any& args)
     );
     surfaceStat.props = {
         .size = {180, 180},
-        .pos = {10,  10 },
+        .pos = {10, 10},
         .cornerSize = 5,
         .hasBorder = true,
         .background = White,
-        .border = Black
-    };
+        .border = Black};
     surfaceExp.props = {
         .size = {180, 180},
-        .pos = {194, 10 },
+        .pos = {194, 10},
         .cornerSize = 5,
         .hasBorder = true,
         .background = White,
-        .border = Black
-    };
+        .border = Black};
 
-    rectPos = {
-        Vec2{228, 70},
-        Vec2{284, 70},
-        Vec2{340, 70}
-    };
+    rectPos = {Vec2{228, 70}, Vec2{284, 70}, Vec2{340, 70}};
     rectR = {15, 30, 15};
 
     constexpr size_t strLen = 27;
     std::string_view left[] = {
-        R.String.Statistic.PlayTime,
-        R.String.Statistic.Deaths,
-        R.String.Statistic.Walked,
-        R.String.Statistic.EarnedXP,
-        R.String.Statistic.CharUnlocked,
-        R.String.Statistic.CharUpgraded,
-        R.String.Statistic.MapUnlocked,
-        R.String.Statistic.Completion};
+        R.String.Progress.PlayTime,
+        R.String.Progress.Deaths,
+        R.String.Progress.Walked,
+        R.String.Progress.EarnedXP,
+        R.String.Progress.Level,
+        R.String.Progress.CharUnlocked,
+        R.String.Progress.CharUpgraded,
+        R.String.Progress.MapUnlocked,
+        R.String.Progress.Completion};
 
-    int charUnlocked = 1;
-    int mapUnlocked = 1;
-    earnedXP = GetTotalXP();
+    currentLevel = R.Config.GetCurrentLevel();
+    earnedXP = R.Config.GetTotalXP();
     int charUpgraded = GetCharUpgraded();
 
     std::string right[] = {
@@ -89,12 +81,16 @@ void Progress::Init(const std::any& args)
         std::to_string(R.Config.Deaths),
         std::to_string(R.Config.Walked),
         std::to_string(earnedXP),
+        std::to_string(R.Config.GetCurrentLevel()),
         std::to_string(R.Config.CharUnlocked) + "/6",
         std::format("{}/6", charUpgraded),
         std::to_string(R.Config.MapUnlocked) + "/6",
         std::format(
             "{:.2f}%",
-            float(charUnlocked - 1 + mapUnlocked - 1 + charUpgraded) / 16
+            float(
+                R.Config.CharUnlocked - 1 + R.Config.MapUnlocked - 1 +
+                charUpgraded
+            ) / 16
         ),
     };
     std::string spacePad = "";
@@ -180,7 +176,7 @@ void Progress::DrawStat(ConsoleGame::AbstractCanvas* canvas) const
 {
     surfaceStat.Draw(canvas);
 
-    Font::DrawString(canvas, R.String.Statistic.Title, {20, 20}, 1, 1, Black);
+    Font::DrawString(canvas, R.String.Progress.Stat_Title, {20, 20}, 1, 1, Black);
     Vec2 tmp = {20, 60};
     for (int i = 0; i < data.size(); i++) {
         Font::DrawString(canvas, data[i], tmp, 1, 0, Black);
@@ -191,7 +187,7 @@ void Progress::DrawStat(ConsoleGame::AbstractCanvas* canvas) const
 void Progress::DrawExp(ConsoleGame::AbstractCanvas* canvas) const
 {
     surfaceExp.Draw(canvas);
-    Font::DrawString(canvas, R.String.Exp.Level, {204, 20}, 1, 1, Black);
+    Font::DrawString(canvas, R.String.Progress.Level, {204, 20}, 1, 1, Black);
     if (currentLevel != 0) {
         DrawRhombus(canvas, rectPos[0], rectR[0], Gray);
         Font::DrawString(
@@ -232,18 +228,18 @@ void Progress::DrawExp(ConsoleGame::AbstractCanvas* canvas) const
 
     Font::DrawString(
         canvas,
-        R.String.Exp.Rewards,
-        {int(284 - Font::GetDim(1).x * R.String.Exp.Rewards.length() / 2), 110},
+        R.String.Progress.Rewards,
+        {int(284 - Font::GetDim(1).x * R.String.Progress.Rewards.length() / 2), 110},
         1,
         1,
         Black
     );
-    auto reward = R.String.Exp.UnlockNewMap;
+    auto reward = R.String.Progress.UnlockNewMap;
     if (currentLevel % 2 == 0) {
-        reward = R.String.Exp.UnlockUpgradeToken;
+        reward = R.String.Progress.UnlockUpgradeToken;
     }
     if (currentLevel == 10) {
-        reward = R.String.Exp.Unlock2UpgradeToken;
+        reward = R.String.Progress.Unlock2UpgradeToken;
     }
     Font::DrawString(
         canvas,
@@ -264,17 +260,5 @@ int GetCharUpgraded()
     res += R.Config.KroniiUpgraded;
     res += R.Config.MumeiUpgraded;
     res += R.Config.SanaUpgraded;
-    return res;
-}
-
-uint64_t GetTotalXP()
-{
-    uint64_t res = 0;
-    res += R.Config.CasinoXP;
-    res += R.Config.CityXP;
-    res += R.Config.DesertXP;
-    res += R.Config.ForestXP;
-    res += R.Config.HouseXP;
-    res += R.Config.SpaceXP;
     return res;
 }

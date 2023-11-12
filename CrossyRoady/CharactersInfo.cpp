@@ -29,7 +29,7 @@ CharactersInfo::CharactersInfo()
               .pos = {5, 112 - 5},
               .cornerSize = 10,
               .border = fontColor,
-},
+          },
           false
       ),
       rightArr(
@@ -54,6 +54,9 @@ void CharactersInfo::Init(const std::any& args)
     menu.tertiaryColor = (Color)0;
     menu.Init({295, 175}, {80, 18}, {R.String.CharInfo.Upgrade, R.String.Back});
     charStuff = (CharStuff*)&R.String.Character;
+    UpgradePointStr = std::format(
+        "{}{}", R.String.CharInfo.UpgradePoint, int(R.Config.UpgradePoint)
+    );
     LoadStuff();
 }
 
@@ -97,49 +100,62 @@ AbstractNavigation::NavigationRes CharactersInfo::Update(
             }
         }
     );
+    redraw = lastSelect != currentSelect;
+    lastSelect = currentSelect;
     return res;
 }
 
 void CharactersInfo::Draw(AbstractCanvas* canvas) const
 {
-    canvas->Clear(bgColor);
-    portrait.Paint(canvas, portraitPos);
-    if (currentSelect != 0) {
-        leftArr.Draw(canvas);
+    if (redraw) {
+        canvas->Clear(bgColor);
+        portrait.Paint(canvas, portraitPos);
+        if (currentSelect != 0) {
+            leftArr.Draw(canvas);
+        }
+        if (currentSelect != numberOfChars - 1) {
+            rightArr.Draw(canvas);
+        }
+        Font::DrawString(
+            canvas,
+            charStuff[currentSelect].Name,
+            {XCoord - 12, 10},
+            2,
+            1,
+            fontColor
+        );
+        Font::DrawStringInBox(
+            canvas,
+            charStuff[currentSelect].Desc,
+            {{XCoord, 50}, {_CanvasSize.width - XCoord - 20, 100}},
+            1,
+            0,
+            fontColor
+        );
+        Font::DrawString(
+            canvas, R.String.CharInfo.Skill, {XCoord, 110}, 1, 0, fontColor
+        );
+        Font::DrawStringInBox(
+            canvas,
+            charStuff[currentSelect].Skill,
+            {{XCoord, 110 + Font::GetDim(0).height + 5},
+             {_CanvasSize.width - XCoord - 20, 30}},
+            1,
+            0,
+            fontColor
+        );
+        auto statusString = std::format("{} ", R.String.CharInfo.Status);
+        if (R.Config.GetCharUpgradeStatus(currentSelect)) {
+            statusString += R.String.CharInfo.Upgraded;
+        } else {
+            if (R.Config.UpgradePoint > 0) {
+                statusString += R.String.CharInfo.UpgradeAvail;
+            } else {
+                statusString += R.String.CharInfo.NoSkillPoint;
+            }
+        }
+        Font::DrawString(canvas, statusString, {XCoord, 155}, 1, 0, fontColor);
     }
-    if (currentSelect != numberOfChars - 1) {
-        rightArr.Draw(canvas);
-    }
-    Font::DrawString(
-        canvas,
-        charStuff[currentSelect].Name,
-        {XCoord - 12, 10},
-        2,
-        1,
-        fontColor
-    );
-    Font::DrawStringInBox(
-        canvas,
-        charStuff[currentSelect].Desc,
-        {
-            {XCoord,                          50 },
-            {_CanvasSize.width - XCoord - 20, 100}
-    },
-        1,
-        0,
-        fontColor
-    );
-    Font::DrawString(canvas, R.String.CharInfo.Skill, {XCoord, 110}, 1, 0, fontColor);
-    Font::DrawStringInBox(
-        canvas,
-        charStuff[currentSelect].Skill,
-        {
-            {XCoord,                          110 + Font::GetDim(0).height + 5},
-            {_CanvasSize.width - XCoord - 20, 100                             }
-    },
-        1,
-        0,
-        fontColor
-    );
+    Font::DrawString(canvas, UpgradePointStr, {10, 10}, 1, 0, fontColor);
     menu.Draw(canvas);
 }
