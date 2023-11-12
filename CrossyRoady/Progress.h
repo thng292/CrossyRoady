@@ -14,7 +14,7 @@ class Progress : public ConsoleGame::AbstractScreen {
     std::array<ConsoleGame::Vec2, 3> rectPos;
     std::array<uint8_t, 3> rectR;
     int earnedXP = 0;
-    int currentLevel = 10;
+    int currentLevel = 0;
     
     ArrowButton leftArr;
     ArrowButton rightArr;

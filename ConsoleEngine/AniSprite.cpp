@@ -12,10 +12,6 @@ namespace ConsoleGame {
             for (int i = 0; i < dim.width; i++) {
                 if (data[top * dim.width + i] != Color::C_TRANSPARENT) {
                     tmp = false;
-                    if (top != 0) {
-                        hitBox.coord.y++;
-                        hitBox.dim.height--;
-                    }
                     break;
                 }
             }
@@ -27,9 +23,6 @@ namespace ConsoleGame {
             for (int i = 0; i < dim.width; i++) {
                 if (data[bottom * dim.width + i] != Color::C_TRANSPARENT) {
                     tmp = false;
-                    if (bottom == dim.height - 1) {
-                        hitBox.dim.height--;
-                    }
                     break;
                 }
             }
@@ -41,10 +34,6 @@ namespace ConsoleGame {
             for (int i = 0; i < dim.height; i++) {
                 if (data[i * dim.width + left] != Color::C_TRANSPARENT) {
                     tmp = false;
-                    if (left != 0) {
-                        hitBox.coord.x++;
-                        hitBox.dim.width--;
-                    }
                     break;
                 }
             }
@@ -57,9 +46,6 @@ namespace ConsoleGame {
             for (int i = 0; i < dim.height; i++) {
                 if (data[i * dim.width + right] != Color::C_TRANSPARENT) {
                     tmp = false;
-                    if (right != dim.width - 1) {
-                        hitBox.dim.width--;
-                    }
                     break;
                 }
             }

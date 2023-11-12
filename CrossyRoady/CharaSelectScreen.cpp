@@ -13,13 +13,6 @@ std::wstring_view CharacterSelectScreen::getName() { return ScreenName(); }
 
 void CharacterSelectScreen::Init(const std::any& args)
 {
-    try {
-        unlocked = std::stoi(LocalStorage::Get(R.Config.CharUnlocked));
-    } catch (...) {
-        unlocked = 1;
-    }
-
-    
 }
 
 void CharacterSelectScreen::Mount(const std::any& args)

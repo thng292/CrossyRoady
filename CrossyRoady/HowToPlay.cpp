@@ -23,7 +23,7 @@ void HowToPlay::Init(const std::any& args)
             .background = (Color)14,
             .border = ((Color)13)
     },
-        R.HowToPlay.Title,
+        R.String.HowToPlay.Title,
         ((Color)13),
         1,
         1
@@ -40,7 +40,10 @@ void HowToPlay::Init(const std::any& args)
         {10, 80},
         {100, 18},
         std::array<const std::string_view, 4>{
-            R.HowToPlay.Control, R.HowToPlay.Exp, R.HowToPlay.Upgrade, R.Back}
+            R.String.HowToPlay.Control,
+            R.String.HowToPlay.Exp,
+            R.String.HowToPlay.Upgrade,
+            R.String.Back}
     );
 
     subScreen[0] = std::make_unique<Control>();

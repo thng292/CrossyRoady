@@ -3,6 +3,7 @@
 #include "ConsoleGame.h"
 #include "Menu.h"
 #include "SharedAudio.h"
+#include "StringRes.h"
 
 class CharactersInfo : public ConsoleGame::AbstractScreen {
     ConsoleGame::Sprite portrait;
@@ -11,7 +12,9 @@ class CharactersInfo : public ConsoleGame::AbstractScreen {
     ArrowButton leftArr;
     ArrowButton rightArr;
     uint8_t currentSelect = 0;
+    bool redraw = true;
     uint8_t numberOfCharOwned = 0;
+    CharStuff* charStuff;
     Menu<2> menu;
 
     void LoadStuff();

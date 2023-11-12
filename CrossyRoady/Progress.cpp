@@ -41,7 +41,9 @@ uint64_t GetTotalXP();
 void Progress::Init(const std::any& args)
 {
     bg = std::any_cast<MenuBG*>(args);
-    backButt.Init({(_CanvasSize.width - 80) / 2, 200}, {80, 18}, {R.Back});
+    backButt.Init(
+        {(_CanvasSize.width - 80) / 2, 200}, {80, 18}, {R.String.Back}
+    );
     surfaceStat.props = {
         .size = {180, 180},
         .pos = {10,  10 },
@@ -68,36 +70,28 @@ void Progress::Init(const std::any& args)
 
     constexpr size_t strLen = 27;
     std::string_view left[] = {
-        R.Statistic.PlayTime,
-        R.Statistic.Deaths,
-        R.Statistic.Walked,
-        R.Statistic.EarnedXP,
-        R.Statistic.CharUnlocked,
-        R.Statistic.CharUpgraded,
-        R.Statistic.MapUnlocked,
-        R.Statistic.Completion};
+        R.String.Statistic.PlayTime,
+        R.String.Statistic.Deaths,
+        R.String.Statistic.Walked,
+        R.String.Statistic.EarnedXP,
+        R.String.Statistic.CharUnlocked,
+        R.String.Statistic.CharUpgraded,
+        R.String.Statistic.MapUnlocked,
+        R.String.Statistic.Completion};
 
     int charUnlocked = 1;
     int mapUnlocked = 1;
     earnedXP = GetTotalXP();
     int charUpgraded = GetCharUpgraded();
-    try {
-        charUnlocked = std::stoi(LocalStorage::Get(R.Config.CharUnlocked));
-    } catch (...) {
-    }
-    try {
-        mapUnlocked = std::stoi(LocalStorage::Get(R.Config.MapUnlocked));
-    } catch (...) {
-    }
 
     std::string right[] = {
         SecondsToHMStr(TimePlayedTracker::GetTimePlayed()),
-        LocalStorage::Get(R.Config.Deaths),
-        LocalStorage::Get(R.Config.Walked),
+        std::to_string(R.Config.Deaths),
+        std::to_string(R.Config.Walked),
         std::to_string(earnedXP),
-        LocalStorage::Get(R.Config.CharUnlocked) + "/6",
+        std::to_string(R.Config.CharUnlocked) + "/6",
         std::format("{}/6", charUpgraded),
-        LocalStorage::Get(R.Config.MapUnlocked) + "/6",
+        std::to_string(R.Config.MapUnlocked) + "/6",
         std::format(
             "{:.2f}%",
             float(charUnlocked - 1 + mapUnlocked - 1 + charUpgraded) / 16
@@ -186,7 +180,7 @@ void Progress::DrawStat(ConsoleGame::AbstractCanvas* canvas) const
 {
     surfaceStat.Draw(canvas);
 
-    Font::DrawString(canvas, R.Statistic.Title, {20, 20}, 1, 1, Black);
+    Font::DrawString(canvas, R.String.Statistic.Title, {20, 20}, 1, 1, Black);
     Vec2 tmp = {20, 60};
     for (int i = 0; i < data.size(); i++) {
         Font::DrawString(canvas, data[i], tmp, 1, 0, Black);
@@ -197,7 +191,7 @@ void Progress::DrawStat(ConsoleGame::AbstractCanvas* canvas) const
 void Progress::DrawExp(ConsoleGame::AbstractCanvas* canvas) const
 {
     surfaceExp.Draw(canvas);
-    Font::DrawString(canvas, R.Exp.Level, {204, 20}, 1, 1, Black);
+    Font::DrawString(canvas, R.String.Exp.Level, {204, 20}, 1, 1, Black);
     if (currentLevel != 0) {
         DrawRhombus(canvas, rectPos[0], rectR[0], Gray);
         Font::DrawString(
@@ -238,18 +232,18 @@ void Progress::DrawExp(ConsoleGame::AbstractCanvas* canvas) const
 
     Font::DrawString(
         canvas,
-        R.Exp.Rewards,
-        {int(284 - Font::GetDim(1).x * R.Exp.Rewards.length() / 2), 110},
+        R.String.Exp.Rewards,
+        {int(284 - Font::GetDim(1).x * R.String.Exp.Rewards.length() / 2), 110},
         1,
         1,
         Black
     );
-    auto reward = R.Exp.UnlockNewMap;
+    auto reward = R.String.Exp.UnlockNewMap;
     if (currentLevel % 2 == 0) {
-        reward = R.Exp.UnlockUpgradeToken;
+        reward = R.String.Exp.UnlockUpgradeToken;
     }
     if (currentLevel == 10) {
-        reward = R.Exp.Unlock2UpgradeToken;
+        reward = R.String.Exp.Unlock2UpgradeToken;
     }
     Font::DrawString(
         canvas,
@@ -264,41 +258,23 @@ void Progress::DrawExp(ConsoleGame::AbstractCanvas* canvas) const
 int GetCharUpgraded()
 {
     int res = 0;
-    res += LocalStorage::Get(R.Config.BaeUpgraded) == R.Config.True;
-    res += LocalStorage::Get(R.Config.FaunaUpgraded) == R.Config.True;
-    res += LocalStorage::Get(R.Config.IrysUpgraded) == R.Config.True;
-    res += LocalStorage::Get(R.Config.KroniiUpgraded) == R.Config.True;
-    res += LocalStorage::Get(R.Config.MumeiUpgraded) == R.Config.True;
-    res += LocalStorage::Get(R.Config.SanaUpgraded) == R.Config.True;
+    res += R.Config.BaeUpgraded;
+    res += R.Config.FaunaUpgraded;
+    res += R.Config.IrysUpgraded;
+    res += R.Config.KroniiUpgraded;
+    res += R.Config.MumeiUpgraded;
+    res += R.Config.SanaUpgraded;
     return res;
 }
 
 uint64_t GetTotalXP()
 {
     uint64_t res = 0;
-    try {
-        res += std::stoul(LocalStorage::Get(R.Config.CasinoXP));
-    } catch (...) {
-    }
-    try {
-        res += std::stoul(LocalStorage::Get(R.Config.CityXP));
-    } catch (...) {
-    }
-    try {
-        res += std::stoul(LocalStorage::Get(R.Config.DesertXP));
-    } catch (...) {
-    }
-    try {
-        res += std::stoul(LocalStorage::Get(R.Config.ForestXP));
-    } catch (...) {
-    }
-    try {
-        res += std::stoul(LocalStorage::Get(R.Config.HouseXP));
-    } catch (...) {
-    }
-    try {
-        res += std::stoul(LocalStorage::Get(R.Config.SpaceXP));
-    } catch (...) {
-    }
+    res += R.Config.CasinoXP;
+    res += R.Config.CityXP;
+    res += R.Config.DesertXP;
+    res += R.Config.ForestXP;
+    res += R.Config.HouseXP;
+    res += R.Config.SpaceXP;
     return res;
 }

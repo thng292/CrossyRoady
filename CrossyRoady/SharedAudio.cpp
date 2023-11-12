@@ -7,8 +7,6 @@ using namespace ConsoleGame;
 SharedAudio::SharedAudio()
 {
     current = BGMusic::Menu;
-    sfxOpt = (std::string*)&LocalStorage::Get(R.Config.SfxToggle);
-    musicOpt = (std::string*)&LocalStorage::Get(R.Config.MusicToggle);
     hoverSound.Open(RESOURCE_PATH SFX_PATH "hover.wav");
     clickSound.Open(RESOURCE_PATH SFX_PATH "select.wav");
     bgMusic.Open(RESOURCE_PATH BGM_PATH "menu.mp3");
@@ -58,35 +56,35 @@ void SharedAudio::PauseMusic() { bgMusic.Pause(); }
 
 void SharedAudio::PlayMusic()
 {
-    if (*musicOpt == R.Config.OnOpt and not bgMusic.IsPlaying()) {
+    if (R.Config.Music and not bgMusic.IsPlaying()) {
         bgMusic.Play(true, true);
     }
 }
 
 void SharedAudio::ResumeMusic()
 {
-    if (*musicOpt == R.Config.OnOpt) {
+    if (R.Config.Music) {
         bgMusic.Resume();
     }
 }
 
 void SharedAudio::PlayHoverSfx()
 {
-    if (*sfxOpt == R.Config.OnOpt && IsWindowForeground()) {
+    if (R.Config.Sfx and IsWindowForeground()) {
         hoverSound.Play();
     }
 }
 
 void SharedAudio::PlayClickSfx()
 {
-    if (*sfxOpt == R.Config.OnOpt && IsWindowForeground()) {
+    if (R.Config.Sfx and IsWindowForeground()) {
         clickSound.Play();
     }
 }
 
 void SharedAudio::UpdateMusicState()
 {
-    if (*musicOpt == R.Config.OnOpt) {
+    if (R.Config.Music) {
         bgMusic.Resume();
     } else {
         bgMusic.Pause();

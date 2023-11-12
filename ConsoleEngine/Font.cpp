@@ -1,6 +1,7 @@
 #include "Font.h"
 
 #include <fstream>
+#include <ranges>
 
 namespace ConsoleGame {
     std::vector<std::vector<bool>> Font::data{};
@@ -20,7 +21,7 @@ namespace ConsoleGame {
         dim[variant].width = BigEndianToHost(buff);
         in.read((char*)&buff, sizeof(buff));
         dim[variant].height = BigEndianToHost(buff);
-        const size_t len = size_t(dim[variant].width) * dim[variant].height;
+        const size_t len    = size_t(dim[variant].width) * dim[variant].height;
         data[variant].resize(len);
 
         Color tmp;
@@ -48,9 +49,9 @@ namespace ConsoleGame {
             return;
         }
 
-        int nextStop = coord.x - dim[variant].width;
-        const int endX = size * dim[variant].width;
-        const int endY = size * dim[variant].height;
+        int nextStop        = coord.x - dim[variant].width;
+        const int endX      = size * dim[variant].width;
+        const int endY      = size * dim[variant].height;
         const int chSection = dim[variant].width * dim[variant].height;
         for (char ch : str) {
             nextStop += endX;
@@ -72,6 +73,47 @@ namespace ConsoleGame {
                     }
                 }
             }
+        }
+    }
+
+    void Font::DrawStringInBox(
+        AbstractCanvas* canvas,
+        std::string_view str,
+        Box box,
+        uint8_t size,
+        uint8_t variant,
+        Color color
+    )
+    {
+        auto dim        = Font::GetDim(variant);
+        dim.x *= size;
+        dim.y *= size;
+        int last        = 0;
+        int current     = -1;
+        int currentLine = -1;
+        int lengthLeft  = str.length();
+        const int boxLineCap  = box.dim.width / dim.width;
+        while (lengthLeft > 0) {
+            current++;
+            currentLine++;
+            last = current;
+            current += boxLineCap;
+            if (current >= str.length()) {
+                current = str.length();
+            } else {
+                while (str[current] != ' ') {
+                    current--;
+                }
+            }
+            lengthLeft -= (current - last + 1);
+            Font::DrawString(
+                canvas,
+                str.substr(last, current - last),
+                {box.coord.x, box.coord.y + currentLine * (dim.height + 5)},
+                size,
+                variant,
+                color
+            );
         }
     }
 }  // namespace ConsoleGame

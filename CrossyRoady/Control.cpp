@@ -14,6 +14,7 @@ void Control::Init(const std::any& args)
             .size = {60,  22},
             .pos = {150, 80},
             .cornerSize = 4,
+            .hasBorder = true,
             .background = (Color)14,
             .border = (Color)13,
     },

@@ -20,12 +20,12 @@ void MainMenu::Init(const std::any& args)
         startPos,
         buttDim,
         std::array<const std::string_view, 6>{
-            R.SinglePlayer.Title,
-            R.MultiPlayer.Title,
-            R.Progress.Title,
-            R.CharInfo.Title,
-            R.Setting.Title,
-            R.MainMenu.Exit}
+            R.String.SinglePlayer.Title,
+            R.String.MultiPlayer.Title,
+            R.String.Progress.Title,
+            R.String.CharInfo.Title,
+            R.String.Setting.Title,
+            R.String.MainMenu.Exit}
     );
 }
 

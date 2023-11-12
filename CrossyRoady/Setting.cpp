@@ -13,12 +13,12 @@ std::wstring_view Setting::getName() { return ScreenName(); }
 void Setting::UpdateMusicTitle()
 {
     MusicTitle.clear();
-    MusicTitle += R.Setting.Music;
+    MusicTitle += R.String.Setting.Music;
     MusicTitle += ": ";
-    if (LocalStorage::Get(R.Setting.Music) == R.Config.OnOpt) {
-        MusicTitle += R.Config.OnOpt;
+    if (R.Config.Music) {
+        MusicTitle += R.String.Setting.OnOpt;
     } else {
-        MusicTitle += R.Config.OffOpt;
+        MusicTitle += R.String.Setting.OffOpt;
     }
     menu.buttons[0].ChangeText(MusicTitle);
 }
@@ -26,12 +26,12 @@ void Setting::UpdateMusicTitle()
 void Setting::UpdateSfxTitle()
 {
     SfxTitle.clear();
-    SfxTitle += R.Setting.Sfx;
+    SfxTitle += R.String.Setting.Sfx;
     SfxTitle += ": ";
-    if (LocalStorage::Get(R.Setting.Sfx) == R.Config.OnOpt) {
-        SfxTitle += R.Config.OnOpt;
+    if (R.Config.Sfx) {
+        SfxTitle += R.String.Setting.OnOpt;
     } else {
-        SfxTitle += R.Config.OffOpt;
+        SfxTitle += R.String.Setting.OffOpt;
     }
     menu.buttons[1].ChangeText(SfxTitle);
 }
@@ -51,7 +51,7 @@ void Setting::Init(const std::any& args)
             .background = (Color)14,
             .border = (Color)13
     },
-        R.Setting.Title,
+        R.String.Setting.Title,
         (Color)13,
         1
     );
@@ -59,13 +59,17 @@ void Setting::Init(const std::any& args)
         startPos,
         buttDim,
         std::array<const std::string_view, 5>{
-            MusicTitle, SfxTitle, R.HowToPlay.Title, R.Credit.Title, R.Back}
+            MusicTitle,
+            SfxTitle,
+            R.String.HowToPlay.Title,
+            R.String.Credit.Title,
+            R.String.Back}
     );
 }
 
 AbstractScreen* Setting::Clone() const { return new Setting; }
 
-void Setting::Mount(const std::any& args) { }
+void Setting::Mount(const std::any& args) {}
 
 AbstractNavigation::NavigationRes Setting::Update(
     float deltaTime, const AbstractNavigation* navigation
@@ -80,24 +84,12 @@ AbstractNavigation::NavigationRes Setting::Update(
             audio.PlayClickSfx();
             switch (selection) {
                 case 0:
-                    if (LocalStorage::Get(R.Config.MusicToggle) ==
-                        R.Config.OnOpt) {
-                        LocalStorage::Set(
-                            R.Config.MusicToggle, R.Config.OffOpt
-                        );
-                    } else {
-                        LocalStorage::Set(R.Config.MusicToggle, R.Config.OnOpt);
-                    }
+                    R.Config.Music = ~R.Config.Music;
                     audio.UpdateMusicState();
                     UpdateMusicTitle();
                     break;
                 case 1:
-                    if (LocalStorage::Get(R.Config.SfxToggle) ==
-                        R.Config.OnOpt) {
-                        LocalStorage::Set(R.Config.SfxToggle, R.Config.OffOpt);
-                    } else {
-                        LocalStorage::Set(R.Config.SfxToggle, R.Config.OnOpt);
-                    }
+                    R.Config.Sfx = ~R.Config.Sfx;
                     UpdateSfxTitle();
                     break;
                 case 2:

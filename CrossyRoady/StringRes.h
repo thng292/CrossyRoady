@@ -2,6 +2,7 @@
 
 #include <array>
 #include <string_view>
+#include <filesystem>
 
 #define RESOURCE_PATH "resource/"
 #define CHARACTER_PATH "character/"
@@ -10,6 +11,12 @@
 #define EXTRA_PATH "extra/"
 #define BGM_PATH "bgm/"
 #define SFX_PATH "sfx/"
+
+struct CharStuff {
+    std::string_view Name;
+    std::string_view Skill;
+    std::string_view Desc;
+};
 
 struct StringResource {
     std::string_view Back = "Back";
@@ -73,37 +80,12 @@ struct StringResource {
     struct {
         std::string_view Title = "Characters";
         std::string_view UpgradeAvail = "Upgrade Available";
+        std::string_view Upgraded = "Upgraded";
+        std::string_view NoSkillPoint = "Not enough skill point";
         std::string_view Upgrade = "Upgrade";
+        std::string_view Skill = "Skill:";
+        std::string_view Status = "Status:";
     } CharInfo;
-
-    struct {
-        std::string_view PlayTime = "PlayTime";
-        std::string_view Deaths = "Deaths";
-        std::string_view Walked = "Walked";
-        std::string_view CharUnlocked = "CharacterUnlocked";
-        std::string_view MapUnlocked = "MapUnlocked";
-        std::string_view MusicToggle = "Music";
-        std::string_view SfxToggle = "Sfx";
-        std::string_view OnOpt = "On";
-        std::string_view OffOpt = "Off";
-        std::string_view True = "True";
-        std::string_view False = "False";
-
-        std::string_view BaeUpgraded = "BaeUpgraded";
-        std::string_view FaunaUpgraded = "BaeUpgraded";
-        std::string_view IrysUpgraded = "BaeUpgraded";
-        std::string_view KroniiUpgraded = "BaeUpgraded";
-        std::string_view MumeiUpgraded = "BaeUpgraded";
-        std::string_view SanaUpgraded = "BaeUpgraded";
-
-        std::string_view CasinoXP = "CasinoXP";
-        std::string_view CityXP = "CityXP";
-        std::string_view ForestXP = "ForestXP";
-        std::string_view HouseXP = "HouseXP";
-        std::string_view SpaceXP = "SpaceXP";
-        std::string_view DesertXP = "DesertXP";
-
-    } Config;
 
     struct {
         struct {
@@ -142,59 +124,106 @@ struct StringResource {
     } Map;
 
     struct {
-        struct {
-            std::string_view Name = "Hakos Baelz";
-            std::string_view Skill =
-                "Randomly chooses any skill, may confuses oneself";
-            std::string_view Desc =
+        CharStuff Fauna{
+            .Name = "Ceres Fauna",
+            .Skill = "Gains back full health and with two additional hearts",
+            .Desc =
+                "The Keeper of Nature, a druidic kirin who materialized in the "
+                "mortal realm in a bid to save nature",
+        };
+
+        CharStuff Irys = {
+            .Name = "Irys",
+            .Skill = "Tanks two hits without taking any damage",
+            .Desc =
+                "A half-demon, half-angel also known as a Nephilim. She has "
+                "arrived to deliver hope and determination to the current era",
+        };
+
+        CharStuff Mumei = {
+            .Name = "Nanashi Mumei",
+            .Skill = "Becomes invincible and gains a speed boost",
+            .Desc =
+                "The Guardian of Civilization, a traveling owl who has borne "
+                "witness to numerous events",
+        };
+
+        CharStuff Kronii = {
+            .Name = "Ouro Kronii",
+            .Skill = "Stops every entity's movement",
+            .Desc =
+                "The Speaker of Space, a concept unbridled by definition, and "
+                "one that continues to grow in scope limitlessly",
+        };
+
+        CharStuff Sana = {
+            .Name = "Tsukumo Sana",
+            .Skill = "Removes any incoming/active debuff",
+            .Desc =
+                "The Warden of Time, the third concept birthed by the Gods and "
+                "the one most intrinsically linked with mankind",
+        };
+
+        CharStuff Bae = {
+            .Name = "Hakos Baelz",
+            .Skill = "Randomly chooses any skill, may confuses oneself",
+            .Desc =
                 "The very concept of Chaos, she believes that rules are not "
                 "the be-all and end-all, which is why she has come to break "
-                "them all";
-        } Bae;
-
-        struct {
-            std::string_view Name = "Tsukumo Sana";
-            std::string_view Skill = "Removes any incoming/active debuff";
-            std::string_view Desc =
-                "The Warden of Time, the third concept birthed by the Gods and "
-                "the one most intrinsically linked with mankind";
-        } Sana;
-
-        struct {
-            std::string_view Name = "Irys";
-            std::string_view Skill = "Tanks two hits without taking any damage";
-            std::string_view Desc =
-                "A half-demon, half-angel also known as a Nephilim. She has "
-                "arrived to deliver hope and determination to the current era";
-        } Irys;
-
-        struct {
-            std::string_view Name = "Ceres Fauna";
-            std::string_view Skill =
-                "Gains back full health and with two additional hearts";
-            std::string_view Desc =
-                "The Keeper of Nature, a druidic kirin who materialized in the "
-                "mortal realm in a bid to save nature";
-        } Fauna;
-
-        struct {
-            std::string_view Name = "Nanashi Mumei";
-            std::string_view Skill =
-                "Becomes invincible and gains a speed boost";
-            std::string_view Desc =
-                "The Guardian of Civilization, a traveling owl who has borne "
-                "witness to numerous events";
-        } Mumei;
-
-        struct {
-            std::string_view Name = "Ouro Kronii";
-            std::string_view Skill = "Stops every entity's movement";
-            std::string_view Desc =
-                "The Speaker of Space, a concept unbridled by definition, and "
-                "one that continues to grow in scope limitlessly";
-        } Kronii;
+                "them all",
+        };
 
     } Character;
 };
 
-extern StringResource R;
+struct CharStat {
+    uint8_t Speed = 0;
+    uint8_t Health = 0;
+    uint8_t CoolDown = 0;
+    uint8_t UpgradedCoolDown = 0;
+};
+
+struct CharsStat {
+    CharStat Fauna;
+    CharStat Irys;
+    CharStat Kronii;
+    CharStat Mumei;
+    CharStat Sana;
+    CharStat Bae;
+};
+
+struct Config {
+    uint32_t PlayTime = 0;
+    uint32_t Walked = 0;
+
+    uint16_t Deaths = 0;
+    uint16_t CasinoXP = 0;
+    uint16_t CityXP = 0;
+    uint16_t ForestXP = 0;
+    uint16_t HouseXP = 0;
+    uint16_t SpaceXP = 0;
+    uint16_t DesertXP = 0;
+
+    uint8_t CharUnlocked : 3 = 1;
+    uint8_t MapUnlocked : 3 = 1;
+    uint8_t Music : 1 = 1;
+    uint8_t Sfx : 1 = 1;
+
+    uint8_t BaeUpgraded : 1 = 0;
+    uint8_t FaunaUpgraded : 1 = 0;
+    uint8_t IrysUpgraded : 1 = 0;
+    uint8_t KroniiUpgraded : 1 = 0;
+    uint8_t MumeiUpgraded : 1 = 0;
+    uint8_t SanaUpgraded : 1 = 0;
+
+    void Load(std::filesystem::path path);
+    void Save(std::filesystem::path path);
+};
+
+struct Resource {
+    const StringResource String;
+    const CharsStat CharsStat;
+    Config Config;
+};
+
+extern Resource R;

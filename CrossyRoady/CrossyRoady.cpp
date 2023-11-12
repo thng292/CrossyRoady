@@ -23,8 +23,9 @@ auto main() -> int
 
     Font::Load(RESOURCE_PATH FONT_PATH "small.font");
     Font::Load(RESOURCE_PATH FONT_PATH "big.font", 1);
-    LocalStorage::LoadFromFile(configFilePath);
-    defer { LocalStorage::SaveToFile(configFilePath); };
+
+    R.Config.Load("config.bin");
+    defer { R.Config.Save("config.bin"); };
 
     auto game =
 #ifndef _SHOW_OFF_

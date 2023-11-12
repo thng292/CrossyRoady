@@ -11,8 +11,8 @@ namespace ConsoleGame {
         static std::vector<Vec2> dim;
         // Font contain symbols from ascii 33 -> 126
         static constexpr uint8_t charRange = 126 - 33 + 1;
-        static constexpr uint8_t minCh = 33;
-        static constexpr uint8_t maxCh = 126;
+        static constexpr uint8_t minCh     = 33;
+        static constexpr uint8_t maxCh     = 126;
 
        public:
         Font() = delete;
@@ -22,9 +22,17 @@ namespace ConsoleGame {
             AbstractCanvas* canvas,
             std::string_view str,
             Vec2 coord,
-            uint8_t size = 1,
+            uint8_t size    = 1,
             uint8_t variant = 0,
-            Color color = Color::BLACK
+            Color color     = Color::BLACK
+        );
+        static void DrawStringInBox(
+            AbstractCanvas* canvas,
+            std::string_view str,
+            Box box,
+            uint8_t size    = 1,
+            uint8_t variant = 0,
+            Color color     = Color::BLACK
         );
     };
 

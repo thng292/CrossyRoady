@@ -22,12 +22,12 @@ void Credit::Init(const std::any& args)
             .background = (Color)14,
             .border = (Color)13,
     },
-        R.Credit.Title,
+        R.String.Credit.Title,
         ((Color)13),
         1,
         1
     );
-    backButt.Init({(384 - 50) / 2, 190}, {50, 18}, {R.Back});
+    backButt.Init({(384 - 50) / 2, 190}, {50, 18}, {R.String.Back});
     surface = Surface({
         .size = {350,             130},
         .pos = {(384 - 350) / 2, 50 },

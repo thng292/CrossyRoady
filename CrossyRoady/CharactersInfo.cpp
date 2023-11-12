@@ -2,12 +2,11 @@
 
 #include <format>
 
-#include "StringRes.h"
-
 using namespace ConsoleGame;
 
 constexpr Color bgColor = Color(0);
 constexpr Color fontColor = Color(1);
+constexpr int XCoord = 140;
 
 const std::string_view basePath = RESOURCE_PATH EXTRA_PATH;
 
@@ -20,7 +19,8 @@ void CharactersInfo::LoadStuff()
     ChangeColorPalette(Palette(palettePath));
     portrait.Load(spritePath);
     auto tmp = portrait.GetDim();
-    portraitPos = {10, (_CanvasSize.height - tmp.height) / 2};
+    portraitPos = {
+        (XCoord - tmp.width) / 2, (_CanvasSize.height - tmp.height) / 2};
 }
 
 CharactersInfo::CharactersInfo()
@@ -50,9 +50,10 @@ std::wstring_view CharactersInfo::getName() { return ScreenName(); }
 void CharactersInfo::Init(const std::any& args)
 {
     menu.primaryColor = (Color)1;
-    menu.secondaryColor = (Color)0;
-    menu.tertiaryColor = (Color)2;
-    menu.Init({295, 175}, {80, 18}, {R.CharInfo.Upgrade, R.Back});
+    menu.secondaryColor = (Color)2;
+    menu.tertiaryColor = (Color)0;
+    menu.Init({295, 175}, {80, 18}, {R.String.CharInfo.Upgrade, R.String.Back});
+    charStuff = (CharStuff*)&R.String.Character;
     LoadStuff();
 }
 
@@ -109,5 +110,36 @@ void CharactersInfo::Draw(AbstractCanvas* canvas) const
     if (currentSelect != numberOfChars - 1) {
         rightArr.Draw(canvas);
     }
+    Font::DrawString(
+        canvas,
+        charStuff[currentSelect].Name,
+        {XCoord - 12, 10},
+        2,
+        1,
+        fontColor
+    );
+    Font::DrawStringInBox(
+        canvas,
+        charStuff[currentSelect].Desc,
+        {
+            {XCoord,                          50 },
+            {_CanvasSize.width - XCoord - 20, 100}
+    },
+        1,
+        0,
+        fontColor
+    );
+    Font::DrawString(canvas, R.String.CharInfo.Skill, {XCoord, 110}, 1, 0, fontColor);
+    Font::DrawStringInBox(
+        canvas,
+        charStuff[currentSelect].Skill,
+        {
+            {XCoord,                          110 + Font::GetDim(0).height + 5},
+            {_CanvasSize.width - XCoord - 20, 100                             }
+    },
+        1,
+        0,
+        fontColor
+    );
     menu.Draw(canvas);
 }

@@ -11,12 +11,7 @@ std::chrono::steady_clock::time_point TimePlayedTracker::sessionStart{};
 
 void TimePlayedTracker::Load()
 {
-    auto tmp = LocalStorage::Get(R.Config.PlayTime);
-    try {
-        timePlayed = std::chrono::seconds(std::stoull(tmp));
-    } catch (...) {
-        LocalStorage::Set(R.Config.PlayTime, "0"s);
-    }
+    timePlayed = std::chrono::seconds(R.Config.PlayTime);
 }
 
 std::chrono::seconds TimePlayedTracker::GetTimePlayed() { return timePlayed; }
@@ -33,9 +28,4 @@ void TimePlayedTracker::StopCount()
     timePlayed += std::chrono::seconds(tmp.count() / secToNano);
 }
 
-void TimePlayedTracker::Save()
-{
-    LocalStorage::Set(
-        R.Config.PlayTime, std::format("{}", timePlayed)
-    );
-}
+void TimePlayedTracker::Save() { R.Config.PlayTime = timePlayed.count(); }

@@ -15,8 +15,6 @@ class SharedAudio {
     ConsoleGame::Audio bgMusic;
     ConsoleGame::Audio hoverSound;
     ConsoleGame::Audio clickSound;
-    std::string* sfxOpt;
-    std::string* musicOpt;
     BGMusic current;
 
     SharedAudio();
