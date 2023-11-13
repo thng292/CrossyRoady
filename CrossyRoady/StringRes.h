@@ -3,6 +3,7 @@
 #include <array>
 #include <filesystem>
 #include <string_view>
+
 #include "../ConsoleEngine/Common.h"
 
 #define RESOURCE_PATH "resource/"
@@ -158,16 +159,16 @@ struct StringResource {
             .Name = "Ouro Kronii",
             .Skill = "Stops every entity's movement",
             .Desc =
-                "The Speaker of Space, a concept unbridled by definition, and "
-                "one that continues to grow in scope limitlessly",
+                "The Warden of Time, the third concept birthed by the Gods and "
+                "the one most intrinsically linked with mankind",
         };
 
         CharStuff Sana = {
             .Name = "Tsukumo Sana",
             .Skill = "Removes any incoming/active debuff",
             .Desc =
-                "The Warden of Time, the third concept birthed by the Gods and "
-                "the one most intrinsically linked with mankind",
+                "The Speaker of Space, a concept unbridled by definition, and "
+                "one that continues to grow in scope limitlessly",
         };
 
         CharStuff Bae = {
