@@ -215,7 +215,7 @@ namespace ConsoleGame {
                 constexpr auto secondToNano =
                     std::chrono::nanoseconds(std::chrono::seconds(1)).count();
 
-                constexpr auto OS_SchedulerDelay = std::chrono::milliseconds(1);
+                constexpr auto OS_SchedulerDelay = std::chrono::milliseconds(2);
                 const auto nextFrame =
                     start + _targetFrameTime - OS_SchedulerDelay;
                 std::this_thread::sleep_until(nextFrame);

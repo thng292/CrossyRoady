@@ -4,15 +4,15 @@
 #include "CharactersInfo.h"
 #include "ConsoleGame.h"
 #include "Credit.h"
+#include "GameMap.h"
 #include "HowToPlay.h"
 #include "MainMenu.h"
 #include "Progress.h"
 #include "Setting.h"
 #include "StringRes.h"
-#include "GameMap.h"
 using namespace ConsoleGame;
 
-// #define _SHOW_OFF_
+ //#define _SHOW_OFF_
 
 const char* configFilePath = "config.txt";
 

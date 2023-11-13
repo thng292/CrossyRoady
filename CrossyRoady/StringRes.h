@@ -222,7 +222,8 @@ struct Config {
     uint8_t KroniiUpgraded : 1 = 0;
     uint8_t SanaUpgraded : 1 = 0;
     uint8_t BaeUpgraded : 1 = 0;
-    uint8_t UpgradePoint : 3 = 2;
+
+    uint8_t UpgradePoint : 3 = 0;
 
     void Load(std::filesystem::path path);
     void Save(std::filesystem::path path);
@@ -231,8 +232,6 @@ struct Config {
     uint64_t GetTotalXP();
     uint8_t GetCurrentLevel();
 };
-
-constexpr auto tmp = sizeof(Config);
 
 struct Resource {
     const StringResource String;

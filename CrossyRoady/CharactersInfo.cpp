@@ -68,20 +68,28 @@ AbstractNavigation::NavigationRes CharactersInfo::Update(
 {
     bool trigger = 0;
     auto res = navigation->NoChange();
+    leftArr.ChangeColor(Color::C_TRANSPARENT, fontColor);
+    rightArr.ChangeColor(Color::C_TRANSPARENT, fontColor);
     if (currentSelect != 0) {
         leftArr.Update(
             deltaTime,
-            [&] { audio.PlayHoverSfx(); },
+            [&] {
+                audio.PlayHoverSfx();
+                leftArr.ChangeColor(fontColor, fontColor);
+            },
             [&] {
                 currentSelect--;
                 LoadStuff();
             }
         );
     }
-    if (currentSelect != numberOfChars - 1) {
+    if (currentSelect != R.Config.CharUnlocked - 1) {
         rightArr.Update(
             deltaTime,
-            [&] { audio.PlayHoverSfx(); },
+            [&] {
+                audio.PlayHoverSfx();
+                rightArr.ChangeColor(fontColor, fontColor);
+            },
             [&] {
                 currentSelect++;
                 LoadStuff();
@@ -121,7 +129,7 @@ void CharactersInfo::Draw(AbstractCanvas* canvas) const
     if (currentSelect != 0) {
         leftArr.Draw(canvas);
     }
-    if (currentSelect != numberOfChars - 1) {
+    if (currentSelect != R.Config.CharUnlocked - 1) {
         rightArr.Draw(canvas);
     }
     if (redraw) {
@@ -164,7 +172,8 @@ void CharactersInfo::Draw(AbstractCanvas* canvas) const
         Font::DrawString(canvas, statusString, {XCoord, 155}, 1, 0, fontColor);
     }
     Font::DrawString(canvas, UpgradePointStr, {10, 10}, 1, 0, fontColor);
-    if (R.Config.UpgradePoint == 0 && R.Config.GetCharUpgradeStatus(currentSelect) == 0) {
+    if (R.Config.UpgradePoint == 0 &&
+        R.Config.GetCharUpgradeStatus(currentSelect) == 0) {
         if (menu.hover == 0) {
             Font::DrawString(
                 canvas,

@@ -1,29 +1,34 @@
 #include "ArrowButton.h"
 using namespace ConsoleGame;
 
-ArrowButton::ArrowButton(SurfaceArgs surfaceArgs, bool direction)
+ArrowButton::ArrowButton(SurfaceArgs surfaceArgs, bool isRight)
     : Surface(surfaceArgs),  // no size, only conrnerSize
-      direction(direction)   //"left" or "right"
+      direction(isRight)     //"left" or "right"
 {
 }
 
 bool ArrowButton::IsHover(ConsoleGame::Vec2 mousePos) const
 {
-    int x;
+    int x = mousePos.x - props.pos.x;
     int y = mousePos.y - props.pos.y;
-    bool tmp1, tmp2;
-    if (direction == 1) {
-        x = (mousePos.x - 25) - props.pos.x;
-        tmp1 = (x <= props.cornerSize - y) && (y <= props.cornerSize);
-        tmp2 = (y > props.cornerSize) && (x <= props.cornerSize * 2 - y + 2);
-
-    } else if (direction == 0) {
-        x = (mousePos.x - 10) - props.pos.x;
-        tmp1 = (y <= props.cornerSize) && (x >= props.cornerSize + 1 - y);
-        tmp2 = (y > props.cornerSize) && (x >= y - props.cornerSize - 1);
+    if (x < 0 or y < 0) {
+        return false;
     }
-    return (x >= 0) && (y >= 0) && (x <= props.cornerSize + 1) &&
-           (y <= props.cornerSize * 2) && (tmp1 || tmp2);
+    if (x > 2 * props.cornerSize or y > 2 * props.cornerSize) {
+        return false;
+    }
+    if (direction == 1) {
+        if (y <= props.cornerSize) {
+            return x <= y;
+        }
+        return x <= props.cornerSize * 2 - y;
+    } else {
+        if (y <= props.cornerSize) {
+            return x >= props.cornerSize - y;
+        }
+        return x >= y - props.cornerSize;
+    }
+    return false;
 }
 
 void ArrowButton::Draw(ConsoleGame::AbstractCanvas* canvas) const

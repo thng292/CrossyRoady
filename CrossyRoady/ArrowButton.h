@@ -29,7 +29,7 @@ class ArrowButton : private Surface {
         if (tmp) {
             onHover();
         }
-        if (((ConsoleGame::UiIsKeyMeanSelect() and tmp) or KeyFunc())) {
+        if ((ConsoleGame::UiIsKeyMeanClick() and tmp) or KeyFunc()) {
             onClick();
         }
     }
