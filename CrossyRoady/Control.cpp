@@ -9,11 +9,11 @@ std::wstring_view Control::getName() { return ScreenName(); }
 
 void Control::Init(const std::any& args)
 {
-    ListButton1.tertiaryColor = (Color)6;
-    ListButton1.primaryColor = (Color)13;
-    ListButton2.tertiaryColor = (Color)6;
-    ListButton2.primaryColor = (Color)13;
-    ListFeature.primaryColor = (Color)13;
+    //ListButton1.tertiaryColor = (Color)6;
+    //ListButton1.primaryColor = (Color)13;
+    //ListButton2.tertiaryColor = (Color)6;
+    //ListButton2.primaryColor = (Color)13;
+    //ListFeature.primaryColor = (Color)13;
     ListButton1.Init(
         {132, 58},
         {50, 18},

@@ -66,6 +66,7 @@ AbstractNavigation::NavigationRes CharactersInfo::Update(
     float deltaTime, const AbstractNavigation* navigation
 )
 {
+    bool trigger = 0;
     auto res = navigation->NoChange();
     if (currentSelect != 0) {
         leftArr.Update(
@@ -93,6 +94,16 @@ AbstractNavigation::NavigationRes CharactersInfo::Update(
         [&](uint8_t selection) noexcept {
             switch (selection) {
                 case 0:
+                    if (R.Config.UpgradePoint > 0) {
+                        R.Config.SetCharUpgradeStatus(currentSelect);
+                        R.Config.UpgradePoint--;
+                        UpgradePointStr = std::format(
+                            "{}{}",
+                            R.String.CharInfo.UpgradePoint,
+                            int(R.Config.UpgradePoint)
+                        );
+                        trigger = 1;
+                    }
                     break;
                 case 1:
                     res = navigation->Back();
@@ -100,22 +111,22 @@ AbstractNavigation::NavigationRes CharactersInfo::Update(
             }
         }
     );
-    redraw = lastSelect != currentSelect;
+    redraw = lastSelect != currentSelect || trigger;
     lastSelect = currentSelect;
     return res;
 }
 
 void CharactersInfo::Draw(AbstractCanvas* canvas) const
 {
+    if (currentSelect != 0) {
+        leftArr.Draw(canvas);
+    }
+    if (currentSelect != numberOfChars - 1) {
+        rightArr.Draw(canvas);
+    }
     if (redraw) {
         canvas->Clear(bgColor);
         portrait.Paint(canvas, portraitPos);
-        if (currentSelect != 0) {
-            leftArr.Draw(canvas);
-        }
-        if (currentSelect != numberOfChars - 1) {
-            rightArr.Draw(canvas);
-        }
         Font::DrawString(
             canvas,
             charStuff[currentSelect].Name,
@@ -148,14 +159,31 @@ void CharactersInfo::Draw(AbstractCanvas* canvas) const
         if (R.Config.GetCharUpgradeStatus(currentSelect)) {
             statusString += R.String.CharInfo.Upgraded;
         } else {
-            if (R.Config.UpgradePoint > 0) {
-                statusString += R.String.CharInfo.UpgradeAvail;
-            } else {
-                statusString += R.String.CharInfo.NoSkillPoint;
-            }
+            statusString += R.String.CharInfo.UpgradeAvail;
         }
         Font::DrawString(canvas, statusString, {XCoord, 155}, 1, 0, fontColor);
     }
     Font::DrawString(canvas, UpgradePointStr, {10, 10}, 1, 0, fontColor);
+    if (R.Config.UpgradePoint == 0 && R.Config.GetCharUpgradeStatus(currentSelect) == 0) {
+        if (menu.hover == 0) {
+            Font::DrawString(
+                canvas,
+                R.String.CharInfo.NoSkillPoint,
+                {140, 180},
+                1,
+                0,
+                fontColor
+            );
+        } else {
+            Font::DrawString(
+                canvas,
+                R.String.CharInfo.NoSkillPoint,
+                {140, 180},
+                1,
+                0,
+                bgColor
+            );
+        }
+    }
     menu.Draw(canvas);
 }

@@ -55,4 +55,28 @@ bool Config::GetCharUpgradeStatus(uint8_t character)
     }
 }
 
+void Config::SetCharUpgradeStatus(uint8_t character)
+{
+    switch (character) {
+        case 0:
+            FaunaUpgraded = 1;
+            break;
+        case 1:
+            IrysUpgraded = 1;
+            break;
+        case 2:
+            MumeiUpgraded = 1;
+            break;
+        case 3:
+            SanaUpgraded = 1;
+            break;
+        case 4:
+            KroniiUpgraded = 1;
+            break;
+        case 5:
+            BaeUpgraded = 1;
+            break;
+    }
+}
+
 uint8_t Config::GetCurrentLevel() { return GetTotalXP() / LevelExpReq; }
