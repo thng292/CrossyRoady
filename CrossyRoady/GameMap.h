@@ -60,6 +60,7 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void ResetFlags();
     void CollisionCheck();
     void DebuffCheck();
+    void SkillCheck();
 
     void UpdateLanes(float deltaTime);
 
@@ -72,7 +73,11 @@ class GameMap : public ConsoleGame::AbstractScreen {
 
     void HandleDamage();
     void HandleDebuff(float deltaTime);
+    void HandleSkill(float deltaTime);
     void HandlePlayerInput();
     void HandlePlayerAnimation(float deltaTime);
     void HandlePlayerMovement(float deltaTime);
+
+    void TurnOffDebuff();
+    void TurnOffSkill();
 };

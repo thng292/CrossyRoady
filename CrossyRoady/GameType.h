@@ -13,6 +13,12 @@ namespace GameType {
     constexpr int VISIBLE_RADIUS = 30;
     constexpr int MUMEI_VISIBLE_RADIUS = 100;
 
+    // Skill values
+    constexpr int FAUNA_MAX_HEALTH = 3;
+    constexpr int FAUNA_EXTRA_MAX_HEALTH = FAUNA_MAX_HEALTH + 2;
+    constexpr int IRYS_SHIELD_COUNT = 2;
+    constexpr int MUMEI_SPEED_BUFF = 50;
+
     enum MobType {
         EASY,
         NORMAL,
@@ -103,7 +109,8 @@ namespace GameType {
 
         // Special
         bool allowSkill : 1;
-        bool allowDebuffSkill : 1;
+        bool allowDebuff : 1;
+        bool allowLaneUpdate : 1;
 
         // Movements
         bool allowMoveLeft : 1;
@@ -121,8 +128,17 @@ namespace GameType {
         bool isDamageCooldown : 1;
 
         // Map events
-        bool isDebuff : 1;
+        bool debuffInUse : 1;
         bool debuffCalled : 1;
+
+        bool skillCalled : 1;
+        bool skillActivate : 1;
+        bool skillInUse : 1;
+        bool turnOffSkill : 1;
+
+        bool isTimeSkill : 1;
+        bool isShieldSkill : 1;
+        bool isOneTimeSkill : 1;
 
         bool isFaunaDebuff : 1;
         bool isIrysDebuff : 1;
@@ -138,6 +154,8 @@ namespace GameType {
         bool isSanaSkill : 1;
         bool isBaeSkill : 1;
 
+        bool isInvincible : 1;
+
         // Action
         bool isDarkMap : 1;
         bool isReverseKey : 1;
@@ -149,11 +167,19 @@ namespace GameType {
         // Cooldown
         float damageCooldownTime;
         float mapDebuffCooldownTime;
-        float mapDebuffTime;
 
-        // Debuff
+        // Duration
+        float mapDebuffTime;
+        float skillTime;
+
+        // Miscel
         float notMovingTime;
         float originalHealth;
+        float originalSpeed;
+
+        // Skill
+        float skillCharge;
+        int shield;
     };
 
 }  // namespace GameType

@@ -13,11 +13,15 @@ void GameMap::Init(const std::any& args)
     gameEventArgs.mapDebuffCooldownTime = MAP_DEBUFF_COOLDOWN;
     gameEventArgs.mapDebuffTime = MAP_DEBUFF_DURATION;
     gameEventArgs.originalHealth = 0;
+    gameEventArgs.skillTime = 3;
+    gameEventArgs.shield = 0;
 
-    gameFlags.isDebuff = false;
+    gameFlags.debuffInUse = false;
     gameFlags.debuffCalled = false;
     gameFlags.allowCharacterKeys = true;
     gameFlags.isReverseKey = false;
+    gameFlags.allowSkill = true;
+    gameFlags.allowLaneUpdate = true;
 }
 
 AbstractScreen* GameMap::Clone() const { return new GameMap; }
@@ -33,9 +37,11 @@ AbstractNavigation::NavigationRes GameMap::Update(
     UpdateCooldowns(deltaTime);
 
     CollisionCheck();
-    DebuffCheck();
+    // DebuffCheck();
+    SkillCheck();
 
     HandleDebuff(deltaTime);
+    HandleSkill(deltaTime);
     HandleDamage();
     HandlePlayerInput();
     HandlePlayerMovement(deltaTime);
@@ -49,9 +55,9 @@ void GameMap::Mount(const std::any& args)
         std::any_cast<const GameMapData&>(args);*/
 
     GameMapData gm;
-    gm.charaType = IRYS;
+    gm.charaType = BAE;
     gm.mapMode = INF;
-    gm.mapType = CASINO;
+    gm.mapType = CITY;
 
     SetGameMapData(gm);
 
@@ -116,6 +122,9 @@ void GameMap::HandlePlayerInput()
             gameFlags.movingLeft = !correctKeyFlag;
         }
     }
+    if (IsKeyMeanSelect()) {
+        gameFlags.skillCalled = true;
+    }
 }
 
 void GameMap::HandlePlayerAnimation(float deltaTime)
@@ -170,6 +179,60 @@ void GameMap::HandlePlayerMovement(float deltaTime)
     }
 }
 
+void GameMap::TurnOffDebuff()
+{
+    gameFlags.debuffInUse = false;
+    gameFlags.debuffCalled = false;
+    gameEventArgs.mapDebuffTime = MAP_DEBUFF_DURATION;
+    gameEventArgs.mapDebuffCooldownTime = MAP_DEBUFF_COOLDOWN;
+
+    if (gameEventArgs.originalHealth != 0) {
+        character.SetCurHealth(gameEventArgs.originalHealth);
+    }
+
+    gameEventArgs.notMovingTime = 0;
+    gameEventArgs.originalHealth = 0;
+    gameFlags.allowCharacterKeys = true;
+    gameFlags.isDarkMap = false;
+    gameFlags.isReverseKey = false;
+
+    gameFlags.isFaunaDebuff = false;
+    gameFlags.isIrysDebuff = false;
+    gameFlags.isMumeiDebuff = false;
+    gameFlags.isKroniiDebuff = false;
+    gameFlags.isBaeDebuff = false;
+    gameFlags.isSanaDebuff = false;
+}
+
+void GameMap::TurnOffSkill()
+{
+    if (gameFlags.isFaunaSkill) {
+        character.SetMaxHealth(FAUNA_MAX_HEALTH);
+        if (character.GetCurHealth() >= FAUNA_MAX_HEALTH) {
+            character.SetCurHealth(FAUNA_MAX_HEALTH);
+        }
+    }
+    if (gameFlags.isMumeiSkill) {
+        character.SetSpeed(gameEventArgs.originalSpeed);
+        gameFlags.isInvincible = false;
+    }
+    gameFlags.turnOffSkill = false;
+    gameFlags.skillInUse = false;
+    gameFlags.allowSkill = true;
+
+    gameFlags.isTimeSkill = false;
+    gameFlags.isShieldSkill = false;
+    gameFlags.allowLaneUpdate = true;
+    gameEventArgs.skillTime = 3;
+
+    gameFlags.isFaunaSkill = false;
+    gameFlags.isIrysSkill = false;
+    gameFlags.isMumeiSkill = false;
+    gameFlags.isKroniiSkill = false;
+    gameFlags.isBaeSkill = false;
+    gameFlags.isSanaSkill = false;
+}
+
 void GameMap::SetGameMapData(const GameMapData& gmData)
 {
     gameData.mapType = gmData.mapType;
@@ -183,7 +246,7 @@ void GameMap::Draw(AbstractCanvas* canvas) const
     DrawEntity(canvas);
     DrawHealth(canvas);
     DrawSkill(canvas);
-    if (gameFlags.isDebuff) DrawDebuff(canvas);
+    if (gameFlags.debuffInUse) DrawDebuff(canvas);
     if (gameFlags.isDarkMap) DrawDarkness(canvas);
 }
 
@@ -288,15 +351,6 @@ void GameMap::ResetFlags()
     gameFlags.damageCollision = false;
     gameFlags.logCollision = false;
     gameFlags.itemCollision = false;
-
-    if (gameFlags.isDebuff == false) {
-        gameFlags.isFaunaDebuff = false;
-        gameFlags.isIrysDebuff = false;
-        gameFlags.isMumeiDebuff = false;
-        gameFlags.isKroniiDebuff = false;
-        gameFlags.isBaeDebuff = false;
-        gameFlags.isSanaDebuff = false;
-    }
 }
 
 void GameMap::CollisionCheck()
@@ -317,7 +371,7 @@ void GameMap::CollisionCheck()
 
 void GameMap::DebuffCheck()
 {
-    if (!gameFlags.isDebuff) return;
+    if (!gameFlags.debuffInUse) return;
     if (gameFlags.debuffCalled) return;
     MapType mapType = gameData.mapType;
     if (mapType == CASINO) {
@@ -348,8 +402,43 @@ void GameMap::DebuffCheck()
     gameFlags.debuffCalled = true;
 }
 
+void GameMap::SkillCheck()
+{
+    if (!gameFlags.skillCalled) return;
+    gameFlags.skillCalled = false;
+    if (!gameFlags.allowSkill) return;
+
+    CharaType charaType = gameData.charaType;
+    if (charaType == BAE) {
+        int randInd = std::rand() % (BAE + 1);
+        charaType = static_cast<CharaType>(randInd);
+    }
+    switch (charaType) {
+        case FAUNA:
+            gameFlags.isFaunaSkill = true;
+            break;
+        case IRYS:
+            gameFlags.isIrysSkill = true;
+            break;
+        case MUMEI:
+            gameFlags.isMumeiSkill = true;
+            break;
+        case KRONII:
+            gameFlags.isKroniiSkill = true;
+            break;
+        case SANA:
+            gameFlags.isSanaSkill = true;
+            break;
+        case BAE:
+            gameFlags.isBaeSkill = true;
+            break;
+    }
+    gameFlags.skillActivate = true;
+}
+
 void GameMap::UpdateLanes(float deltaTime)
 {
+    if (!gameFlags.allowLaneUpdate) return;
     for (auto& lane : laneList) {
         LaneType type = lane->GetType();
         if (type == LaneType::SAFE) {
@@ -407,17 +496,23 @@ void GameMap::HandleWaterCollision(GameType::CollisionType colType)
 
 void GameMap::HandleDamage()
 {
-    if (gameFlags.isDamageCooldown || !gameFlags.damageCollision) return;
-    int newHealth =
-        character.GetCurHealth() - (gameEventArgs.collidedMobtype + 1);
-    character.SetCurHealth(newHealth);
+    if (gameFlags.isDamageCooldown || !gameFlags.damageCollision ||
+        gameFlags.isInvincible)
+        return;
+    if (gameEventArgs.shield > 0) {
+        --gameEventArgs.shield;
+    } else {
+        int newHealth =
+            character.GetCurHealth() - (gameEventArgs.collidedMobtype + 1);
+        character.SetCurHealth(newHealth);
+    }
     gameFlags.isDamageCooldown = true;
     gameEventArgs.damageCooldownTime = 3;
 }
 
 void GameMap::HandleDebuff(float deltaTime)
 {
-    if (!gameFlags.isDebuff) return;
+    if (!gameFlags.debuffInUse) return;
 
     if (gameFlags.isFaunaDebuff) {
         if (gameFlags.isMoving == false) {
@@ -428,9 +523,7 @@ void GameMap::HandleDebuff(float deltaTime)
             character.SetCurHealth(newHealth);
             gameEventArgs.notMovingTime = 0;
         }
-    }
-
-    else if (gameFlags.isIrysDebuff) {
+    } else if (gameFlags.isIrysDebuff) {
         int curHealth = character.GetCurHealth();
         if (curHealth > IRYS_DEBUFF_HEALTH) {
             gameEventArgs.originalHealth = curHealth;
@@ -443,29 +536,66 @@ void GameMap::HandleDebuff(float deltaTime)
         // gameFlags.allowSkill = false;
     } else if (gameFlags.isSanaDebuff) {
         gameFlags.allowSkill = false;
-        gameFlags.allowDebuffSkill = false;
+        TurnOffSkill();
     } else if (gameFlags.isBaeDebuff) {
         gameFlags.isReverseKey = true;
     }
 
     gameEventArgs.mapDebuffTime -= deltaTime;
     if (gameEventArgs.mapDebuffTime <= 0) {
-        gameFlags.isDebuff = false;
-        gameFlags.debuffCalled = false;
-        gameEventArgs.mapDebuffTime = MAP_DEBUFF_DURATION;
-        gameEventArgs.mapDebuffCooldownTime = MAP_DEBUFF_COOLDOWN;
+        TurnOffDebuff();
+    }
+}
 
-        if (gameEventArgs.originalHealth != 0) {
-            character.SetCurHealth(gameEventArgs.originalHealth);
+void GameMap::HandleSkill(float deltaTime)
+{
+    if (gameFlags.skillActivate) {
+        if (gameFlags.isFaunaSkill) {
+            character.SetMaxHealth(FAUNA_EXTRA_MAX_HEALTH);
+            character.SetCurHealth(FAUNA_EXTRA_MAX_HEALTH);
+            gameFlags.isTimeSkill = true;
+        } else if (gameFlags.isIrysSkill) {
+            gameEventArgs.shield = IRYS_SHIELD_COUNT;
+            gameFlags.isShieldSkill = true;
+        } else if (gameFlags.isMumeiSkill) {
+            int curSpeed = character.getSpeed();
+            gameEventArgs.originalSpeed = curSpeed;
+            character.SetSpeed(curSpeed + MUMEI_SPEED_BUFF);
+            gameFlags.isInvincible = true;
+            gameFlags.isTimeSkill = true;
+        } else if (gameFlags.isKroniiSkill) {
+            gameFlags.allowLaneUpdate = false;
+            gameFlags.isTimeSkill = true;
+        } else if (gameFlags.isSanaSkill) {
+            TurnOffDebuff();
+            gameFlags.isOneTimeSkill = true;
+        } else if (gameFlags.isBaeSkill) {
+            gameFlags.isReverseKey = true;
+            gameFlags.isTimeSkill = true;
         }
+        gameFlags.skillActivate = false;
+        gameFlags.skillInUse = true;
+        gameFlags.allowSkill = false;
+    }
+    if (gameFlags.skillInUse) {
+        if (gameFlags.isTimeSkill) {
+            gameEventArgs.skillTime -= deltaTime;
+            if (gameEventArgs.skillTime <= 0) {
+                gameFlags.turnOffSkill = true;
+            }
+        }
+        if (gameFlags.isShieldSkill) {
+            if (gameEventArgs.shield == 0) {
+                gameFlags.turnOffSkill = true;
+            }
+        }
+        if (gameFlags.isOneTimeSkill) {
+            gameFlags.turnOffSkill = true;
+        }
+    }
 
-        gameEventArgs.notMovingTime = 0;
-        gameEventArgs.originalHealth = 0;
-        gameFlags.allowCharacterKeys = true;
-        gameFlags.allowSkill = true;
-        gameFlags.allowDebuffSkill = true;
-        gameFlags.isDarkMap = false;
-        gameFlags.isReverseKey = false;
+    if (gameFlags.turnOffSkill) {
+        TurnOffSkill();
     }
 }
 
@@ -475,7 +605,7 @@ void GameMap::UpdateCooldowns(float deltaTime)
         gameEventArgs.damageCooldownTime -= deltaTime;
     }
 
-    if (!gameFlags.isDebuff) {
+    if (!gameFlags.debuffInUse) {
         gameEventArgs.mapDebuffCooldownTime -= deltaTime;
     }
 
@@ -484,7 +614,7 @@ void GameMap::UpdateCooldowns(float deltaTime)
     }
 
     if (gameEventArgs.mapDebuffCooldownTime <= 0) {
-        gameFlags.isDebuff = true;
+        gameFlags.debuffInUse = true;
     }
 }
 
