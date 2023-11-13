@@ -109,24 +109,6 @@ CollisionType GameUtils::GetCollisionType(
     int box2Right = box2.coord.x + box2.dim.width;
     int box2Top = box2.coord.y;
     int box2Bottom = box2.coord.y - box2.dim.height;
-    if (box2Right <= box1Left && box2Left >= 60)
-        LogDebug(
-            "{}, char:, {}, {}, {}, {}, block:, {}, {}, {}, {}, {}, {}, {}, {}",
-            box1Left <= box2Right && box1Right >= box2Left &&
-                box1Top >= box2Bottom && box1Bottom <= box2Top,
-            box1Left,
-            box1Right,
-            box1Top,
-            box1Bottom,
-            box2Left,
-            box2Right,
-            box2Top,
-            box2Bottom,
-            box1Left <= box2Right,
-            box1Right >= box2Left,
-            box1Top >= box2Bottom,
-            box1Bottom <= box2Top
-        );
 
     if (box1Left <= box2Right && box1Right >= box2Left &&
         box1Top >= box2Bottom && box1Bottom <= box2Top) {
@@ -156,6 +138,11 @@ CollisionType GameUtils::GetCollisionType(
         }
     }
     return CollisionType::None;
+}
+
+float GameUtils::GetDistance(int x1, int y1, int x2, int y2)
+{
+    return std::hypot(x2 - x1, y2 - y1);
 }
 
 std::string GameUtils::GetPathToMap(MapType mapType)

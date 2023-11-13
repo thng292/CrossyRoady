@@ -10,7 +10,7 @@ class Lane {
     GameType::LaneType _type;
     std::vector<float> entityList;
     bool IsLeftToRight;
-    float speed = 120.0f;
+    float speed = 0.0f;
 
     float laneY;
     int laneDrawY;

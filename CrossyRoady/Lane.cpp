@@ -1,13 +1,9 @@
 #include "Lane.h"
 using namespace GameType;
 using namespace GameUtils;
+using namespace ConsoleGame;
 
-Lane::Lane(
-    float y,
-    ConsoleGame::Box hitbox,
-    const ConsoleGame::Sprite& laneSprite,
-    LaneType type
-)
+Lane::Lane(float y, Box hitbox, const Sprite& laneSprite, LaneType type)
 {
     _type = type;
     _laneSprite = laneSprite;
@@ -19,29 +15,27 @@ Lane::Lane(
 
 void Lane::DeleteEntity()
 {
-    {
-        if (IsLeftToRight) {
-            float maxX = ConsoleGame::_CONSOLE_WIDTH_ - entityWidth + 1;
-            if (entityList.front() >= maxX) {
-                entityList.erase(entityList.begin());
-            }
-        } else {
-            float minX = -entityWidth;
-            if (entityList.front() <= minX) {
-                entityList.erase(entityList.begin());
-            }
+    if (IsLeftToRight) {
+        float maxX = _CONSOLE_WIDTH_;
+        if (entityList.front() >= maxX) {
+            entityList.erase(entityList.begin());
+        }
+    } else {
+        float minX = -entityWidth;
+        if (entityList.front() <= minX) {
+            entityList.erase(entityList.begin());
         }
     }
 }
 
 void Lane::CreateEntity()
 {
-    float tmp = rand() % (ConsoleGame::_CONSOLE_WIDTH_ / 2);
+    float tmp = rand() % (_CONSOLE_WIDTH_ / 2);
     if (IsLeftToRight) {
-        entityList.push_back(entityList.back() + (tmp + entityWidth));
+        entityList.push_back(entityList.back() - tmp - entityWidth);
 
     } else {
-        entityList.push_back(entityList.back() - tmp - entityWidth);
+        entityList.push_back(entityList.back() + (tmp + entityWidth));
     }
 }
 
@@ -54,15 +48,15 @@ bool Lane::ContainsChara(const Character& character)
 void Lane::Init()
 {
     if (IsLeftToRight) {
-        entityList.push_back(0);
-        float maxX = ConsoleGame::_CONSOLE_WIDTH_ - entityWidth + 1;
-        while (entityList.back() <= maxX) {
+        entityList.push_back(_CONSOLE_WIDTH_ - 1);
+        float minX = entityWidth - 2;
+        while (entityList.back() >= minX) {
             CreateEntity();
         }
     } else {
-        entityList.push_back(ConsoleGame::_CONSOLE_WIDTH_ - 1);
-        float minX = entityWidth - 2;
-        while (entityList.back() >= minX) {
+        entityList.push_back(0);
+        float maxX = _CONSOLE_WIDTH_ - entityWidth + 1;
+        while (entityList.back() <= maxX) {
             CreateEntity();
         }
     }
@@ -80,9 +74,9 @@ void Lane::UpdatePos(float deltaTime)
 CollisionType Lane::GetCollision(const Character& character) const
 {
     size_t listSize = entityList.size();
-    ConsoleGame::Box charaBox = character.GetHitBox();
+    Box charaBox = character.GetHitBox();
     for (size_t i = 0; i < listSize; ++i) {
-        ConsoleGame::Box entityBox = GetHitBox(i);
+        Box entityBox = GetHitBox(i);
         CollisionType colType = GetCollisionType(charaBox, entityBox);
         if (colType != CollisionType::None) {
             return colType;
@@ -93,9 +87,9 @@ CollisionType Lane::GetCollision(const Character& character) const
 
 GameType::CollisionType Lane::GetLaneCollision(const Character& character) const
 {
-    std::vector<ConsoleGame::Box> laneHitBox = GetLaneHitBox();
+    std::vector<Box> laneHitBox = GetLaneHitBox();
     size_t listSize = laneHitBox.size();
-    ConsoleGame::Box charaBox = character.GetHitBox();
+    Box charaBox = character.GetHitBox();
     for (size_t i = 0; i < listSize; ++i) {
         CollisionType colType = GetCollisionType(charaBox, laneHitBox[i]);
         if (colType != CollisionType::None) {
@@ -105,14 +99,14 @@ GameType::CollisionType Lane::GetLaneCollision(const Character& character) const
     return CollisionType::None;
 }
 
-std::vector<ConsoleGame::Box> Lane::GetLaneHitBox() const
+std::vector<Box> Lane::GetLaneHitBox() const
 {
     // Rewrite this thing
     size_t listSize = entityList.size();
-    std::vector<ConsoleGame::Box> laneBoxList;
-    std::vector<ConsoleGame::Box> entityBoxList;
+    std::vector<Box> laneBoxList;
+    std::vector<Box> entityBoxList;
     for (size_t i = 0; i < listSize; ++i) {
-        ConsoleGame::Box entityBox = GetHitBox(i);
+        Box entityBox = GetHitBox(i);
         entityBoxList.push_back(entityBox);
     }
 
@@ -124,39 +118,39 @@ std::vector<ConsoleGame::Box> Lane::GetLaneHitBox() const
         size_t idx = i;
         if (!IsLeftToRight) idx = i + 1;
         int boxX = entityBoxList[idx].coord.x + entityBoxList[idx].dim.width;
-        ConsoleGame::Vec2 boxCoord = {.x = boxX, .y = (int)laneY};
-        ConsoleGame::Vec2 boxDim = {.width = boxWidth, .height = 32};
-        ConsoleGame::Box newBox = {.coord = boxCoord, .dim = boxDim};
+        Vec2 boxCoord = {.x = boxX, .y = (int)laneY};
+        Vec2 boxDim = {.width = boxWidth, .height = 32};
+        Box newBox = {.coord = boxCoord, .dim = boxDim};
         laneBoxList.push_back(newBox);
     }
-    ConsoleGame::Vec2 lastBox;
-    ConsoleGame::Vec2 firstBox;
+    Vec2 lastBox;
+    Vec2 firstBox;
     if (IsLeftToRight) {
         int boxWidth = entityBoxList.front().coord.x;
-        ConsoleGame::Vec2 boxCoord = {.x = 0, .y = (int)laneY};
-        ConsoleGame::Vec2 boxDim = {.width = boxWidth, .height = 32};
-        ConsoleGame::Box firstBox = {.coord = boxCoord, .dim = boxDim};
+        Vec2 boxCoord = {.x = 0, .y = (int)laneY};
+        Vec2 boxDim = {.width = boxWidth, .height = 32};
+        Box firstBox = {.coord = boxCoord, .dim = boxDim};
 
         int boxX =
             entityBoxList.back().coord.x + entityBoxList.back().dim.width;
-        boxWidth = ConsoleGame::_CONSOLE_WIDTH_ - boxX;
+        boxWidth = _CONSOLE_WIDTH_ - boxX;
         boxCoord = {.x = boxX, .y = (int)laneY};
         boxDim = {.width = boxWidth, .height = 32};
-        ConsoleGame::Box lastBox = {.coord = boxCoord, .dim = boxDim};
+        Box lastBox = {.coord = boxCoord, .dim = boxDim};
 
     } else {
     }
     return laneBoxList;
 }
 
-void Lane::DrawLane(ConsoleGame::AbstractCanvas* canvas) const
+void Lane::DrawLane(AbstractCanvas* canvas) const
 {
-    for (int x = 0; x < ConsoleGame::_CONSOLE_WIDTH_; x += 32) {
+    for (int x = 0; x < _CONSOLE_WIDTH_; x += 32) {
         _laneSprite.Paint(canvas, {x, laneDrawY});
     }
-    std::vector<ConsoleGame::Box> laneHitBox = GetLaneHitBox();
+    std::vector<Box> laneHitBox = GetLaneHitBox();
     /* for (auto i : laneHitBox) {
-         GameUtils::DrawHitbox(canvas, i, ConsoleGame::Color::BLUE);
+         GameUtils::DrawHitbox(canvas, i, Color::BLUE);
      }*/
 }
 
@@ -164,7 +158,7 @@ float Lane::GetY() const { return laneY; }
 
 float Lane::GetBottomY() const
 {
-    ConsoleGame::Box box = GetHitBox(0);
+    Box box = GetHitBox(0);
     return box.coord.y - box.dim.height;
 }
 
@@ -172,7 +166,7 @@ int Lane::GetDrawY() const { return laneDrawY; }
 
 float Lane::GetTopY() const
 {
-    ConsoleGame::Box box = GetHitBox(0);
+    Box box = GetHitBox(0);
     return box.coord.y;
 }
 
@@ -180,7 +174,7 @@ LaneType Lane::GetType() const { return _type; }
 
 void Lane::SetY(float y)
 {
-    int screenHeight = ConsoleGame::_CONSOLE_HEIGHT_ * 2;
+    int screenHeight = _CONSOLE_HEIGHT_ * 2;
     laneY = y;
     laneDrawY = screenHeight - laneY;
 

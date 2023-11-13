@@ -38,7 +38,7 @@ class Road : public Lane {
         size_t listSize = entityList.size();
         for (size_t i = 0; i < listSize; ++i) {
             _mobSprite.Paint(canvas, {(int)entityList[i], entityDrawY});
-            GameUtils::DrawHitbox(canvas, GetHitBox(i));
+            // GameUtils::DrawHitbox(canvas, GetHitBox(i));
         }
     }
 
