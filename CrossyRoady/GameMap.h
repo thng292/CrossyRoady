@@ -13,22 +13,20 @@
 #include "SafeZone.h"
 #include "Water.h"
 
-using Debuff = std::function<void()>;
-
 class GameMap : public ConsoleGame::AbstractScreen {
     std::vector<std::unique_ptr<Lane>> laneList;
 
-    std::queue<Debuff> debuffQueue;
+    std::queue<GameType::MapType> debuffQueue;
+    Character character;
 
     GameType::GameMapData gameData;
     GameType::GameMapSprites gameSprites;
-    Character character;
-
     GameType::GameFlags gameFlags;
+    GameType::GameEventsArgs gameEventArgs;
 
     int tmpCol;
 
-    float mapSpeed = 10.0f;
+    float mapSpeed = 0.0f;
 
     // Inherited via AbstractScreen
     virtual std::wstring_view getName() override;
@@ -46,9 +44,6 @@ class GameMap : public ConsoleGame::AbstractScreen {
     GameMap() = default;
 
     static const std::wstring_view ScreenName();
-    void InitRoadPosList();
-    void AddRoad();
-    void DeleteRoad();
     void SetGameMapData(const GameType::GameMapData& gmData);
 
     void DragMapDown(float deltatime);
@@ -60,13 +55,23 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void DrawSkill(ConsoleGame::AbstractCanvas* canvas) const;
     void DrawDebuff(ConsoleGame::AbstractCanvas* canvas) const;
 
+    void DrawDarkness(ConsoleGame::AbstractCanvas* canvas) const;
+
     void ResetFlags();
     void CollisionCheck();
+    void DebuffCheck();
+
+    void UpdateLanes(float deltaTime);
+
     void HandleCollision(
         const std::unique_ptr<Lane>& lane, GameType::CollisionType colType
     );
     void HandleWaterCollision(GameType::CollisionType colType);
 
+    void UpdateCooldowns(float deltaTime);
+
+    void HandleDamage();
+    void HandleDebuff(float deltaTime);
     void HandlePlayerInput();
     void HandlePlayerAnimation(float deltaTime);
     void HandlePlayerMovement(float deltaTime);

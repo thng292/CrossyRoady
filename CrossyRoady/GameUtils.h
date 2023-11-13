@@ -1,4 +1,6 @@
 #pragma once
+#include <math.h>
+
 #include <format>
 
 #include "ConsoleGame.h"
@@ -40,6 +42,7 @@ namespace GameUtils {
         ConsoleGame::Box box1, ConsoleGame::Box box2
     );
 
+    float GetDistance(int x1, int y1, int x2, int y2);
     std::string GetPathToMap(GameType::MapType mapType);
     std::string GetPathToChar(GameType::CharaType charaType);
 }  // namespace GameUtils
