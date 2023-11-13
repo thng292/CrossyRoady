@@ -31,11 +31,7 @@ void MainMenu::Init(const std::any& args)
 
 void MainMenu::Mount(const std::any& args)
 {
-    Palette levelPalette(RESOURCE_PATH MAP_PATH "forest/forest.hex");
-    /* Palette faunaPalette(RESOURCE_PATH CHARACTER_PATH "fauna.hex");
-     for (int i = 0; i < 6; i++) {
-         levelPalette[i] = faunaPalette[i];
-     }*/
+    Palette levelPalette(RESOURCE_PATH MAP_PATH "space/space.hex");
     ChangeColorPalette(levelPalette);
     if (bg.IsUnmounted()) {
         bg.Mount();

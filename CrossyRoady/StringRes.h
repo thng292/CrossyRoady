@@ -3,6 +3,7 @@
 #include <array>
 #include <filesystem>
 #include <string_view>
+#include "../ConsoleEngine/Common.h"
 
 #define RESOURCE_PATH "resource/"
 #define CHARACTER_PATH "character/"
@@ -85,11 +86,11 @@ struct StringResource {
         std::string_view Title = "Characters";
         std::string_view UpgradeAvail = "Upgrade Available";
         std::string_view Upgraded = "Upgraded";
-        std::string_view NoSkillPoint = "Not enough skill point";
+        std::string_view NoSkillPoint = "Not enough upgrade point";
         std::string_view Upgrade = "Upgrade";
         std::string_view Skill = "Skill:";
         std::string_view Status = "Status:";
-        std::string_view UpgradePoint = "Upgrade Point: ";
+        std::string_view UpgradePoint = "UP: ";
     } CharInfo;
 
     struct {
@@ -220,11 +221,12 @@ struct Config {
     uint8_t KroniiUpgraded : 1 = 0;
     uint8_t SanaUpgraded : 1 = 0;
     uint8_t BaeUpgraded : 1 = 0;
-    uint8_t UpgradePoint : 3 = 0;
+    uint8_t UpgradePoint : 3 = 2;
 
     void Load(std::filesystem::path path);
     void Save(std::filesystem::path path);
     bool GetCharUpgradeStatus(uint8_t character);
+    void SetCharUpgradeStatus(uint8_t character);
     uint64_t GetTotalXP();
     uint8_t GetCurrentLevel();
 };
