@@ -96,9 +96,6 @@
     <ClCompile Include="Lane.cpp">
       <Filter>Source Files\GameImpl</Filter>
     </ClCompile>
-    <ClCompile Include="Water.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="HMenu.cpp">
       <Filter>Source Files\UIComponent</Filter>
     </ClCompile>
@@ -124,6 +121,9 @@
       <Filter>Source Files\GameImpl</Filter>
     </ClCompile>
     <ClCompile Include="Character.cpp">
+      <Filter>Source Files\GameImpl</Filter>
+    </ClCompile>
+    <ClCompile Include="Water.cpp">
       <Filter>Source Files\GameImpl</Filter>
     </ClCompile>
   </ItemGroup>

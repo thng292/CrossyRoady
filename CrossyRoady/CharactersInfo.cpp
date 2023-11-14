@@ -1,6 +1,7 @@
 #include "CharactersInfo.h"
 
 #include <format>
+#include "GameType.h"
 
 using namespace ConsoleGame;
 
@@ -13,9 +14,9 @@ const std::string_view basePath = RESOURCE_PATH EXTRA_PATH;
 void CharactersInfo::LoadStuff()
 {
     auto spritePath =
-        std::format("{}{}-por.sprite", basePath, fileCharName[currentSelect]);
+        std::format("{}{}-por.sprite", basePath, GameType::CHARA_NAME_FILE[currentSelect]);
     auto palettePath =
-        std::format("{}{}-por.hex", basePath, fileCharName[currentSelect]);
+        std::format("{}{}-por.hex", basePath, GameType::CHARA_NAME_FILE[currentSelect]);
     ChangeColorPalette(Palette(palettePath));
     portrait.Load(spritePath);
     auto tmp = portrait.GetDim();
