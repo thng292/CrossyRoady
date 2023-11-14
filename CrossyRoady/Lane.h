@@ -10,7 +10,7 @@ class Lane {
     GameType::LaneType _type;
     std::vector<float> entityList;
     bool IsLeftToRight;
-    float speed = 10.0f;
+    float speed = 50.0f;
 
     float laneY;
     int laneDrawY;
@@ -29,13 +29,14 @@ class Lane {
         float y,
         ConsoleGame::Box hitbox,
         const ConsoleGame::Sprite& laneSprite,
-        GameType::LaneType type
+        GameType::LaneType type,
+        bool isLeftToRight
     );
 
-    void Init();
-    void DeleteEntity();
-    void CreateEntity();
-    void UpdatePos(float deltaTime);
+    virtual void Init();
+    virtual void DeleteEntity();
+    virtual void CreateEntity();
+    virtual void UpdatePos(float deltaTime);
     bool ContainsChara(const Character& character);
 
     float GetY() const;

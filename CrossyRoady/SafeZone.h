@@ -8,15 +8,41 @@ class SafeZone : public Lane {
    public:
     SafeZone() = default;
 
+    void SafeInit()
+    {
+        int paddingCnt = 3;
+        int padX = 2;
+        for (size_t i = 0; i < paddingCnt; ++i) {
+            entityList.push_back(i * (entityWidth + padX));
+        }
+        for (size_t i = 0; i < paddingCnt + 1; ++i) {
+            entityList.push_back(
+                ConsoleGame::_CONSOLE_WIDTH_ - i * (entityWidth + padX)
+            );
+        }
+    }
+
     SafeZone(
         float y,
         const ConsoleGame::Sprite& safeSprite,
-        const ConsoleGame::Sprite& blockSprite
+        const ConsoleGame::Sprite& blockSprite,
+        bool isLeftToRight,
+        bool isInitialSafe = false
     )
-        : Lane(y, blockSprite.GetHitBox(), safeSprite, GameType::LaneType::SAFE)
+        : Lane(
+              y,
+              blockSprite.GetHitBox(),
+              safeSprite,
+              GameType::LaneType::SAFE,
+              isLeftToRight
+          )
     {
         _blockSprite = blockSprite;
-        Init();
+        if (isInitialSafe) {
+            SafeInit();
+        } else {
+            Init();
+        }
     }
 
     void DrawEntity(ConsoleGame::AbstractCanvas* canvas) const override
@@ -24,7 +50,7 @@ class SafeZone : public Lane {
         size_t listSize = entityList.size();
         for (size_t i = 0; i < listSize; ++i) {
             _blockSprite.Paint(canvas, {(int)entityList[i], entityDrawY});
-            GameUtils::DrawHitbox(canvas, GetHitBox(i));
+            // GameUtils::DrawHitbox(canvas, GetHitBox(i));
         }
     }
 

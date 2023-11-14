@@ -4,6 +4,26 @@ using namespace ConsoleGame;
 using namespace GameUtils;
 using namespace GameType;
 
+void GameMap::InitLaneList()
+{
+    int initSafeCount = 3;
+    for (size_t i = 0; i < initSafeCount; ++i) {
+        laneList.push_back(std::make_unique<SafeZone>(
+            32 * (i + 1),
+            gameSprites.roadSprite,
+            gameSprites.blockSprite,
+            true,
+            true
+        ));
+    }
+
+    int screenHeight = _CONSOLE_HEIGHT_ * 2;
+    int maxLane = screenHeight / 32;
+    for (size_t i = 0; i < maxLane; ++i) {
+        laneList.push_back(GetRandomLane());
+    }
+}
+
 const std::wstring_view GameMap::ScreenName() { return L"GameMap"; }
 
 std::wstring_view GameMap::getName() { return ScreenName(); }
@@ -72,23 +92,7 @@ void GameMap::Mount(const std::any& args)
     LoadCharaSprite(gameData.charaType, gameSprites.skill, "skill");
 
     ChangeColorPalette(GetGamePalette(gameData.mapType, gameData.charaType));
-
-    AniSprite cur = gameSprites.mobSpriteEasy.MobRight;
-    MobType ty = EASY;
-
-    for (int i = 0; i < 10; ++i) {
-        laneList.push_back(std::make_unique<Road>(
-            32 * (i + 1), ty, gameSprites.roadSprite, cur
-        ));
-        /*laneList.push_back(std::make_unique<Water>(
-            32 * (i + 1), gameSprites.roadSprite, gameSprites.floatSprite
-        ));*/
-        /* laneList.push_back(std::make_unique<SafeZone>(
-             32 * (i + 1),
-             gameSprites.roadSprite,
-             gameSprites.blockSprite
-         ));*/
-    }
+    InitLaneList();
 }
 
 void GameMap::Unmount() {}
@@ -240,6 +244,79 @@ void GameMap::TurnOffSkill()
     gameFlags.turnOffSkill = false;
     gameFlags.skillInUse = false;
     gameFlags.allowSkill = true;
+}
+
+std::unique_ptr<Lane> GameMap::GetRandomLane()
+{
+    int randInd = rand() % 4;
+    // int randInd = 3;
+    bool isLeftToRight = rand() % 2;
+    AniSprite mobSprite = GetMobSprite(isLeftToRight);
+    switch (randInd) {
+        case 0:
+            return std::make_unique<Road>(
+                laneList.back()->GetY() + 32,
+                currentDifficulty,
+                gameSprites.roadSprite,
+                mobSprite,
+                isLeftToRight
+            );
+            break;
+        case 1:
+            return std::make_unique<Rail>(
+                laneList.back()->GetY() + 32,
+                currentDifficulty,
+                gameSprites.roadSprite,
+                mobSprite,
+                isLeftToRight
+            );
+            break;
+        case 2:
+            return std::make_unique<SafeZone>(
+                laneList.back()->GetY() + 32,
+                gameSprites.roadSprite,
+                gameSprites.blockSprite,
+                isLeftToRight
+            );
+            break;
+        case 3:
+            return std::make_unique<Water>(
+                laneList.back()->GetY() + 32,
+                gameSprites.roadSprite,
+                gameSprites.floatSprite,
+                isLeftToRight
+            );
+            break;
+    }
+}
+
+ConsoleGame::AniSprite GameMap::GetMobSprite(bool isLeftToRight)
+{
+    if (isLeftToRight) {
+        switch (currentDifficulty) {
+            case EASY:
+                return gameSprites.mobSpriteEasy.MobRight;
+                break;
+            case NORMAL:
+                return gameSprites.mobSpriteNormal.MobRight;
+                break;
+            case HARD:
+                return gameSprites.mobSpriteHard.MobRight;
+                break;
+        }
+    } else {
+        switch (currentDifficulty) {
+            case EASY:
+                return gameSprites.mobSpriteEasy.MobLeft;
+                break;
+            case NORMAL:
+                return gameSprites.mobSpriteNormal.MobLeft;
+                break;
+            case HARD:
+                return gameSprites.mobSpriteHard.MobLeft;
+                break;
+        }
+    }
 }
 
 void GameMap::SetGameMapData(const GameMapData& gmData)
@@ -439,10 +516,16 @@ void GameMap::HandleCollision(
 {
     int newHealth;
     Road* road = nullptr;
+    Rail* rail = nullptr;
     switch (lane->GetType()) {
         case ROAD:
             road = dynamic_cast<Road*>(lane.get());
             gameEventArgs.collidedMobtype = road->GetMobType();
+            gameFlags.damageCollision = true;
+            break;
+        case RAIL:
+            rail = dynamic_cast<Rail*>(lane.get());
+            gameEventArgs.collidedMobtype = rail->GetMobType();
             gameFlags.damageCollision = true;
             break;
         case SAFE:
@@ -645,24 +728,7 @@ void GameMap::DragMapDown(float deltatime)
         float roadTopY = laneList.front()->GetTopY();
         if (roadTopY < 0) {
             laneList.erase(laneList.begin());
-            int tmp = rand() % 2;
-            switch (tmp) {
-                case 0:
-                    laneList.push_back(std::make_unique<Road>(
-                        laneList.back()->GetY() + 32,
-                        MobType::NORMAL,
-                        gameSprites.roadSprite,
-                        gameSprites.mobSpriteNormal.MobRight
-                    ));
-                    break;
-                case 1:
-                    laneList.push_back(std::make_unique<Water>(
-                        laneList.back()->GetY() + 32,
-                        gameSprites.roadSprite,
-                        gameSprites.floatSprite
-                    ));
-                    break;
-            }
+            laneList.push_back(GetRandomLane());
         }
     }
 }

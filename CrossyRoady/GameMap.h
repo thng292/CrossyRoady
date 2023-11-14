@@ -9,6 +9,7 @@
 #include "GameType.h"
 #include "GameUtils.h"
 #include "Lane.h"
+#include "Rail.h"
 #include "Road.h"
 #include "SafeZone.h"
 #include "Water.h"
@@ -24,10 +25,9 @@ class GameMap : public ConsoleGame::AbstractScreen {
     GameType::GameFlags gameFlags;
     GameType::GameEventsArgs gameEventArgs;
 
-    int tmpCol;
-
     float mapSpeedY = GameType::MAP_SPEED;
     float mapSpeedX = 0.0f;
+    GameType::MobType currentDifficulty = GameType::EASY;
 
     // Inherited via AbstractScreen
     virtual std::wstring_view getName() override;
@@ -44,11 +44,12 @@ class GameMap : public ConsoleGame::AbstractScreen {
    public:
     GameMap() = default;
 
+    void InitLaneList();
+
     static const std::wstring_view ScreenName();
     void SetGameMapData(const GameType::GameMapData& gmData);
 
     void DragMapDown(float deltatime);
-
     void DrawFlat(ConsoleGame::AbstractCanvas* canvas) const;
     void DrawEntity(ConsoleGame::AbstractCanvas* canvas) const;
 
@@ -82,4 +83,7 @@ class GameMap : public ConsoleGame::AbstractScreen {
 
     void TurnOffDebuff();
     void TurnOffSkill();
+
+    std::unique_ptr<Lane> GetRandomLane();
+    ConsoleGame::AniSprite GetMobSprite(bool isLeftToRight);
 };

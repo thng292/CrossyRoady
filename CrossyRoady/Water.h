@@ -12,9 +12,16 @@ class Water : public Lane {
     Water(
         float y,
         const ConsoleGame::Sprite& waterSprite,
-        const ConsoleGame::Sprite& logSprite
+        const ConsoleGame::Sprite& logSprite,
+        bool isLeftToRight
     )
-        : Lane(y, logSprite.GetHitBox(), waterSprite, GameType::LaneType::WATER)
+        : Lane(
+              y,
+              logSprite.GetHitBox(),
+              waterSprite,
+              GameType::LaneType::WATER,
+              isLeftToRight
+          )
     {
         _logSprite = logSprite;
         Init();

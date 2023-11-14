@@ -18,9 +18,16 @@ class Road : public Lane {
         float y,
         GameType::MobType type,
         ConsoleGame::Sprite& roadSprite,
-        const ConsoleGame::AniSprite& mobSprite
+        const ConsoleGame::AniSprite& mobSprite,
+        bool isLeftToRight
     )
-        : Lane(y, mobSprite.GetHitBox(), roadSprite, GameType::LaneType::ROAD)
+        : Lane(
+              y,
+              mobSprite.GetHitBox(),
+              roadSprite,
+              GameType::LaneType::ROAD,
+              isLeftToRight
+          )
     {
         _type = type;
         _mobSprite = mobSprite;
