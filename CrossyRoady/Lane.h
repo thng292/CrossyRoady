@@ -10,7 +10,7 @@ class Lane {
     GameType::LaneType _type;
     std::vector<float> entityList;
     bool IsLeftToRight;
-    float speed = 50.0f;
+    float speed = 10.0f;
 
     float laneY;
     int laneDrawY;
@@ -43,6 +43,8 @@ class Lane {
     int GetDrawY() const;
     float GetTopY() const;
     GameType::LaneType GetType() const;
+    bool GetIsLeftToRight() const;
+    float GetSpeed() const;
 
     void SetY(float y);
 
@@ -50,7 +52,8 @@ class Lane {
 
     GameType::CollisionType GetCollision(const Character& character) const;
     GameType::CollisionType GetLaneCollision(const Character& character) const;
-    std::vector<ConsoleGame::Box> GetLaneHitBox() const;
+    std::vector<ConsoleGame::Box> GetLaneHitBoxLTR() const;
+    std::vector<ConsoleGame::Box> GetLaneHitBoxRTL() const;
 
     virtual ConsoleGame::Box GetHitBox(size_t index) const = 0;
     virtual void DrawEntity(ConsoleGame::AbstractCanvas* canvas) const = 0;

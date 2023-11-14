@@ -5,15 +5,26 @@
 
 namespace GameType {
 
+    // Map values
+    constexpr int DAMAGE_COOLDOWN = 3;
+    constexpr int MAP_SPEED = 0;
+
     // Debuff values
     constexpr int MAP_DEBUFF_COOLDOWN = 3;
-    constexpr int MAP_DEBUFF_DURATION = 3;
+    constexpr int FAUNA_DEBUFF_DURATION = 10;
+    constexpr int IRYS_DEBUFF_DURATION = 10;
+    constexpr int MUMEI_DEBUFF_DURATION = 10;
+    constexpr int KRONII_DEBUFF_DURATION = 10;
+    constexpr int SANA_DEBUFF_DURATION = 30;
+    constexpr int BAE_DEBUFF_DURATION = 10;
+
     constexpr int MAX_IDLE_TIME = 1;
     constexpr int IRYS_DEBUFF_HEALTH = 1;
     constexpr int VISIBLE_RADIUS = 30;
     constexpr int MUMEI_VISIBLE_RADIUS = 100;
 
     // Skill values
+    constexpr int SKILL_DURATION = 5;
     constexpr int FAUNA_MAX_HEALTH = 3;
     constexpr int FAUNA_EXTRA_MAX_HEALTH = FAUNA_MAX_HEALTH + 2;
     constexpr int IRYS_SHIELD_COUNT = 2;
@@ -33,10 +44,13 @@ namespace GameType {
 
     enum LaneType { ROAD, RAIL, WATER, SAFE };
 
-    enum class CollisionType { None, Left, Right, Top, Bottom };
+    enum CollisionType { None, Left, Right, Top, Bottom };
+
+    enum SkillCategory { TIME, SHIELD };
 
     constexpr int CHARA_HEALTH[] = {3, 4, 3, 5, 5, 3};
     constexpr double CHARA_SPEED[] = {120, 120, 120, 120, 120, 120};
+    constexpr float DEBUFF_DURATION[] = {10, 10, 10, 10, 30, 10};
 
     const std::string CHARA_NAME_FILE[] = {
         "fauna", "irys", "mumei", "kronii", "sana", "bae"};
@@ -95,91 +109,77 @@ namespace GameType {
 
     struct GameFlags {
         // Collision
-        bool damageCollision : 1;
-        bool logCollision : 1;
-        bool itemCollision : 1;
-        bool blockCollision : 1;
+        bool damageCollision : 1 = false;
+        bool logCollision : 1 = false;
+        bool itemCollision : 1 = false;
+        bool blockCollision : 1 = false;
 
         // Keys
-        bool allowCharacterKeys : 1;
-        bool allowKeyLeft : 1;
-        bool allowKeyRight : 1;
-        bool allowKeyUp : 1;
-        bool allowKeyDown : 1;
+        bool allowMovementKeys : 1 = true;
+        bool allowSkillKey : 1 = true;
+        bool allowKeyLeft : 1 = true;
+        bool allowKeyRight : 1 = true;
+        bool allowKeyUp : 1 = true;
+        bool allowKeyDown : 1 = true;
 
         // Special
-        bool allowSkill : 1;
-        bool allowDebuff : 1;
-        bool allowLaneUpdate : 1;
+        bool allowSkill : 1 = true;
+        bool allowDebuff : 1 = true;
+        bool allowLaneUpdate : 1 = true;
 
         // Movements
-        bool allowMoveLeft : 1;
-        bool allowMoveRight : 1;
-        bool allowMoveUp : 1;
-        bool allowMoveDown : 1;
+        bool allowMoveLeft : 1 = true;
+        bool allowMoveRight : 1 = true;
+        bool allowMoveUp : 1 = true;
+        bool allowMoveDown : 1 = true;
 
         // Character states
-        bool isMoving : 1;
-        bool justMoved : 1;
-        bool movingUp : 1;
-        bool movingDown : 1;
-        bool movingLeft : 1;
-        bool movingRight : 1;
-        bool isDamageCooldown : 1;
+        bool isMoving : 1 = false;
+        bool justMoved : 1 = false;
+        bool movingUp : 1 = false;
+        bool movingDown : 1 = false;
+        bool movingLeft : 1 = false;
+        bool movingRight : 1 = false;
+        bool isDamageCooldown : 1 = false;
 
         // Map events
-        bool debuffInUse : 1;
-        bool debuffCalled : 1;
+        bool debuffInUse : 1 = false;
+        bool debuffCalled : 1 = false;
 
-        bool skillCalled : 1;
-        bool skillActivate : 1;
-        bool skillInUse : 1;
-        bool turnOffSkill : 1;
+        bool skillCalled : 1 = false;
+        bool skillActivate : 1 = false;
+        bool skillInUse : 1 = false;
+        bool turnOffSkill : 1 = false;
 
-        bool isTimeSkill : 1;
-        bool isShieldSkill : 1;
-        bool isOneTimeSkill : 1;
-
-        bool isFaunaDebuff : 1;
-        bool isIrysDebuff : 1;
-        bool isMumeiDebuff : 1;
-        bool isKroniiDebuff : 1;
-        bool isSanaDebuff : 1;
-        bool isBaeDebuff : 1;
-
-        bool isFaunaSkill : 1;
-        bool isIrysSkill : 1;
-        bool isMumeiSkill : 1;
-        bool isKroniiSkill : 1;
-        bool isSanaSkill : 1;
-        bool isBaeSkill : 1;
-
-        bool isInvincible : 1;
+        bool isInvincible : 1 = false;
 
         // Action
-        bool isDarkMap : 1;
-        bool isReverseKey : 1;
+        bool isDarkMap : 1 = false;
+        bool isReverseKey : 1 = false;
     };
 
     struct GameEventsArgs {
         MobType collidedMobtype;
+        MapType debuffType;
+        CharaType skillType;
+        SkillCategory skillCategory;
 
         // Cooldown
-        float damageCooldownTime;
+        float damageCooldownTime = DAMAGE_COOLDOWN;
         float mapDebuffCooldownTime;
 
         // Duration
         float mapDebuffTime;
-        float skillTime;
+        float skillTime = SKILL_DURATION;
 
         // Miscel
-        float notMovingTime;
-        float originalHealth;
-        float originalSpeed;
+        float notMovingTime = 0;
+        float originalHealth = 0;
+        float originalSpeed = 0;
 
         // Skill
-        float skillCharge;
-        int shield;
+        float skillCharge = 0;
+        int shield = 0;
     };
 
 }  // namespace GameType

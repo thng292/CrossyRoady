@@ -26,7 +26,8 @@ class GameMap : public ConsoleGame::AbstractScreen {
 
     int tmpCol;
 
-    float mapSpeed = 0.0f;
+    float mapSpeedY = GameType::MAP_SPEED;
+    float mapSpeedX = 0.0f;
 
     // Inherited via AbstractScreen
     virtual std::wstring_view getName() override;
@@ -58,7 +59,7 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void DrawDarkness(ConsoleGame::AbstractCanvas* canvas) const;
 
     void ResetFlags();
-    void CollisionCheck();
+    void CollisionCheck(float deltaTime);
     void DebuffCheck();
     void SkillCheck();
 
@@ -68,6 +69,7 @@ class GameMap : public ConsoleGame::AbstractScreen {
         const std::unique_ptr<Lane>& lane, GameType::CollisionType colType
     );
     void HandleWaterCollision(GameType::CollisionType colType);
+    void HandleCharaOnLog(const std::unique_ptr<Lane>& lane, float deltaTime);
 
     void UpdateCooldowns(float deltaTime);
 

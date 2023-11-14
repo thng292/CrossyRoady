@@ -8,21 +8,7 @@ const std::wstring_view GameMap::ScreenName() { return L"GameMap"; }
 
 std::wstring_view GameMap::getName() { return ScreenName(); }
 
-void GameMap::Init(const std::any& args)
-{
-    gameEventArgs.mapDebuffCooldownTime = MAP_DEBUFF_COOLDOWN;
-    gameEventArgs.mapDebuffTime = MAP_DEBUFF_DURATION;
-    gameEventArgs.originalHealth = 0;
-    gameEventArgs.skillTime = 3;
-    gameEventArgs.shield = 0;
-
-    gameFlags.debuffInUse = false;
-    gameFlags.debuffCalled = false;
-    gameFlags.allowCharacterKeys = true;
-    gameFlags.isReverseKey = false;
-    gameFlags.allowSkill = true;
-    gameFlags.allowLaneUpdate = true;
-}
+void GameMap::Init(const std::any& args) {}
 
 AbstractScreen* GameMap::Clone() const { return new GameMap; }
 
@@ -30,14 +16,19 @@ AbstractNavigation::NavigationRes GameMap::Update(
     float deltaTime, const AbstractNavigation* navigation
 )
 {
+    if (character.GetY() >= _CONSOLE_HEIGHT_) {
+        mapSpeedY = character.getSpeed();
+    } else {
+        mapSpeedY = MAP_SPEED;
+    }
     ResetFlags();
     DragMapDown(deltaTime);
 
     UpdateLanes(deltaTime);
     UpdateCooldowns(deltaTime);
 
-    CollisionCheck();
-    // DebuffCheck();
+    CollisionCheck(deltaTime);
+    DebuffCheck();
     SkillCheck();
 
     HandleDebuff(deltaTime);
@@ -55,9 +46,9 @@ void GameMap::Mount(const std::any& args)
         std::any_cast<const GameMapData&>(args);*/
 
     GameMapData gm;
-    gm.charaType = BAE;
+    gm.charaType = FAUNA;
     gm.mapMode = INF;
-    gm.mapType = CITY;
+    gm.mapType = FOREST;
 
     SetGameMapData(gm);
 
@@ -89,11 +80,9 @@ void GameMap::Mount(const std::any& args)
         laneList.push_back(std::make_unique<Road>(
             32 * (i + 1), ty, gameSprites.roadSprite, cur
         ));
-        /* laneList.push_back(std::make_unique<Water>(
-             32 * (i + 1),
-             gameSprites.roadSprite,
-             gameSprites.floatSprite
-         ));*/
+        /*laneList.push_back(std::make_unique<Water>(
+            32 * (i + 1), gameSprites.roadSprite, gameSprites.floatSprite
+        ));*/
         /* laneList.push_back(std::make_unique<SafeZone>(
              32 * (i + 1),
              gameSprites.roadSprite,
@@ -106,7 +95,7 @@ void GameMap::Unmount() {}
 
 void GameMap::HandlePlayerInput()
 {
-    if (gameFlags.allowCharacterKeys) {
+    if (gameFlags.allowMovementKeys) {
         bool correctKeyFlag = !gameFlags.isReverseKey;
         if (IsKeyMeanUp()) {
             gameFlags.movingUp = correctKeyFlag;
@@ -152,16 +141,28 @@ void GameMap::HandlePlayerAnimation(float deltaTime)
 
 void GameMap::HandlePlayerMovement(float deltaTime)
 {
-    float distance = (character.getSpeed()) * deltaTime;
     bool moveFlag = true;
+    float distanceY = character.getSpeed() * deltaTime;
     if (gameFlags.movingLeft && gameFlags.allowMoveLeft) {
-        character.MoveLeft(distance);
+        float distanceX;
+        if (mapSpeedX < 0) {
+            distanceX = deltaTime * (character.getSpeed() - mapSpeedX);
+        } else {
+            distanceX = deltaTime * (character.getSpeed() + mapSpeedX);
+        }
+        character.MoveLeft(distanceX);
     } else if (gameFlags.movingRight && gameFlags.allowMoveRight) {
-        character.MoveRight(distance);
+        float distanceX;
+        if (mapSpeedX > 0) {
+            distanceX = deltaTime * (character.getSpeed() + mapSpeedX);
+        } else {
+            distanceX = deltaTime * (character.getSpeed() - mapSpeedX);
+        }
+        character.MoveRight(distanceX);
     } else if (gameFlags.movingUp && gameFlags.allowMoveUp) {
-        character.MoveUp(distance);
+        character.MoveUp(distanceY);
     } else if (gameFlags.movingDown && gameFlags.allowMoveDown) {
-        character.MoveDown(distance);
+        character.MoveDown(distanceY);
     } else {
         moveFlag = false;
     }
@@ -182,55 +183,63 @@ void GameMap::HandlePlayerMovement(float deltaTime)
 void GameMap::TurnOffDebuff()
 {
     gameFlags.debuffInUse = false;
-    gameFlags.debuffCalled = false;
-    gameEventArgs.mapDebuffTime = MAP_DEBUFF_DURATION;
+    gameEventArgs.mapDebuffTime = DEBUFF_DURATION[gameEventArgs.debuffType];
     gameEventArgs.mapDebuffCooldownTime = MAP_DEBUFF_COOLDOWN;
 
-    if (gameEventArgs.originalHealth != 0) {
-        character.SetCurHealth(gameEventArgs.originalHealth);
+    switch (gameEventArgs.debuffType) {
+        case FOREST:
+            gameEventArgs.notMovingTime = 0;
+            break;
+        case CITY:
+            character.SetCurHealth(gameEventArgs.originalHealth);
+            gameEventArgs.originalHealth = 0;
+            break;
+        case HOUSE:
+            gameFlags.isDarkMap = false;
+            break;
+        case DESERT:
+            gameFlags.allowMovementKeys = true;
+            gameFlags.allowSkillKey = true;
+            break;
+        case SPACE:
+            gameFlags.allowSkill = true;
+            break;
+        case CASINO:
+            gameFlags.isReverseKey = false;
+            break;
     }
-
-    gameEventArgs.notMovingTime = 0;
-    gameEventArgs.originalHealth = 0;
-    gameFlags.allowCharacterKeys = true;
-    gameFlags.isDarkMap = false;
-    gameFlags.isReverseKey = false;
-
-    gameFlags.isFaunaDebuff = false;
-    gameFlags.isIrysDebuff = false;
-    gameFlags.isMumeiDebuff = false;
-    gameFlags.isKroniiDebuff = false;
-    gameFlags.isBaeDebuff = false;
-    gameFlags.isSanaDebuff = false;
 }
 
 void GameMap::TurnOffSkill()
 {
-    if (gameFlags.isFaunaSkill) {
-        character.SetMaxHealth(FAUNA_MAX_HEALTH);
-        if (character.GetCurHealth() >= FAUNA_MAX_HEALTH) {
-            character.SetCurHealth(FAUNA_MAX_HEALTH);
-        }
+    switch (gameEventArgs.skillType) {
+        case FAUNA:
+            character.SetMaxHealth(FAUNA_MAX_HEALTH);
+            if (character.GetCurHealth() >= FAUNA_MAX_HEALTH) {
+                character.SetCurHealth(FAUNA_MAX_HEALTH);
+            }
+            break;
+        case IRYS:
+            gameEventArgs.shield = 0;
+            break;
+        case MUMEI:
+            character.SetSpeed(gameEventArgs.originalSpeed);
+            gameFlags.isInvincible = false;
+            break;
+        case KRONII:
+            gameFlags.allowLaneUpdate = true;
+            break;
+        case SANA:
+            gameFlags.allowDebuff = true;
+            break;
+        case BAE:
+            gameFlags.isReverseKey = false;
+            break;
     }
-    if (gameFlags.isMumeiSkill) {
-        character.SetSpeed(gameEventArgs.originalSpeed);
-        gameFlags.isInvincible = false;
-    }
+
     gameFlags.turnOffSkill = false;
     gameFlags.skillInUse = false;
     gameFlags.allowSkill = true;
-
-    gameFlags.isTimeSkill = false;
-    gameFlags.isShieldSkill = false;
-    gameFlags.allowLaneUpdate = true;
-    gameEventArgs.skillTime = 3;
-
-    gameFlags.isFaunaSkill = false;
-    gameFlags.isIrysSkill = false;
-    gameFlags.isMumeiSkill = false;
-    gameFlags.isKroniiSkill = false;
-    gameFlags.isBaeSkill = false;
-    gameFlags.isSanaSkill = false;
 }
 
 void GameMap::SetGameMapData(const GameMapData& gmData)
@@ -268,6 +277,9 @@ void GameMap::DrawEntity(ConsoleGame::AbstractCanvas* canvas) const
     bool charaDrawn = false;
     float charBottomY = character.GetBottomY();
     int screenHeight = _CONSOLE_HEIGHT_ * 2 + 32;
+    LogDebug(
+        "char: {}, mob: {}", character.GetBottomY(), laneList[0]->GetBottomY()
+    );
 
     for (auto it = laneList.rbegin(); it != laneListEnd; ++it) {
         Lane* lane = it->get();
@@ -353,53 +365,41 @@ void GameMap::ResetFlags()
     gameFlags.itemCollision = false;
 }
 
-void GameMap::CollisionCheck()
+void GameMap::CollisionCheck(float deltaTime)
 {
     for (auto& lane : laneList) {
         if (lane->GetType() == LaneType::WATER) {
             CollisionType waterColType = lane->GetLaneCollision(character);
-            if (waterColType != CollisionType::None) {
-                HandleWaterCollision(waterColType);
+            if (waterColType != CollisionType::Bottom &&
+                waterColType != CollisionType::Top) {
+                if (lane->ContainsChara(character)) {
+                    HandleCharaOnLog(lane, deltaTime);
+                }
             }
-        }
-        CollisionType colType = lane->GetCollision(character);
-        if (colType != CollisionType::None) {
-            HandleCollision(lane, colType);
+
+            HandleWaterCollision(waterColType);
+
+        } else {
+            CollisionType colType = lane->GetCollision(character);
+            if (colType != CollisionType::None) {
+                HandleCollision(lane, colType);
+            }
         }
     }
 }
 
 void GameMap::DebuffCheck()
 {
-    if (!gameFlags.debuffInUse) return;
-    if (gameFlags.debuffCalled) return;
+    if (!gameFlags.debuffCalled) return;
+    gameFlags.debuffCalled = false;
+
     MapType mapType = gameData.mapType;
     if (mapType == CASINO) {
         int randInd = std::rand() % (CASINO + 1);
         mapType = static_cast<MapType>(randInd);
     }
-    LogDebug("{}", static_cast<int>(mapType));
-    switch (mapType) {
-        case FOREST:
-            gameFlags.isFaunaDebuff = true;
-            break;
-        case CITY:
-            gameFlags.isIrysDebuff = true;
-            break;
-        case HOUSE:
-            gameFlags.isMumeiDebuff = true;
-            break;
-        case DESERT:
-            gameFlags.isKroniiDebuff = true;
-            break;
-        case SPACE:
-            gameFlags.isSanaDebuff = true;
-            break;
-        case CASINO:
-            gameFlags.isBaeDebuff = true;
-            break;
-    }
-    gameFlags.debuffCalled = true;
+    gameEventArgs.debuffType = mapType;
+    gameFlags.debuffInUse = true;
 }
 
 void GameMap::SkillCheck()
@@ -413,26 +413,7 @@ void GameMap::SkillCheck()
         int randInd = std::rand() % (BAE + 1);
         charaType = static_cast<CharaType>(randInd);
     }
-    switch (charaType) {
-        case FAUNA:
-            gameFlags.isFaunaSkill = true;
-            break;
-        case IRYS:
-            gameFlags.isIrysSkill = true;
-            break;
-        case MUMEI:
-            gameFlags.isMumeiSkill = true;
-            break;
-        case KRONII:
-            gameFlags.isKroniiSkill = true;
-            break;
-        case SANA:
-            gameFlags.isSanaSkill = true;
-            break;
-        case BAE:
-            gameFlags.isBaeSkill = true;
-            break;
-    }
+    gameEventArgs.skillType = charaType;
     gameFlags.skillActivate = true;
 }
 
@@ -494,6 +475,22 @@ void GameMap::HandleWaterCollision(GameType::CollisionType colType)
     }
 }
 
+void GameMap::HandleCharaOnLog(
+    const std::unique_ptr<Lane>& lane, float deltaTime
+)
+{
+    float laneSpeed = lane->GetSpeed();
+
+    float distance = deltaTime * laneSpeed;
+    if (lane->GetIsLeftToRight()) {
+        character.MoveRight(distance);
+        mapSpeedX = laneSpeed;
+    } else {
+        character.MoveLeft(distance);
+        mapSpeedX = -laneSpeed;
+    }
+}
+
 void GameMap::HandleDamage()
 {
     if (gameFlags.isDamageCooldown || !gameFlags.damageCollision ||
@@ -513,32 +510,40 @@ void GameMap::HandleDamage()
 void GameMap::HandleDebuff(float deltaTime)
 {
     if (!gameFlags.debuffInUse) return;
-
-    if (gameFlags.isFaunaDebuff) {
-        if (gameFlags.isMoving == false) {
-            gameEventArgs.notMovingTime += deltaTime;
-        }
-        if (gameEventArgs.notMovingTime >= MAX_IDLE_TIME) {
-            int newHealth = character.GetCurHealth() - 1;
-            character.SetCurHealth(newHealth);
-            gameEventArgs.notMovingTime = 0;
-        }
-    } else if (gameFlags.isIrysDebuff) {
-        int curHealth = character.GetCurHealth();
-        if (curHealth > IRYS_DEBUFF_HEALTH) {
-            gameEventArgs.originalHealth = curHealth;
-            character.SetCurHealth(IRYS_DEBUFF_HEALTH);
-        }
-    } else if (gameFlags.isMumeiDebuff) {
-        gameFlags.isDarkMap = true;
-    } else if (gameFlags.isKroniiDebuff) {
-        gameFlags.allowCharacterKeys = false;
-        // gameFlags.allowSkill = false;
-    } else if (gameFlags.isSanaDebuff) {
-        gameFlags.allowSkill = false;
-        TurnOffSkill();
-    } else if (gameFlags.isBaeDebuff) {
-        gameFlags.isReverseKey = true;
+    int curHealth = character.GetCurHealth();
+    switch (gameEventArgs.debuffType) {
+        case FOREST:
+            if (gameFlags.isMoving == false) {
+                gameEventArgs.notMovingTime += deltaTime;
+            }
+            if (gameEventArgs.notMovingTime >= MAX_IDLE_TIME) {
+                int newHealth = character.GetCurHealth() - 1;
+                character.SetCurHealth(newHealth);
+                gameEventArgs.notMovingTime = 0;
+            }
+            break;
+        case CITY:
+            if (curHealth > IRYS_DEBUFF_HEALTH) {
+                gameEventArgs.originalHealth = curHealth;
+                character.SetCurHealth(IRYS_DEBUFF_HEALTH);
+            }
+            break;
+        case HOUSE:
+            gameFlags.isDarkMap = true;
+            break;
+        case DESERT:
+            gameFlags.allowMovementKeys = false;
+            if (gameData.charaType != SANA) {
+                gameFlags.allowSkillKey = false;
+            }
+            break;
+        case SPACE:
+            gameFlags.allowSkill = false;
+            TurnOffSkill();
+            break;
+        case CASINO:
+            gameFlags.isReverseKey = true;
+            break;
     }
 
     gameEventArgs.mapDebuffTime -= deltaTime;
@@ -550,47 +555,54 @@ void GameMap::HandleDebuff(float deltaTime)
 void GameMap::HandleSkill(float deltaTime)
 {
     if (gameFlags.skillActivate) {
-        if (gameFlags.isFaunaSkill) {
-            character.SetMaxHealth(FAUNA_EXTRA_MAX_HEALTH);
-            character.SetCurHealth(FAUNA_EXTRA_MAX_HEALTH);
-            gameFlags.isTimeSkill = true;
-        } else if (gameFlags.isIrysSkill) {
-            gameEventArgs.shield = IRYS_SHIELD_COUNT;
-            gameFlags.isShieldSkill = true;
-        } else if (gameFlags.isMumeiSkill) {
-            int curSpeed = character.getSpeed();
-            gameEventArgs.originalSpeed = curSpeed;
-            character.SetSpeed(curSpeed + MUMEI_SPEED_BUFF);
-            gameFlags.isInvincible = true;
-            gameFlags.isTimeSkill = true;
-        } else if (gameFlags.isKroniiSkill) {
-            gameFlags.allowLaneUpdate = false;
-            gameFlags.isTimeSkill = true;
-        } else if (gameFlags.isSanaSkill) {
-            TurnOffDebuff();
-            gameFlags.isOneTimeSkill = true;
-        } else if (gameFlags.isBaeSkill) {
-            gameFlags.isReverseKey = true;
-            gameFlags.isTimeSkill = true;
+        gameEventArgs.skillTime = SKILL_DURATION;
+        int curSpeed = character.getSpeed();
+        switch (gameEventArgs.skillType) {
+            case FAUNA:
+                character.SetMaxHealth(FAUNA_EXTRA_MAX_HEALTH);
+                character.SetCurHealth(FAUNA_EXTRA_MAX_HEALTH);
+                gameEventArgs.skillCategory = TIME;
+                break;
+            case IRYS:
+                gameEventArgs.shield = IRYS_SHIELD_COUNT;
+                gameEventArgs.skillCategory = SHIELD;
+                break;
+            case MUMEI:
+                gameEventArgs.originalSpeed = curSpeed;
+                character.SetSpeed(curSpeed + MUMEI_SPEED_BUFF);
+                gameFlags.isInvincible = true;
+                gameEventArgs.skillCategory = TIME;
+                break;
+            case KRONII:
+                gameFlags.allowLaneUpdate = false;
+                gameEventArgs.skillCategory = TIME;
+                break;
+            case SANA:
+                TurnOffDebuff();
+                gameEventArgs.skillCategory = TIME;
+                break;
+            case BAE:
+                gameFlags.isReverseKey = true;
+                gameEventArgs.skillCategory = TIME;
+                break;
         }
         gameFlags.skillActivate = false;
         gameFlags.skillInUse = true;
         gameFlags.allowSkill = false;
     }
     if (gameFlags.skillInUse) {
-        if (gameFlags.isTimeSkill) {
-            gameEventArgs.skillTime -= deltaTime;
-            if (gameEventArgs.skillTime <= 0) {
-                gameFlags.turnOffSkill = true;
-            }
-        }
-        if (gameFlags.isShieldSkill) {
-            if (gameEventArgs.shield == 0) {
-                gameFlags.turnOffSkill = true;
-            }
-        }
-        if (gameFlags.isOneTimeSkill) {
-            gameFlags.turnOffSkill = true;
+        switch (gameEventArgs.skillCategory) {
+            case TIME:
+                gameEventArgs.skillTime -= deltaTime;
+                if (gameEventArgs.skillTime <= 0) {
+                    gameFlags.turnOffSkill = true;
+                }
+                break;
+            case SHIELD:
+                if (gameEventArgs.shield == 0) {
+                    gameFlags.turnOffSkill = true;
+                }
+                break;
         }
     }
 
@@ -614,17 +626,19 @@ void GameMap::UpdateCooldowns(float deltaTime)
     }
 
     if (gameEventArgs.mapDebuffCooldownTime <= 0) {
-        gameFlags.debuffInUse = true;
+        gameFlags.debuffCalled = true;
     }
 }
 
 void GameMap::DragMapDown(float deltatime)
 {
+    float distance = deltatime * mapSpeedY;
+    character.MoveDown(distance);
+
     auto laneListEnd = laneList.end();
     for (auto it = laneList.begin(); it != laneListEnd; ++it) {
         auto lane = it->get();
-        lane->SetY(lane->GetY() - deltatime * mapSpeed);
-        lane->GetY();
+        lane->SetY(lane->GetY() - distance);
     }
 
     if (!laneList.empty()) {

@@ -30,7 +30,7 @@ void Lane::DeleteEntity()
 
 void Lane::CreateEntity()
 {
-    float tmp = rand() % (_CONSOLE_WIDTH_ / 2);
+    float tmp = rand() % (200);
     if (IsLeftToRight) {
         entityList.push_back(entityList.back() - tmp - entityWidth);
 
@@ -49,7 +49,7 @@ void Lane::Init()
 {
     if (IsLeftToRight) {
         entityList.push_back(_CONSOLE_WIDTH_ - 1);
-        float minX = entityWidth - 2;
+        float minX = -entityWidth;
         while (entityList.back() >= minX) {
             CreateEntity();
         }
@@ -71,6 +71,10 @@ void Lane::UpdatePos(float deltaTime)
     DeleteEntity();
 }
 
+bool Lane::GetIsLeftToRight() const { return IsLeftToRight; }
+
+float Lane::GetSpeed() const { return speed; }
+
 CollisionType Lane::GetCollision(const Character& character) const
 {
     size_t listSize = entityList.size();
@@ -87,7 +91,12 @@ CollisionType Lane::GetCollision(const Character& character) const
 
 GameType::CollisionType Lane::GetLaneCollision(const Character& character) const
 {
-    std::vector<Box> laneHitBox = GetLaneHitBox();
+    std::vector<Box> laneHitBox;
+    if (IsLeftToRight) {
+        laneHitBox = GetLaneHitBoxLTR();
+    } else {
+        laneHitBox = GetLaneHitBoxRTL();
+    }
     size_t listSize = laneHitBox.size();
     Box charaBox = character.GetHitBox();
     for (size_t i = 0; i < listSize; ++i) {
@@ -99,47 +108,47 @@ GameType::CollisionType Lane::GetLaneCollision(const Character& character) const
     return CollisionType::None;
 }
 
-std::vector<Box> Lane::GetLaneHitBox() const
+std::vector<Box> Lane::GetLaneHitBoxLTR() const
 {
-    // Rewrite this thing
-    size_t listSize = entityList.size();
     std::vector<Box> laneBoxList;
-    std::vector<Box> entityBoxList;
-    for (size_t i = 0; i < listSize; ++i) {
-        Box entityBox = GetHitBox(i);
-        entityBoxList.push_back(entityBox);
-    }
+    const size_t entityCount = entityList.size();
 
-    for (size_t i = 0; i < listSize - 1; ++i) {
-        int boxWidth = std::abs(
-            entityBoxList[i + 1].coord.x -
-            (entityBoxList[i].coord.x + entityBoxList[i].dim.width)
-        );
-        size_t idx = i;
-        if (!IsLeftToRight) idx = i + 1;
-        int boxX = entityBoxList[idx].coord.x + entityBoxList[idx].dim.width;
-        Vec2 boxCoord = {.x = boxX, .y = (int)laneY};
-        Vec2 boxDim = {.width = boxWidth, .height = 32};
-        Box newBox = {.coord = boxCoord, .dim = boxDim};
+    for (size_t i = 0; i < entityCount - 1; ++i) {
+        const Box& rightEntityBox = GetHitBox(i);
+        const Box& leftEntityBox = GetHitBox(i + 1);
+
+        int boxWidth = rightEntityBox.coord.x -
+                       (leftEntityBox.coord.x + leftEntityBox.dim.width);
+        int boxX = leftEntityBox.coord.x + leftEntityBox.dim.width;
+
+        const Vec2 boxCoord = {.x = boxX, .y = (int)laneY};
+        const Vec2 boxDim = {.width = boxWidth, .height = 32};
+        const Box newBox = {.coord = boxCoord, .dim = boxDim};
         laneBoxList.push_back(newBox);
     }
-    Vec2 lastBox;
-    Vec2 firstBox;
-    if (IsLeftToRight) {
-        int boxWidth = entityBoxList.front().coord.x;
-        Vec2 boxCoord = {.x = 0, .y = (int)laneY};
-        Vec2 boxDim = {.width = boxWidth, .height = 32};
-        Box firstBox = {.coord = boxCoord, .dim = boxDim};
 
-        int boxX =
-            entityBoxList.back().coord.x + entityBoxList.back().dim.width;
-        boxWidth = _CONSOLE_WIDTH_ - boxX;
-        boxCoord = {.x = boxX, .y = (int)laneY};
-        boxDim = {.width = boxWidth, .height = 32};
-        Box lastBox = {.coord = boxCoord, .dim = boxDim};
+    return laneBoxList;
+}
 
-    } else {
+std::vector<Box> Lane::GetLaneHitBoxRTL() const
+{
+    std::vector<Box> laneBoxList;
+    const size_t entityCount = entityList.size();
+
+    for (size_t i = 1; i < entityCount; ++i) {
+        const Box& leftEntityBox = GetHitBox(i);
+        const Box& rightEntityBox = GetHitBox(i - 1);
+
+        int boxWidth = rightEntityBox.coord.x -
+                       (leftEntityBox.coord.x + leftEntityBox.dim.width);
+        int boxX = leftEntityBox.coord.x + leftEntityBox.dim.width;
+
+        const Vec2 boxCoord = {.x = boxX, .y = (int)laneY};
+        const Vec2 boxDim = {.width = boxWidth, .height = 32};
+        const Box newBox = {.coord = boxCoord, .dim = boxDim};
+        laneBoxList.push_back(newBox);
     }
+
     return laneBoxList;
 }
 
@@ -148,8 +157,13 @@ void Lane::DrawLane(AbstractCanvas* canvas) const
     for (int x = 0; x < _CONSOLE_WIDTH_; x += 32) {
         _laneSprite.Paint(canvas, {x, laneDrawY});
     }
-    std::vector<Box> laneHitBox = GetLaneHitBox();
-    /* for (auto i : laneHitBox) {
+    /* std::vector<Box> laneHitBox;
+     if (IsLeftToRight) {
+         laneHitBox = GetLaneHitBoxLTR();
+     } else {
+         laneHitBox = GetLaneHitBoxRTL();
+     }
+     for (auto i : laneHitBox) {
          GameUtils::DrawHitbox(canvas, i, Color::BLUE);
      }*/
 }
