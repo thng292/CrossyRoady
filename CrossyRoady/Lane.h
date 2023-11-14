@@ -27,7 +27,7 @@ class Lane {
     Lane() = default;
     Lane(
         float y,
-        ConsoleGame::Box hitbox,
+        ConsoleGame::Vec2 dim,
         const ConsoleGame::Sprite& laneSprite,
         GameType::LaneType type,
         bool isLeftToRight

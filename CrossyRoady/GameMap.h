@@ -27,7 +27,10 @@ class GameMap : public ConsoleGame::AbstractScreen {
 
     float mapSpeedY = GameType::MAP_SPEED;
     float mapSpeedX = 0.0f;
-    GameType::MobType currentDifficulty = GameType::EASY;
+    GameType::MobType currentDifficulty = GameType::NORMAL;
+
+    float currentScore = 0;
+    float tempScore = 0;
 
     // Inherited via AbstractScreen
     virtual std::wstring_view getName() override;
@@ -86,4 +89,6 @@ class GameMap : public ConsoleGame::AbstractScreen {
 
     std::unique_ptr<Lane> GetRandomLane();
     ConsoleGame::AniSprite GetMobSprite(bool isLeftToRight);
+
+    void ResiseBlockHitBox();
 };

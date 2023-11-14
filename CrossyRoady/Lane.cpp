@@ -5,7 +5,7 @@ using namespace ConsoleGame;
 
 Lane::Lane(
     float y,
-    Box hitbox,
+    Vec2 dim,
     const Sprite& laneSprite,
     LaneType type,
     bool isLeftToRight
@@ -14,8 +14,8 @@ Lane::Lane(
     _type = type;
     _laneSprite = laneSprite;
     IsLeftToRight = isLeftToRight;
-    entityHeight = hitbox.dim.height;
-    entityWidth = hitbox.dim.width;
+    entityHeight = dim.height;
+    entityWidth = dim.width;
     SetY(y);
 }
 
@@ -27,7 +27,7 @@ void Lane::DeleteEntity()
             entityList.erase(entityList.begin());
         }
     } else {
-        float minX = -entityWidth;
+        float minX = -entityWidth - 10;
         if (entityList.front() <= minX) {
             entityList.erase(entityList.begin());
         }
@@ -222,11 +222,7 @@ float Lane::GetBottomY() const
 
 int Lane::GetDrawY() const { return laneDrawY; }
 
-float Lane::GetTopY() const
-{
-    Box box = GetHitBox(0);
-    return box.coord.y;
-}
+float Lane::GetTopY() const { return entityY; }
 
 LaneType Lane::GetType() const { return _type; }
 
@@ -247,7 +243,10 @@ void Lane::SetY(float y)
             entityY = laneY;
             break;
         case SAFE:
-            entityY = laneY;
+            if (entityHeight > 32) {
+                entityY = laneY + (entityHeight - 32);
+            } else
+                entityY = laneY;
             break;
     }
 

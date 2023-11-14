@@ -56,8 +56,9 @@ class Rail : public Lane {
 
     void UpdatePos(float deltaTime) override
     {
+        float speedWithDirec = (IsLeftToRight) ? speed : -speed;
         for (size_t i = 0; i < entityList.size(); i++) {
-            entityList[i] += speed * deltaTime;
+            entityList[i] += speedWithDirec * deltaTime;
         }
         CreateEntity();
         DeleteEntity();
@@ -72,7 +73,7 @@ class Rail : public Lane {
     )
         : Lane(
               y,
-              mobSprite.GetHitBox(),
+              mobSprite.GetDim(),
               roadSprite,
               GameType::LaneType::RAIL,
               isLeftToRight

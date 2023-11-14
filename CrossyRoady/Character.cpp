@@ -66,7 +66,7 @@ void Character::MoveDown(float dist) { y -= dist; }
 void Character::Draw(ConsoleGame::AbstractCanvas*& canvas) const
 {
     currentSprite->Paint(canvas, GetDrawCoord());
-    GameUtils::DrawHitbox(canvas, GetHitBox(), ConsoleGame::Color::WHITE);
+    // GameUtils::DrawHitbox(canvas, GetHitBox(), ConsoleGame::Color::WHITE);
 }
 
 void Character::SetCurHealth(int health) { curHealth = health; }

@@ -10,7 +10,7 @@ void GameMap::InitLaneList()
     for (size_t i = 0; i < initSafeCount; ++i) {
         laneList.push_back(std::make_unique<SafeZone>(
             32 * (i + 1),
-            gameSprites.roadSprite,
+            gameSprites.safeSprite,
             gameSprites.blockSprite,
             true,
             true
@@ -66,7 +66,7 @@ void GameMap::Mount(const std::any& args)
         std::any_cast<const GameMapData&>(args);*/
 
     GameMapData gm;
-    gm.charaType = FAUNA;
+    gm.charaType = MUMEI;
     gm.mapMode = INF;
     gm.mapType = FOREST;
 
@@ -85,12 +85,15 @@ void GameMap::Mount(const std::any& args)
     LoadMapSprite(gameData.mapType, gameSprites.blockSprite, "block");
     LoadMapSprite(gameData.mapType, gameSprites.floatSprite, "float");
     LoadMapSprite(gameData.mapType, gameSprites.roadSprite, "road");
+    LoadMapSprite(gameData.mapType, gameSprites.safeSprite, "safe");
+    LoadMapSprite(gameData.mapType, gameSprites.waterSprite, "water");
     LoadMapSprite(gameData.mapType, gameSprites.debuff, "debuff");
 
     LoadExtraSprite(gameSprites.emptyHealth, "health-empty");
     LoadCharaSprite(gameData.charaType, gameSprites.health, "health");
     LoadCharaSprite(gameData.charaType, gameSprites.skill, "skill");
 
+    ResiseBlockHitBox();
     ChangeColorPalette(GetGamePalette(gameData.mapType, gameData.charaType));
     InitLaneList();
 }
@@ -165,8 +168,13 @@ void GameMap::HandlePlayerMovement(float deltaTime)
         character.MoveRight(distanceX);
     } else if (gameFlags.movingUp && gameFlags.allowMoveUp) {
         character.MoveUp(distanceY);
+        tempScore += distanceY;
+        if (tempScore > currentScore) {
+            currentScore = tempScore;
+        }
     } else if (gameFlags.movingDown && gameFlags.allowMoveDown) {
         character.MoveDown(distanceY);
+        tempScore -= distanceY;
     } else {
         moveFlag = false;
     }
@@ -249,7 +257,6 @@ void GameMap::TurnOffSkill()
 std::unique_ptr<Lane> GameMap::GetRandomLane()
 {
     int randInd = rand() % 4;
-    // int randInd = 3;
     bool isLeftToRight = rand() % 2;
     AniSprite mobSprite = GetMobSprite(isLeftToRight);
     switch (randInd) {
@@ -274,7 +281,7 @@ std::unique_ptr<Lane> GameMap::GetRandomLane()
         case 2:
             return std::make_unique<SafeZone>(
                 laneList.back()->GetY() + 32,
-                gameSprites.roadSprite,
+                gameSprites.safeSprite,
                 gameSprites.blockSprite,
                 isLeftToRight
             );
@@ -282,7 +289,7 @@ std::unique_ptr<Lane> GameMap::GetRandomLane()
         case 3:
             return std::make_unique<Water>(
                 laneList.back()->GetY() + 32,
-                gameSprites.roadSprite,
+                gameSprites.waterSprite,
                 gameSprites.floatSprite,
                 isLeftToRight
             );
@@ -319,6 +326,17 @@ ConsoleGame::AniSprite GameMap::GetMobSprite(bool isLeftToRight)
     }
 }
 
+void GameMap::ResiseBlockHitBox()
+{
+    Box hitbox = gameSprites.blockSprite.GetHitBox();
+    if (hitbox.dim.height <= 32) return;
+    int yOffset = hitbox.dim.height - 32;
+    int newHeight = 32;
+    Vec2 coordOffSet = {.x = 0, .y = yOffset};
+    Vec2 dimOffset = {.width = 0, .height = -(hitbox.dim.height - 32)};
+    gameSprites.blockSprite.EditHitBox(coordOffSet, dimOffset);
+};
+
 void GameMap::SetGameMapData(const GameMapData& gmData)
 {
     gameData.mapType = gmData.mapType;
@@ -354,9 +372,6 @@ void GameMap::DrawEntity(ConsoleGame::AbstractCanvas* canvas) const
     bool charaDrawn = false;
     float charBottomY = character.GetBottomY();
     int screenHeight = _CONSOLE_HEIGHT_ * 2 + 32;
-    LogDebug(
-        "char: {}, mob: {}", character.GetBottomY(), laneList[0]->GetBottomY()
-    );
 
     for (auto it = laneList.rbegin(); it != laneListEnd; ++it) {
         Lane* lane = it->get();
@@ -505,7 +520,11 @@ void GameMap::UpdateLanes(float deltaTime)
         lane->UpdatePos(deltaTime);
         if (type == LaneType::ROAD) {
             auto castedLane = dynamic_cast<Road*>(lane.get());
-            // castedLane->UpdateSprite(deltaTime);
+            castedLane->UpdateSprite(deltaTime);
+        }
+        if (type == LaneType::RAIL) {
+            auto castedLane = dynamic_cast<Rail*>(lane.get());
+            castedLane->UpdateSprite(deltaTime);
         }
     }
 }

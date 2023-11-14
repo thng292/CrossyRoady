@@ -10,7 +10,7 @@ namespace GameType {
     constexpr int MAP_SPEED = 0;
 
     // Debuff values
-    constexpr int MAP_DEBUFF_COOLDOWN = 3;
+    constexpr int MAP_DEBUFF_COOLDOWN = 30;
     constexpr int FAUNA_DEBUFF_DURATION = 10;
     constexpr int IRYS_DEBUFF_DURATION = 10;
     constexpr int MUMEI_DEBUFF_DURATION = 10;
@@ -84,6 +84,8 @@ namespace GameType {
         ConsoleGame::Sprite blockSprite;
         ConsoleGame::Sprite floatSprite;
         ConsoleGame::Sprite roadSprite;
+        ConsoleGame::Sprite safeSprite;
+        ConsoleGame::Sprite waterSprite;
 
         ConsoleGame::Sprite emptyHealth;
         ConsoleGame::Sprite health;

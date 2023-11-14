@@ -23,7 +23,7 @@ class Road : public Lane {
     )
         : Lane(
               y,
-              mobSprite.GetHitBox(),
+              mobSprite.GetDim(),
               roadSprite,
               GameType::LaneType::ROAD,
               isLeftToRight

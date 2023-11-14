@@ -31,7 +31,7 @@ class SafeZone : public Lane {
     )
         : Lane(
               y,
-              blockSprite.GetHitBox(),
+              blockSprite.GetDim(),
               safeSprite,
               GameType::LaneType::SAFE,
               isLeftToRight

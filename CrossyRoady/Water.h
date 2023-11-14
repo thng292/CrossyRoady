@@ -17,7 +17,7 @@ class Water : public Lane {
     )
         : Lane(
               y,
-              logSprite.GetHitBox(),
+              logSprite.GetDim(),
               waterSprite,
               GameType::LaneType::WATER,
               isLeftToRight
