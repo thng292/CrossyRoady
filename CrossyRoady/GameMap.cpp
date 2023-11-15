@@ -152,7 +152,7 @@ void GameMap::HandlePlayerAnimation(float deltaTime)
 
 void GameMap::HandlePlayerMovement(float deltaTime)
 {
-    bool moveFlag = true;
+    bool moveFlag = false;
     float distanceY = character.getSpeed() * deltaTime;
     if (gameFlags.movingLeft && gameFlags.allowMoveLeft) {
         float distanceX;
@@ -162,6 +162,7 @@ void GameMap::HandlePlayerMovement(float deltaTime)
             distanceX = deltaTime * (character.getSpeed() + mapSpeedX);
         }
         character.MoveLeft(distanceX);
+        moveFlag = true;
     }
     if (gameFlags.movingRight && gameFlags.allowMoveRight) {
         float distanceX;
@@ -171,6 +172,7 @@ void GameMap::HandlePlayerMovement(float deltaTime)
             distanceX = deltaTime * (character.getSpeed() - mapSpeedX);
         }
         character.MoveRight(distanceX);
+        moveFlag = true;
     }
     if (gameFlags.movingUp && gameFlags.allowMoveUp) {
         character.MoveUp(distanceY);
@@ -178,12 +180,12 @@ void GameMap::HandlePlayerMovement(float deltaTime)
         if (tempScore > currentScore) {
             currentScore = tempScore;
         }
+        moveFlag = true;
     }
     if (gameFlags.movingDown && gameFlags.allowMoveDown) {
         character.MoveDown(distanceY);
         tempScore -= distanceY;
-    } else {
-        moveFlag = false;
+        moveFlag = true;
     }
 
     if (moveFlag) {
