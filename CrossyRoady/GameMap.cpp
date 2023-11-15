@@ -141,8 +141,9 @@ void GameMap::HandlePlayerAnimation(float deltaTime)
     if (gameFlags.isMoving) {
         if (gameFlags.justMoved) {
             character.AdvanceFrame();
+        } else {
+            character.UpdateFrame(deltaTime);
         }
-        character.UpdateFrame(deltaTime);
 
     } else {
         character.ResetSprite();
