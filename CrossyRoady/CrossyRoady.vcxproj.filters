@@ -126,6 +126,9 @@
     <ClCompile Include="Water.cpp">
       <Filter>Source Files\GameImpl</Filter>
     </ClCompile>
+    <ClCompile Include="Rail.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="About.h">

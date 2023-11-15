@@ -201,15 +201,6 @@ void Lane::DrawLane(AbstractCanvas* canvas) const
     for (int x = 0; x < _CONSOLE_WIDTH_; x += 32) {
         _laneSprite.Paint(canvas, {x, laneDrawY});
     }
-    /*std::vector<Box> laneHitBox;
-    if (IsLeftToRight) {
-        laneHitBox = GetLaneHitBoxLTR();
-    } else {
-        laneHitBox = GetLaneHitBoxRTL();
-    }
-    for (auto i : laneHitBox) {
-        GameUtils::DrawHitbox(canvas, i, Color::BLUE);
-    }*/
 }
 
 float Lane::GetY() const { return laneY; }

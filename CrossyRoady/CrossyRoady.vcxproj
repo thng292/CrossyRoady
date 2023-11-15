@@ -181,6 +181,7 @@
     <ClCompile Include="Lane.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Progress.cpp" />
+    <ClCompile Include="Rail.cpp" />
     <ClCompile Include="Road.cpp" />
     <ClCompile Include="MenuBG.cpp" />
     <ClCompile Include="SafeZone.cpp" />

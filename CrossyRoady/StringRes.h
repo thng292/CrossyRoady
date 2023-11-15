@@ -26,9 +26,6 @@ constexpr std::array<std::string_view, 6> fileMapName = {
 constexpr std::array<std::string_view, 3> fileMobName = {
     "mob1", "mob2", "mob3"};
 
-constexpr std::array<std::string_view, 8> fileStaticName = {
-    "road", "block", "float", "health", "skill", "debuff", "speed", "star"};
-
 struct CharStuff {
     std::string_view Name;
     std::string_view Skill;
