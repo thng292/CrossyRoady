@@ -127,7 +127,7 @@
       <Filter>Source Files\GameImpl</Filter>
     </ClCompile>
     <ClCompile Include="Rail.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GameImpl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
