@@ -32,7 +32,7 @@ class GameMap : public ConsoleGame::AbstractScreen {
     float currentScore = 0;
     float tempScore = 0;
 
-    // Inherited via AbstractScreen
+   public:
     virtual std::wstring_view getName() override;
     virtual void Init(const std::any& args) override;
     virtual ConsoleGame::AbstractScreen* Clone() const override;
@@ -44,7 +44,6 @@ class GameMap : public ConsoleGame::AbstractScreen {
     virtual void Mount(const std::any& args) override;
     void Unmount() override;
 
-   public:
     GameMap() = default;
 
     void InitLaneList();

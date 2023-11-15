@@ -107,13 +107,16 @@ void GameMap::HandlePlayerInput()
         if (IsKeyMeanUp()) {
             gameFlags.movingUp = correctKeyFlag;
             gameFlags.movingDown = !correctKeyFlag;
-        } else if (IsKeyMeanDown()) {
+        }
+        if (IsKeyMeanDown()) {
             gameFlags.movingDown = correctKeyFlag;
             gameFlags.movingUp = !correctKeyFlag;
-        } else if (IsKeyMeanLeft()) {
+        }
+        if (IsKeyMeanLeft()) {
             gameFlags.movingLeft = correctKeyFlag;
             gameFlags.movingRight = !correctKeyFlag;
-        } else if (IsKeyMeanRight()) {
+        }
+        if (IsKeyMeanRight()) {
             gameFlags.movingRight = correctKeyFlag;
             gameFlags.movingLeft = !correctKeyFlag;
         }
@@ -158,7 +161,8 @@ void GameMap::HandlePlayerMovement(float deltaTime)
             distanceX = deltaTime * (character.getSpeed() + mapSpeedX);
         }
         character.MoveLeft(distanceX);
-    } else if (gameFlags.movingRight && gameFlags.allowMoveRight) {
+    }
+    if (gameFlags.movingRight && gameFlags.allowMoveRight) {
         float distanceX;
         if (mapSpeedX > 0) {
             distanceX = deltaTime * (character.getSpeed() + mapSpeedX);
@@ -166,13 +170,15 @@ void GameMap::HandlePlayerMovement(float deltaTime)
             distanceX = deltaTime * (character.getSpeed() - mapSpeedX);
         }
         character.MoveRight(distanceX);
-    } else if (gameFlags.movingUp && gameFlags.allowMoveUp) {
+    }
+    if (gameFlags.movingUp && gameFlags.allowMoveUp) {
         character.MoveUp(distanceY);
         tempScore += distanceY;
         if (tempScore > currentScore) {
             currentScore = tempScore;
         }
-    } else if (gameFlags.movingDown && gameFlags.allowMoveDown) {
+    }
+    if (gameFlags.movingDown && gameFlags.allowMoveDown) {
         character.MoveDown(distanceY);
         tempScore -= distanceY;
     } else {
