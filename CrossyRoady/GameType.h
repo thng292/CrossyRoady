@@ -11,12 +11,6 @@ namespace GameType {
 
     // Debuff values
     constexpr int MAP_DEBUFF_COOLDOWN = 10;
-    constexpr int FAUNA_DEBUFF_DURATION = 10;
-    constexpr int IRYS_DEBUFF_DURATION = 10;
-    constexpr int MUMEI_DEBUFF_DURATION = 10;
-    constexpr int KRONII_DEBUFF_DURATION = 10;
-    constexpr int SANA_DEBUFF_DURATION = 30;
-    constexpr int BAE_DEBUFF_DURATION = 10;
 
     constexpr int MAX_IDLE_TIME = 1;
     constexpr int IRYS_DEBUFF_HEALTH = 1;
@@ -49,7 +43,7 @@ namespace GameType {
     enum SkillCategory { TIME, SHIELD };
 
     constexpr int CHARA_HEALTH[] = {3, 4, 3, 5, 5, 3};
-    constexpr double CHARA_SPEED[] = {120, 120, 120, 120, 120, 120};
+    constexpr double CHARA_SPEED[] = {120, 120, 180, 120, 120, 120};
     constexpr float DEBUFF_DURATION[] = {10, 10, 10, 10, 30, 10};
 
     const std::string CHARA_NAME_FILE[] = {

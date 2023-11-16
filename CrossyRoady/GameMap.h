@@ -59,6 +59,7 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void DrawSkill(ConsoleGame::AbstractCanvas* canvas) const;
     void DrawDebuff(ConsoleGame::AbstractCanvas* canvas) const;
     void DrawDarkness(ConsoleGame::AbstractCanvas* canvas) const;
+    void DrawScore(ConsoleGame::AbstractCanvas* canvas) const;
 
     void ResetFlags();
     void CheckCollision(float deltaTime);

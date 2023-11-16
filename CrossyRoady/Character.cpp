@@ -18,7 +18,7 @@ void Character::Init(GameType::CharaType type)
 
     maxHealth = GameType::CHARA_HEALTH[type];
     _speed = GameType::CHARA_SPEED[type];
-    _speed = 50;
+    _speed = 70;
     curHealth = maxHealth;
     _type = type;
 
