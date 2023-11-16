@@ -10,7 +10,7 @@ namespace GameType {
     constexpr int MAP_SPEED = 0;
 
     // Debuff values
-    constexpr int MAP_DEBUFF_COOLDOWN = 30;
+    constexpr int MAP_DEBUFF_COOLDOWN = 10;
     constexpr int FAUNA_DEBUFF_DURATION = 10;
     constexpr int IRYS_DEBUFF_DURATION = 10;
     constexpr int MUMEI_DEBUFF_DURATION = 10;
@@ -147,6 +147,7 @@ namespace GameType {
         // Map events
         bool debuffInUse : 1 = false;
         bool debuffCalled : 1 = false;
+        bool debuffWarning : 1 = false;
 
         bool skillCalled : 1 = false;
         bool skillActivate : 1 = false;
@@ -168,7 +169,11 @@ namespace GameType {
 
         // Cooldown
         float damageCooldownTime = DAMAGE_COOLDOWN;
-        float mapDebuffCooldownTime;
+        float mapDebuffCooldownTime = MAP_DEBUFF_COOLDOWN;
+
+        // Animation
+        float damageFlashingTimer = 0;
+        float debuffFlasingTimer = 0;
 
         // Duration
         float mapDebuffTime;
@@ -182,6 +187,11 @@ namespace GameType {
         // Skill
         float skillCharge = 0;
         int shield = 0;
+    };
+
+    struct GameAudio {
+        ConsoleGame::Audio damageSfx;
+        ConsoleGame::Audio warningSfx;
     };
 
 }  // namespace GameType

@@ -14,35 +14,9 @@ class Water : public Lane {
         const ConsoleGame::Sprite& waterSprite,
         const ConsoleGame::Sprite& logSprite,
         bool isLeftToRight
-    )
-        : Lane(
-              y,
-              logSprite.GetDim(),
-              waterSprite,
-              GameType::LaneType::WATER,
-              isLeftToRight
-          )
-    {
-        _logSprite = logSprite;
-        Init();
-    }
+    );
 
-    void DrawEntity(ConsoleGame::AbstractCanvas* canvas) const override
-    {
-        size_t listSize = entityList.size();
+    void DrawEntity(ConsoleGame::AbstractCanvas* canvas) const override;
 
-        for (size_t i = 0; i < listSize; ++i) {
-            _logSprite.Draw(canvas, {(int)entityList[i], entityDrawY});
-            // GameUtils::DrawHitbox(canvas, GetHitBox(i));
-        }
-    }
-
-    ConsoleGame::Box GetHitBox(size_t ind) const
-    {
-        ConsoleGame::Box hitbox = _logSprite.GetHitBox();
-        hitbox.coord.x += entityList[ind];
-        hitbox.coord.y = entityY - hitbox.coord.y;
-
-        return hitbox;
-    }
+    ConsoleGame::Box GetHitBox(size_t ind) const override;
 };

@@ -8,10 +8,10 @@ void GameUtils::LoadMobSprite(
 {
     std::string pathToMap = GetPathToMap(mapType);
     mobSprite.MobLeft.Load(
-        std::format("{}/{}L.anisprite", pathToMap, MOB_NAME_FILE[mobType])
+        std::format("{}/{}L.anisprite", pathToMap, fileMobName[mobType])
     );
     mobSprite.MobRight.Load(
-        std::format("{}/{}R.anisprite", pathToMap, MOB_NAME_FILE[mobType])
+        std::format("{}/{}R.anisprite", pathToMap, fileMobName[mobType])
     );
 }
 
@@ -29,7 +29,7 @@ void GameUtils::LoadCharaSprite(
     sprite.Load(std::format(
         "{}/{}-{}.sprite",
         GetPathToChar(charaType),
-        CHARA_NAME_FILE[charaType],
+        fileCharName[charaType],
         src
     ));
 }
@@ -47,10 +47,10 @@ ConsoleGame::Palette GameUtils::GetGamePalette(
 {
     auto padColor = RGB(85, 85, 85);
     ConsoleGame::Palette mapPalette(
-        std::format("{}/{}.hex", GetPathToMap(mapType), MAP_NAME_FILE[mapType])
+        std::format("{}/{}.hex", GetPathToMap(mapType), fileMapName[mapType])
     );
     ConsoleGame::Palette charaPalette(std::format(
-        "{}/{}.hex", GetPathToChar(charaType), CHARA_NAME_FILE[charaType]
+        "{}/{}.hex", GetPathToChar(charaType), fileCharName[charaType]
     ));
     ConsoleGame::Palette palette;
 
@@ -148,7 +148,7 @@ float GameUtils::GetDistance(int x1, int y1, int x2, int y2)
 std::string GameUtils::GetPathToMap(MapType mapType)
 {
     std::string path =
-        std::format("{}{}{}", RESOURCE_PATH, MAP_PATH, MAP_NAME_FILE[mapType]);
+        std::format("{}{}{}", RESOURCE_PATH, MAP_PATH, fileMapName[mapType]);
     return path;
 }
 

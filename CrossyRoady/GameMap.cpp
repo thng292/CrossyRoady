@@ -41,15 +41,16 @@ AbstractNavigation::NavigationRes GameMap::Update(
     } else {
         mapSpeedY = MAP_SPEED;
     }
+
     ResetFlags();
     DragMapDown(deltaTime);
 
     UpdateLanes(deltaTime);
     UpdateCooldowns(deltaTime);
 
-    CollisionCheck(deltaTime);
-    DebuffCheck();
-    SkillCheck();
+    CheckCollision(deltaTime);
+    CheckDebuff();
+    CheckSkill();
 
     HandleDebuff(deltaTime);
     HandleSkill(deltaTime);
@@ -71,7 +72,6 @@ void GameMap::Mount(const std::any& args)
     gm.mapType = FOREST;
 
     SetGameMapData(gm);
-
     character.Init(gameData.charaType);
 
     // mob sprites
@@ -92,6 +92,9 @@ void GameMap::Mount(const std::any& args)
     LoadExtraSprite(gameSprites.emptyHealth, "health-empty");
     LoadCharaSprite(gameData.charaType, gameSprites.health, "health");
     LoadCharaSprite(gameData.charaType, gameSprites.skill, "skill");
+
+    gameAudio.damageSfx.Open(RESOURCE_PATH SFX_PATH "hurt-1.wav");
+    gameAudio.warningSfx.Open(RESOURCE_PATH SFX_PATH "warning.wav");
 
     ResiseBlockHitBox();
     ChangeColorPalette(GetGamePalette(gameData.mapType, gameData.charaType));
@@ -359,7 +362,7 @@ void GameMap::Draw(AbstractCanvas* canvas) const
     DrawEntity(canvas);
     DrawHealth(canvas);
     DrawSkill(canvas);
-    if (gameFlags.debuffInUse) DrawDebuff(canvas);
+    DrawDebuff(canvas);
     if (gameFlags.isDarkMap) DrawDarkness(canvas);
 }
 
@@ -387,7 +390,13 @@ void GameMap::DrawEntity(ConsoleGame::AbstractCanvas* canvas) const
         if (lane->GetY() <= screenHeight) {
             if (!charaDrawn && lane->GetType() != WATER) {
                 if (charBottomY > lane->GetBottomY()) {
-                    character.Draw(canvas);
+                    if (gameFlags.isDamageCooldown) {
+                        if (gameEventArgs.damageFlashingTimer >= 0.1) {
+                            character.Draw(canvas);
+                        }
+                    } else {
+                        character.Draw(canvas);
+                    }
                     charaDrawn = true;
                 }
             }
@@ -425,8 +434,15 @@ void GameMap::DrawSkill(ConsoleGame::AbstractCanvas* canvas) const
 
 void GameMap::DrawDebuff(ConsoleGame::AbstractCanvas* canvas) const
 {
+    if (!gameFlags.debuffWarning && !gameFlags.debuffInUse) return;
     Vec2 coord{.x = ConsoleGame::_CONSOLE_WIDTH_ - 21, .y = 4};
-    gameSprites.debuff.Draw(canvas, coord);
+    if (gameFlags.debuffWarning) {
+        if (gameEventArgs.debuffFlasingTimer >= 0.5) {
+            gameSprites.debuff.Draw(canvas, coord);
+        }
+    } else {
+        gameSprites.debuff.Draw(canvas, coord);
+    }
 }
 
 void GameMap::DrawDarkness(ConsoleGame::AbstractCanvas* canvas) const
@@ -466,10 +482,11 @@ void GameMap::ResetFlags()
     gameFlags.itemCollision = false;
 }
 
-void GameMap::CollisionCheck(float deltaTime)
+void GameMap::CheckCollision(float deltaTime)
 {
     for (auto& lane : laneList) {
-        if (lane->GetType() == LaneType::WATER) {
+        LaneType laneType = lane->GetType();
+        if (laneType == LaneType::WATER) {
             CollisionType waterColType = lane->GetLaneCollision(character);
             if (waterColType != CollisionType::Bottom &&
                 waterColType != CollisionType::Top) {
@@ -477,9 +494,15 @@ void GameMap::CollisionCheck(float deltaTime)
                     HandleCharaOnLog(lane, deltaTime);
                 }
             }
-
             HandleWaterCollision(waterColType);
 
+        } else if (laneType == LaneType::ROAD || laneType == LaneType::WATER) {
+            if (lane->ContainsChara(character)) {
+                CollisionType colType = lane->GetCollision(character);
+                if (colType != CollisionType::None) {
+                    HandleCollision(lane, colType);
+                }
+            }
         } else {
             CollisionType colType = lane->GetCollision(character);
             if (colType != CollisionType::None) {
@@ -489,7 +512,7 @@ void GameMap::CollisionCheck(float deltaTime)
     }
 }
 
-void GameMap::DebuffCheck()
+void GameMap::CheckDebuff()
 {
     if (!gameFlags.debuffCalled) return;
     gameFlags.debuffCalled = false;
@@ -503,7 +526,7 @@ void GameMap::DebuffCheck()
     gameFlags.debuffInUse = true;
 }
 
-void GameMap::SkillCheck()
+void GameMap::CheckSkill()
 {
     if (!gameFlags.skillCalled) return;
     gameFlags.skillCalled = false;
@@ -609,10 +632,12 @@ void GameMap::HandleDamage()
         return;
     if (gameEventArgs.shield > 0) {
         --gameEventArgs.shield;
+
     } else {
         int newHealth =
             character.GetCurHealth() - (gameEventArgs.collidedMobtype + 1);
         character.SetCurHealth(newHealth);
+        gameAudio.damageSfx.Play();
     }
     gameFlags.isDamageCooldown = true;
     gameEventArgs.damageCooldownTime = 3;
@@ -726,10 +751,26 @@ void GameMap::UpdateCooldowns(float deltaTime)
 {
     if (gameFlags.isDamageCooldown) {
         gameEventArgs.damageCooldownTime -= deltaTime;
+        if (gameEventArgs.damageFlashingTimer >= 0.2) {
+            gameEventArgs.damageFlashingTimer = 0;
+        }
+        gameEventArgs.damageFlashingTimer += deltaTime;
     }
 
     if (!gameFlags.debuffInUse) {
         gameEventArgs.mapDebuffCooldownTime -= deltaTime;
+        if (gameEventArgs.mapDebuffCooldownTime <= 4 &&
+            !gameFlags.debuffWarning) {
+            gameFlags.debuffWarning = true;
+            gameAudio.warningSfx.Play();
+        }
+    }
+
+    if (gameFlags.debuffWarning) {
+        if (gameEventArgs.debuffFlasingTimer >= 1) {
+            gameEventArgs.debuffFlasingTimer = 0;
+        }
+        gameEventArgs.debuffFlasingTimer += deltaTime;
     }
 
     if (gameEventArgs.damageCooldownTime <= 0) {
@@ -738,6 +779,7 @@ void GameMap::UpdateCooldowns(float deltaTime)
 
     if (gameEventArgs.mapDebuffCooldownTime <= 0) {
         gameFlags.debuffCalled = true;
+        gameFlags.debuffWarning = false;
     }
 }
 

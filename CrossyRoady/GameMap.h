@@ -12,27 +12,30 @@
 #include "Rail.h"
 #include "Road.h"
 #include "SafeZone.h"
+#include "StringRes.h"
 #include "Water.h"
 
 class GameMap : public ConsoleGame::AbstractScreen {
     std::vector<std::unique_ptr<Lane>> laneList;
 
-    std::queue<GameType::MapType> debuffQueue;
     Character character;
 
     GameType::GameMapData gameData;
     GameType::GameMapSprites gameSprites;
     GameType::GameFlags gameFlags;
     GameType::GameEventsArgs gameEventArgs;
+    GameType::GameAudio gameAudio;
 
     float mapSpeedY = GameType::MAP_SPEED;
     float mapSpeedX = 0.0f;
     GameType::MobType currentDifficulty = GameType::NORMAL;
 
-    float currentScore = 0;
-    float tempScore = 0;
+    float currentScore = 0.0f;
+    float tempScore = 0.0f;
 
    public:
+    GameMap() = default;
+    static const std::wstring_view ScreenName();
     virtual std::wstring_view getName() override;
     virtual void Init(const std::any& args) override;
     virtual ConsoleGame::AbstractScreen* Clone() const override;
@@ -44,38 +47,32 @@ class GameMap : public ConsoleGame::AbstractScreen {
     virtual void Mount(const std::any& args) override;
     void Unmount() override;
 
-    GameMap() = default;
-
-    void InitLaneList();
-
-    static const std::wstring_view ScreenName();
+    // Game stuff
     void SetGameMapData(const GameType::GameMapData& gmData);
+    void InitLaneList();
+    void ResiseBlockHitBox();
 
     void DragMapDown(float deltatime);
     void DrawFlat(ConsoleGame::AbstractCanvas* canvas) const;
     void DrawEntity(ConsoleGame::AbstractCanvas* canvas) const;
-
     void DrawHealth(ConsoleGame::AbstractCanvas* canvas) const;
     void DrawSkill(ConsoleGame::AbstractCanvas* canvas) const;
     void DrawDebuff(ConsoleGame::AbstractCanvas* canvas) const;
-
     void DrawDarkness(ConsoleGame::AbstractCanvas* canvas) const;
 
     void ResetFlags();
-    void CollisionCheck(float deltaTime);
-    void DebuffCheck();
-    void SkillCheck();
+    void CheckCollision(float deltaTime);
+    void CheckDebuff();
+    void CheckSkill();
 
     void UpdateLanes(float deltaTime);
+    void UpdateCooldowns(float deltaTime);
 
     void HandleCollision(
         const std::unique_ptr<Lane>& lane, GameType::CollisionType colType
     );
     void HandleWaterCollision(GameType::CollisionType colType);
     void HandleCharaOnLog(const std::unique_ptr<Lane>& lane, float deltaTime);
-
-    void UpdateCooldowns(float deltaTime);
-
     void HandleDamage();
     void HandleDebuff(float deltaTime);
     void HandleSkill(float deltaTime);
@@ -88,6 +85,4 @@ class GameMap : public ConsoleGame::AbstractScreen {
 
     std::unique_ptr<Lane> GetRandomLane();
     ConsoleGame::AniSprite GetMobSprite(bool isLeftToRight);
-
-    void ResiseBlockHitBox();
 };
