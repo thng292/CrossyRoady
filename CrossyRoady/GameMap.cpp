@@ -775,22 +775,20 @@ void GameMap::UpdateCooldowns(float deltaTime)
             gameFlags.debuffWarning = true;
             gameAudio.warningSfx.Play();
         }
-    }
-
-    if (gameFlags.debuffWarning) {
-        if (gameEventArgs.debuffFlasingTimer >= 1) {
-            gameEventArgs.debuffFlasingTimer = 0;
+        if (gameFlags.debuffWarning) {
+            if (gameEventArgs.debuffFlasingTimer >= 1) {
+                gameEventArgs.debuffFlasingTimer = 0;
+            }
+            gameEventArgs.debuffFlasingTimer += deltaTime;
         }
-        gameEventArgs.debuffFlasingTimer += deltaTime;
+        if (gameEventArgs.mapDebuffCooldownTime <= 0) {
+            gameFlags.debuffCalled = true;
+            gameFlags.debuffWarning = false;
+        }
     }
 
     if (gameEventArgs.damageCooldownTime <= 0) {
         gameFlags.isDamageCooldown = false;
-    }
-
-    if (gameEventArgs.mapDebuffCooldownTime <= 0) {
-        gameFlags.debuffCalled = true;
-        gameFlags.debuffWarning = false;
     }
 }
 
