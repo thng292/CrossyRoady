@@ -41,7 +41,7 @@ void SafeZone::DrawEntity(ConsoleGame::AbstractCanvas* canvas) const
 {
     size_t listSize = entityList.size();
     for (size_t i = 0; i < listSize; ++i) {
-        _blockSprite.Paint(canvas, {(int)entityList[i], entityDrawY});
+        _blockSprite.Draw(canvas, {(int)entityList[i], entityDrawY});
         // GameUtils::DrawHitbox(canvas, GetHitBox(i));
     }
 }

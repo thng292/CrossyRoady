@@ -41,7 +41,7 @@ auto main() -> int
     game->AddScreen(std::make_unique<CharactersInfo>());
     game->AddScreen(std::make_unique<HowToPlay>());
     game->AddScreen(std::make_unique<CharacterSelectScreen>());
-    game->Run(CharacterSelectScreen::ScreenName());
+    game->Run(GameMap::ScreenName());
 
     return 0;
 }

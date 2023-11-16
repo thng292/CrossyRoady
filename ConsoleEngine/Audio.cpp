@@ -42,14 +42,24 @@ namespace ConsoleGame {
 
     void Audio::Play(bool fromStart, bool repeat)
     {
-        auto command = std::format(L"play {}", (uintptr_t)this);
+        static auto thiss = std::to_string((size_t)this).c_str();
+        static char sendCommand[40] = {0};
+        char* command     = nullptr;
         if (fromStart) {
-            command += L" from 0";
+            if (repeat) {
+                command = (char*)"play %ull from 0 repeat";
+            } else {
+                command = (char*)"play %ull from 0";
+            }
+        } else {
+            if (repeat) {
+                command = (char*)"play %ull repeat";
+            } else {
+                command = (char*)"play %ull";
+            }
         }
-        if (repeat) {
-            command += L" repeat";
-        }
-        mciSendString(command.c_str(), 0, 0, 0);
+        snprintf(sendCommand, sizeof(sendCommand), command, thiss);
+        mciSendStringA(sendCommand, 0, 0, 0);
         _isPlaying = true;
     }
 
