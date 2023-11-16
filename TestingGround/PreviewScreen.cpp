@@ -41,6 +41,6 @@ AbstractNavigation::NavigationRes PreviewScreen::Update(float deltaTime, const A
 
 void PreviewScreen::Draw(AbstractCanvas* canvas) const
 {
-    preview.Paint(canvas, drawCoord);
+    preview.Draw(canvas, drawCoord);
 }
 

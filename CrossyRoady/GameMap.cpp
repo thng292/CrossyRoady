@@ -407,12 +407,12 @@ void GameMap::DrawHealth(AbstractCanvas* canvas) const
     int margin = 0;
     int space = 9 + margin;
     for (int i = 0; i < maxHealth; ++i) {
-        gameSprites.emptyHealth.Paint(canvas, coord);
+        gameSprites.emptyHealth.Draw(canvas, coord);
         coord.x += space;
     }
     coord.x = 5;
     for (int i = 0; i < curHealth; ++i) {
-        gameSprites.health.Paint(canvas, coord);
+        gameSprites.health.Draw(canvas, coord);
         coord.x += space;
     }
 }
@@ -420,13 +420,13 @@ void GameMap::DrawHealth(AbstractCanvas* canvas) const
 void GameMap::DrawSkill(ConsoleGame::AbstractCanvas* canvas) const
 {
     Vec2 coord{.x = 3, .y = 12};
-    gameSprites.skill.Paint(canvas, coord);
+    gameSprites.skill.Draw(canvas, coord);
 }
 
 void GameMap::DrawDebuff(ConsoleGame::AbstractCanvas* canvas) const
 {
     Vec2 coord{.x = ConsoleGame::_CONSOLE_WIDTH_ - 21, .y = 4};
-    gameSprites.debuff.Paint(canvas, coord);
+    gameSprites.debuff.Draw(canvas, coord);
 }
 
 void GameMap::DrawDarkness(ConsoleGame::AbstractCanvas* canvas) const

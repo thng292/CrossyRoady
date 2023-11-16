@@ -65,7 +65,7 @@ void Character::MoveDown(float dist) { y -= dist; }
 
 void Character::Draw(ConsoleGame::AbstractCanvas*& canvas) const
 {
-    currentSprite->Paint(canvas, GetDrawCoord());
+    currentSprite->Draw(canvas, GetDrawCoord());
     // GameUtils::DrawHitbox(canvas, GetHitBox(), ConsoleGame::Color::WHITE);
 }
 

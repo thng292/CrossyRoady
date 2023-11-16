@@ -14,9 +14,9 @@ const std::string_view basePath = RESOURCE_PATH EXTRA_PATH;
 void CharactersInfo::LoadStuff()
 {
     auto spritePath =
-        std::format("{}{}-por.sprite", basePath, GameType::CHARA_NAME_FILE[currentSelect]);
+        std::format("{}{}-por.sprite", basePath, fileCharName[currentSelect]);
     auto palettePath =
-        std::format("{}{}-por.hex", basePath, GameType::CHARA_NAME_FILE[currentSelect]);
+        std::format("{}{}-por.hex", basePath, fileCharName[currentSelect]);
     ChangeColorPalette(Palette(palettePath));
     portrait.Load(spritePath);
     auto tmp = portrait.GetDim();
@@ -135,7 +135,7 @@ void CharactersInfo::Draw(AbstractCanvas* canvas) const
     }
     if (redraw) {
         canvas->Clear(bgColor);
-        portrait.Paint(canvas, portraitPos);
+        portrait.Draw(canvas, portraitPos);
         Font::DrawString(
             canvas,
             charStuff[currentSelect].Name,

@@ -9,10 +9,9 @@
 #include "MainMenu.h"
 #include "Progress.h"
 #include "Setting.h"
-#include "StringRes.h"
 using namespace ConsoleGame;
 
- //#define _SHOW_OFF_
+// #define _SHOW_OFF_
 
 const char* configFilePath = "config.txt";
 
@@ -41,7 +40,8 @@ auto main() -> int
     game->AddScreen(std::make_unique<GameMap>());
     game->AddScreen(std::make_unique<CharactersInfo>());
     game->AddScreen(std::make_unique<HowToPlay>());
-    game->Run(GameMap::ScreenName());
+    game->AddScreen(std::make_unique<CharacterSelectScreen>());
+    game->Run(CharacterSelectScreen::ScreenName());
 
     return 0;
 }

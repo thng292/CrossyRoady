@@ -102,7 +102,7 @@ namespace ConsoleGame {
         findHitBox();
     }
 
-    void AniSprite::Paint(AbstractCanvas* canvas, Vec2 coord) const
+    void AniSprite::Draw(AbstractCanvas* canvas, Vec2 coord) const
     {
         if (coord.x >= _CanvasSize.width || coord.y >= _CanvasSize.height) {
             return;

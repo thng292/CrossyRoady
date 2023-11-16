@@ -77,7 +77,7 @@ namespace ConsoleGame {
         std::fill(data.begin(), data.end(), Color::BRIGHT_WHITE);
     }
 
-    void Sprite::Paint(AbstractCanvas* canvas, Vec2 coord) const
+    void Sprite::Draw(AbstractCanvas* canvas, Vec2 coord) const
     {
         if (coord.x >= _CanvasSize.width || coord.y >= _CanvasSize.height) {
             return;

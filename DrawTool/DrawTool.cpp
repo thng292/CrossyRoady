@@ -94,7 +94,7 @@ public:
 
     void Draw(AbstractCanvas* canvas) const override
     {
-        board.Paint(canvas, { 0,0 });
+        board.Draw(canvas, { 0,0 });
         (*canvas)[0][0] = currentColor;
         (*canvas)[0][1] = currentColor;
         (*canvas)[1][0] = currentColor;

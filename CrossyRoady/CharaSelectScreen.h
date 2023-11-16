@@ -2,20 +2,20 @@
 
 #include "ConsoleGame.h"
 #include "SharedAudio.h"
+#include "Surface.h"
+#include "StringRes.h"
 
 class CharacterSelectScreen : public ConsoleGame::AbstractScreen {
-    std::array<ConsoleGame::Sprite, 6> charAvaMenu;
+    std::array<ConsoleGame::Sprite, numberOfChars> charAvaMenu;
+    std::array<Surface, 10> surfaces;
     ConsoleGame::AniSprite charShowCase;
     ConsoleGame::Sprite speedIcon;
     ConsoleGame::Sprite heartIcon;
-
+    ConsoleGame::Palette currentPalette;
+    std::string_view charName;
     uint8_t selected = 0;
     uint8_t lastSelected = 0;
-    uint8_t unlocked;
-    float mouseCounter = 0;
-    float keyCounter = 0;
-    static constexpr auto BGPrimary = (ConsoleGame::Color)12;
-    static constexpr auto BGSecond = (ConsoleGame::Color)13;
+    SharedAudio& audio = SharedAudio::GetInstance();
 
    public:
     static const std::wstring_view ScreenName();

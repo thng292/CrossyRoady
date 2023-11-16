@@ -95,6 +95,12 @@ struct StringResource {
     } CharInfo;
 
     struct {
+        std::string_view Title = "Choose Your Character";
+        std::string_view Speed = "Speed: ";
+        std::string_view Health = "Health: ";
+    } CharSelect;
+
+    struct {
         struct {
             std::string_view Name = "Forest";
             std::string_view Debuff =

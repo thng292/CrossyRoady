@@ -32,7 +32,7 @@ class Water : public Lane {
         size_t listSize = entityList.size();
 
         for (size_t i = 0; i < listSize; ++i) {
-            _logSprite.Paint(canvas, {(int)entityList[i], entityDrawY});
+            _logSprite.Draw(canvas, {(int)entityList[i], entityDrawY});
             // GameUtils::DrawHitbox(canvas, GetHitBox(i));
         }
     }

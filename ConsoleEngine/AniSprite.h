@@ -38,7 +38,7 @@ namespace ConsoleGame {
         void Play(bool repeat = false);
         bool IsPlaying() const;
         void Stop();
-        void Paint(AbstractCanvas* canvas, Vec2 coord) const;
+        void Draw(AbstractCanvas* canvas, Vec2 coord) const;
         void ResetFrame();
         void AdvanceFrame();
         void AutoUpdateFrame(float deltaTime);

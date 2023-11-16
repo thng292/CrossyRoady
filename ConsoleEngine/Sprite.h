@@ -26,7 +26,7 @@ namespace ConsoleGame {
         void Unload();
         void Save(std::filesystem::path filePath);
         void Clear();
-        void Paint(AbstractCanvas* canvas, Vec2 coord) const;
+        void Draw(AbstractCanvas* canvas, Vec2 coord) const;
         Vec2 GetDim() const;
         const std::vector<Color>& GetData() const;
         Color* operator[](size_t index);

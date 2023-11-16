@@ -199,7 +199,7 @@ std::vector<Box> Lane::GetLaneHitBoxRTL() const
 void Lane::DrawLane(AbstractCanvas* canvas) const
 {
     for (int x = 0; x < _CONSOLE_WIDTH_; x += 32) {
-        _laneSprite.Paint(canvas, {x, laneDrawY});
+        _laneSprite.Draw(canvas, {x, laneDrawY});
     }
     /*std::vector<Box> laneHitBox;
     if (IsLeftToRight) {
