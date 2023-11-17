@@ -37,15 +37,6 @@ void CharacterSelectScreen::Init(const std::any& args)
         .hasBorder = true,
         .background = BGSecond,
         .border = (Color)14};
-    /* {
-    .size = {panelWidth - 1, 17},
-     .pos = {_CanvasSize.width - panelWidth - 15, 189},
-     .cornerSize = 5,
-     .hasBorder = true,
-     .background = BGPrimary,
-     .border = (Color)14},
-    R.String.Back,
-    (Color)14 */
     backButton = ArrowButton({.pos = {15, 5}, .cornerSize = 8}, false);
 }
 
