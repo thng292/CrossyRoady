@@ -1,5 +1,6 @@
 #include "MainMenu.h"
 
+#include "CharaSelectScreen.h"
 #include "CharactersInfo.h"
 #include "Progress.h"
 #include "Setting.h"
@@ -54,6 +55,11 @@ AbstractNavigation::NavigationRes MainMenu::Update(
         [&](uint8_t selection) noexcept {
             audio.PlayClickSfx();
             switch (selection) {
+                case 0:
+                    res =
+                        navigation->Navigate(CharacterSelectScreen::ScreenName()
+                        );
+                    break;
                 case 2:
                     res = navigation->Navigate(Progress::ScreenName(), &bg);
                     break;

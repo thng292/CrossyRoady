@@ -14,7 +14,7 @@ bool ArrowButton::IsHover(ConsoleGame::Vec2 mousePos) const
     if (x < 0 or y < 0) {
         return false;
     }
-    if (x > 2 * props.cornerSize or y > 2 * props.cornerSize) {
+    if (x > props.cornerSize or y > 2 * props.cornerSize) {
         return false;
     }
     if (direction == 1) {
