@@ -5,6 +5,7 @@
 
 class ArrowButton : private Surface {
     bool direction;
+    bool lastHover = false;
 
    public:
     ArrowButton() = default;
@@ -26,8 +27,11 @@ class ArrowButton : private Surface {
             KeyFunc = ConsoleGame::UiIsKeyMeanRight;
         }
         auto tmp = IsHover(ConsoleGame::GetMousePos());
-        if (tmp) {
+        if (tmp and not lastHover) {
             onHover();
+            lastHover = true;
+        } else {
+            lastHover = false;
         }
         if ((ConsoleGame::UiIsKeyMeanClick() and tmp) or KeyFunc()) {
             onClick();

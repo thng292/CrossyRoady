@@ -26,6 +26,8 @@ constexpr std::array<std::string_view, 6> fileMapName = {
 constexpr std::array<std::string_view, 3> fileMobName = {
     "mob1", "mob2", "mob3"};
 
+constexpr auto CONFIG_PATH = "config.bin";
+
 struct CharStuff {
     std::string_view Name;
     std::string_view Skill;
@@ -98,6 +100,7 @@ struct StringResource {
     } CharInfo;
 
     struct {
+        std::string_view Skill = "Skill";
         std::string_view Title = "Choose Your Character";
         std::string_view Speed = "Speed: ";
         std::string_view Health = "Health: ";
@@ -174,7 +177,7 @@ struct StringResource {
 
         CharStuff Sana = {
             .Name = "Tsukumo Sana",
-            .Skill = "Removes any incoming/active debuff",
+            .Skill = "Removes any incoming or active debuff",
             .Desc =
                 "The Speaker of Space, a concept unbridled by definition, and "
                 "one that continues to grow in scope limitlessly",
@@ -220,8 +223,8 @@ struct Config {
     uint16_t SpaceXP = 0;
     uint16_t DesertXP = 0;
 
-    uint8_t CharUnlocked : 3 = 1;
-    uint8_t MapUnlocked : 3 = 1;
+    uint8_t CharUnlocked : 3 = 5;
+    uint8_t MapUnlocked : 3 = 5;
     uint8_t Music : 1 = 1;
     uint8_t Sfx : 1 = 1;
 

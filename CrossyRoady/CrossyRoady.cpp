@@ -23,8 +23,8 @@ auto main() -> int
     Font::Load(RESOURCE_PATH FONT_PATH "small.font");
     Font::Load(RESOURCE_PATH FONT_PATH "big.font", 1);
 
-    R.Config.Load("config.bin");
-    defer { R.Config.Save("config.bin"); };
+    R.Config.Load(CONFIG_PATH);
+    defer { R.Config.Save(CONFIG_PATH); };
 
     auto game =
 #ifndef _SHOW_OFF_
@@ -41,7 +41,7 @@ auto main() -> int
     game->AddScreen(std::make_unique<CharactersInfo>());
     game->AddScreen(std::make_unique<HowToPlay>());
     game->AddScreen(std::make_unique<CharacterSelectScreen>());
-    game->Run(GameMap::ScreenName());
+    game->Run(CharacterSelectScreen::ScreenName());
 
     return 0;
 }

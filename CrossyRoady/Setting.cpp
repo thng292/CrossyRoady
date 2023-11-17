@@ -113,3 +113,5 @@ void Setting::Draw(AbstractCanvas* canvas) const
     title.Draw(canvas);
     menu.Draw(canvas);
 }
+
+void Setting::Unmount() { R.Config.Save(CONFIG_PATH); }

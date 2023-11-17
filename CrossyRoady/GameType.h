@@ -194,4 +194,14 @@ namespace GameType {
         ConsoleGame::Audio warningSfx;
     };
 
+    struct UserOption {
+        uint8_t character : 3;
+        uint8_t map : 3;
+        uint8_t debuff : 1;
+        uint8_t isTimed : 1;
+        uint8_t music : 3;
+
+        uint16_t time;
+    };
+
 }  // namespace GameType

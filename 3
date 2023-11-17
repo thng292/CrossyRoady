@@ -9,28 +9,30 @@ namespace ConsoleGame {
 
     void Audio::Open(std::filesystem::path audioFile)
     {
-        std::string command;
+        std::wstring command;
         if (audioFile.extension().string() == ".wav") {
             command = std::format(
-                "open {} type {} alias {}",
-                audioFile.string(),
-                "waveaudio",
-                thiss
+                L"open {} type {} alias {}",
+                audioFile.wstring(),
+                L"waveaudio",
+                (uintptr_t)this
             );
         } else if (audioFile.extension().string() == ".mp3") {
             command = std::format(
-                "open {} type {} alias {}",
-                audioFile.string(),
-                "mpegvideo",
-                thiss
+                L"open {} type {} alias {}",
+                audioFile.wstring(),
+                L"mpegvideo",
+                (uintptr_t)this
             );
         }
-        mciSendStringA(command.c_str(), 0, 0, 0);
+        mciSendString(command.c_str(), 0, 0, 0);
     }
 
     void Audio::Close()
     {
-        mciSendStringA(std::format("close {}", thiss).c_str(), 0, 0, 0);
+        mciSendString(
+            std::format(L"close {}", (uintptr_t)this).c_str(), 0, 0, 0
+        );
         _isPlaying = false;
     }
 
@@ -41,7 +43,7 @@ namespace ConsoleGame {
     void Audio::Play(bool fromStart, bool repeat)
     {
         static char sendCommand[40] = {0};
-        char* command               = nullptr;
+        char* command     = nullptr;
         if (fromStart) {
             if (repeat) {
                 command = (char*)"play %llu from 0 repeat";
@@ -56,26 +58,31 @@ namespace ConsoleGame {
             }
         }
         snprintf(sendCommand, sizeof(sendCommand), command, thiss);
-        auto err   = mciSendStringA(sendCommand, 0, 0, 0);
-        auto tmp   = mciGetErrorStringA(err, sendCommand, sizeof(sendCommand));
+        mciSendStringA(sendCommand, 0, 0, 0);
         _isPlaying = true;
     }
 
     void Audio::Pause()
     {
-        mciSendStringA(std::format("pause {}", thiss).c_str(), 0, 0, 0);
+        mciSendString(
+            std::format(L"pause {}", (uintptr_t)this).c_str(), 0, 0, 0
+        );
         _isPlaying = false;
     }
 
     void Audio::Resume()
     {
-        mciSendStringA(std::format("resume {}", thiss).c_str(), 0, 0, 0);
+        mciSendString(
+            std::format(L"resume {}", (uintptr_t)this).c_str(), 0, 0, 0
+        );
         _isPlaying = true;
     }
 
     void Audio::Stop()
     {
-        mciSendStringA(std::format("stop {}", thiss).c_str(), 0, 0, 0);
+        mciSendString(
+            std::format(L"stop {}", (uintptr_t)this).c_str(), 0, 0, 0
+        );
     }
 
     void Audio::ChangeSong(std::filesystem::path file)

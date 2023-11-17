@@ -1,12 +1,13 @@
 #pragma once
 
 #include <filesystem>
+#include <string>
 #pragma comment(lib, "Winmm.lib")
 
 namespace ConsoleGame {
     class Audio {
         bool _isPlaying = false;
-
+        const size_t thiss = (size_t)this;
        public:
         Audio() = default;
         Audio(std::filesystem::path file);

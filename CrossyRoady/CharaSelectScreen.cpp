@@ -1,5 +1,5 @@
 #include "CharaSelectScreen.h"
-
+#include "GameType.h"
 #include "StringRes.h"
 
 using namespace ConsoleGame;
@@ -17,17 +17,28 @@ std::wstring_view CharacterSelectScreen::getName() { return ScreenName(); }
 
 void CharacterSelectScreen::Init(const std::any& args)
 {
+    constexpr auto panelWidth = 100;
     surfaces[0].props = {
-        .size = {100, 30}, .pos = {15, 20}, .background = (Color)14};
+        .size = {panelWidth, 30}, .pos = {15, 30}, .background = (Color)14};
     surfaces[1].props = {
-        .size = {100 - 1, 164 - 2},
-        .pos = {15, 40},
+        .size = {panelWidth - 1, 160 - 2},
+        .pos = {15, 50},
+        .hasBorder = true,
+        .background = BGSecond,
+        .border = (Color)14};
+    surfaces[2].props = {
+        .size = {panelWidth, 30},
+        .pos = {_CanvasSize.width - 15 - panelWidth, 30},
+        .background = (Color)14};
+    surfaces[3].props = {
+        .size = {panelWidth - 1, 160 - 2},
+        .pos = {_CanvasSize.width - 15 - panelWidth, 50},
         .hasBorder = true,
         .background = BGSecond,
         .border = (Color)14};
 }
 
-void CharacterSelectScreen::Mount(const std::any& args)
+void CharacterSelectScreen::LoadRes(bool fresh)
 {
     currentPalette.Load(std::format(
         RESOURCE_PATH EXTRA_PATH "{}-sel.hex", fileCharName[selected]
@@ -36,32 +47,44 @@ void CharacterSelectScreen::Mount(const std::any& args)
     charShowCase.Load(std::format(
         RESOURCE_PATH EXTRA_PATH "{}-show.anisprite", fileCharName[selected]
     ));
+    charShowCase.ResetFrame();
     charShowCase.Play(true);
     speedIcon.Load(RESOURCE_PATH EXTRA_PATH "speed.sprite");
     heartIcon.Load(std::format(
-        RESOURCE_PATH CHARACTER_PATH "{}-health.sprite", fileCharName[selected]
+        RESOURCE_PATH EXTRA_PATH "{}-health.sprite", fileCharName[selected]
+    ));
+    skillIcon.Load(std::format(
+        RESOURCE_PATH CHARACTER_PATH "{}-skill.sprite", fileCharName[selected]
     ));
     charAvaMenu[selected].Load(std::format(
         RESOURCE_PATH EXTRA_PATH "{}-sel.sprite", fileCharName[selected]
     ));
 
-    for (int i = 0; i < R.Config.CharUnlocked; i++) {
-        if (i == selected) {
-            continue;
+    if (fresh) {
+        for (int i = 0; i < R.Config.CharUnlocked; i++) {
+            if (i == selected) {
+                continue;
+            }
+            charAvaMenu[i].Load(std::format(
+                RESOURCE_PATH EXTRA_PATH "{}-gs.sprite", fileCharName[i]
+            ));
         }
-        charAvaMenu[i].Load(std::format(
-            RESOURCE_PATH EXTRA_PATH "{}-gs.sprite", fileCharName[i]
-        ));
-    }
-    for (int i = R.Config.CharUnlocked; i < numberOfChars; i++) {
-        charAvaMenu[i].Load(std::format(
-            RESOURCE_PATH EXTRA_PATH "{}-locked.sprite", fileCharName[i]
+        for (int i = R.Config.CharUnlocked; i < numberOfChars; i++) {
+            charAvaMenu[i].Load(std::format(
+                RESOURCE_PATH EXTRA_PATH "{}-locked.sprite", fileCharName[i]
+            ));
+        }
+    } else {
+        charAvaMenu[lastSelected].Load(std::format(
+            RESOURCE_PATH EXTRA_PATH "{}-gs.sprite", fileCharName[lastSelected]
         ));
     }
 
     auto tmp = charStuff[selected].Name.find(' ');
     charName = charStuff[selected].Name.substr(tmp + 1);
 }
+
+void CharacterSelectScreen::Mount(const std::any& args) { LoadRes(true); }
 
 AbstractScreen* CharacterSelectScreen::Clone() const
 {
@@ -73,6 +96,37 @@ AbstractNavigation::NavigationRes CharacterSelectScreen::Update(
 )
 {
     charShowCase.AutoUpdateFrame(deltaTime);
+    if (UiIsKeyMeanUp()) {
+        if (selected - 2 >= 0) {
+            selected -= 2;
+        }
+    }
+    if (UiIsKeyMeanDown()) {
+        if (selected + 2 < R.Config.CharUnlocked) {
+            selected += 2;
+        }
+    }
+    if (UiIsKeyMeanLeft()) {
+        if (selected - 1 >= 0) {
+            selected -= 1;
+        }
+    }
+    if (UiIsKeyMeanRight()) {
+        if (selected + 1 < R.Config.CharUnlocked) {
+            selected += 1;
+        }
+    }
+    if (UiIsKeyMeanSelect()) {
+        audio.PlayClickSfx();
+        return navigation->Navigate(
+            L"tmp", GameType::UserOption{.character = selected}
+        );
+    }
+    if (selected != lastSelected) {
+        LoadRes(false);
+        lastSelected = selected;
+        audio.PlayClickSfx();
+    }
     return navigation->NoChange();
 }
 
@@ -82,11 +136,31 @@ void CharacterSelectScreen::Draw(AbstractCanvas* canvas) const
     auto& title = R.String.CharSelect.Title;
     static int titlePos =
         (_CanvasSize.width - title.length() * Font::GetDim(1).width) / 2;
-    static const auto fontDim0 = Font::GetDim(0);
-    static const auto fontDim1 = Font::GetDim(1);
     Font::DrawString(canvas, title, {titlePos, 5}, 1, 1, (Color)14);
-    surfaces[0].Draw(canvas);
-    surfaces[1].Draw(canvas);
+    for (const auto& surface : surfaces) {
+        surface.Draw(canvas);
+    }
+    DrawLeftPanel(canvas);
+    DrawRightPanel(canvas);
+    for (int i = 0; i < charAvaMenu.size(); i++) {
+        charAvaMenu[i].Draw(canvas, charAvaPos[i]);
+    }
+}
+
+void CharacterSelectScreen::Unmount()
+{
+    speedIcon.Unload();
+    heartIcon.Unload();
+    charShowCase.Unload();
+    for (auto& sprite : charAvaMenu) {
+        sprite.Unload();
+    }
+}
+
+void CharacterSelectScreen::DrawLeftPanel(AbstractCanvas* canvas) const
+{
+    const auto fontDim0 = Font::GetDim(0);
+    const auto fontDim1 = Font::GetDim(1);
     Font::DrawString(
         canvas,
         charName,
@@ -104,13 +178,15 @@ void CharacterSelectScreen::Draw(AbstractCanvas* canvas) const
         canvas,
         {surfaces[1].props.pos.x +
              (surfaces[1].props.size.width - tmp.width) / 2,
-         surfaces[1].props.pos.y + 30}
+         surfaces[1].props.pos.y + 20}
     );
+
     auto heartRowPos = Vec2{
         surfaces[1].props.pos.x + 10,
         surfaces[1].props.pos.y + surfaces[1].props.size.height * 2 / 3};
     heartIcon.Draw(canvas, heartRowPos);
-    heartRowPos.x += heartIcon.GetDim().width + 5;
+    heartRowPos.x += 25;
+    heartRowPos.y += (heartIcon.GetDim().height - fontDim0.height) / 2;
     Font::DrawString(
         canvas, R.String.CharSelect.Health, heartRowPos, 1, 0, (Color)14
     );
@@ -118,11 +194,18 @@ void CharacterSelectScreen::Draw(AbstractCanvas* canvas) const
     static auto healthStr = std::to_string(charStat[selected].Health);
     Font::DrawString(canvas, healthStr, heartRowPos, 1, 0, (Color)14);
 
+    for (int i = surfaces[1].props.pos.x + 20;
+         i < surfaces[1].props.pos.x + surfaces[1].props.size.width - 20;
+         i++) {
+        (*canvas)[heartRowPos.y + 16][i] = (Color)14;
+    }
+
     auto speedRowPos = Vec2{
         surfaces[1].props.pos.x + 10,
-        surfaces[1].props.pos.y + surfaces[1].props.size.height * 2 / 3 + 15};
-    heartIcon.Draw(canvas, speedRowPos);
-    speedRowPos.x += heartIcon.GetDim().width + 5;
+        surfaces[1].props.pos.y + surfaces[1].props.size.height * 2 / 3 + 25};
+    speedIcon.Draw(canvas, speedRowPos);
+    speedRowPos.x += 25;
+    speedRowPos.y += (speedIcon.GetDim().height - fontDim0.height) / 2;
     Font::DrawString(
         canvas, R.String.CharSelect.Speed, speedRowPos, 1, 0, (Color)14
     );
@@ -131,12 +214,38 @@ void CharacterSelectScreen::Draw(AbstractCanvas* canvas) const
     Font::DrawString(canvas, speedStr, speedRowPos, 1, 0, (Color)14);
 }
 
-void CharacterSelectScreen::Unmount()
+void CharacterSelectScreen::DrawRightPanel(AbstractCanvas* canvas) const
 {
-    speedIcon.Unload();
-    heartIcon.Unload();
-    charShowCase.Unload();
-    for (auto& sprite : charAvaMenu) {
-        sprite.Unload();
-    }
+    const auto fontDim0 = Font::GetDim(0);
+    const auto fontDim1 = Font::GetDim(1);
+    Font::DrawString(
+        canvas,
+        R.String.CharSelect.Skill,
+        {surfaces[2].props.pos.x +
+             (surfaces[2].props.size.width -
+              int(R.String.CharSelect.Skill.length()) * fontDim1.width) /
+                 2,
+         surfaces[2].props.pos.y +
+             (surfaces[2].props.size.height - fontDim1.height) / 2 - 3},
+        1,
+        1,
+        BGPrimary
+    );
+    auto tmp = skillIcon.GetDim();
+    skillIcon.Draw(
+        canvas,
+        {surfaces[3].props.pos.x +
+             (surfaces[3].props.size.width - tmp.width) / 2,
+         surfaces[3].props.pos.y + 20}
+    );
+    Font::DrawStringInBox(
+        canvas,
+        charStuff[selected].Skill,
+        {{surfaces[3].props.pos.x + 10,
+          surfaces[3].props.pos.y + surfaces[3].props.size.height / 2},
+         {surfaces[3].props.size.width - 20, surfaces[3].props.size.height}},
+        1,
+        0,
+        (Color)14
+    );
 }
