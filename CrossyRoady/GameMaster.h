@@ -67,6 +67,10 @@ namespace GameMaster {
         float damageCooldownTime = GameType::DAMAGE_COOLDOWN;
         float mapDebuffCooldownTime = GameType::MAP_DEBUFF_COOLDOWN;
 
+        // Difficulty
+        size_t mobRange;
+        float mapDragSpeed = 0;
+
         // Animation
         float damageFlashingTimer = 0;
         float debuffFlasingTimer = 0;
