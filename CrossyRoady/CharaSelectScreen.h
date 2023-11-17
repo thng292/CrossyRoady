@@ -4,6 +4,7 @@
 #include "SharedAudio.h"
 #include "StringRes.h"
 #include "Surface.h"
+#include "ArrowButton.h"
 
 class CharacterSelectScreen : public ConsoleGame::AbstractScreen {
     // clang-format off
@@ -16,6 +17,9 @@ class CharacterSelectScreen : public ConsoleGame::AbstractScreen {
     // clang-format on 
     std::array<ConsoleGame::Sprite, numberOfChars> charAvaMenu;
     std::array<Surface, 4> surfaces;
+    ArrowButton backButton;
+    bool backButtLastHover = false;
+    bool isBackButtSelected = false;
     ConsoleGame::AniSprite charShowCase;
     ConsoleGame::Sprite speedIcon;
     ConsoleGame::Sprite heartIcon;

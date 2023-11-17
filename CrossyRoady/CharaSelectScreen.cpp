@@ -1,4 +1,5 @@
 #include "CharaSelectScreen.h"
+
 #include "GameType.h"
 #include "StringRes.h"
 
@@ -36,6 +37,16 @@ void CharacterSelectScreen::Init(const std::any& args)
         .hasBorder = true,
         .background = BGSecond,
         .border = (Color)14};
+    /* {
+    .size = {panelWidth - 1, 17},
+     .pos = {_CanvasSize.width - panelWidth - 15, 189},
+     .cornerSize = 5,
+     .hasBorder = true,
+     .background = BGPrimary,
+     .border = (Color)14},
+    R.String.Back,
+    (Color)14 */
+    backButton = ArrowButton({.pos = {15, 5}, .cornerSize = 8}, false);
 }
 
 void CharacterSelectScreen::LoadRes(bool fresh)
@@ -54,7 +65,7 @@ void CharacterSelectScreen::LoadRes(bool fresh)
         RESOURCE_PATH EXTRA_PATH "{}-health.sprite", fileCharName[selected]
     ));
     skillIcon.Load(std::format(
-        RESOURCE_PATH CHARACTER_PATH "{}-skill.sprite", fileCharName[selected]
+        RESOURCE_PATH EXTRA_PATH "{}-skill.sprite", fileCharName[selected]
     ));
     charAvaMenu[selected].Load(std::format(
         RESOURCE_PATH EXTRA_PATH "{}-sel.sprite", fileCharName[selected]
@@ -96,36 +107,77 @@ AbstractNavigation::NavigationRes CharacterSelectScreen::Update(
 )
 {
     charShowCase.AutoUpdateFrame(deltaTime);
+    auto mpos = GetMousePos();
+    auto inBox = [](Vec2 pos, Vec2 mpos) {
+        return mpos.x >= pos.x and mpos.x <= pos.x + 56 and mpos.y >= pos.y and mpos.y <= pos.y + 56; 
+    };
+    for (int i = 0; i < R.Config.CharUnlocked; i++) {
+        if (inBox(charAvaPos[i], mpos)) {
+            selected = i;
+        }
+    }
+
     if (UiIsKeyMeanUp()) {
-        if (selected - 2 >= 0) {
-            selected -= 2;
+        if (selected < 2) {
+            isBackButtSelected = true;
+        } else {
+            isBackButtSelected = false;
+            if (selected - 2 >= 0) {
+                selected -= 2;
+            }
         }
     }
     if (UiIsKeyMeanDown()) {
-        if (selected + 2 < R.Config.CharUnlocked) {
+        if (selected + 2 < R.Config.CharUnlocked and not isBackButtSelected) {
             selected += 2;
+        } else {
+            isBackButtSelected = false;
         }
     }
     if (UiIsKeyMeanLeft()) {
-        if (selected - 1 >= 0) {
+        if (selected - 1 >= 0 and not isBackButtSelected) {
             selected -= 1;
+        } else {
+            isBackButtSelected = false;
         }
     }
     if (UiIsKeyMeanRight()) {
-        if (selected + 1 < R.Config.CharUnlocked) {
+        if (selected + 1 < R.Config.CharUnlocked and not isBackButtSelected) {
             selected += 1;
+        } else {
+            isBackButtSelected = false;
         }
     }
     if (UiIsKeyMeanSelect()) {
         audio.PlayClickSfx();
-        return navigation->Navigate(
-            L"tmp", GameType::UserOption{.character = selected}
-        );
+        if (isBackButtSelected) {
+            return navigation->Back();
+        } else {
+            return navigation->Navigate(
+                L"tmp", GameType::UserOption{.character = selected}
+            );
+        }
+    }
+    if (UiIsKeyMeanBack()) {
+        return navigation->Back();
     }
     if (selected != lastSelected) {
         LoadRes(false);
         lastSelected = selected;
-        audio.PlayClickSfx();
+        audio.PlayHoverSfx();
+    }
+    if (backButton.IsHover(GetMousePos()) or isBackButtSelected) {
+        if (not backButtLastHover) {
+            backButtLastHover = true;
+            audio.PlayHoverSfx();
+        }
+        backButton.ChangeColor(BGPrimary, (Color)14);
+        if (UiIsKeyMeanClick()) {
+            return navigation->Back();
+        }
+    } else {
+        backButtLastHover = false;
+        backButton.ChangeColor((Color)14, (Color)14);
     }
     return navigation->NoChange();
 }
@@ -145,6 +197,8 @@ void CharacterSelectScreen::Draw(AbstractCanvas* canvas) const
     for (int i = 0; i < charAvaMenu.size(); i++) {
         charAvaMenu[i].Draw(canvas, charAvaPos[i]);
     }
+    backButton.Draw(canvas);
+    // Font::DrawString(canvas, R.String.Back, {25, 7}, 1, 0, (Color)14);
 }
 
 void CharacterSelectScreen::Unmount()
@@ -241,8 +295,7 @@ void CharacterSelectScreen::DrawRightPanel(AbstractCanvas* canvas) const
     Font::DrawStringInBox(
         canvas,
         charStuff[selected].Skill,
-        {{surfaces[3].props.pos.x + 10,
-          surfaces[3].props.pos.y + surfaces[3].props.size.height / 2},
+        {{surfaces[3].props.pos.x + 10, surfaces[3].props.pos.y + 60},
          {surfaces[3].props.size.width - 20, surfaces[3].props.size.height}},
         1,
         0,

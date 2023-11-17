@@ -223,8 +223,8 @@ struct Config {
     uint16_t SpaceXP = 0;
     uint16_t DesertXP = 0;
 
-    uint8_t CharUnlocked : 3 = 5;
-    uint8_t MapUnlocked : 3 = 5;
+    uint8_t CharUnlocked : 3 = 6;
+    uint8_t MapUnlocked : 3 = 6;
     uint8_t Music : 1 = 1;
     uint8_t Sfx : 1 = 1;
 
