@@ -6,8 +6,10 @@
 
 #include "Character.h"
 #include "ConsoleGame.h"
+#include "GameMaster.h"
 #include "GameType.h"
 #include "GameUtils.h"
+#include "Item.h"
 #include "Lane.h"
 #include "Rail.h"
 #include "Road.h"
@@ -19,11 +21,12 @@ class GameMap : public ConsoleGame::AbstractScreen {
     std::vector<std::unique_ptr<Lane>> laneList;
 
     Character character;
+    Item mapItem;
 
     GameType::GameMapData gameData;
     GameType::GameMapSprites gameSprites;
-    GameType::GameFlags gameFlags;
-    GameType::GameEventsArgs gameEventArgs;
+    GameMaster::GameFlags gameFlags;
+    GameMaster::GameEventsArgs gameEventArgs;
     GameType::GameAudio gameAudio;
 
     float mapSpeedY = GameType::MAP_SPEED;
@@ -80,6 +83,12 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void HandlePlayerInput();
     void HandlePlayerAnimation(float deltaTime);
     void HandlePlayerMovement(float deltaTime);
+    bool HandleCharaDraw(
+        ConsoleGame::AbstractCanvas* canvas,
+        float charBottomY,
+        float laneBottomY
+    ) const;
+    void HandleItemCollision();
 
     void TurnOffDebuff();
     void TurnOffSkill();

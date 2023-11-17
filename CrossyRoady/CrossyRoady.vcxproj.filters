@@ -129,6 +129,9 @@
     <ClCompile Include="Rail.cpp">
       <Filter>Source Files\GameImpl</Filter>
     </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="About.h">
@@ -222,6 +225,12 @@
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="Character.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMaster.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>

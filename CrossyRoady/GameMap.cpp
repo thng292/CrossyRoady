@@ -3,6 +3,7 @@
 using namespace ConsoleGame;
 using namespace GameUtils;
 using namespace GameType;
+using namespace GameMaster;
 
 void GameMap::InitLaneList()
 {
@@ -45,7 +46,7 @@ AbstractNavigation::NavigationRes GameMap::Update(
     ResetFlags();
     DragMapDown(deltaTime);
 
-    UpdateLanes(deltaTime);
+    // UpdateLanes(deltaTime);
     UpdateCooldowns(deltaTime);
 
     CheckCollision(deltaTime);
@@ -90,6 +91,7 @@ void GameMap::Mount(const std::any& args)
     LoadMapSprite(gameData.mapType, gameSprites.debuff, "debuff");
 
     LoadExtraSprite(gameSprites.emptyHealth, "health-empty");
+    LoadExtraSprite(gameSprites.itemSpeed, "speed");
     LoadCharaSprite(gameData.charaType, gameSprites.health, "health");
     LoadCharaSprite(gameData.charaType, gameSprites.skill, "skill");
 
@@ -204,6 +206,40 @@ void GameMap::HandlePlayerMovement(float deltaTime)
     }
 }
 
+bool GameMap::HandleCharaDraw(
+    ConsoleGame::AbstractCanvas* canvas, float charBottomY, float laneBottomY
+) const
+{
+    if (charBottomY > laneBottomY) {
+        if (gameFlags.isDamageCooldown) {
+            if (gameEventArgs.damageFlashingTimer >= 0.1) {
+                character.Draw(canvas);
+            }
+        } else {
+            character.Draw(canvas);
+        }
+        return true;
+    }
+    return false;
+}
+
+void GameMap::HandleItemCollision()
+{
+    switch (mapItem.GetType()) {
+        case SPEED:
+            character.SetSpeed(character.getSpeed() + SPEED_ADDITION);
+            break;
+        case STAR:
+            break;
+        case HEALTH:
+            int curHealth = character.GetCurHealth();
+            if (curHealth < character.getMaxHealth()) {
+                character.SetCurHealth(curHealth + 1);
+            }
+            break;
+    }
+}
+
 void GameMap::TurnOffDebuff()
 {
     gameFlags.debuffInUse = false;
@@ -271,9 +307,11 @@ std::unique_ptr<Lane> GameMap::GetRandomLane()
     int randInd = rand() % 4;
     bool isLeftToRight = rand() % 2;
     AniSprite mobSprite = GetMobSprite(isLeftToRight);
+    std::unique_ptr<Lane> lane;
+    bool isNotSafeLane = true;
     switch (randInd) {
         case 0:
-            return std::make_unique<Road>(
+            lane = std::make_unique<Road>(
                 laneList.back()->GetY() + 32,
                 currentDifficulty,
                 gameSprites.roadSprite,
@@ -282,7 +320,7 @@ std::unique_ptr<Lane> GameMap::GetRandomLane()
             );
             break;
         case 1:
-            return std::make_unique<Rail>(
+            lane = std::make_unique<Rail>(
                 laneList.back()->GetY() + 32,
                 currentDifficulty,
                 gameSprites.roadSprite,
@@ -291,15 +329,16 @@ std::unique_ptr<Lane> GameMap::GetRandomLane()
             );
             break;
         case 2:
-            return std::make_unique<SafeZone>(
+            lane = std::make_unique<SafeZone>(
                 laneList.back()->GetY() + 32,
                 gameSprites.safeSprite,
                 gameSprites.blockSprite,
                 isLeftToRight
             );
+            isNotSafeLane = false;
             break;
         case 3:
-            return std::make_unique<Water>(
+            lane = std::make_unique<Water>(
                 laneList.back()->GetY() + 32,
                 gameSprites.waterSprite,
                 gameSprites.floatSprite,
@@ -307,6 +346,32 @@ std::unique_ptr<Lane> GameMap::GetRandomLane()
             );
             break;
     }
+
+    // item handle
+    if (!gameFlags.mapHasItem && isNotSafeLane) {
+        float randomNum = static_cast<float>(rand()) / RAND_MAX;
+        if (randomNum < ITEM_SPAWN_RATE) {
+            lane->SetHasItem(true);
+            gameEventArgs.laneWithItem = lane.get();
+            ItemType itemType = static_cast<ItemType>((int)(rand() % 2));
+            itemType = SPEED;
+            Sprite* itemSprite = &gameSprites.itemSpeed;
+            switch (itemType) {
+                case SPEED:
+                    itemSprite = &gameSprites.itemSpeed;
+                    break;
+                case STAR:
+                    itemSprite = &gameSprites.itemStar;
+                    break;
+                case HEALTH:
+                    itemSprite = &gameSprites.itemHealth;
+                    break;
+            }
+            mapItem.Init(lane->GetY(), itemType, *itemSprite);
+            gameFlags.mapHasItem = true;
+        }
+    }
+    return lane;
 }
 
 ConsoleGame::AniSprite GameMap::GetMobSprite(bool isLeftToRight)
@@ -386,22 +451,20 @@ void GameMap::DrawEntity(ConsoleGame::AbstractCanvas* canvas) const
     float charBottomY = character.GetBottomY();
     int screenHeight = _CONSOLE_HEIGHT_ * 2 + 32;
 
+    bool itemDrawn = false;
+
     for (auto it = laneList.rbegin(); it != laneListEnd; ++it) {
         Lane* lane = it->get();
         if (lane->GetY() <= screenHeight) {
             if (!charaDrawn && lane->GetType() != WATER) {
-                if (charBottomY > lane->GetBottomY()) {
-                    if (gameFlags.isDamageCooldown) {
-                        if (gameEventArgs.damageFlashingTimer >= 0.1) {
-                            character.Draw(canvas);
-                        }
-                    } else {
-                        character.Draw(canvas);
-                    }
-                    charaDrawn = true;
-                }
+                charaDrawn =
+                    HandleCharaDraw(canvas, charBottomY, lane->GetBottomY());
             }
             lane->DrawEntity(canvas);
+            if (gameFlags.mapHasItem && lane->GetHasItem()) {
+                mapItem.Draw(canvas);
+                itemDrawn = true;
+            }
         }
     }
     if (!charaDrawn) {
@@ -494,6 +557,7 @@ void GameMap::ResetFlags()
 
 void GameMap::CheckCollision(float deltaTime)
 {
+    // lane collision
     for (auto& lane : laneList) {
         LaneType laneType = lane->GetType();
         if (laneType == LaneType::WATER) {
@@ -506,7 +570,7 @@ void GameMap::CheckCollision(float deltaTime)
             }
             HandleWaterCollision(waterColType);
 
-        } else if (laneType == LaneType::ROAD || laneType == LaneType::WATER) {
+        } else if (laneType == LaneType::ROAD || laneType == LaneType::RAIL) {
             if (lane->ContainsChara(character)) {
                 CollisionType colType = lane->GetCollision(character);
                 if (colType != CollisionType::None) {
@@ -518,6 +582,18 @@ void GameMap::CheckCollision(float deltaTime)
             if (colType != CollisionType::None) {
                 HandleCollision(lane, colType);
             }
+        }
+    }
+
+    // item collision
+    if (gameFlags.mapHasItem) {
+        Box charaHitbox = character.GetHitBox();
+        Box itemHitbox = mapItem.GetHitBox();
+        CollisionType colType = GetCollisionType(charaHitbox, itemHitbox);
+        if (colType != CollisionType::None) {
+            HandleItemCollision();
+            gameEventArgs.laneWithItem->SetHasItem(false);
+            gameFlags.mapHasItem = false;
         }
     }
 }
@@ -624,8 +700,8 @@ void GameMap::HandleCharaOnLog(
     const std::unique_ptr<Lane>& lane, float deltaTime
 )
 {
+    if (!gameFlags.allowLaneUpdate) return;
     float laneSpeed = lane->GetSpeed();
-
     float distance = deltaTime * laneSpeed;
     if (lane->GetIsLeftToRight()) {
         character.MoveRight(distance);
@@ -648,7 +724,7 @@ void GameMap::HandleDamage()
         int newHealth =
             character.GetCurHealth() - (gameEventArgs.collidedMobtype + 1);
         character.SetCurHealth(newHealth);
-        gameAudio.damageSfx.Play();
+        // gameAudio.damageSfx.Play();
     }
     gameFlags.isDamageCooldown = true;
     gameEventArgs.damageCooldownTime = 3;
@@ -773,7 +849,7 @@ void GameMap::UpdateCooldowns(float deltaTime)
         if (gameEventArgs.mapDebuffCooldownTime <= 4 &&
             !gameFlags.debuffWarning) {
             gameFlags.debuffWarning = true;
-            gameAudio.warningSfx.Play();
+            // gameAudio.warningSfx.Play();
         }
         if (gameFlags.debuffWarning) {
             if (gameEventArgs.debuffFlasingTimer >= 1) {
@@ -803,9 +879,17 @@ void GameMap::DragMapDown(float deltatime)
         lane->SetY(lane->GetY() - distance);
     }
 
+    if (gameFlags.mapHasItem) {
+        mapItem.SetY(mapItem.GetY() - distance);
+    }
+
     if (!laneList.empty()) {
-        float roadTopY = laneList.front()->GetTopY();
+        std::unique_ptr<Lane>& frontLane = laneList.front();
+        float roadTopY = frontLane->GetTopY();
         if (roadTopY < 0) {
+            if (frontLane->GetHasItem()) {
+                gameFlags.mapHasItem = false;
+            }
             laneList.erase(laneList.begin());
             laneList.push_back(GetRandomLane());
         }

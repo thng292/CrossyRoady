@@ -8,6 +8,8 @@ namespace GameType {
     // Map values
     constexpr int DAMAGE_COOLDOWN = 3;
     constexpr int MAP_SPEED = 0;
+    constexpr float ITEM_SPAWN_RATE = 1.0f;
+    constexpr float SPEED_ADDITION = 3.0f;
 
     // Debuff values
     constexpr int MAP_DEBUFF_COOLDOWN = 10;
@@ -41,6 +43,8 @@ namespace GameType {
     enum CollisionType { None, Left, Right, Top, Bottom };
 
     enum SkillCategory { TIME, SHIELD };
+
+    enum ItemType { SPEED, STAR, HEALTH };
 
     constexpr int CHARA_HEALTH[] = {3, 4, 3, 5, 5, 3};
     constexpr double CHARA_SPEED[] = {120, 120, 180, 120, 120, 120};
@@ -91,6 +95,7 @@ namespace GameType {
 
         ConsoleGame::Sprite itemSpeed;
         ConsoleGame::Sprite itemStar;
+        ConsoleGame::Sprite itemHealth;
 
         MobSprite mobSpriteEasy;
         MobSprite mobSpriteNormal;
@@ -101,86 +106,6 @@ namespace GameType {
         MapType mapType;
         CharaType charaType;
         MapMode mapMode;
-    };
-
-    struct GameFlags {
-        // Collision
-        bool damageCollision : 1 = false;
-        bool logCollision : 1 = false;
-        bool itemCollision : 1 = false;
-        bool blockCollision : 1 = false;
-
-        // Keys
-        bool allowMovementKeys : 1 = true;
-        bool allowSkillKey : 1 = true;
-        bool allowKeyLeft : 1 = true;
-        bool allowKeyRight : 1 = true;
-        bool allowKeyUp : 1 = true;
-        bool allowKeyDown : 1 = true;
-
-        // Special
-        bool allowSkill : 1 = true;
-        bool allowDebuff : 1 = true;
-        bool allowLaneUpdate : 1 = true;
-
-        // Movements
-        bool allowMoveLeft : 1 = true;
-        bool allowMoveRight : 1 = true;
-        bool allowMoveUp : 1 = true;
-        bool allowMoveDown : 1 = true;
-
-        // Character states
-        bool isMoving : 1 = false;
-        bool justMoved : 1 = false;
-        bool movingUp : 1 = false;
-        bool movingDown : 1 = false;
-        bool movingLeft : 1 = false;
-        bool movingRight : 1 = false;
-        bool isDamageCooldown : 1 = false;
-
-        // Map events
-        bool debuffInUse : 1 = false;
-        bool debuffCalled : 1 = false;
-        bool debuffWarning : 1 = false;
-
-        bool skillCalled : 1 = false;
-        bool skillActivate : 1 = false;
-        bool skillInUse : 1 = false;
-        bool turnOffSkill : 1 = false;
-
-        bool isInvincible : 1 = false;
-
-        // Action
-        bool isDarkMap : 1 = false;
-        bool isReverseKey : 1 = false;
-    };
-
-    struct GameEventsArgs {
-        MobType collidedMobtype;
-        MapType debuffType;
-        CharaType skillType;
-        SkillCategory skillCategory;
-
-        // Cooldown
-        float damageCooldownTime = DAMAGE_COOLDOWN;
-        float mapDebuffCooldownTime = MAP_DEBUFF_COOLDOWN;
-
-        // Animation
-        float damageFlashingTimer = 0;
-        float debuffFlasingTimer = 0;
-
-        // Duration
-        float mapDebuffTime;
-        float skillTime = SKILL_DURATION;
-
-        // Miscel
-        float notMovingTime = 0;
-        float originalHealth = 0;
-        float originalSpeed = 0;
-
-        // Skill
-        float skillCharge = 0;
-        int shield = 0;
     };
 
     struct GameAudio {

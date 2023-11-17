@@ -9,6 +9,7 @@ Lane::Lane(
     const Sprite& laneSprite,
     LaneType type,
     bool isLeftToRight
+
 )
 {
     _type = type;
@@ -16,6 +17,7 @@ Lane::Lane(
     IsLeftToRight = isLeftToRight;
     entityHeight = dim.height;
     entityWidth = dim.width;
+
     SetY(y);
 }
 
@@ -96,6 +98,8 @@ CollisionType Lane::GetCollision(const Character& character) const
     return CollisionType::None;
 }
 
+bool Lane::GetHasItem() const { return _hasItem; }
+
 GameType::CollisionType Lane::GetLaneCollision(const Character& character) const
 {
     std::vector<Box> laneHitBox;
@@ -155,6 +159,8 @@ std::vector<Box> Lane::GetLaneHitBoxLTR() const
 
     return laneBoxList;
 }
+
+void Lane::SetHasItem(bool hasItem) { _hasItem = hasItem; }
 
 std::vector<Box> Lane::GetLaneHitBoxRTL() const
 {

@@ -10,6 +10,7 @@ class Lane {
     GameType::LaneType _type;
     std::vector<float> entityList;
     bool IsLeftToRight;
+    bool _hasItem = false;
     float speed = 50.0f;
 
     float laneY;
@@ -46,8 +47,10 @@ class Lane {
     GameType::LaneType GetType() const;
     bool GetIsLeftToRight() const;
     float GetSpeed() const;
+    bool GetHasItem() const;
 
     void SetY(float y);
+    void SetHasItem(bool hasItem);
 
     void DrawLane(ConsoleGame::AbstractCanvas* canvas) const;
 
