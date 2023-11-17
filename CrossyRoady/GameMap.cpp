@@ -363,6 +363,7 @@ void GameMap::Draw(AbstractCanvas* canvas) const
     DrawHealth(canvas);
     DrawSkill(canvas);
     DrawDebuff(canvas);
+    DrawScore(canvas);
     if (gameFlags.isDarkMap) DrawDarkness(canvas);
 }
 
@@ -435,7 +436,7 @@ void GameMap::DrawSkill(ConsoleGame::AbstractCanvas* canvas) const
 void GameMap::DrawDebuff(ConsoleGame::AbstractCanvas* canvas) const
 {
     if (!gameFlags.debuffWarning && !gameFlags.debuffInUse) return;
-    Vec2 coord{.x = ConsoleGame::_CONSOLE_WIDTH_ - 21, .y = 4};
+    Vec2 coord{.x = ConsoleGame::_CONSOLE_WIDTH_ - 19, .y = 18};
     if (gameFlags.debuffWarning) {
         if (gameEventArgs.debuffFlasingTimer >= 0.5) {
             gameSprites.debuff.Draw(canvas, coord);
@@ -462,6 +463,15 @@ void GameMap::DrawDarkness(ConsoleGame::AbstractCanvas* canvas) const
             }
         }
     }
+}
+
+void GameMap::DrawScore(ConsoleGame::AbstractCanvas* canvas) const
+{
+    std::string scoreString = std::to_string((int)currentScore / 32);
+    Vec2 dim = Font::GetDim(1);
+    int pushBack = scoreString.length() * dim.width + 3;
+    Vec2 drawCoord = {.x = _CONSOLE_WIDTH_ - pushBack, .y = 5};
+    Font::DrawString(canvas, scoreString, drawCoord, 1, 1, (Color)14);
 }
 
 void GameMap::ResetFlags()
@@ -523,6 +533,7 @@ void GameMap::CheckDebuff()
         mapType = static_cast<MapType>(randInd);
     }
     gameEventArgs.debuffType = mapType;
+    gameEventArgs.mapDebuffTime = DEBUFF_DURATION[mapType];
     gameFlags.debuffInUse = true;
 }
 
@@ -764,22 +775,20 @@ void GameMap::UpdateCooldowns(float deltaTime)
             gameFlags.debuffWarning = true;
             gameAudio.warningSfx.Play();
         }
-    }
-
-    if (gameFlags.debuffWarning) {
-        if (gameEventArgs.debuffFlasingTimer >= 1) {
-            gameEventArgs.debuffFlasingTimer = 0;
+        if (gameFlags.debuffWarning) {
+            if (gameEventArgs.debuffFlasingTimer >= 1) {
+                gameEventArgs.debuffFlasingTimer = 0;
+            }
+            gameEventArgs.debuffFlasingTimer += deltaTime;
         }
-        gameEventArgs.debuffFlasingTimer += deltaTime;
+        if (gameEventArgs.mapDebuffCooldownTime <= 0) {
+            gameFlags.debuffCalled = true;
+            gameFlags.debuffWarning = false;
+        }
     }
 
     if (gameEventArgs.damageCooldownTime <= 0) {
         gameFlags.isDamageCooldown = false;
-    }
-
-    if (gameEventArgs.mapDebuffCooldownTime <= 0) {
-        gameFlags.debuffCalled = true;
-        gameFlags.debuffWarning = false;
     }
 }
 
