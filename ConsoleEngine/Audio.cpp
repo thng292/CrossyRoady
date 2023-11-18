@@ -56,8 +56,7 @@ namespace ConsoleGame {
             }
         }
         snprintf(sendCommand, sizeof(sendCommand), command, thiss);
-        auto err   = mciSendStringA(sendCommand, 0, 0, 0);
-        auto tmp   = mciGetErrorStringA(err, sendCommand, sizeof(sendCommand));
+        mciSendStringA(sendCommand, 0, 0, 0);
         _isPlaying = true;
     }
 

@@ -12,6 +12,7 @@ namespace ConsoleGame {
 
        public:
         Signal() = default;
+        ~Signal();
 
         bool JobDone();
 
