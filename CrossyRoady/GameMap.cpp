@@ -743,7 +743,7 @@ void GameMap::HandleDamage()
         int newHealth =
             character.GetCurHealth() - (gameEventArgs.collidedMobtype + 1);
         character.SetCurHealth(newHealth);
-        // gameAudio.damageSfx.Play();
+        std::thread([&] { gameAudio.damageSfx.Play(); }).detach();
     }
     gameFlags.isDamageCooldown = true;
     gameEventArgs.damageCooldownTime = 3;
@@ -868,7 +868,8 @@ void GameMap::UpdateCooldowns(float deltaTime)
         if (gameEventArgs.mapDebuffCooldownTime <= 4 &&
             !gameFlags.debuffWarning) {
             gameFlags.debuffWarning = true;
-            // gameAudio.warningSfx.Play();
+
+            std::thread([&] { gameAudio.warningSfx.Play(); }).detach();
         }
         if (gameFlags.debuffWarning) {
             if (gameEventArgs.debuffFlasingTimer >= 1) {
