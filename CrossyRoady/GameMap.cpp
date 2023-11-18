@@ -29,7 +29,19 @@ const std::wstring_view GameMap::ScreenName() { return L"GameMap"; }
 
 std::wstring_view GameMap::getName() { return ScreenName(); }
 
-void GameMap::Init(const std::any& args) {}
+void GameMap::Init(const std::any& args)
+{
+    /*const GameType::GameMapData& gameDataArg =
+        std::any_cast<const GameMapData&>(args);*/
+    GameMapData gm;
+    gm.charaType = MUMEI;
+    gm.mapMode = INF;
+    gm.mapType = FOREST;
+    gm.mapDifficulty = MHARD;
+    SetGameMapData(gm);
+    gameEventArgs.mobRange = gameData.mapDifficulty;
+    gameEventArgs.mapDragSpeed = gameData.mapDifficulty == MHARD ? 20.0f : 0.0f;
+}
 
 AbstractScreen* GameMap::Clone() const { return new GameMap; }
 
@@ -40,13 +52,13 @@ AbstractNavigation::NavigationRes GameMap::Update(
     if (character.GetY() >= _CONSOLE_HEIGHT_) {
         mapSpeedY = character.getSpeed();
     } else {
-        mapSpeedY = MAP_SPEED;
+        mapSpeedY = gameEventArgs.mapDragSpeed;
     }
 
     ResetFlags();
     DragMapDown(deltaTime);
 
-    // UpdateLanes(deltaTime);
+    UpdateLanes(deltaTime);
     UpdateCooldowns(deltaTime);
 
     CheckCollision(deltaTime);
@@ -64,15 +76,6 @@ AbstractNavigation::NavigationRes GameMap::Update(
 
 void GameMap::Mount(const std::any& args)
 {
-    /*const GameType::GameMapData& gameDataArg =
-        std::any_cast<const GameMapData&>(args);*/
-
-    GameMapData gm;
-    gm.charaType = MUMEI;
-    gm.mapMode = INF;
-    gm.mapType = FOREST;
-
-    SetGameMapData(gm);
     character.Init(gameData.charaType);
 
     // mob sprites
@@ -304,31 +307,44 @@ void GameMap::TurnOffSkill()
 
 std::unique_ptr<Lane> GameMap::GetRandomLane()
 {
-    int randInd = rand() % 4;
     bool isLeftToRight = rand() % 2;
-    AniSprite mobSprite = GetMobSprite(isLeftToRight);
+
+    // produce random lane
+    float randNumForTrain = static_cast<float>(rand()) / RAND_MAX;
+    LaneType laneType;
+    if (randNumForTrain < RAIL_SPAWN_RATE) {
+        laneType = RAIL;
+    } else {
+        laneType = static_cast<LaneType>(rand() % 3);
+    }
+
+    // produce random mob
+    MobType mobType = static_cast<MobType>(rand() % gameEventArgs.mobRange);
+    AniSprite mobSprite = GetMobSprite(mobType, isLeftToRight);
+
     std::unique_ptr<Lane> lane;
     bool isNotSafeLane = true;
-    switch (randInd) {
-        case 0:
+
+    switch (laneType) {
+        case ROAD:
             lane = std::make_unique<Road>(
                 laneList.back()->GetY() + 32,
-                currentDifficulty,
+                mobType,
                 gameSprites.roadSprite,
                 mobSprite,
                 isLeftToRight
             );
             break;
-        case 1:
+        case RAIL:
             lane = std::make_unique<Rail>(
                 laneList.back()->GetY() + 32,
-                currentDifficulty,
+                mobType,
                 gameSprites.roadSprite,
                 mobSprite,
                 isLeftToRight
             );
             break;
-        case 2:
+        case SAFE:
             lane = std::make_unique<SafeZone>(
                 laneList.back()->GetY() + 32,
                 gameSprites.safeSprite,
@@ -337,7 +353,7 @@ std::unique_ptr<Lane> GameMap::GetRandomLane()
             );
             isNotSafeLane = false;
             break;
-        case 3:
+        case WATER:
             lane = std::make_unique<Water>(
                 laneList.back()->GetY() + 32,
                 gameSprites.waterSprite,
@@ -374,10 +390,12 @@ std::unique_ptr<Lane> GameMap::GetRandomLane()
     return lane;
 }
 
-ConsoleGame::AniSprite GameMap::GetMobSprite(bool isLeftToRight)
+ConsoleGame::AniSprite GameMap::GetMobSprite(
+    GameType::MobType type, bool isLeftToRight
+)
 {
     if (isLeftToRight) {
-        switch (currentDifficulty) {
+        switch (type) {
             case EASY:
                 return gameSprites.mobSpriteEasy.MobRight;
                 break;
@@ -389,7 +407,7 @@ ConsoleGame::AniSprite GameMap::GetMobSprite(bool isLeftToRight)
                 break;
         }
     } else {
-        switch (currentDifficulty) {
+        switch (type) {
             case EASY:
                 return gameSprites.mobSpriteEasy.MobLeft;
                 break;
@@ -419,6 +437,7 @@ void GameMap::SetGameMapData(const GameMapData& gmData)
     gameData.mapType = gmData.mapType;
     gameData.charaType = gmData.charaType;
     gameData.mapMode = gmData.mapMode;
+    gameData.mapDifficulty = gmData.mapDifficulty;
 }
 
 void GameMap::Draw(AbstractCanvas* canvas) const

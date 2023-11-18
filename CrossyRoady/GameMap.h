@@ -31,7 +31,7 @@ class GameMap : public ConsoleGame::AbstractScreen {
 
     float mapSpeedY = GameType::MAP_SPEED;
     float mapSpeedX = 0.0f;
-    GameType::MobType currentDifficulty = GameType::NORMAL;
+    GameType::MapDifficulty currentDifficulty = GameType::MNORMAL;
 
     float currentScore = 0.0f;
     float tempScore = 0.0f;
@@ -94,5 +94,7 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void TurnOffSkill();
 
     std::unique_ptr<Lane> GetRandomLane();
-    ConsoleGame::AniSprite GetMobSprite(bool isLeftToRight);
+    ConsoleGame::AniSprite GetMobSprite(
+        GameType::MobType type, bool isLeftToRight
+    );
 };

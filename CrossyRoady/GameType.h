@@ -9,6 +9,7 @@ namespace GameType {
     constexpr int DAMAGE_COOLDOWN = 3;
     constexpr int MAP_SPEED = 0;
     constexpr float ITEM_SPAWN_RATE = 1.0f;
+    constexpr float RAIL_SPAWN_RATE = 0.1f;
     constexpr float SPEED_ADDITION = 3.0f;
 
     // Debuff values
@@ -38,7 +39,9 @@ namespace GameType {
 
     enum MapMode { INF, NINF };
 
-    enum LaneType { ROAD, RAIL, WATER, SAFE };
+    enum MapDifficulty { PROG, MEASY, MNORMAL, MHARD };
+
+    enum LaneType { ROAD, WATER, SAFE, RAIL };
 
     enum CollisionType { None, Left, Right, Top, Bottom };
 
@@ -106,6 +109,7 @@ namespace GameType {
         MapType mapType;
         CharaType charaType;
         MapMode mapMode;
+        MapDifficulty mapDifficulty;
     };
 
     struct GameAudio {
