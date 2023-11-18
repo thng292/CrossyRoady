@@ -7,10 +7,14 @@ namespace GameType {
 
     // Map values
     constexpr int DAMAGE_COOLDOWN = 3;
-    constexpr int MAP_SPEED = 0;
+    constexpr int MAP_DRAG_SPEED = 20.0f;
     constexpr float ITEM_SPAWN_RATE = 1.0f;
     constexpr float RAIL_SPAWN_RATE = 0.1f;
     constexpr float SPEED_ADDITION = 3.0f;
+    constexpr float MIN_DIST_SCORE = 32.0f;
+    constexpr float MIN_DIST_CHARGE = 20.0f;
+
+    constexpr int MAX_SKILL_CHARGE = 100;
 
     // Debuff values
     constexpr int MAP_DEBUFF_COOLDOWN = 10;
