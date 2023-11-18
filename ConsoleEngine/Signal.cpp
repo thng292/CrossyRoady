@@ -1,6 +1,11 @@
 #include "Signal.h"
 
 namespace ConsoleGame {
+    Signal::~Signal()
+    {
+        DoneJob();
+        StartJob();
+    }
 
     bool Signal::JobDone() { return !jobRunning; }
 
