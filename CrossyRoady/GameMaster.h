@@ -67,6 +67,10 @@ namespace GameMaster {
         float damageCooldownTime = GameType::DAMAGE_COOLDOWN;
         float mapDebuffCooldownTime = GameType::MAP_DEBUFF_COOLDOWN;
 
+        // Walking
+        float distWalked = 0;
+        float distWalkedSkill = 0;
+
         // Difficulty
         size_t mobRange;
         float mapDragSpeed = 0;
@@ -85,7 +89,7 @@ namespace GameMaster {
         float originalSpeed = 0;
 
         // Skill
-        float skillCharge = 0;
+        int skillCharge = 0;
         int shield = 0;
 
         // Item

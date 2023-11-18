@@ -29,12 +29,10 @@ class GameMap : public ConsoleGame::AbstractScreen {
     GameMaster::GameEventsArgs gameEventArgs;
     GameType::GameAudio gameAudio;
 
-    float mapSpeedY = GameType::MAP_SPEED;
+    float mapSpeedY;
     float mapSpeedX = 0.0f;
-    GameType::MapDifficulty currentDifficulty = GameType::MNORMAL;
 
     float currentScore = 0.0f;
-    float tempScore = 0.0f;
 
    public:
     GameMap() = default;

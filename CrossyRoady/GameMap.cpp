@@ -34,13 +34,15 @@ void GameMap::Init(const std::any& args)
     /*const GameType::GameMapData& gameDataArg =
         std::any_cast<const GameMapData&>(args);*/
     GameMapData gm;
-    gm.charaType = MUMEI;
+    gm.charaType = SANA;
     gm.mapMode = INF;
-    gm.mapType = FOREST;
-    gm.mapDifficulty = MHARD;
+    gm.mapType = HOUSE;
+    gm.mapDifficulty = MNORMAL;
     SetGameMapData(gm);
     gameEventArgs.mobRange = gameData.mapDifficulty;
-    gameEventArgs.mapDragSpeed = gameData.mapDifficulty == MHARD ? 20.0f : 0.0f;
+    gameEventArgs.mapDragSpeed =
+        gameData.mapDifficulty == MHARD ? MAP_DRAG_SPEED : 0.0f;
+    gameEventArgs.skillCharge = 100;
 }
 
 AbstractScreen* GameMap::Clone() const { return new GameMap; }
@@ -184,16 +186,28 @@ void GameMap::HandlePlayerMovement(float deltaTime)
     }
     if (gameFlags.movingUp && gameFlags.allowMoveUp) {
         character.MoveUp(distanceY);
-        tempScore += distanceY;
-        if (tempScore > currentScore) {
-            currentScore = tempScore;
-        }
         moveFlag = true;
+
+        // score handle
+        gameEventArgs.distWalked += distanceY;
+        gameEventArgs.distWalkedSkill += distanceY;
+        if (gameEventArgs.distWalked > MIN_DIST_SCORE) {
+            gameEventArgs.distWalked = 0;
+            currentScore += 1;
+        }
+        if (gameEventArgs.distWalkedSkill > MIN_DIST_CHARGE) {
+            gameEventArgs.distWalkedSkill = 0;
+            if (gameEventArgs.skillCharge < MAX_SKILL_CHARGE) {
+                gameEventArgs.skillCharge += 1;
+            }
+        }
     }
     if (gameFlags.movingDown && gameFlags.allowMoveDown) {
         character.MoveDown(distanceY);
-        tempScore -= distanceY;
         moveFlag = true;
+
+        gameEventArgs.distWalked -= distanceY;
+        gameEventArgs.distWalkedSkill -= distanceY;
     }
 
     if (moveFlag) {
@@ -511,8 +525,41 @@ void GameMap::DrawHealth(AbstractCanvas* canvas) const
 
 void GameMap::DrawSkill(ConsoleGame::AbstractCanvas* canvas) const
 {
-    Vec2 coord{.x = 3, .y = 12};
-    gameSprites.skill.Draw(canvas, coord);
+    int skillX = 3;
+    int skillY = 14;
+
+    // skill icon
+    Vec2 skillCoord{.x = skillX, .y = skillY};
+    gameSprites.skill.Draw(canvas, skillCoord);
+
+    // skill charge
+    std::string percentStr =
+        std::to_string((int)gameEventArgs.skillCharge) + "%";
+    Vec2 dim = Font::GetDim(1);
+    Vec2 percentCoord = {.x = skillX + 17, .y = skillY + 2};
+    Font::DrawString(canvas, percentStr, percentCoord, 1, 1, (Color)14);
+
+    // active skill icon
+    if (gameFlags.skillInUse) {
+        int activeX = ConsoleGame::_CONSOLE_WIDTH_ - 19;
+        int activeY = 40;
+        Vec2 activeSkillCoord{.x = activeX, .y = activeY};
+        for (size_t i = 0; i < 15; ++i) {
+            for (size_t j = 0; j < 15; ++j) {
+                (*canvas)[activeY + i][activeX + j] = (Color)1;
+            }
+        }
+        gameSprites.skill.Draw(canvas, activeSkillCoord);
+
+        for (size_t j = 0; j < 15; ++j) {
+            (*canvas)[activeY][activeX + j] = (Color)14;
+            (*canvas)[activeY + 15][activeX + j] = (Color)14;
+        }
+        for (size_t i = 0; i < 16; ++i) {
+            (*canvas)[activeY + i][activeX] = (Color)14;
+            (*canvas)[activeY + i][activeX + 15] = (Color)14;
+        }
+    }
 }
 
 void GameMap::DrawDebuff(ConsoleGame::AbstractCanvas* canvas) const
@@ -549,7 +596,7 @@ void GameMap::DrawDarkness(ConsoleGame::AbstractCanvas* canvas) const
 
 void GameMap::DrawScore(ConsoleGame::AbstractCanvas* canvas) const
 {
-    std::string scoreString = std::to_string((int)currentScore / 32);
+    std::string scoreString = std::to_string((int)currentScore);
     Vec2 dim = Font::GetDim(1);
     int pushBack = scoreString.length() * dim.width + 3;
     Vec2 drawCoord = {.x = _CONSOLE_WIDTH_ - pushBack, .y = 5};
@@ -637,6 +684,7 @@ void GameMap::CheckSkill()
     if (!gameFlags.skillCalled) return;
     gameFlags.skillCalled = false;
     if (!gameFlags.allowSkill) return;
+    if (gameEventArgs.skillCharge < MAX_SKILL_CHARGE) return;
 
     CharaType charaType = gameData.charaType;
     if (charaType == BAE) {
@@ -645,6 +693,7 @@ void GameMap::CheckSkill()
     }
     gameEventArgs.skillType = charaType;
     gameFlags.skillActivate = true;
+    gameEventArgs.skillCharge = 0;
 }
 
 void GameMap::UpdateLanes(float deltaTime)
