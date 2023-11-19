@@ -34,6 +34,15 @@ class Lane {
         bool isLeftToRight
     );
 
+    Lane(
+        float y,
+        ConsoleGame::Vec2 dim,
+        GameType::LaneType type,
+        bool isLeftToRight,
+        bool hasItem,
+        const std::vector<float>& enList
+    );
+
     virtual void Init();
     virtual void DeleteEntity();
     virtual void CreateEntity();
@@ -51,6 +60,7 @@ class Lane {
 
     void SetY(float y);
     void SetHasItem(bool hasItem);
+    void SetLaneSprite(const ConsoleGame::Sprite& laneSprite);
 
     void DrawLane(ConsoleGame::AbstractCanvas* canvas) const;
 

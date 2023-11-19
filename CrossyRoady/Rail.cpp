@@ -24,7 +24,6 @@ void Rail::CreateEntity()
 void Rail::Init()
 {
     int numOfEntity = 7;
-    speed = 200;
     if (IsLeftToRight) {
         for (int i = 0; i < numOfEntity; i++) {
             entityList.push_back((-i * entityWidth - 1));
@@ -65,10 +64,24 @@ Rail::Rail(
           isLeftToRight
       )
 {
-    _type = type;
+    speed = 200;
     _mobSprite = mobSprite;
     _mobSprite.Play(1);
     Init();
+}
+
+Rail::Rail(
+    float y,
+    ConsoleGame::Vec2 dim,
+    GameType::MobType type,
+    bool isLeftToRight,
+    bool hasItem,
+    const std::vector<float>& enList
+)
+    : Lane(y, dim, GameType::LaneType::RAIL, isLeftToRight, hasItem, enList)
+{
+    speed = 200;
+    _type = type;
 }
 
 void Rail::UpdateSprite(float deltaTime)
@@ -83,6 +96,11 @@ void Rail::DrawEntity(ConsoleGame::AbstractCanvas* canvas) const
         _mobSprite.Draw(canvas, {(int)entityList[i], entityDrawY});
         // GameUtils::DrawHitbox(canvas, GetHitBox(i));
     }
+}
+
+void Rail::SetSprite(const ConsoleGame::AniSprite& sprite)
+{
+    _mobSprite = sprite;
 }
 
 GameType::MobType Rail::GetMobType() { return _type; }

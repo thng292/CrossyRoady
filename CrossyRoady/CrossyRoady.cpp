@@ -7,6 +7,7 @@
 #include "GameMap.h"
 #include "HowToPlay.h"
 #include "MainMenu.h"
+#include "Pause.h"
 #include "Progress.h"
 #include "Setting.h"
 using namespace ConsoleGame;
@@ -41,6 +42,7 @@ auto main() -> int
     game->AddScreen(std::make_unique<CharactersInfo>());
     game->AddScreen(std::make_unique<HowToPlay>());
     game->AddScreen(std::make_unique<CharacterSelectScreen>());
+    game->AddScreen(std::make_unique<Pause>());
     game->Run(GameMap::ScreenName());
 
     return 0;

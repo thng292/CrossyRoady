@@ -37,6 +37,17 @@ SafeZone::SafeZone(
     }
 }
 
+SafeZone::SafeZone(
+    float y,
+    ConsoleGame::Vec2 dim,
+    bool isLeftToRight,
+    bool hasItem,
+    const std::vector<float>& enList
+)
+    : Lane(y, dim, GameType::LaneType::SAFE, isLeftToRight, hasItem, enList)
+{
+}
+
 void SafeZone::DrawEntity(ConsoleGame::AbstractCanvas* canvas) const
 {
     size_t listSize = entityList.size();
@@ -44,6 +55,11 @@ void SafeZone::DrawEntity(ConsoleGame::AbstractCanvas* canvas) const
         _blockSprite.Draw(canvas, {(int)entityList[i], entityDrawY});
         // GameUtils::DrawHitbox(canvas, GetHitBox(i));
     }
+}
+
+void SafeZone::SetSprite(const ConsoleGame::Sprite& sprite)
+{
+    _blockSprite = sprite;
 }
 
 ConsoleGame::Box SafeZone::GetHitBox(size_t ind) const

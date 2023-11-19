@@ -16,7 +16,16 @@ class Water : public Lane {
         bool isLeftToRight
     );
 
+    Water(
+        float y,
+        ConsoleGame::Vec2 dim,
+        bool isLeftToRight,
+        bool hasItem,
+        const std::vector<float>& enList
+    );
+
     void DrawEntity(ConsoleGame::AbstractCanvas* canvas) const override;
+    void SetSprite(const ConsoleGame::Sprite& logSprite);
 
     ConsoleGame::Box GetHitBox(size_t ind) const override;
 };

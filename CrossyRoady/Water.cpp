@@ -18,6 +18,22 @@ Water::Water(
     Init();
 }
 
+Water::Water(
+    float y,
+    ConsoleGame::Vec2 dim,
+    bool isLeftToRight,
+    bool hasItem,
+    const std::vector<float>& enList
+)
+    : Lane(y, dim, GameType::LaneType::WATER, isLeftToRight, hasItem, enList)
+{
+}
+
+void Water::SetSprite(const ConsoleGame::Sprite& logSprite)
+{
+    _logSprite = logSprite;
+}
+
 ConsoleGame::Box Water::GetHitBox(size_t ind) const
 {
     ConsoleGame::Box hitbox = _logSprite.GetHitBox();

@@ -34,9 +34,9 @@ void GameMap::Init(const std::any& args)
     /*const GameType::GameMapData& gameDataArg =
         std::any_cast<const GameMapData&>(args);*/
     GameMapData gm;
-    gm.charaType = SANA;
+    gm.charaType = MUMEI;
     gm.mapMode = INF;
-    gm.mapType = HOUSE;
+    gm.mapType = FOREST;
     gm.mapDifficulty = MNORMAL;
     SetGameMapData(gm);
     gameEventArgs.mobRange = gameData.mapDifficulty;
@@ -51,10 +51,13 @@ AbstractNavigation::NavigationRes GameMap::Update(
     float deltaTime, const AbstractNavigation* navigation
 )
 {
+    if (gameFlags.gamePaused) {
+        return navigation->Navigate(L"Pause");
+    }
     if (character.GetY() >= _CONSOLE_HEIGHT_) {
-        mapSpeedY = character.getSpeed();
+        gameEventArgs.mapSpeedY = character.getSpeed();
     } else {
-        mapSpeedY = gameEventArgs.mapDragSpeed;
+        gameEventArgs.mapSpeedY = gameEventArgs.mapDragSpeed;
     }
 
     ResetFlags();
@@ -78,7 +81,8 @@ AbstractNavigation::NavigationRes GameMap::Update(
 
 void GameMap::Mount(const std::any& args)
 {
-    character.Init(gameData.charaType);
+    gameFlags.gamePaused = false;
+    if (gameFlags.isFirstMount) character.Init(gameData.charaType);
 
     // mob sprites
     LoadMobSprite(gameData.mapType, MobType::EASY, gameSprites.mobSpriteEasy);
@@ -105,34 +109,65 @@ void GameMap::Mount(const std::any& args)
 
     ResiseBlockHitBox();
     ChangeColorPalette(GetGamePalette(gameData.mapType, gameData.charaType));
-    InitLaneList();
+    if (gameFlags.isFirstMount) InitLaneList();
+    gameFlags.isFirstMount = false;
 }
 
-void GameMap::Unmount() {}
+void GameMap::Unmount()
+{
+    gameSprites.floatSprite.Unload();
+    gameSprites.blockSprite.Unload();
+    gameSprites.health.Unload();
+    gameSprites.emptyHealth.Unload();
+
+    gameSprites.itemHealth.Unload();
+    gameSprites.itemSpeed.Unload();
+    gameSprites.itemStar.Unload();
+
+    gameSprites.mobSpriteEasy.MobLeft.Unload();
+    gameSprites.mobSpriteEasy.MobRight.Unload();
+
+    gameSprites.mobSpriteNormal.MobLeft.Unload();
+    gameSprites.mobSpriteNormal.MobRight.Unload();
+
+    gameSprites.mobSpriteHard.MobLeft.Unload();
+    gameSprites.mobSpriteHard.MobRight.Unload();
+
+    gameSprites.roadSprite.Unload();
+    gameSprites.waterSprite.Unload();
+    gameSprites.safeSprite.Unload();
+
+    gameSprites.skill.Unload();
+    gameSprites.debuff.Unload();
+}
 
 void GameMap::HandlePlayerInput()
 {
-    if (gameFlags.allowMovementKeys) {
-        bool correctKeyFlag = !gameFlags.isReverseKey;
-        if (IsKeyMeanUp()) {
-            gameFlags.movingUp = correctKeyFlag;
-            gameFlags.movingDown = !correctKeyFlag;
+    if (IsKeyMeanEscape()) {
+        gameFlags.gamePaused = true;
+    } else {
+        if (gameFlags.allowMovementKeys) {
+            bool correctKeyFlag = !gameFlags.isReverseKey;
+            if (IsKeyMeanUp()) {
+                gameFlags.movingUp = correctKeyFlag;
+                gameFlags.movingDown = !correctKeyFlag;
+            }
+            if (IsKeyMeanDown()) {
+                gameFlags.movingDown = correctKeyFlag;
+                gameFlags.movingUp = !correctKeyFlag;
+            }
+            if (IsKeyMeanLeft()) {
+                gameFlags.movingLeft = correctKeyFlag;
+                gameFlags.movingRight = !correctKeyFlag;
+            }
+            if (IsKeyMeanRight()) {
+                gameFlags.movingRight = correctKeyFlag;
+                gameFlags.movingLeft = !correctKeyFlag;
+            }
         }
-        if (IsKeyMeanDown()) {
-            gameFlags.movingDown = correctKeyFlag;
-            gameFlags.movingUp = !correctKeyFlag;
+        if (IsKeyMeanSelect()) {
+            gameFlags.skillCalled = true;
         }
-        if (IsKeyMeanLeft()) {
-            gameFlags.movingLeft = correctKeyFlag;
-            gameFlags.movingRight = !correctKeyFlag;
-        }
-        if (IsKeyMeanRight()) {
-            gameFlags.movingRight = correctKeyFlag;
-            gameFlags.movingLeft = !correctKeyFlag;
-        }
-    }
-    if (IsKeyMeanSelect()) {
-        gameFlags.skillCalled = true;
     }
 }
 
@@ -166,20 +201,24 @@ void GameMap::HandlePlayerMovement(float deltaTime)
     float distanceY = character.getSpeed() * deltaTime;
     if (gameFlags.movingLeft && gameFlags.allowMoveLeft) {
         float distanceX;
-        if (mapSpeedX < 0) {
-            distanceX = deltaTime * (character.getSpeed() - mapSpeedX);
+        if (gameEventArgs.mapSpeedX < 0) {
+            distanceX =
+                deltaTime * (character.getSpeed() - gameEventArgs.mapSpeedX);
         } else {
-            distanceX = deltaTime * (character.getSpeed() + mapSpeedX);
+            distanceX =
+                deltaTime * (character.getSpeed() + gameEventArgs.mapSpeedX);
         }
         character.MoveLeft(distanceX);
         moveFlag = true;
     }
     if (gameFlags.movingRight && gameFlags.allowMoveRight) {
         float distanceX;
-        if (mapSpeedX > 0) {
-            distanceX = deltaTime * (character.getSpeed() + mapSpeedX);
+        if (gameEventArgs.mapSpeedX > 0) {
+            distanceX =
+                deltaTime * (character.getSpeed() + gameEventArgs.mapSpeedX);
         } else {
-            distanceX = deltaTime * (character.getSpeed() - mapSpeedX);
+            distanceX =
+                deltaTime * (character.getSpeed() - gameEventArgs.mapSpeedX);
         }
         character.MoveRight(distanceX);
         moveFlag = true;
@@ -193,7 +232,7 @@ void GameMap::HandlePlayerMovement(float deltaTime)
         gameEventArgs.distWalkedSkill += distanceY;
         if (gameEventArgs.distWalked > MIN_DIST_SCORE) {
             gameEventArgs.distWalked = 0;
-            currentScore += 1;
+            gameEventArgs.currentScore += 1;
         }
         if (gameEventArgs.distWalkedSkill > MIN_DIST_CHARGE) {
             gameEventArgs.distWalkedSkill = 0;
@@ -596,7 +635,7 @@ void GameMap::DrawDarkness(ConsoleGame::AbstractCanvas* canvas) const
 
 void GameMap::DrawScore(ConsoleGame::AbstractCanvas* canvas) const
 {
-    std::string scoreString = std::to_string((int)currentScore);
+    std::string scoreString = std::to_string(gameEventArgs.currentScore);
     Vec2 dim = Font::GetDim(1);
     int pushBack = scoreString.length() * dim.width + 3;
     Vec2 drawCoord = {.x = _CONSOLE_WIDTH_ - pushBack, .y = 5};
@@ -773,10 +812,10 @@ void GameMap::HandleCharaOnLog(
     float distance = deltaTime * laneSpeed;
     if (lane->GetIsLeftToRight()) {
         character.MoveRight(distance);
-        mapSpeedX = laneSpeed;
+        gameEventArgs.mapSpeedX = laneSpeed;
     } else {
         character.MoveLeft(distance);
-        mapSpeedX = -laneSpeed;
+        gameEventArgs.mapSpeedX = -laneSpeed;
     }
 }
 
@@ -792,7 +831,8 @@ void GameMap::HandleDamage()
         int newHealth =
             character.GetCurHealth() - (gameEventArgs.collidedMobtype + 1);
         character.SetCurHealth(newHealth);
-        std::thread([&] { gameAudio.damageSfx.Play(); }).detach();
+        // std::thread([&] { gameAudio.damageSfx.Play(); }).detach();
+        //  gameAudio.damageSfx.Play();
     }
     gameFlags.isDamageCooldown = true;
     gameEventArgs.damageCooldownTime = 3;
@@ -918,7 +958,8 @@ void GameMap::UpdateCooldowns(float deltaTime)
             !gameFlags.debuffWarning) {
             gameFlags.debuffWarning = true;
 
-            std::thread([&] { gameAudio.warningSfx.Play(); }).detach();
+            // std::thread([&] { gameAudio.warningSfx.Play(); }).detach();
+            // gameAudio.warningSfx.Play();
         }
         if (gameFlags.debuffWarning) {
             if (gameEventArgs.debuffFlasingTimer >= 1) {
@@ -939,7 +980,7 @@ void GameMap::UpdateCooldowns(float deltaTime)
 
 void GameMap::DragMapDown(float deltatime)
 {
-    float distance = deltatime * mapSpeedY;
+    float distance = deltatime * gameEventArgs.mapSpeedY;
     character.MoveDown(distance);
 
     auto laneListEnd = laneList.end();

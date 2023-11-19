@@ -21,6 +21,25 @@ Lane::Lane(
     SetY(y);
 }
 
+Lane::Lane(
+    float y,
+    ConsoleGame::Vec2 dim,
+    GameType::LaneType type,
+    bool isLeftToRight,
+    bool hasItem,
+    const std::vector<float>& enList
+)
+{
+    _type = type;
+    IsLeftToRight = isLeftToRight;
+    _hasItem = hasItem;
+    entityHeight = dim.height;
+    entityWidth = dim.width;
+    entityList = enList;
+
+    SetY(y);
+}
+
 void Lane::DeleteEntity()
 {
     if (IsLeftToRight) {
@@ -161,6 +180,11 @@ std::vector<Box> Lane::GetLaneHitBoxLTR() const
 }
 
 void Lane::SetHasItem(bool hasItem) { _hasItem = hasItem; }
+
+void Lane::SetLaneSprite(const ConsoleGame::Sprite& laneSprite)
+{
+    _laneSprite = laneSprite;
+}
 
 std::vector<Box> Lane::GetLaneHitBoxRTL() const
 {

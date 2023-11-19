@@ -55,6 +55,10 @@ namespace GameMaster {
         // Action
         bool isDarkMap : 1 = false;
         bool isReverseKey : 1 = false;
+
+        // Pause
+        bool gamePaused : 1 = false;
+        bool isFirstMount : 1 = true;
     };
 
     struct GameEventsArgs {
@@ -62,6 +66,11 @@ namespace GameMaster {
         GameType::MapType debuffType;
         GameType::CharaType skillType;
         GameType::SkillCategory skillCategory;
+
+        // Map stuff
+        int currentScore;
+        float mapSpeedY;
+        float mapSpeedX;
 
         // Cooldown
         float damageCooldownTime = GameType::DAMAGE_COOLDOWN;

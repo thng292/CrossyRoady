@@ -22,11 +22,22 @@ class Rail : public Lane {
         bool isLeftToRight
     );
 
+    Rail(
+        float y,
+        ConsoleGame::Vec2 dim,
+        GameType::MobType type,
+        bool isLeftToRight,
+        bool hasItem,
+        const std::vector<float>& enList
+    );
+
     void Init() override;
     void CreateEntity() override;
     void UpdatePos(float deltaTime) override;
     void UpdateSprite(float deltaTime);
     void DrawEntity(ConsoleGame::AbstractCanvas* canvas) const override;
+
+    void SetSprite(const ConsoleGame::AniSprite& sprite);
 
     GameType::MobType GetMobType();
     ConsoleGame::Box GetHitBox(size_t ind) const;

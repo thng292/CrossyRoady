@@ -18,21 +18,16 @@
 #include "Water.h"
 
 class GameMap : public ConsoleGame::AbstractScreen {
-    std::vector<std::unique_ptr<Lane>> laneList;
+    std::vector<std::unique_ptr<Lane>> laneList;  // save
+    Character character;                          // save
+    Item mapItem;                                 // save
 
-    Character character;
-    Item mapItem;
+    GameType::GameMapData gameData;            // save
+    GameMaster::GameEventsArgs gameEventArgs;  // save
+    GameMaster::GameFlags gameFlags;           // save
 
-    GameType::GameMapData gameData;
     GameType::GameMapSprites gameSprites;
-    GameMaster::GameFlags gameFlags;
-    GameMaster::GameEventsArgs gameEventArgs;
     GameType::GameAudio gameAudio;
-
-    float mapSpeedY;
-    float mapSpeedX = 0.0f;
-
-    float currentScore = 0.0f;
 
    public:
     GameMap() = default;

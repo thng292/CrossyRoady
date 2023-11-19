@@ -132,6 +132,9 @@
     <ClCompile Include="Item.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Pause.cpp">
+      <Filter>Source Files\ScreenImpl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="About.h">
@@ -232,6 +235,9 @@
     </ClInclude>
     <ClInclude Include="GameMaster.h">
       <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Pause.h">
+      <Filter>Header Files\ScreenHeader</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
