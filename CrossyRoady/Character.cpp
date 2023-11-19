@@ -4,21 +4,19 @@ void Character::UpdateHitBox(ConsoleGame::AniSprite& sprite)
 {
     ConsoleGame::Box curHitbox = sprite.GetHitBox();
     int halfHeight = curHitbox.dim.height / 2;
-    int widthOffset = 10;
+    int widthOffset = curHitbox.dim.width - 16;
     ConsoleGame::Vec2 coordOffset = {.x = widthOffset / 2, .y = halfHeight};
     ConsoleGame::Vec2 dimOffset = {
         .width = -widthOffset, .height = -halfHeight};
     sprite.EditHitBox(coordOffset, dimOffset);
 }
 
-void Character::Init(GameType::CharaType type)
+void Character::Init(GameType::CharaType type, float xIn, float yIn)
 {
-    x = 100;
-    y = 50;
+    x = xIn;
+    y = yIn;
 
     maxHealth = GameType::CHARA_HEALTH[type];
-    _speed = GameType::CHARA_SPEED[type];
-    _speed = 70;
     curHealth = maxHealth;
     _type = type;
 
@@ -36,11 +34,7 @@ void Character::Init(GameType::CharaType type)
         "{}{}{}F.anisprite", RESOURCE_PATH, CHARACTER_PATH, charNameFile
     ));
 
-    float frameDur = 0.15f;
-    leftSprite.SetFrameDuration(frameDur);
-    rightSprite.SetFrameDuration(frameDur);
-    upSprite.SetFrameDuration(frameDur);
-    downSprite.SetFrameDuration(frameDur);
+    SetSpeed(70);
 
     UpdateHitBox(leftSprite);
     UpdateHitBox(rightSprite);
@@ -66,14 +60,23 @@ void Character::MoveDown(float dist) { y -= dist; }
 void Character::Draw(ConsoleGame::AbstractCanvas*& canvas) const
 {
     currentSprite->Draw(canvas, GetDrawCoord());
-    // GameUtils::DrawHitbox(canvas, GetHitBox(), ConsoleGame::Color::WHITE);
+    GameUtils::DrawHitbox(canvas, GetHitBox(), ConsoleGame::Color::WHITE);
 }
 
 void Character::SetCurHealth(int health) { curHealth = health; }
 
 void Character::SetMaxHealth(int health) { maxHealth = health; }
 
-void Character::SetSpeed(const double& speed) { _speed = speed; }
+void Character::SetSpeed(const double& speed)
+{
+    _speed = speed;
+
+    float frameDur = ((_speed - 70) / (120 - 70)) * (0.12 - 0.15) + 0.15;
+    leftSprite.SetFrameDuration(frameDur);
+    rightSprite.SetFrameDuration(frameDur);
+    upSprite.SetFrameDuration(frameDur);
+    downSprite.SetFrameDuration(frameDur);
+}
 
 int Character::GetCurHealth() const { return curHealth; }
 

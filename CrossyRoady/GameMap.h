@@ -61,9 +61,11 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void CheckCollision(float deltaTime);
     void CheckDebuff();
     void CheckSkill();
+    void CheckOutOfBound();
 
     void UpdateLanes(float deltaTime);
     void UpdateCooldowns(float deltaTime);
+    void UpdateDifficulty();
 
     void HandleCollision(
         const std::unique_ptr<Lane>& lane, GameType::CollisionType colType

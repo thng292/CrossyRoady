@@ -43,7 +43,7 @@ namespace GameType {
 
     enum MapMode { INF, NINF };
 
-    enum MapDifficulty { PROG, MEASY, MNORMAL, MHARD };
+    enum MapDifficulty { MPROG, MEASY, MNORMAL, MHARD };
 
     enum LaneType { ROAD, WATER, SAFE, RAIL };
 

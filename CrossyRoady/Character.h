@@ -28,7 +28,7 @@ class Character {
    public:
     Character() = default;
 
-    void Init(GameType::CharaType type);
+    void Init(GameType::CharaType type, float xIn, float yIn);
 
     void MoveLeft(float dist);
     void MoveRight(float dist);

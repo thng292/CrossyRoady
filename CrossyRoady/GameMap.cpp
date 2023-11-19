@@ -37,9 +37,13 @@ void GameMap::Init(const std::any& args)
     gm.charaType = MUMEI;
     gm.mapMode = INF;
     gm.mapType = FOREST;
-    gm.mapDifficulty = MNORMAL;
+    gm.mapDifficulty = MPROG;
     SetGameMapData(gm);
-    gameEventArgs.mobRange = gameData.mapDifficulty;
+    if (gameData.mapDifficulty != MPROG) {
+        gameEventArgs.mobRange = gameData.mapDifficulty;
+    } else {
+        gameEventArgs.mobRange = 1;
+    }
     gameEventArgs.mapDragSpeed =
         gameData.mapDifficulty == MHARD ? MAP_DRAG_SPEED : 0.0f;
     gameEventArgs.skillCharge = 100;
@@ -63,12 +67,14 @@ AbstractNavigation::NavigationRes GameMap::Update(
     ResetFlags();
     DragMapDown(deltaTime);
 
+    UpdateDifficulty();
     UpdateLanes(deltaTime);
     UpdateCooldowns(deltaTime);
 
     CheckCollision(deltaTime);
     CheckDebuff();
     CheckSkill();
+    CheckOutOfBound();
 
     HandleDebuff(deltaTime);
     HandleSkill(deltaTime);
@@ -82,7 +88,9 @@ AbstractNavigation::NavigationRes GameMap::Update(
 void GameMap::Mount(const std::any& args)
 {
     gameFlags.gamePaused = false;
-    if (gameFlags.isFirstMount) character.Init(gameData.charaType);
+    if (gameFlags.isFirstMount) {
+        character.Init(gameData.charaType, _CONSOLE_WIDTH_ / 2 - 32, 50);
+    }
 
     // mob sprites
     LoadMobSprite(gameData.mapType, MobType::EASY, gameSprites.mobSpriteEasy);
@@ -286,6 +294,7 @@ void GameMap::HandleItemCollision()
             character.SetSpeed(character.getSpeed() + SPEED_ADDITION);
             break;
         case STAR:
+            gameEventArgs.skillCharge = 100;
             break;
         case HEALTH:
             int curHealth = character.GetCurHealth();
@@ -735,6 +744,17 @@ void GameMap::CheckSkill()
     gameEventArgs.skillCharge = 0;
 }
 
+void GameMap::CheckOutOfBound()
+{
+    float charaX = character.GetX();
+    float charaY = character.GetY();
+    float charaWidth = character.GetHitBox().dim.width;
+    if (charaX > _CONSOLE_WIDTH_ || charaY < 0 || charaX + charaWidth < 0) {
+        gameFlags.isGameOver = true;
+        character.SetCurHealth(0);
+    }
+}
+
 void GameMap::UpdateLanes(float deltaTime)
 {
     if (!gameFlags.allowLaneUpdate) return;
@@ -975,6 +995,21 @@ void GameMap::UpdateCooldowns(float deltaTime)
 
     if (gameEventArgs.damageCooldownTime <= 0) {
         gameFlags.isDamageCooldown = false;
+    }
+}
+
+void GameMap::UpdateDifficulty()
+{
+    if (gameData.mapDifficulty != MPROG) return;
+    if (gameEventArgs.currentScore >= 150) {
+        gameEventArgs.mobRange = 3;
+        gameEventArgs.mapDragSpeed = 20.0f;
+    } else if (gameEventArgs.currentScore >= 50) {
+        gameEventArgs.mobRange = 2;
+        gameEventArgs.mapDragSpeed = 0;
+    } else {
+        gameEventArgs.mobRange = 1;
+        gameEventArgs.mapDragSpeed = 0;
     }
 }
 
