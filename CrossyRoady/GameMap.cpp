@@ -34,7 +34,7 @@ void GameMap::Init(const std::any& args)
     /*const GameType::GameMapData& gameDataArg =
         std::any_cast<const GameMapData&>(args);*/
     GameMapData gm;
-    gm.charaType = MUMEI;
+    gm.charaType = IRYS;
     gm.mapMode = INF;
     gm.mapType = FOREST;
     gm.mapDifficulty = MPROG;
@@ -65,23 +65,30 @@ AbstractNavigation::NavigationRes GameMap::Update(
     }
 
     ResetFlags();
-    DragMapDown(deltaTime);
+    if (!gameFlags.isGameOver) {
+        DragMapDown(deltaTime);
+    }
 
     UpdateDifficulty();
     UpdateLanes(deltaTime);
     UpdateCooldowns(deltaTime);
+    CheckGameOver();
 
-    CheckCollision(deltaTime);
-    CheckDebuff();
-    CheckSkill();
-    CheckOutOfBound();
+    if (!gameFlags.isGameOver) {
+        CheckCollision(deltaTime);
+        CheckDebuff();
+        CheckSkill();
+        CheckOutOfBound();
 
-    HandleDebuff(deltaTime);
-    HandleSkill(deltaTime);
-    HandleDamage();
-    HandlePlayerInput();
-    HandlePlayerMovement(deltaTime);
-    HandlePlayerAnimation(deltaTime);
+        HandleDamage();
+        HandleDebuff(deltaTime);
+        HandleSkill(deltaTime);
+        HandlePlayerInput();
+        HandlePlayerMovement(deltaTime);
+        HandlePlayerAnimation(deltaTime);
+    } else {
+        HandleGameOver(deltaTime);
+    }
     return navigation->NoChange();
 }
 
@@ -92,30 +99,9 @@ void GameMap::Mount(const std::any& args)
         character.Init(gameData.charaType, _CONSOLE_WIDTH_ / 2 - 32, 50);
     }
 
-    // mob sprites
-    LoadMobSprite(gameData.mapType, MobType::EASY, gameSprites.mobSpriteEasy);
-    LoadMobSprite(
-        gameData.mapType, MobType::NORMAL, gameSprites.mobSpriteNormal
-    );
-    LoadMobSprite(gameData.mapType, MobType::HARD, gameSprites.mobSpriteHard);
+    LoadSprites();
+    LoadAudio();
 
-    // static sprites
-    LoadMapSprite(gameData.mapType, gameSprites.blockSprite, "block");
-    LoadMapSprite(gameData.mapType, gameSprites.floatSprite, "float");
-    LoadMapSprite(gameData.mapType, gameSprites.roadSprite, "road");
-    LoadMapSprite(gameData.mapType, gameSprites.safeSprite, "safe");
-    LoadMapSprite(gameData.mapType, gameSprites.waterSprite, "water");
-    LoadMapSprite(gameData.mapType, gameSprites.debuff, "debuff");
-
-    LoadExtraSprite(gameSprites.emptyHealth, "health-empty");
-    LoadExtraSprite(gameSprites.itemSpeed, "speed");
-    LoadCharaSprite(gameData.charaType, gameSprites.health, "health");
-    LoadCharaSprite(gameData.charaType, gameSprites.skill, "skill");
-
-    gameAudio.damageSfx.Open(RESOURCE_PATH SFX_PATH "hurt-1.wav");
-    gameAudio.warningSfx.Open(RESOURCE_PATH SFX_PATH "warning.wav");
-
-    ResiseBlockHitBox();
     ChangeColorPalette(GetGamePalette(gameData.mapType, gameData.charaType));
     if (gameFlags.isFirstMount) InitLaneList();
     gameFlags.isFirstMount = false;
@@ -241,11 +227,17 @@ void GameMap::HandlePlayerMovement(float deltaTime)
         if (gameEventArgs.distWalked > MIN_DIST_SCORE) {
             gameEventArgs.distWalked = 0;
             gameEventArgs.currentScore += 1;
+            if (gameEventArgs.currentScore % 50 == 0) {
+                gameAudio.scoreSfx.Play();
+            }
         }
         if (gameEventArgs.distWalkedSkill > MIN_DIST_CHARGE) {
             gameEventArgs.distWalkedSkill = 0;
             if (gameEventArgs.skillCharge < MAX_SKILL_CHARGE) {
                 gameEventArgs.skillCharge += 1;
+                if (gameEventArgs.skillCharge == MAX_SKILL_CHARGE) {
+                    gameAudio.skillReadySfx.Play();
+                }
             }
         }
     }
@@ -274,6 +266,7 @@ bool GameMap::HandleCharaDraw(
     ConsoleGame::AbstractCanvas* canvas, float charBottomY, float laneBottomY
 ) const
 {
+    if (gameFlags.isGameOver) return true;
     if (charBottomY > laneBottomY) {
         if (gameFlags.isDamageCooldown) {
             if (gameEventArgs.damageFlashingTimer >= 0.1) {
@@ -302,6 +295,15 @@ void GameMap::HandleItemCollision()
                 character.SetCurHealth(curHealth + 1);
             }
             break;
+    }
+}
+
+void GameMap::HandleGameOver(float deltaTime)
+{
+    gameOverWait -= deltaTime;
+    gameSprites.deathVfx.AutoUpdateFrame(deltaTime);
+    if (gameOverWait <= 0) {
+        //  go to next screen
     }
 }
 
@@ -492,6 +494,57 @@ void GameMap::ResiseBlockHitBox()
     Vec2 coordOffSet = {.x = 0, .y = yOffset};
     Vec2 dimOffset = {.width = 0, .height = -(hitbox.dim.height - 32)};
     gameSprites.blockSprite.EditHitBox(coordOffSet, dimOffset);
+}
+
+void GameMap::LoadSprites()
+{
+    // mob sprites
+    LoadMobSprite(gameData.mapType, MobType::EASY, gameSprites.mobSpriteEasy);
+    LoadMobSprite(
+        gameData.mapType, MobType::NORMAL, gameSprites.mobSpriteNormal
+    );
+    LoadMobSprite(gameData.mapType, MobType::HARD, gameSprites.mobSpriteHard);
+
+    // static sprites
+    LoadMapSprite(gameData.mapType, gameSprites.blockSprite, "block");
+    LoadMapSprite(gameData.mapType, gameSprites.floatSprite, "float");
+    LoadMapSprite(gameData.mapType, gameSprites.roadSprite, "road");
+    LoadMapSprite(gameData.mapType, gameSprites.safeSprite, "safe");
+    LoadMapSprite(gameData.mapType, gameSprites.waterSprite, "water");
+    LoadMapSprite(gameData.mapType, gameSprites.debuff, "debuff");
+
+    LoadExtraSprite(gameSprites.emptyHealth, "health-empty");
+    LoadExtraSprite(gameSprites.itemSpeed, "speed");
+    LoadCharaSprite(gameData.charaType, gameSprites.health, "health");
+    LoadCharaSprite(gameData.charaType, gameSprites.skill, "skill");
+
+    gameSprites.deathVfx.Load(RESOURCE_PATH EXTRA_PATH "death.anisprite");
+    gameSprites.deathVfx.Play();
+
+    ResiseBlockHitBox();
+}
+
+void GameMap::LoadAudio()
+{
+    gameAudio.itemPickSfx.Open(RESOURCE_PATH SFX_PATH "item-pick.wav");
+    gameAudio.damageSfx.Open(RESOURCE_PATH SFX_PATH "hurt.wav");
+    gameAudio.deadSfx.Open(RESOURCE_PATH SFX_PATH "dead.wav");
+    gameAudio.warningSfx.Open(RESOURCE_PATH SFX_PATH "warning.wav");
+    gameAudio.shieldBreakSfx.Open(RESOURCE_PATH SFX_PATH "shield-break.wav");
+    gameAudio.scoreSfx.Open(RESOURCE_PATH SFX_PATH "score.wav");
+
+    gameAudio.skillReadySfx.Open(RESOURCE_PATH SFX_PATH "skill-ready.wav");
+    gameAudio.skillOverSfx.Open(RESOURCE_PATH SFX_PATH "skill-end.wav");
+
+    gameAudio.debuffActivateSfx.Open(RESOURCE_PATH SFX_PATH "debuff-start.wav");
+    gameAudio.debuffOverSfx.Open(RESOURCE_PATH SFX_PATH "debuff-over.wav");
+
+    gameAudio.skillFaunaSfx.Open(RESOURCE_PATH SFX_PATH "fauna-skill.wav");
+    gameAudio.skillIrysSfx.Open(RESOURCE_PATH SFX_PATH "irys-skill.wav");
+    gameAudio.skillMumeiSfx.Open(RESOURCE_PATH SFX_PATH "mumei-skill.wav");
+    gameAudio.skillKroniiSfx.Open(RESOURCE_PATH SFX_PATH "kronii-skill.wav");
+    gameAudio.skillSanaSfx.Open(RESOURCE_PATH SFX_PATH "sana-skill.wav");
+    gameAudio.skillBaeSfx.Open(RESOURCE_PATH SFX_PATH "bae-skill.wav");
 };
 
 void GameMap::SetGameMapData(const GameMapData& gmData)
@@ -510,6 +563,8 @@ void GameMap::Draw(AbstractCanvas* canvas) const
     DrawSkill(canvas);
     DrawDebuff(canvas);
     DrawScore(canvas);
+    DrawDeathVFX(canvas);
+
     if (gameFlags.isDarkMap) DrawDarkness(canvas);
 }
 
@@ -607,6 +662,18 @@ void GameMap::DrawSkill(ConsoleGame::AbstractCanvas* canvas) const
             (*canvas)[activeY + i][activeX] = (Color)14;
             (*canvas)[activeY + i][activeX + 15] = (Color)14;
         }
+
+        if (gameEventArgs.skillCategory == SHIELD) {
+            std::string shieldStr = std::to_string((int)gameEventArgs.shield);
+            Font::DrawString(
+                canvas,
+                shieldStr,
+                {.x = activeSkillCoord.x + 4, .y = activeSkillCoord.y + 2},
+                1,
+                1,
+                (Color)14
+            );
+        }
     }
 }
 
@@ -649,6 +716,19 @@ void GameMap::DrawScore(ConsoleGame::AbstractCanvas* canvas) const
     int pushBack = scoreString.length() * dim.width + 3;
     Vec2 drawCoord = {.x = _CONSOLE_WIDTH_ - pushBack, .y = 5};
     Font::DrawString(canvas, scoreString, drawCoord, 1, 1, (Color)14);
+}
+
+void GameMap::DrawDeathVFX(ConsoleGame::AbstractCanvas* canvas) const
+{
+    if (!gameFlags.isGameOver) return;
+    if (gameOverWait <= 2.5) return;
+    Box hitbox = character.GetHitBox();
+    float charaY = hitbox.coord.y + hitbox.dim.height / 2;
+    float charaX = character.GetX() + hitbox.dim.width / 2;
+    int screenHeight = _CONSOLE_HEIGHT_ * 2;
+    gameSprites.deathVfx.Draw(
+        canvas, {.x = (int)charaX, .y = screenHeight - (int)charaY}
+    );
 }
 
 void GameMap::ResetFlags()
@@ -706,6 +786,7 @@ void GameMap::CheckCollision(float deltaTime)
         CollisionType colType = GetCollisionType(charaHitbox, itemHitbox);
         if (colType != CollisionType::None) {
             HandleItemCollision();
+            gameAudio.itemPickSfx.Play();
             gameEventArgs.laneWithItem->SetHasItem(false);
             gameFlags.mapHasItem = false;
         }
@@ -725,6 +806,8 @@ void GameMap::CheckDebuff()
     gameEventArgs.debuffType = mapType;
     gameEventArgs.mapDebuffTime = DEBUFF_DURATION[mapType];
     gameFlags.debuffInUse = true;
+
+    gameAudio.debuffActivateSfx.Play();
 }
 
 void GameMap::CheckSkill()
@@ -739,6 +822,28 @@ void GameMap::CheckSkill()
         int randInd = std::rand() % (BAE + 1);
         charaType = static_cast<CharaType>(randInd);
     }
+
+    switch (charaType) {
+        case FAUNA:
+            gameAudio.skillFaunaSfx.Play();
+            break;
+        case IRYS:
+            gameAudio.skillIrysSfx.Play();
+            break;
+        case MUMEI:
+            gameAudio.skillMumeiSfx.Play();
+            break;
+        case KRONII:
+            gameAudio.skillKroniiSfx.Play();
+            break;
+        case SANA:
+            gameAudio.skillSanaSfx.Play();
+            break;
+        case BAE:
+            gameAudio.skillBaeSfx.Play();
+            break;
+    }
+
     gameEventArgs.skillType = charaType;
     gameFlags.skillActivate = true;
     gameEventArgs.skillCharge = 0;
@@ -750,8 +855,16 @@ void GameMap::CheckOutOfBound()
     float charaY = character.GetY();
     float charaWidth = character.GetHitBox().dim.width;
     if (charaX > _CONSOLE_WIDTH_ || charaY < 0 || charaX + charaWidth < 0) {
-        gameFlags.isGameOver = true;
         character.SetCurHealth(0);
+    }
+}
+
+void GameMap::CheckGameOver()
+{
+    if (gameFlags.isGameOver) return;
+    if (character.GetCurHealth() <= 0) {
+        gameFlags.isGameOver = true;
+        gameAudio.deadSfx.Play();
     }
 }
 
@@ -846,13 +959,18 @@ void GameMap::HandleDamage()
         return;
     if (gameEventArgs.shield > 0) {
         --gameEventArgs.shield;
+        if (gameEventArgs.shield > 0) {
+            gameAudio.shieldBreakSfx.Play();
+        }
 
     } else {
         int newHealth =
             character.GetCurHealth() - (gameEventArgs.collidedMobtype + 1);
         character.SetCurHealth(newHealth);
         // std::thread([&] { gameAudio.damageSfx.Play(); }).detach();
-        //  gameAudio.damageSfx.Play();
+        if (character.GetCurHealth() > 0) {
+            gameAudio.damageSfx.Play();
+        }
     }
     gameFlags.isDamageCooldown = true;
     gameEventArgs.damageCooldownTime = 3;
@@ -866,11 +984,18 @@ void GameMap::HandleDebuff(float deltaTime)
         case FOREST:
             if (gameFlags.isMoving == false) {
                 gameEventArgs.notMovingTime += deltaTime;
+            } else {
+                gameEventArgs.notMovingTime = 0;
             }
             if (gameEventArgs.notMovingTime >= MAX_IDLE_TIME) {
                 int newHealth = character.GetCurHealth() - 1;
                 character.SetCurHealth(newHealth);
                 gameEventArgs.notMovingTime = 0;
+
+                gameFlags.isDamageCooldown = true;
+                gameEventArgs.damageCooldownTime = 3;
+
+                gameAudio.damageSfx.Play();
             }
             break;
         case CITY:
@@ -899,6 +1024,7 @@ void GameMap::HandleDebuff(float deltaTime)
 
     gameEventArgs.mapDebuffTime -= deltaTime;
     if (gameEventArgs.mapDebuffTime <= 0) {
+        gameAudio.debuffOverSfx.Play();
         TurnOffDebuff();
     }
 }
@@ -958,6 +1084,7 @@ void GameMap::HandleSkill(float deltaTime)
     }
 
     if (gameFlags.turnOffSkill) {
+        gameAudio.skillOverSfx.Play();
         TurnOffSkill();
     }
 }
@@ -979,7 +1106,7 @@ void GameMap::UpdateCooldowns(float deltaTime)
             gameFlags.debuffWarning = true;
 
             // std::thread([&] { gameAudio.warningSfx.Play(); }).detach();
-            // gameAudio.warningSfx.Play();
+            gameAudio.warningSfx.Play();
         }
         if (gameFlags.debuffWarning) {
             if (gameEventArgs.debuffFlasingTimer >= 1) {

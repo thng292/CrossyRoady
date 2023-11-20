@@ -26,6 +26,7 @@ class GameMap : public ConsoleGame::AbstractScreen {
     GameMaster::GameEventsArgs gameEventArgs;  // save
     GameMaster::GameFlags gameFlags;           // save
 
+    float gameOverWait = 3.0f;
     GameType::GameMapSprites gameSprites;
     GameType::GameAudio gameAudio;
 
@@ -48,6 +49,9 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void InitLaneList();
     void ResiseBlockHitBox();
 
+    void LoadSprites();
+    void LoadAudio();
+
     void DragMapDown(float deltatime);
     void DrawFlat(ConsoleGame::AbstractCanvas* canvas) const;
     void DrawEntity(ConsoleGame::AbstractCanvas* canvas) const;
@@ -56,12 +60,15 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void DrawDebuff(ConsoleGame::AbstractCanvas* canvas) const;
     void DrawDarkness(ConsoleGame::AbstractCanvas* canvas) const;
     void DrawScore(ConsoleGame::AbstractCanvas* canvas) const;
+    void DrawDeathVFX(ConsoleGame::AbstractCanvas* canvas) const;
 
     void ResetFlags();
+
     void CheckCollision(float deltaTime);
     void CheckDebuff();
     void CheckSkill();
     void CheckOutOfBound();
+    void CheckGameOver();
 
     void UpdateLanes(float deltaTime);
     void UpdateCooldowns(float deltaTime);
@@ -84,6 +91,7 @@ class GameMap : public ConsoleGame::AbstractScreen {
         float laneBottomY
     ) const;
     void HandleItemCollision();
+    void HandleGameOver(float deltaTime);
 
     void TurnOffDebuff();
     void TurnOffSkill();

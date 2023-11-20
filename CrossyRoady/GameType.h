@@ -17,9 +17,9 @@ namespace GameType {
     constexpr int MAX_SKILL_CHARGE = 100;
 
     // Debuff values
-    constexpr int MAP_DEBUFF_COOLDOWN = 10;
+    constexpr int MAP_DEBUFF_COOLDOWN = 30;
 
-    constexpr int MAX_IDLE_TIME = 1;
+    constexpr int MAX_IDLE_TIME = 3;
     constexpr int IRYS_DEBUFF_HEALTH = 1;
     constexpr int VISIBLE_RADIUS = 30;
     constexpr int MUMEI_VISIBLE_RADIUS = 100;
@@ -107,6 +107,8 @@ namespace GameType {
         MobSprite mobSpriteEasy;
         MobSprite mobSpriteNormal;
         MobSprite mobSpriteHard;
+
+        ConsoleGame::AniSprite deathVfx;
     };
 
     struct GameMapData {
@@ -118,7 +120,24 @@ namespace GameType {
 
     struct GameAudio {
         ConsoleGame::Audio damageSfx;
+        ConsoleGame::Audio deadSfx;
         ConsoleGame::Audio warningSfx;
+        ConsoleGame::Audio scoreSfx;
+
+        ConsoleGame::Audio debuffActivateSfx;
+        ConsoleGame::Audio debuffOverSfx;
+        ConsoleGame::Audio shieldBreakSfx;
+
+        ConsoleGame::Audio skillFaunaSfx;
+        ConsoleGame::Audio skillIrysSfx;
+        ConsoleGame::Audio skillMumeiSfx;
+        ConsoleGame::Audio skillKroniiSfx;
+        ConsoleGame::Audio skillSanaSfx;
+        ConsoleGame::Audio skillBaeSfx;
+        ConsoleGame::Audio skillReadySfx;
+        ConsoleGame::Audio skillOverSfx;
+
+        ConsoleGame::Audio itemPickSfx;
     };
 
     struct UserOption {
