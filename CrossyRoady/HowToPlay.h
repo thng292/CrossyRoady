@@ -8,7 +8,7 @@ class HowToPlay : public ConsoleGame::AbstractScreen {
     Surface surface;
     Button Title;
     TabMenu<4> menu;
-    MenuBG* bg;
+    MenuBG* bg = nullptr;
     SharedAudio& audio = SharedAudio::GetInstance();
     std::array<std::unique_ptr<ConsoleGame::AbstractScreen>, 3> subScreen;
 

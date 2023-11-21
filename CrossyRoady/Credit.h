@@ -11,7 +11,7 @@ class Credit : public ConsoleGame::AbstractScreen {
     Menu<1> backButt;
     Button buttonTitle;
     Surface surface;
-    MenuBG* bg;
+    MenuBG* bg = nullptr;
     SharedAudio& audio = SharedAudio::GetInstance();
 
    public:
