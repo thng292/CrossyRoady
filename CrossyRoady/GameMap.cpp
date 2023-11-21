@@ -46,7 +46,7 @@ void GameMap::Init(const std::any& args)
     }
     gameEventArgs.mapDragSpeed =
         gameData.mapDifficulty == MHARD ? MAP_DRAG_SPEED : 0.0f;
-    gameEventArgs.skillCharge = 100;
+    gameEventArgs.skillCharge = MAX_SKILL_CHARGE;
 }
 
 AbstractScreen* GameMap::Clone() const { return new GameMap; }
@@ -1130,7 +1130,7 @@ void GameMap::UpdateDifficulty()
     if (gameData.mapDifficulty != MPROG) return;
     if (gameEventArgs.currentScore >= 150) {
         gameEventArgs.mobRange = 3;
-        gameEventArgs.mapDragSpeed = 20.0f;
+        gameEventArgs.mapDragSpeed = MAP_DRAG_SPEED;
     } else if (gameEventArgs.currentScore >= 50) {
         gameEventArgs.mobRange = 2;
         gameEventArgs.mapDragSpeed = 0;
