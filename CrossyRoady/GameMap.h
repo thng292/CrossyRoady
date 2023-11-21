@@ -6,14 +6,19 @@
 
 #include "Character.h"
 #include "ConsoleGame.h"
+#include "Control.h"
 #include "GameMaster.h"
 #include "GameType.h"
 #include "GameUtils.h"
 #include "Item.h"
 #include "Lane.h"
+#include "Menu.h"
 #include "Rail.h"
+#include "Result.h"
 #include "Road.h"
 #include "SafeZone.h"
+#include "Setting.h"
+#include "SharedAudio.h"
 #include "StringRes.h"
 #include "Water.h"
 
@@ -29,6 +34,11 @@ class GameMap : public ConsoleGame::AbstractScreen {
     float gameOverWait = 3.0f;
     GameType::GameMapSprites gameSprites;
     GameType::GameAudio gameAudio;
+
+    SharedAudio& audio = SharedAudio::GetInstance();
+    std::array<std::unique_ptr<ConsoleGame::AbstractScreen>, 1> subScreen;
+    Menu<2> menu;
+    int selectedScr = -1;
 
    public:
     GameMap() = default;
@@ -93,7 +103,16 @@ class GameMap : public ConsoleGame::AbstractScreen {
         float laneBottomY
     ) const;
     void HandleItemCollision();
-    void HandleGameOver(float deltaTime);
+    void HandleGameOver(
+        float deltaTime,
+        ConsoleGame::AbstractNavigation::NavigationRes& res,
+        const ConsoleGame::AbstractNavigation* navigation
+    );
+    void HandleGamePause(
+        float deltaTime,
+        ConsoleGame::AbstractNavigation::NavigationRes& res,
+        const ConsoleGame::AbstractNavigation* navigation
+    );
 
     void TurnOffDebuff();
     void TurnOffSkill();

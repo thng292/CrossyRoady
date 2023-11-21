@@ -1,22 +1,38 @@
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/hover.wav type waveaudio alias 140702227745392
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/select.wav type waveaudio alias 140702227745408
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/bgm/menu.mp3 type mpegvideo alias 140702227745376
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/item-pick.wav type waveaudio alias 2716481832064
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/hurt.wav type waveaudio alias 2716481831824
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/dead.wav type waveaudio alias 2716481831840
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/warning.wav type waveaudio alias 2716481831856
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/shield-break.wav type waveaudio alias 2716481831920
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/score.wav type waveaudio alias 2716481831872
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/skill-ready.wav type waveaudio alias 2716481832032
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/skill-end.wav type waveaudio alias 2716481832048
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/debuff-start.wav type waveaudio alias 2716481831888
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/debuff-over.wav type waveaudio alias 2716481831904
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/fauna-skill.wav type waveaudio alias 2716481831936
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/irys-skill.wav type waveaudio alias 2716481831952
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/mumei-skill.wav type waveaudio alias 2716481831968
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/kronii-skill.wav type waveaudio alias 2716481831984
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/sana-skill.wav type waveaudio alias 2716481832000
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/bae-skill.wav type waveaudio alias 2716481832016
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:97 - play 2716481832064 from 0
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:97 - play 2716481831824 from 0
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:97 - play 2716481831824 from 0
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/hover.wav type waveaudio alias 140694683295616
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/select.wav type waveaudio alias 140694683295632
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/bgm/menu.mp3 type mpegvideo alias 140694683295600
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/item-pick.wav type waveaudio alias 1884243519800
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/hurt.wav type waveaudio alias 1884243519560
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/dead.wav type waveaudio alias 1884243519576
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/warning.wav type waveaudio alias 1884243519592
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/shield-break.wav type waveaudio alias 1884243519656
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/score.wav type waveaudio alias 1884243519608
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/skill-ready.wav type waveaudio alias 1884243519768
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/skill-end.wav type waveaudio alias 1884243519784
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/debuff-start.wav type waveaudio alias 1884243519624
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/debuff-over.wav type waveaudio alias 1884243519640
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/fauna-skill.wav type waveaudio alias 1884243519672
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/irys-skill.wav type waveaudio alias 1884243519688
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/mumei-skill.wav type waveaudio alias 1884243519704
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/kronii-skill.wav type waveaudio alias 1884243519720
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/sana-skill.wav type waveaudio alias 1884243519736
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/bae-skill.wav type waveaudio alias 1884243519752
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:97 - play 1884243519800 from 0
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:97 - play 1884243519560 from 0
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:97 - play 1884243519576 from 0
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/item-pick.wav type waveaudio alias 1884243638920
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/hurt.wav type waveaudio alias 1884243638680
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/dead.wav type waveaudio alias 1884243638696
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/warning.wav type waveaudio alias 1884243638712
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/shield-break.wav type waveaudio alias 1884243638776
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/score.wav type waveaudio alias 1884243638728
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/skill-ready.wav type waveaudio alias 1884243638888
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/skill-end.wav type waveaudio alias 1884243638904
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/debuff-start.wav type waveaudio alias 1884243638744
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/debuff-over.wav type waveaudio alias 1884243638760
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/fauna-skill.wav type waveaudio alias 1884243638792
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/irys-skill.wav type waveaudio alias 1884243638808
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/mumei-skill.wav type waveaudio alias 1884243638824
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/kronii-skill.wav type waveaudio alias 1884243638840
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/sana-skill.wav type waveaudio alias 1884243638856
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:54 - open resource/sfx/bae-skill.wav type waveaudio alias 1884243638872
