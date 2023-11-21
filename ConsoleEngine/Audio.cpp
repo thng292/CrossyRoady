@@ -4,8 +4,34 @@
 
 #include <cstdint>
 #include <format>
+#include <thread>
+
+#include "Logger.h"
 
 namespace ConsoleGame {
+    char commandBuffer[512]     = {0};
+    std::atomic<char*> _command = nullptr;
+    std::atomic_bool isClose    = false;
+    std::jthread audioThread([](std::stop_token stoken) {
+        while (!stoken.stop_requested()) {
+            /*if (_command == nullptr) {
+                continue;
+            }*/
+            _command.wait(nullptr);
+            auto err = mciSendStringA(_command.load(), 0, 0, 0);
+#ifdef _DEBUG
+            if (err) {
+                mciGetErrorStringA(err, commandBuffer, sizeof(commandBuffer));
+                if (!isClose) {
+                    LogDebug("{}", commandBuffer);
+                }
+                isClose = false;
+            }
+#endif
+            _command.store(nullptr);
+            _command.notify_all();
+        }
+    });
 
     void Audio::Open(std::filesystem::path audioFile)
     {
@@ -25,12 +51,22 @@ namespace ConsoleGame {
                 thiss
             );
         }
-        mciSendStringA(command.c_str(), 0, 0, 0);
+        LogDebug("{}", command);
+        // mciSendStringA(command.c_str(), 0, 0, 0);
+        _command.wait(commandBuffer);
+        std::copy_n(command.begin(), command.size(), commandBuffer);
+        commandBuffer[command.size()] = 0;
+        _command.store(commandBuffer);
+        _command.notify_all();
     }
 
     void Audio::Close()
     {
-        mciSendStringA(std::format("close {}", thiss).c_str(), 0, 0, 0);
+        _command.wait(commandBuffer);
+        isClose = true;
+        snprintf(commandBuffer, sizeof(commandBuffer), "close %llu", thiss);
+        _command.store(commandBuffer);
+        _command.notify_all();
         _isPlaying = false;
     }
 
@@ -40,8 +76,7 @@ namespace ConsoleGame {
 
     void Audio::Play(bool fromStart, bool repeat)
     {
-        static char sendCommand[40] = {0};
-        char* command               = nullptr;
+        char* command = nullptr;
         if (fromStart) {
             if (repeat) {
                 command = (char*)"play %llu from 0 repeat";
@@ -55,26 +90,41 @@ namespace ConsoleGame {
                 command = (char*)"play %llu";
             }
         }
-        snprintf(sendCommand, sizeof(sendCommand), command, thiss);
-        mciSendStringA(sendCommand, 0, 0, 0);
+        _command.wait(commandBuffer);
+        snprintf(commandBuffer, sizeof(commandBuffer), command, thiss);
+        _command.store(commandBuffer);
+        _command.notify_all();
+        LogDebug("{}", commandBuffer);
         _isPlaying = true;
     }
 
     void Audio::Pause()
     {
-        mciSendStringA(std::format("pause {}", thiss).c_str(), 0, 0, 0);
+        _command.wait(commandBuffer);
+        snprintf(commandBuffer, sizeof(commandBuffer), "pause %llu", thiss);
+        _command.store(commandBuffer);
+        _command.notify_all();
+        LogDebug("{}", commandBuffer);
         _isPlaying = false;
     }
 
     void Audio::Resume()
     {
-        mciSendStringA(std::format("resume {}", thiss).c_str(), 0, 0, 0);
+        _command.wait(commandBuffer);
+        snprintf(commandBuffer, sizeof(commandBuffer), "resume %llu", thiss);
+        _command.store(commandBuffer);
+        _command.notify_all();
+        LogDebug("{}", commandBuffer);
         _isPlaying = true;
     }
 
     void Audio::Stop()
     {
-        mciSendStringA(std::format("stop {}", thiss).c_str(), 0, 0, 0);
+        _command.wait(commandBuffer);
+        snprintf(commandBuffer, sizeof(commandBuffer), "stop %llu", thiss);
+        _command.store(commandBuffer);
+        _command.notify_all();
+        LogDebug("{}", commandBuffer);
     }
 
     void Audio::ChangeSong(std::filesystem::path file)
