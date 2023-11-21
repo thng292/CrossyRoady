@@ -17,7 +17,7 @@ namespace GameType {
     constexpr int MAX_SKILL_CHARGE = 100;
 
     // Debuff values
-    constexpr int MAP_DEBUFF_COOLDOWN = 5;
+    constexpr int MAP_DEBUFF_COOLDOWN = 30;
 
     constexpr int MAX_IDLE_TIME = 3;
     constexpr int IRYS_DEBUFF_HEALTH = 1;

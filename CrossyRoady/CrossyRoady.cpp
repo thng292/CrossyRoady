@@ -10,6 +10,7 @@
 #include "MainMenu.h"
 #include "Pause.h"
 #include "Progress.h"
+#include "Result.h"
 #include "Setting.h"
 using namespace ConsoleGame;
 
@@ -47,7 +48,8 @@ auto main() -> int
     game->AddScreen(std::make_unique<CharacterSelectScreen>());
     game->AddScreen(std::make_unique<Pause>());
     game->AddScreen(std::make_unique<CharaUnlock>());
-    game->Run(MainMenu::ScreenName());
+    game->AddScreen(std::make_unique<Result>());
+    game->Run(Result::ScreenName());
 
     return 0;
 }

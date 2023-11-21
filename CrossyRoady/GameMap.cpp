@@ -43,12 +43,17 @@ void GameMap::Init(const std::any& args)
         gameEventArgs.mobRange = gameData.mapDifficulty;
         gameEventArgs.mapDragSpeed =
             gameData.mapDifficulty == MHARD ? MAP_DRAG_SPEED : 0.0f;
-        gameEventArgs.mapDragSpeed = 0;
     } else {
         gameEventArgs.mobRange = 1;
     }
 
     gameEventArgs.skillCharge = MAX_SKILL_CHARGE;
+
+    menu.Init({10, 80}, {100, 18}, {R.String.Setting.Title, R.String.Back});
+    subScreen[0] = std::make_unique<Setting>();
+    for (auto& tmp : subScreen) {
+        tmp->Init(std::any());
+    }
 }
 
 AbstractScreen* GameMap::Clone() const { return new GameMap; }
@@ -57,6 +62,7 @@ AbstractNavigation::NavigationRes GameMap::Update(
     float deltaTime, const AbstractNavigation* navigation
 )
 {
+    auto res = navigation->NoChange();
     if (!gameFlags.gamePaused) {
         if (character.GetY() >= _CONSOLE_HEIGHT_) {
             gameEventArgs.mapSpeedY = character.getSpeed();
@@ -88,12 +94,13 @@ AbstractNavigation::NavigationRes GameMap::Update(
             HandlePlayerMovement(deltaTime);
             HandlePlayerAnimation(deltaTime);
         } else {
-            HandleGameOver(deltaTime);
+            HandleGameOver(deltaTime, res, navigation);
         }
     } else {
+        HandleGamePause(deltaTime, res, navigation);
     }
 
-    return navigation->NoChange();
+    return res;
 }
 
 void GameMap::Mount(const std::any& args)
@@ -285,12 +292,46 @@ void GameMap::HandleItemCollision()
     }
 }
 
-void GameMap::HandleGameOver(float deltaTime)
+void GameMap::HandleGameOver(
+    float deltaTime,
+    AbstractNavigation::NavigationRes& res,
+    const AbstractNavigation* navigation
+)
 {
     gameOverWait -= deltaTime;
     gameSprites.deathVfx.AutoUpdateFrame(deltaTime);
     if (gameOverWait <= 0) {
         //  go to next screen
+        res = navigation->Navigate(L"Result");
+    }
+}
+
+void GameMap::HandleGamePause(
+    float deltaTime,
+    AbstractNavigation::NavigationRes& res,
+    const ConsoleGame::AbstractNavigation* navigation
+)
+{
+    menu.Update(
+        deltaTime,
+        [&](uint8_t hovering) noexcept { audio.PlayHoverSfx(); },
+        [&](uint8_t selected) noexcept {
+            audio.PlayClickSfx();
+            switch (selected) {
+                case 0:
+                    selectedScr = 0;
+                    break;
+                case 1:
+                    gameFlags.gamePaused = false;
+                    break;
+            }
+        }
+    );
+    if (selectedScr != -1) {
+        auto navRes = subScreen[selectedScr]->Update(deltaTime, navigation);
+        if (navRes.ActionType == AbstractNavigation::NavigationAction::Back) {
+            selectedScr = -1;
+        }
     }
 }
 
@@ -625,6 +666,13 @@ void GameMap::Draw(AbstractCanvas* canvas) const
     DrawScore(canvas);
     DrawDeathVFX(canvas);
     DrawDarkness(canvas);
+    if (gameFlags.gamePaused) {
+        if (selectedScr == -1) {
+            menu.Draw(canvas);
+        } else {
+            subScreen[selectedScr]->Draw(canvas);
+        }
+    }
 }
 
 void GameMap::DrawFlat(ConsoleGame::AbstractCanvas* canvas) const

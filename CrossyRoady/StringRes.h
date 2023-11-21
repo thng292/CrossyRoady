@@ -36,7 +36,6 @@ struct CharStuff {
 
 struct StringResource {
     std::string_view Back = "Back";
-
     std::string_view Next = "Next";
 
     struct {
@@ -70,6 +69,17 @@ struct StringResource {
         std::string_view Unlock2UpgradeToken = "Two upgrade token";
 
     } Progress;
+
+    struct {
+        std::string_view Title = "Results";
+        std::string_view Score = "Score";
+        std::string_view LaneWalked = "Lane walked";
+        std::string_view DamageTaken = "Damage taken";
+        std::string_view MobCollided = "Number of mobs hit";
+        std::string_view SkillUse = "Number of skill uses";
+        std::string_view PlayTime = "Play time";
+        std::string_view PlayAgain = "Play again";
+    } Result;
 
     struct {
         std::string_view Title = "Setting";
