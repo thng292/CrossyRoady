@@ -4,7 +4,10 @@ using namespace ConsoleGame;
 using namespace GameType;
 
 Item::Item(
-    GameType::ItemType type, const ConsoleGame::Sprite& sprite, float x, float y
+    GameType::ItemType type,
+    const ConsoleGame::AniSprite& sprite,
+    float x,
+    float y
 )
 {
     _type = type;
@@ -13,7 +16,7 @@ Item::Item(
     _y = y;
 }
 
-Item::Item(GameType::ItemType type, const ConsoleGame::Sprite& sprite)
+Item::Item(GameType::ItemType type, const ConsoleGame::AniSprite& sprite)
 {
     _type = type;
     _sprite = sprite;
@@ -22,14 +25,13 @@ Item::Item(GameType::ItemType type, const ConsoleGame::Sprite& sprite)
 }
 
 void Item::Init(
-    float y, GameType::ItemType type, const ConsoleGame::Sprite& sprite
+    float y, GameType::ItemType type, const ConsoleGame::AniSprite& sprite
 )
 {
     _type = type;
     _sprite = sprite;
     _y = y;
-    //_x = rand() % _CONSOLE_WIDTH_;
-    _x = 100;
+    _x = rand() % (_CONSOLE_WIDTH_ - 64) + 64;
 }
 
 void Item::Draw(ConsoleGame::AbstractCanvas* canvas) const
@@ -38,6 +40,8 @@ void Item::Draw(ConsoleGame::AbstractCanvas* canvas) const
     _sprite.Draw(canvas, {.x = (int)_x, .y = (int)(screenHeight - _y)});
     // GameUtils::DrawHitbox(canvas, GetHitBox());
 }
+
+void Item::UpdateSprite(float deltaTime) { _sprite.AutoUpdateFrame(deltaTime); }
 
 void Item::SetY(float y) { _y = y; }
 

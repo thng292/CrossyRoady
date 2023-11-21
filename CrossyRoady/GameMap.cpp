@@ -34,18 +34,20 @@ void GameMap::Init(const std::any& args)
     /*const GameType::GameMapData& gameDataArg =
         std::any_cast<const GameMapData&>(args);*/
     GameMapData gm;
-    gm.charaType = IRYS;
+    gm.charaType = KRONII;
     gm.mapMode = INF;
-    gm.mapType = FOREST;
-    gm.mapDifficulty = MPROG;
+    gm.mapType = SPACE;
+    gm.mapDifficulty = MHARD;
     SetGameMapData(gm);
     if (gameData.mapDifficulty != MPROG) {
         gameEventArgs.mobRange = gameData.mapDifficulty;
+        gameEventArgs.mapDragSpeed =
+            gameData.mapDifficulty == MHARD ? MAP_DRAG_SPEED : 0.0f;
+        gameEventArgs.mapDragSpeed = 0;
     } else {
         gameEventArgs.mobRange = 1;
     }
-    gameEventArgs.mapDragSpeed =
-        gameData.mapDifficulty == MHARD ? MAP_DRAG_SPEED : 0.0f;
+
     gameEventArgs.skillCharge = MAX_SKILL_CHARGE;
 }
 
@@ -55,40 +57,42 @@ AbstractNavigation::NavigationRes GameMap::Update(
     float deltaTime, const AbstractNavigation* navigation
 )
 {
-    if (gameFlags.gamePaused) {
-        return navigation->Navigate(L"Pause");
-    }
-    if (character.GetY() >= _CONSOLE_HEIGHT_) {
-        gameEventArgs.mapSpeedY = character.getSpeed();
+    if (!gameFlags.gamePaused) {
+        if (character.GetY() >= _CONSOLE_HEIGHT_) {
+            gameEventArgs.mapSpeedY = character.getSpeed();
+        } else {
+            gameEventArgs.mapSpeedY = gameEventArgs.mapDragSpeed;
+        }
+
+        ResetFlags();
+        if (!gameFlags.isGameOver) {
+            DragMapDown(deltaTime);
+        }
+
+        UpdateDifficulty();
+        UpdateLanes(deltaTime);
+        CheckGameOver();
+
+        if (!gameFlags.isGameOver) {
+            UpdateCooldowns(deltaTime);
+
+            CheckCollision(deltaTime);
+            CheckDebuff();
+            CheckSkill();
+            CheckOutOfBound();
+
+            HandleDamage();
+            HandleDebuff(deltaTime);
+            HandleSkill(deltaTime);
+            HandlePlayerInput();
+            HandlePlayerMovement(deltaTime);
+            HandlePlayerAnimation(deltaTime);
+        } else {
+            HandleGameOver(deltaTime);
+        }
     } else {
-        gameEventArgs.mapSpeedY = gameEventArgs.mapDragSpeed;
     }
 
-    ResetFlags();
-    if (!gameFlags.isGameOver) {
-        DragMapDown(deltaTime);
-    }
-
-    UpdateDifficulty();
-    UpdateLanes(deltaTime);
-    UpdateCooldowns(deltaTime);
-    CheckGameOver();
-
-    if (!gameFlags.isGameOver) {
-        CheckCollision(deltaTime);
-        CheckDebuff();
-        CheckSkill();
-        CheckOutOfBound();
-
-        HandleDamage();
-        HandleDebuff(deltaTime);
-        HandleSkill(deltaTime);
-        HandlePlayerInput();
-        HandlePlayerMovement(deltaTime);
-        HandlePlayerAnimation(deltaTime);
-    } else {
-        HandleGameOver(deltaTime);
-    }
     return navigation->NoChange();
 }
 
@@ -97,42 +101,24 @@ void GameMap::Mount(const std::any& args)
     gameFlags.gamePaused = false;
     if (gameFlags.isFirstMount) {
         character.Init(gameData.charaType, _CONSOLE_WIDTH_ / 2 - 32, 50);
+    } else {
+        character.LoadSprites(gameData.charaType);
     }
 
     LoadSprites();
     LoadAudio();
-
     ChangeColorPalette(GetGamePalette(gameData.mapType, gameData.charaType));
-    if (gameFlags.isFirstMount) InitLaneList();
-    gameFlags.isFirstMount = false;
+
+    if (gameFlags.isFirstMount) {
+        InitLaneList();
+        gameFlags.isFirstMount = false;
+    }
 }
 
 void GameMap::Unmount()
 {
-    gameSprites.floatSprite.Unload();
-    gameSprites.blockSprite.Unload();
-    gameSprites.health.Unload();
-    gameSprites.emptyHealth.Unload();
-
-    gameSprites.itemHealth.Unload();
-    gameSprites.itemSpeed.Unload();
-    gameSprites.itemStar.Unload();
-
-    gameSprites.mobSpriteEasy.MobLeft.Unload();
-    gameSprites.mobSpriteEasy.MobRight.Unload();
-
-    gameSprites.mobSpriteNormal.MobLeft.Unload();
-    gameSprites.mobSpriteNormal.MobRight.Unload();
-
-    gameSprites.mobSpriteHard.MobLeft.Unload();
-    gameSprites.mobSpriteHard.MobRight.Unload();
-
-    gameSprites.roadSprite.Unload();
-    gameSprites.waterSprite.Unload();
-    gameSprites.safeSprite.Unload();
-
-    gameSprites.skill.Unload();
-    gameSprites.debuff.Unload();
+    UnloadSprites();
+    UnloadAudio();
 }
 
 void GameMap::HandlePlayerInput()
@@ -193,6 +179,7 @@ void GameMap::HandlePlayerMovement(float deltaTime)
 {
     bool moveFlag = false;
     float distanceY = character.getSpeed() * deltaTime;
+
     if (gameFlags.movingLeft && gameFlags.allowMoveLeft) {
         float distanceX;
         if (gameEventArgs.mapSpeedX < 0) {
@@ -355,6 +342,7 @@ void GameMap::TurnOffSkill()
             break;
         case KRONII:
             gameFlags.allowLaneUpdate = true;
+            gameEventArgs.mapDragSpeed = MAP_DRAG_SPEED;
             break;
         case SANA:
             gameFlags.allowDebuff = true;
@@ -433,9 +421,8 @@ std::unique_ptr<Lane> GameMap::GetRandomLane()
         if (randomNum < ITEM_SPAWN_RATE) {
             lane->SetHasItem(true);
             gameEventArgs.laneWithItem = lane.get();
-            ItemType itemType = static_cast<ItemType>((int)(rand() % 2));
-            itemType = SPEED;
-            Sprite* itemSprite = &gameSprites.itemSpeed;
+            ItemType itemType = static_cast<ItemType>((int)(rand() % 3));
+            AniSprite* itemSprite = &gameSprites.itemSpeed;
             switch (itemType) {
                 case SPEED:
                     itemSprite = &gameSprites.itemSpeed;
@@ -514,10 +501,25 @@ void GameMap::LoadSprites()
     LoadMapSprite(gameData.mapType, gameSprites.debuff, "debuff");
 
     LoadExtraSprite(gameSprites.emptyHealth, "health-empty");
-    LoadExtraSprite(gameSprites.itemSpeed, "speed");
     LoadCharaSprite(gameData.charaType, gameSprites.health, "health");
     LoadCharaSprite(gameData.charaType, gameSprites.skill, "skill");
 
+    // items
+    gameSprites.itemSpeed.Load(RESOURCE_PATH EXTRA_PATH "item-speed.anisprite");
+    gameSprites.itemHealth.Load(RESOURCE_PATH EXTRA_PATH "item-heart.anisprite"
+    );
+    gameSprites.itemStar.Load(RESOURCE_PATH EXTRA_PATH "item-star.anisprite");
+
+    float frameDur = 0.15f;
+    gameSprites.itemSpeed.SetFrameDuration(frameDur);
+    gameSprites.itemHealth.SetFrameDuration(frameDur);
+    gameSprites.itemStar.SetFrameDuration(frameDur);
+
+    gameSprites.itemSpeed.Play(1);
+    gameSprites.itemHealth.Play(1);
+    gameSprites.itemStar.Play(1);
+
+    // effects
     gameSprites.deathVfx.Load(RESOURCE_PATH EXTRA_PATH "death.anisprite");
     gameSprites.deathVfx.Play();
 
@@ -545,6 +547,64 @@ void GameMap::LoadAudio()
     gameAudio.skillKroniiSfx.Open(RESOURCE_PATH SFX_PATH "kronii-skill.wav");
     gameAudio.skillSanaSfx.Open(RESOURCE_PATH SFX_PATH "sana-skill.wav");
     gameAudio.skillBaeSfx.Open(RESOURCE_PATH SFX_PATH "bae-skill.wav");
+}
+
+void GameMap::UnloadSprites()
+{
+    // static
+    gameSprites.floatSprite.Unload();
+    gameSprites.blockSprite.Unload();
+    gameSprites.health.Unload();
+    gameSprites.emptyHealth.Unload();
+
+    gameSprites.itemHealth.Unload();
+    gameSprites.itemSpeed.Unload();
+    gameSprites.itemStar.Unload();
+
+    gameSprites.skill.Unload();
+    gameSprites.debuff.Unload();
+
+    // mob
+    gameSprites.mobSpriteEasy.MobLeft.Unload();
+    gameSprites.mobSpriteEasy.MobRight.Unload();
+
+    gameSprites.mobSpriteNormal.MobLeft.Unload();
+    gameSprites.mobSpriteNormal.MobRight.Unload();
+
+    gameSprites.mobSpriteHard.MobLeft.Unload();
+    gameSprites.mobSpriteHard.MobRight.Unload();
+
+    // lane
+    gameSprites.roadSprite.Unload();
+    gameSprites.waterSprite.Unload();
+    gameSprites.safeSprite.Unload();
+
+    // effects
+    gameSprites.deathVfx.Unload();
+
+    // chara
+    character.UnloadSprites();
+}
+
+void GameMap::UnloadAudio()
+{
+    gameAudio.damageSfx.Close();
+    gameAudio.deadSfx.Close();
+    gameAudio.warningSfx.Close();
+    gameAudio.debuffActivateSfx.Close();
+    gameAudio.debuffOverSfx.Close();
+    gameAudio.itemPickSfx.Close();
+    gameAudio.scoreSfx.Close();
+    gameAudio.shieldBreakSfx.Close();
+
+    gameAudio.skillBaeSfx.Close();
+    gameAudio.skillFaunaSfx.Close();
+    gameAudio.skillIrysSfx.Close();
+    gameAudio.skillMumeiSfx.Close();
+    gameAudio.skillKroniiSfx.Close();
+    gameAudio.skillSanaSfx.Close();
+    gameAudio.skillOverSfx.Close();
+    gameAudio.skillReadySfx.Close();
 };
 
 void GameMap::SetGameMapData(const GameMapData& gmData)
@@ -564,8 +624,7 @@ void GameMap::Draw(AbstractCanvas* canvas) const
     DrawDebuff(canvas);
     DrawScore(canvas);
     DrawDeathVFX(canvas);
-
-    if (gameFlags.isDarkMap) DrawDarkness(canvas);
+    DrawDarkness(canvas);
 }
 
 void GameMap::DrawFlat(ConsoleGame::AbstractCanvas* canvas) const
@@ -692,6 +751,7 @@ void GameMap::DrawDebuff(ConsoleGame::AbstractCanvas* canvas) const
 
 void GameMap::DrawDarkness(ConsoleGame::AbstractCanvas* canvas) const
 {
+    if (!gameFlags.isDarkMap) return;
     Box charaBox = character.GetHitBox();
     int screenWidth = _CONSOLE_WIDTH_;
     int screenHeight = _CONSOLE_HEIGHT_ * 2;
@@ -886,13 +946,15 @@ void GameMap::UpdateLanes(float deltaTime)
             castedLane->UpdateSprite(deltaTime);
         }
     }
+    if (gameFlags.mapHasItem) {
+        mapItem.UpdateSprite(deltaTime);
+    }
 }
 
 void GameMap::HandleCollision(
     const std::unique_ptr<Lane>& lane, CollisionType colType
 )
 {
-    int newHealth;
     Road* road = nullptr;
     Rail* rail = nullptr;
     switch (lane->GetType()) {
@@ -967,8 +1029,9 @@ void GameMap::HandleDamage()
         int newHealth =
             character.GetCurHealth() - (gameEventArgs.collidedMobtype + 1);
         character.SetCurHealth(newHealth);
-        // std::thread([&] { gameAudio.damageSfx.Play(); }).detach();
+
         if (character.GetCurHealth() > 0) {
+            // std::thread([&] { gameAudio.damageSfx.Play(); }).detach();
             gameAudio.damageSfx.Play();
         }
     }
@@ -1014,8 +1077,8 @@ void GameMap::HandleDebuff(float deltaTime)
             }
             break;
         case SPACE:
-            gameFlags.allowSkill = false;
             TurnOffSkill();
+            gameFlags.allowSkill = false;
             break;
         case CASINO:
             gameFlags.isReverseKey = true;
@@ -1052,6 +1115,7 @@ void GameMap::HandleSkill(float deltaTime)
                 break;
             case KRONII:
                 gameFlags.allowLaneUpdate = false;
+                gameEventArgs.mapDragSpeed = 0;
                 gameEventArgs.skillCategory = TIME;
                 break;
             case SANA:
@@ -1130,7 +1194,9 @@ void GameMap::UpdateDifficulty()
     if (gameData.mapDifficulty != MPROG) return;
     if (gameEventArgs.currentScore >= 150) {
         gameEventArgs.mobRange = 3;
-        gameEventArgs.mapDragSpeed = MAP_DRAG_SPEED;
+        if (gameFlags.allowLaneUpdate && !gameFlags.skillInUse) {
+            gameEventArgs.mapDragSpeed = MAP_DRAG_SPEED;
+        }
     } else if (gameEventArgs.currentScore >= 50) {
         gameEventArgs.mobRange = 2;
         gameEventArgs.mapDragSpeed = 0;

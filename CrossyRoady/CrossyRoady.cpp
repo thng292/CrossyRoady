@@ -1,6 +1,7 @@
 #include <memory>
 
 #include "CharaSelectScreen.h"
+#include "CharaUnlock.h"
 #include "CharactersInfo.h"
 #include "ConsoleGame.h"
 #include "Credit.h"
@@ -43,6 +44,7 @@ auto main() -> int
     game->AddScreen(std::make_unique<HowToPlay>());
     game->AddScreen(std::make_unique<CharacterSelectScreen>());
     game->AddScreen(std::make_unique<Pause>());
+    game->AddScreen(std::make_unique<CharaUnlock>());
     game->Run(GameMap::ScreenName());
 
     return 0;

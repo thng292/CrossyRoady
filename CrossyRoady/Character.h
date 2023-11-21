@@ -36,6 +36,8 @@ class Character {
     void MoveDown(float dist);
 
     void Draw(ConsoleGame::AbstractCanvas*& canvas) const;
+    void UnloadSprites();
+    void LoadSprites(GameType::CharaType type);
 
     void SetCurHealth(int health);
     void SetMaxHealth(int health);
