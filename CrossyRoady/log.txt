@@ -1,22 +1,15 @@
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/hover.wav type waveaudio alias 140702227745392
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/select.wav type waveaudio alias 140702227745408
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/bgm/menu.mp3 type mpegvideo alias 140702227745376
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/item-pick.wav type waveaudio alias 2716481832064
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/hurt.wav type waveaudio alias 2716481831824
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/dead.wav type waveaudio alias 2716481831840
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/warning.wav type waveaudio alias 2716481831856
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/shield-break.wav type waveaudio alias 2716481831920
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/score.wav type waveaudio alias 2716481831872
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/skill-ready.wav type waveaudio alias 2716481832032
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/skill-end.wav type waveaudio alias 2716481832048
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/debuff-start.wav type waveaudio alias 2716481831888
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/debuff-over.wav type waveaudio alias 2716481831904
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/fauna-skill.wav type waveaudio alias 2716481831936
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/irys-skill.wav type waveaudio alias 2716481831952
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/mumei-skill.wav type waveaudio alias 2716481831968
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/kronii-skill.wav type waveaudio alias 2716481831984
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/sana-skill.wav type waveaudio alias 2716481832000
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:54 - open resource/sfx/bae-skill.wav type waveaudio alias 2716481832016
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:97 - play 2716481832064 from 0
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:97 - play 2716481831824 from 0
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:97 - play 2716481831824 from 0
+D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:56 - open resource/sfx/hover.wav type waveaudio alias 140700137295664
+D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:56 - open resource/sfx/select.wav type waveaudio alias 140700137295680
+D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:56 - open resource/bgm/menu.mp3 type mpegvideo alias 140700137295648
+D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:93 - play 140700137295648 from 0 repeat
+D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:93 - play 140700137295664 from 0
+D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:93 - play 140700137295664 from 0
+D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:93 - play 140700137295664 from 0
+D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:93 - play 140700137295664 from 0
+D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:93 - play 140700137295664 from 0
+D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:93 - play 140700137295664 from 0
+D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:93 - play 140700137295664 from 0
+D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:93 - play 140700137295664 from 0
+D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:93 - play 140700137295664 from 0
+D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:93 - play 140700137295664 from 0
+D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:93 - play 140700137295680 from 0

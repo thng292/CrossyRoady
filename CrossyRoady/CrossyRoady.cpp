@@ -13,14 +13,16 @@
 #include "Setting.h"
 using namespace ConsoleGame;
 
-// #define _SHOW_OFF_
+// #define _TEST_PERF_ 
 
 const char* configFilePath = "config.txt";
 
 auto main() -> int
 {
+#ifdef _DEBUG
     std::ofstream log("log.txt");
     Logger::Init(&log);
+#endif
 
     Font::Load(RESOURCE_PATH FONT_PATH "small.font");
     Font::Load(RESOURCE_PATH FONT_PATH "big.font", 1);
@@ -29,7 +31,7 @@ auto main() -> int
     defer { R.Config.Save(CONFIG_PATH); };
 
     auto game =
-#ifndef _SHOW_OFF_
+#ifndef _TEST_PERF_ 
         std::make_unique<Game>(L"Crossy Roady", GetDisplayRefreshRate());
 #else
         std::make_unique<Game>(L"Crossy Roady", 9999999);
@@ -45,7 +47,7 @@ auto main() -> int
     game->AddScreen(std::make_unique<CharacterSelectScreen>());
     game->AddScreen(std::make_unique<Pause>());
     game->AddScreen(std::make_unique<CharaUnlock>());
-    game->Run(GameMap::ScreenName());
+    game->Run(MainMenu::ScreenName());
 
     return 0;
 }
