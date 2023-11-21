@@ -51,6 +51,8 @@ class GameMap : public ConsoleGame::AbstractScreen {
 
     void LoadSprites();
     void LoadAudio();
+    void UnloadSprites();
+    void UnloadAudio();
 
     void DragMapDown(float deltatime);
     void DrawFlat(ConsoleGame::AbstractCanvas* canvas) const;

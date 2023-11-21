@@ -37,6 +37,8 @@ struct CharStuff {
 struct StringResource {
     std::string_view Back = "Back";
 
+    std::string_view Next = "Next";
+
     struct {
         std::string_view Exit = "Exit";
     } MainMenu;
@@ -107,6 +109,10 @@ struct StringResource {
     } CharSelect;
 
     struct {
+        std::string_view Unlock = "New character unlocked!";
+    } CharUnlock;
+
+    struct {
         struct {
             std::string_view Name = "Forest";
             std::string_view Debuff =
@@ -116,7 +122,7 @@ struct StringResource {
         struct {
             std::string_view Name = "City";
             std::string_view Debuff =
-                "Decreses the character's health to only one";
+                "Decreases the character's health to only one";
         } City;
 
         struct {

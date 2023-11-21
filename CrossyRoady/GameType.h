@@ -17,7 +17,7 @@ namespace GameType {
     constexpr int MAX_SKILL_CHARGE = 100;
 
     // Debuff values
-    constexpr int MAP_DEBUFF_COOLDOWN = 30;
+    constexpr int MAP_DEBUFF_COOLDOWN = 5;
 
     constexpr int MAX_IDLE_TIME = 3;
     constexpr int IRYS_DEBUFF_HEALTH = 1;
@@ -100,9 +100,9 @@ namespace GameType {
         ConsoleGame::Sprite debuff;
         ConsoleGame::Sprite debuffExtra;
 
-        ConsoleGame::Sprite itemSpeed;
-        ConsoleGame::Sprite itemStar;
-        ConsoleGame::Sprite itemHealth;
+        ConsoleGame::AniSprite itemSpeed;
+        ConsoleGame::AniSprite itemStar;
+        ConsoleGame::AniSprite itemHealth;
 
         MobSprite mobSpriteEasy;
         MobSprite mobSpriteNormal;
@@ -116,6 +116,7 @@ namespace GameType {
         CharaType charaType;
         MapMode mapMode;
         MapDifficulty mapDifficulty;
+        bool enableDebuff;
     };
 
     struct GameAudio {

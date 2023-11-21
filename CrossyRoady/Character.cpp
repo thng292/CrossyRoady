@@ -20,26 +20,8 @@ void Character::Init(GameType::CharaType type, float xIn, float yIn)
     curHealth = maxHealth;
     _type = type;
 
-    std::string_view charNameFile = GameType::CHARA_NAME_FILE[type];
-    leftSprite.Load(std::format(
-        "{}{}{}L.anisprite", RESOURCE_PATH, CHARACTER_PATH, charNameFile
-    ));
-    rightSprite.Load(std::format(
-        "{}{}{}R.anisprite", RESOURCE_PATH, CHARACTER_PATH, charNameFile
-    ));
-    upSprite.Load(std::format(
-        "{}{}{}B.anisprite", RESOURCE_PATH, CHARACTER_PATH, charNameFile
-    ));
-    downSprite.Load(std::format(
-        "{}{}{}F.anisprite", RESOURCE_PATH, CHARACTER_PATH, charNameFile
-    ));
-
+    LoadSprites(type);
     SetSpeed(70);
-
-    UpdateHitBox(leftSprite);
-    UpdateHitBox(rightSprite);
-    UpdateHitBox(upSprite);
-    UpdateHitBox(downSprite);
 
     leftSprite.Play(1);
     rightSprite.Play(1);
@@ -79,6 +61,37 @@ void Character::SetSpeed(const double& speed)
 }
 
 int Character::GetCurHealth() const { return curHealth; }
+
+void Character::UnloadSprites()
+{
+    // currentSprite = nullptr;
+    leftSprite.Unload();
+    rightSprite.Unload();
+    upSprite.Unload();
+    downSprite.Unload();
+}
+
+void Character::LoadSprites(GameType::CharaType type)
+{
+    std::string_view charNameFile = GameType::CHARA_NAME_FILE[type];
+    leftSprite.Load(std::format(
+        "{}{}{}L.anisprite", RESOURCE_PATH, CHARACTER_PATH, charNameFile
+    ));
+    rightSprite.Load(std::format(
+        "{}{}{}R.anisprite", RESOURCE_PATH, CHARACTER_PATH, charNameFile
+    ));
+    upSprite.Load(std::format(
+        "{}{}{}B.anisprite", RESOURCE_PATH, CHARACTER_PATH, charNameFile
+    ));
+    downSprite.Load(std::format(
+        "{}{}{}F.anisprite", RESOURCE_PATH, CHARACTER_PATH, charNameFile
+    ));
+
+    UpdateHitBox(leftSprite);
+    UpdateHitBox(rightSprite);
+    UpdateHitBox(upSprite);
+    UpdateHitBox(downSprite);
+}
 
 void Character::ResetSprite() { currentSprite->ResetFrame(); }
 
