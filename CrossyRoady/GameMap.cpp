@@ -43,7 +43,6 @@ void GameMap::Init(const std::any& args)
         gameEventArgs.mobRange = gameData.mapDifficulty;
         gameEventArgs.mapDragSpeed =
             gameData.mapDifficulty == MHARD ? MAP_DRAG_SPEED : 0.0f;
-        gameEventArgs.mapDragSpeed = 0;
     } else {
         gameEventArgs.mobRange = 1;
     }
