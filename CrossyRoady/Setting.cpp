@@ -38,19 +38,19 @@ void Setting::UpdateSfxTitle()
 
 void Setting::Init(const std::any& args)
 {
-    bg = std::any_cast<MenuBG*>(args);
+    if (args.has_value()) {
+        bg = std::any_cast<MenuBG*>(args);
+    }
     UpdateMusicTitle();
     UpdateSfxTitle();
 
     title = Button(
-        {
-            .size = {150,        24},
-            .pos = {startPos.x, 30},
-            .cornerSize = 5,
-            .hasBorder = true,
-            .background = (Color)14,
-            .border = (Color)13
-    },
+        {.size = {150, 24},
+         .pos = {startPos.x, 30},
+         .cornerSize = 5,
+         .hasBorder = true,
+         .background = (Color)14,
+         .border = (Color)13},
         R.String.Setting.Title,
         (Color)13,
         1
@@ -76,7 +76,9 @@ AbstractNavigation::NavigationRes Setting::Update(
 )
 {
     AbstractNavigation::NavigationRes res = navigation->NoChange();
-    bg->Update(deltaTime);
+    if (bg) {
+        bg->Update(deltaTime);
+    }
     menu.Update(
         deltaTime,
         [&](uint8_t hover) noexcept { audio.PlayHoverSfx(); },
@@ -93,10 +95,18 @@ AbstractNavigation::NavigationRes Setting::Update(
                     UpdateSfxTitle();
                     break;
                 case 2:
-                    res = navigation->Navigate(HowToPlay::ScreenName(), bg);
+                    if (bg) {
+                        res = navigation->Navigate(HowToPlay::ScreenName(), bg);
+                    } else {
+                        res = navigation->Navigate(HowToPlay::ScreenName());
+                    }
                     break;
                 case 3:
-                    res = navigation->Navigate(Credit::ScreenName(), bg);
+                    if (bg) {
+                        res = navigation->Navigate(Credit::ScreenName(), bg);
+                    } else {
+                        res = navigation->Navigate(Credit::ScreenName());
+                    }
                     break;
                 case 4:
                     res = navigation->Back();
@@ -109,7 +119,9 @@ AbstractNavigation::NavigationRes Setting::Update(
 
 void Setting::Draw(AbstractCanvas* canvas) const
 {
-    bg->Draw(canvas);
+    if (bg) {
+        bg->Draw(canvas);
+    }
     title.Draw(canvas);
     menu.Draw(canvas);
 }

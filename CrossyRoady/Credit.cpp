@@ -12,30 +12,32 @@ std::wstring_view Credit::getName() { return ScreenName(); }
 
 void Credit::Init(const std::any& args)
 {
-    bg = std::any_cast<MenuBG*>(args);
+    if (args.has_value()) {
+        bg = std::any_cast<MenuBG*>(args);
+    }
     buttonTitle = Button(
         {
-            .size = {120,             22},
+            .size = {120, 22},
             .pos = {(384 - 120) / 2, 20},
             .cornerSize = 4,
             .hasBorder = true,
             .background = (Color)14,
             .border = (Color)13,
-    },
+        },
         R.String.Credit.Title,
         ((Color)13),
         1,
         1
     );
     backButt.Init({(384 - 50) / 2, 190}, {50, 18}, {R.String.Back});
-    surface = Surface({
-        .size = {350,             130},
-        .pos = {(384 - 350) / 2, 50 },
-        .cornerSize = 7,
-        .hasBorder = true,
-        .background = (Color)14,
-        .border = ((Color)13)
-    });
+    surface = Surface(
+        {.size = {350, 130},
+         .pos = {(384 - 350) / 2, 50},
+         .cornerSize = 7,
+         .hasBorder = true,
+         .background = (Color)14,
+         .border = ((Color)13)}
+    );
 }
 
 ConsoleGame::AbstractScreen* Credit::Clone() const { return new Credit; }
@@ -45,7 +47,9 @@ ConsoleGame::AbstractNavigation::NavigationRes Credit::Update(
 )
 {
     auto res = navigation->NoChange();
-    bg->Update(deltaTime);
+    if (bg) {
+        bg->Update(deltaTime);
+    }
     backButt.Update(
         deltaTime,
         [](uint8_t) noexcept {},
@@ -59,7 +63,9 @@ ConsoleGame::AbstractNavigation::NavigationRes Credit::Update(
 
 void Credit::Draw(ConsoleGame::AbstractCanvas* canvas) const
 {
-    bg->Draw(canvas);
+    if (bg) {
+        bg->Draw(canvas);
+    }
     surface.Draw(canvas);
     Font::DrawString(
         canvas,

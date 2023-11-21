@@ -13,29 +13,29 @@ std::wstring_view HowToPlay::getName() { return ScreenName(); }
 
 void HowToPlay::Init(const std::any& args)
 {
-    bg = std::any_cast<MenuBG*>(args);
+    if (args.has_value()) {
+        bg = std::any_cast<MenuBG*>(args);
+    }
     Title = Button(
-        {
-            .size = {250,             22},
-            .pos = {(384 - 250) / 2, 10},
-            .cornerSize = 7,
-            .hasBorder = true,
-            .background = (Color)14,
-            .border = ((Color)13)
-    },
+        {.size = {250, 22},
+         .pos = {(384 - 250) / 2, 10},
+         .cornerSize = 7,
+         .hasBorder = true,
+         .background = (Color)14,
+         .border = ((Color)13)},
         R.String.HowToPlay.Title,
         ((Color)13),
         1,
         1
     );
-    surface = Surface({
-        .size = {245, 160},
-        .pos = {125, 45 },
-        .cornerSize = 7,
-        .hasBorder = true,
-        .background = (Color)14,
-        .border = ((Color)13)
-    });
+    surface = Surface(
+        {.size = {245, 160},
+         .pos = {125, 45},
+         .cornerSize = 7,
+         .hasBorder = true,
+         .background = (Color)14,
+         .border = ((Color)13)}
+    );
     menu.Init(
         {10, 80},
         {100, 18},
@@ -60,7 +60,9 @@ ConsoleGame::AbstractNavigation::NavigationRes HowToPlay::Update(
     float deltaTime, const ConsoleGame::AbstractNavigation* navigation
 )
 {
-    bg->Update(deltaTime);
+    if (bg) {
+        bg->Update(deltaTime);
+    }
     auto res = navigation->NoChange();
     menu.Update(
         deltaTime,
@@ -86,7 +88,9 @@ ConsoleGame::AbstractNavigation::NavigationRes HowToPlay::Update(
 
 void HowToPlay::Draw(ConsoleGame::AbstractCanvas* canvas) const
 {
-    bg->Draw(canvas);
+    if (bg) {
+        bg->Draw(canvas);
+    }
     Title.Draw(canvas);
     surface.Draw(canvas);
     menu.Draw(canvas);

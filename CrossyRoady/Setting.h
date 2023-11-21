@@ -13,7 +13,7 @@ class Setting : public ConsoleGame::AbstractScreen {
     Menu<5> menu;
     std::string MusicTitle;
     std::string SfxTitle;
-    MenuBG* bg;
+    MenuBG* bg = nullptr;
     SharedAudio& audio = SharedAudio::GetInstance();
 
     void UpdateMusicTitle();
