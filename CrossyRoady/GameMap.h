@@ -45,7 +45,6 @@ class GameMap : public ConsoleGame::AbstractScreen {
     std::array<std::unique_ptr<ConsoleGame::AbstractScreen>, 4> subScreen;
     Menu<3> menu;
     int selectedScr = -1;
-    bool saveGame = false;
 
    public:
     GameMap() = default;

@@ -107,7 +107,7 @@ void GameMap::Mount(const std::any& args)
     gameFlags.gamePaused = false;
     LoadSprites();
     LoadAudio();
-    bool loadSave = false;  // pass from init
+    bool loadSave = true;  // pass from init
     if (loadSave) {
         LoadGameData();
     } else {
@@ -138,7 +138,6 @@ void GameMap::HandlePlayerInput()
 
     if (IsKeyMeanEscape()) {
         gameFlags.gamePaused = true;
-        SaveGameData();
     } else {
         if (gameFlags.allowMovementKeys) {
             bool correctKeyFlag = !gameFlags.isReverseKey;

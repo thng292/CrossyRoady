@@ -165,6 +165,15 @@ struct StringResource {
             std::string_view Debuff =
                 "Randomly chooses a debuff from the other maps";
         } Casino;
+
+        struct {
+            std::string_view Forest = "Let Me Stay Here";
+            std::string_view City = "Theme of Irys";
+            std::string_view House = "Haunted Birdhouse";
+            std::string_view Desert = "Daydream";
+            std::string_view Space = "Daystar";
+            std::string_view Casino = "Play Dice!";
+        } BGM;
     } Map;
 
     struct {

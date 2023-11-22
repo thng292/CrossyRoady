@@ -1,15 +1,30 @@
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:56 - open resource/sfx/hover.wav type waveaudio alias 140700137295664
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:56 - open resource/sfx/select.wav type waveaudio alias 140700137295680
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:56 - open resource/bgm/menu.mp3 type mpegvideo alias 140700137295648
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:93 - play 140700137295648 from 0 repeat
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:93 - play 140700137295664 from 0
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:93 - play 140700137295664 from 0
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:93 - play 140700137295664 from 0
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:93 - play 140700137295664 from 0
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:93 - play 140700137295664 from 0
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:93 - play 140700137295664 from 0
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:93 - play 140700137295664 from 0
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:93 - play 140700137295664 from 0
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:93 - play 140700137295664 from 0
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:93 - play 140700137295664 from 0
-D:\BaiTap\CrossyRoady\ConsoleEngine\Audio.cpp:93 - play 140700137295680 from 0
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:55 - open resource/sfx/hover.wav type waveaudio alias 140699044053008
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:55 - open resource/sfx/select.wav type waveaudio alias 140699044053024
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:55 - open resource/bgm/menu.mp3 type mpegvideo alias 140699044052992
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:55 - open resource/sfx/item-pick.wav type waveaudio alias 2372456564904
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:55 - open resource/sfx/hurt.wav type waveaudio alias 2372456564664
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:55 - open resource/sfx/dead.wav type waveaudio alias 2372456564680
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:55 - open resource/sfx/warning.wav type waveaudio alias 2372456564696
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:55 - open resource/sfx/shield-break.wav type waveaudio alias 2372456564760
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:55 - open resource/sfx/score.wav type waveaudio alias 2372456564712
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:55 - open resource/sfx/skill-ready.wav type waveaudio alias 2372456564872
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:55 - open resource/sfx/skill-end.wav type waveaudio alias 2372456564888
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:55 - open resource/sfx/debuff-start.wav type waveaudio alias 2372456564728
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:55 - open resource/sfx/debuff-over.wav type waveaudio alias 2372456564744
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:55 - open resource/sfx/fauna-skill.wav type waveaudio alias 2372456564776
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:55 - open resource/sfx/irys-skill.wav type waveaudio alias 2372456564792
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:55 - open resource/sfx/mumei-skill.wav type waveaudio alias 2372456564808
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:55 - open resource/sfx/kronii-skill.wav type waveaudio alias 2372456564824
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:55 - open resource/sfx/sana-skill.wav type waveaudio alias 2372456564840
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:55 - open resource/sfx/bae-skill.wav type waveaudio alias 2372456564856
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:92 - play 140699044053008 from 0
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:92 - play 140699044053008 from 0
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:92 - play 140699044053008 from 0
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:92 - play 140699044053024 from 0
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:92 - play 140699044053008 from 0
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:92 - play 140699044053008 from 0
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:92 - play 140699044053008 from 0
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:92 - play 140699044053024 from 0
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:92 - play 2372456564904 from 0
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:92 - play 2372456564664 from 0
+D:\Work\School\Second Year\HKI\OOP\Crossy Road\ConsoleEngine\Audio.cpp:92 - play 2372456564680 from 0

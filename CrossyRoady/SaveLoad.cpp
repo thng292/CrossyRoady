@@ -166,6 +166,8 @@ void GameMap::LoadGameData()
     gameEventArgs = saveData.gameEventArgs;
     gameFlags = saveData.gameFlags;
 
+    LoadSprites();
+
     character.InitSave(
         saveData.character.type,
         saveData.character.x,
