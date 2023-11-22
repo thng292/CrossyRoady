@@ -3,7 +3,6 @@
 #include <Windows.h>
 
 #include <cstdint>
-#include <format>
 #include <thread>
 
 #include "Logger.h"
@@ -35,29 +34,25 @@ namespace ConsoleGame {
 
     void Audio::Open(std::filesystem::path audioFile)
     {
-        std::string command;
+        const char* device = 0;
         if (audioFile.extension().string() == ".wav") {
-            command = std::format(
-                "open {} type {} alias {}",
-                audioFile.string(),
-                "waveaudio",
-                thiss
-            );
+            device = "waveaudio";
         } else if (audioFile.extension().string() == ".mp3") {
-            command = std::format(
-                "open {} type {} alias {}",
-                audioFile.string(),
-                "mpegvideo",
-                thiss
-            );
+            device = "mpegvideo";
         }
-        LogDebug("{}", command);
-        // mciSendStringA(command.c_str(), 0, 0, 0);
+        auto file = audioFile.string();
         _command.wait(commandBuffer);
-        std::copy_n(command.begin(), command.size(), commandBuffer);
-        commandBuffer[command.size()] = 0;
+        snprintf(
+            commandBuffer,
+            sizeof(commandBuffer),
+            "open %s type %s alias %llu",
+            file.c_str(),
+            device,
+            thiss
+        );
         _command.store(commandBuffer);
         _command.notify_all();
+        LogDebug("{}", commandBuffer);
     }
 
     void Audio::Close()
