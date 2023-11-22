@@ -105,12 +105,12 @@ AbstractNavigation::NavigationRes GameMap::Update(
 void GameMap::Mount(const std::any& args)
 {
     gameFlags.gamePaused = false;
-    LoadSprites();
     LoadAudio();
-    bool loadSave = true;  // pass from init
+    bool loadSave = false;  // pass from init
     if (loadSave) {
         LoadGameData();
     } else {
+        LoadSprites();
         if (gameFlags.isFirstMount) {
             character.Init(gameData.charaType, _CONSOLE_WIDTH_ / 2 - 32, 50);
         } else {
