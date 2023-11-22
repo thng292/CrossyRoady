@@ -4,18 +4,20 @@ Water::Water(
     float y,
     const ConsoleGame::Sprite& waterSprite,
     const ConsoleGame::Sprite& logSprite,
-    bool isLeftToRight
+    bool isLeftToRight,
+    std::vector<float> enList
 )
     : Lane(
           y,
           logSprite.GetDim(),
           waterSprite,
           GameType::LaneType::WATER,
-          isLeftToRight
+          isLeftToRight,
+          enList
       )
 {
     _logSprite = logSprite;
-    Init();
+    if (enList.empty()) Init();
 }
 
 Water::Water(

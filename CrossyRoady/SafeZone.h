@@ -15,7 +15,8 @@ class SafeZone : public Lane {
         const ConsoleGame::Sprite& safeSprite,
         const ConsoleGame::Sprite& blockSprite,
         bool isLeftToRight,
-        bool isInitialSafe = false
+        bool isInitialSafe = false,
+        std::vector<float> enList = std::vector<float>()
     );
 
     SafeZone(

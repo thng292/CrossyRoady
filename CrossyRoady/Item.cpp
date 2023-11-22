@@ -25,13 +25,16 @@ Item::Item(GameType::ItemType type, const ConsoleGame::AniSprite& sprite)
 }
 
 void Item::Init(
-    float y, GameType::ItemType type, const ConsoleGame::AniSprite& sprite
+    float x,
+    float y,
+    GameType::ItemType type,
+    const ConsoleGame::AniSprite& sprite
 )
 {
     _type = type;
     _sprite = sprite;
     _y = y;
-    _x = rand() % (_CONSOLE_WIDTH_ - 64) + 64;
+    _x = x;
 }
 
 void Item::Draw(ConsoleGame::AbstractCanvas* canvas) const
@@ -60,5 +63,7 @@ float Item::GetBottomY() const
 }
 
 float Item::GetY() const { return _y; }
+
+float Item::GetX() const { return _x; }
 
 ItemType Item::GetType() const { return _type; }

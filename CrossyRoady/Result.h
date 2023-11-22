@@ -9,7 +9,7 @@ class Result : public ConsoleGame::AbstractScreen {
     HMenu<2> menu;
     MenuBG* bg;
     SharedAudio& audio = SharedAudio::GetInstance();
-    std::array<std::string, 6> data;
+    std::array<std::string, 7> data;
 
     Surface surfaceStat;
     Surface surfaceExp;

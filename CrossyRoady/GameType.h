@@ -37,6 +37,8 @@ namespace GameType {
         HARD,
     };
 
+    enum Direction { LEFT, RIGHT, UP, DOWN };
+
     enum CharaType { FAUNA, IRYS, MUMEI, KRONII, SANA, BAE };
 
     enum MapType { FOREST, CITY, HOUSE, DESERT, SPACE, CASINO };

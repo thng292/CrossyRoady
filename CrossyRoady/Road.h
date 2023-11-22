@@ -18,7 +18,8 @@ class Road : public Lane {
         GameType::MobType type,
         ConsoleGame::Sprite& roadSprite,
         const ConsoleGame::AniSprite& mobSprite,
-        bool isLeftToRight
+        bool isLeftToRight,
+        std::vector<float> enList = std::vector<float>()
     );
     Road(
         float y,

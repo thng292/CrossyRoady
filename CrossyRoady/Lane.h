@@ -31,7 +31,8 @@ class Lane {
         ConsoleGame::Vec2 dim,
         const ConsoleGame::Sprite& laneSprite,
         GameType::LaneType type,
-        bool isLeftToRight
+        bool isLeftToRight,
+        const std::vector<float>& enList = std::vector<float>()
     );
 
     Lane(
@@ -57,6 +58,9 @@ class Lane {
     bool GetIsLeftToRight() const;
     float GetSpeed() const;
     bool GetHasItem() const;
+    std::vector<float> GetEntityList() const;
+    float GetWidth() const;
+    float GetHeight() const;
 
     void SetY(float y);
     void SetHasItem(bool hasItem);

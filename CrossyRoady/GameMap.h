@@ -7,16 +7,21 @@
 #include "Character.h"
 #include "ConsoleGame.h"
 #include "Control.h"
+#include "Credit.h"
 #include "GameMaster.h"
 #include "GameType.h"
 #include "GameUtils.h"
+#include "HowToPlay.h"
 #include "Item.h"
 #include "Lane.h"
+#include "MainMenu.h"
 #include "Menu.h"
 #include "Rail.h"
 #include "Result.h"
+#include "ReturnHome.h"
 #include "Road.h"
 #include "SafeZone.h"
+#include "SaveLoadType.h"
 #include "Setting.h"
 #include "SharedAudio.h"
 #include "StringRes.h"
@@ -26,6 +31,7 @@ class GameMap : public ConsoleGame::AbstractScreen {
     std::vector<std::unique_ptr<Lane>> laneList;  // save
     Character character;                          // save
     Item mapItem;                                 // save
+    Lane* laneWithItem;                           // save
 
     GameType::GameMapData gameData;            // save
     GameMaster::GameEventsArgs gameEventArgs;  // save
@@ -36,9 +42,10 @@ class GameMap : public ConsoleGame::AbstractScreen {
     GameType::GameAudio gameAudio;
 
     SharedAudio& audio = SharedAudio::GetInstance();
-    std::array<std::unique_ptr<ConsoleGame::AbstractScreen>, 1> subScreen;
-    Menu<2> menu;
+    std::array<std::unique_ptr<ConsoleGame::AbstractScreen>, 4> subScreen;
+    Menu<3> menu;
     int selectedScr = -1;
+    bool saveGame = false;
 
    public:
     GameMap() = default;
@@ -85,6 +92,7 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void UpdateLanes(float deltaTime);
     void UpdateCooldowns(float deltaTime);
     void UpdateDifficulty();
+    void UpdateMapSpeed();
 
     void HandleCollision(
         const std::unique_ptr<Lane>& lane, GameType::CollisionType colType
@@ -117,8 +125,16 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void TurnOffDebuff();
     void TurnOffSkill();
 
+    void SaveGameData();
+    void LoadGameData();
+
+    std::unique_ptr<Lane> GetEquivLane(
+        const ValLane& valLane, const std::vector<float>& enList
+    );
+
     std::unique_ptr<Lane> GetRandomLane();
     ConsoleGame::AniSprite GetMobSprite(
         GameType::MobType type, bool isLeftToRight
     );
+    ConsoleGame::AniSprite GetItemSprite(GameType::ItemType type);
 };

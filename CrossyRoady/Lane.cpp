@@ -8,7 +8,8 @@ Lane::Lane(
     Vec2 dim,
     const Sprite& laneSprite,
     LaneType type,
-    bool isLeftToRight
+    bool isLeftToRight,
+    const std::vector<float>& enList
 
 )
 {
@@ -17,7 +18,7 @@ Lane::Lane(
     IsLeftToRight = isLeftToRight;
     entityHeight = dim.height;
     entityWidth = dim.width;
-
+    entityList = enList;
     SetY(y);
 }
 
@@ -181,6 +182,10 @@ std::vector<Box> Lane::GetLaneHitBoxLTR() const
 
 void Lane::SetHasItem(bool hasItem) { _hasItem = hasItem; }
 
+std::vector<float> Lane::GetEntityList() const { return entityList; }
+
+float Lane::GetWidth() const { return entityWidth; }
+
 void Lane::SetLaneSprite(const ConsoleGame::Sprite& laneSprite)
 {
     _laneSprite = laneSprite;
@@ -232,6 +237,8 @@ void Lane::DrawLane(AbstractCanvas* canvas) const
         _laneSprite.Draw(canvas, {x, laneDrawY});
     }
 }
+
+float Lane::GetHeight() const { return entityHeight; }
 
 float Lane::GetY() const { return laneY; }
 

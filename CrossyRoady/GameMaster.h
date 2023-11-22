@@ -60,6 +60,7 @@ namespace GameMaster {
         // Pause
         bool gamePaused : 1 = false;
         bool isFirstMount : 1 = true;
+        bool savedGame : 1 = true;
     };
 
     struct GameEventsArgs {
@@ -69,9 +70,17 @@ namespace GameMaster {
         GameType::SkillCategory skillCategory;
 
         // Map stuff
-        int currentScore;
         float mapSpeedY;
         float mapSpeedX;
+
+        // Results
+        size_t currentScore;
+        size_t damageTaken;
+        size_t numOfMobsHit;
+        size_t numOfSkillUse;
+        size_t numOfItemPick;
+        GameType::MobType difficultyReached;
+        float playTime;
 
         // Cooldown
         float damageCooldownTime = GameType::DAMAGE_COOLDOWN;
@@ -101,8 +110,5 @@ namespace GameMaster {
         // Skill
         int skillCharge = 0;
         int shield = 0;
-
-        // Item
-        Lane* laneWithItem;
     };
 }  // namespace GameMaster

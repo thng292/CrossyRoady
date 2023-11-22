@@ -132,7 +132,7 @@
     <ClCompile Include="Item.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Pause.cpp">
+    <ClCompile Include="ReturnHome.cpp">
       <Filter>Source Files\ScreenImpl</Filter>
     </ClCompile>
     <ClCompile Include="CharaUnlock.cpp">
@@ -242,7 +242,7 @@
     <ClInclude Include="GameMaster.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Pause.h">
+    <ClInclude Include="ReturnHome.h">
       <Filter>Header Files\ScreenHeader</Filter>
     </ClInclude>
     <ClInclude Include="CharaUnlock.h">
@@ -250,6 +250,12 @@
     </ClInclude>
     <ClInclude Include="Result.h">
       <Filter>Header Files\ScreenHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveLoad.cpp">
+      <Filter>Source Files\GameImpl</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveLoadType.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -5,20 +5,22 @@ Road::Road(
     GameType::MobType type,
     ConsoleGame::Sprite& roadSprite,
     const ConsoleGame::AniSprite& mobSprite,
-    bool isLeftToRight
+    bool isLeftToRight,
+    std::vector<float> enList
 )
     : Lane(
           y,
           mobSprite.GetDim(),
           roadSprite,
           GameType::LaneType::ROAD,
-          isLeftToRight
+          isLeftToRight,
+          enList
       )
 {
     _type = type;
     _mobSprite = mobSprite;
     _mobSprite.Play(1);
-    Init();
+    if (enList.empty()) Init();
 }
 
 Road::Road(

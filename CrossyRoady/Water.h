@@ -13,7 +13,8 @@ class Water : public Lane {
         float y,
         const ConsoleGame::Sprite& waterSprite,
         const ConsoleGame::Sprite& logSprite,
-        bool isLeftToRight
+        bool isLeftToRight,
+        std::vector<float> enList = std::vector<float>()
     );
 
     Water(

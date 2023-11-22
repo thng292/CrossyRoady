@@ -8,9 +8,9 @@
 #include "GameMap.h"
 #include "HowToPlay.h"
 #include "MainMenu.h"
-#include "Pause.h"
 #include "Progress.h"
 #include "Result.h"
+#include "ReturnHome.h"
 #include "Setting.h"
 using namespace ConsoleGame;
 
@@ -44,10 +44,10 @@ auto main() -> int
     game->AddScreen(std::make_unique<CharactersInfo>());
     game->AddScreen(std::make_unique<HowToPlay>());
     game->AddScreen(std::make_unique<CharacterSelectScreen>());
-    game->AddScreen(std::make_unique<Pause>());
+    game->AddScreen(std::make_unique<ReturnHome>());
     game->AddScreen(std::make_unique<CharaUnlock>());
     game->AddScreen(std::make_unique<Result>());
-    game->Run(Result::ScreenName());
+    game->Run(GameMap::ScreenName());
 
     return 0;
 }

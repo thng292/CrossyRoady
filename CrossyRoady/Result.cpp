@@ -16,9 +16,9 @@ std::wstring_view Result::getName() { return ScreenName(); }
 
 void Result::Init(const std::any& args)
 {
-    menu.Init({90, 200}, {100, 18}, {R.String.Result.PlayAgain, R.String.Next});
+    menu.Init({90, 190}, {100, 18}, {R.String.Result.PlayAgain, R.String.Next});
     surfaceStat.props = {
-        .size = {180, 180},
+        .size = {180, 170},
         .pos = {102, 10},
         .cornerSize = 5,
         .hasBorder = true,
@@ -29,20 +29,13 @@ void Result::Init(const std::any& args)
     std::string_view left[] = {
         R.String.Result.PlayTime,
         R.String.Result.Score,
-        R.String.Result.LaneWalked,
         R.String.Result.DamageTaken,
         R.String.Result.MobCollided,
         R.String.Result.SkillUse,
-    };
+        R.String.Result.ItemPick,
+        R.String.Result.DiffReached};
 
-    std::string_view right[] = {
-        "0",
-        "0",
-        "0",
-        "0",
-        "0",
-        "0",
-    };
+    std::string_view right[] = {"0", "0", "0", "0", "0", "0", "0"};
 
     std::string spacePad = "";
     for (int i = 0; i < data.size(); i++) {

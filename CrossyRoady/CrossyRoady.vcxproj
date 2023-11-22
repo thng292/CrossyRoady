@@ -182,7 +182,7 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Lane.cpp" />
     <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="Pause.cpp" />
+    <ClCompile Include="ReturnHome.cpp" />
     <ClCompile Include="Progress.cpp" />
     <ClCompile Include="Rail.cpp" />
     <ClCompile Include="Result.cpp" />
@@ -226,13 +226,15 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="Lane.h" />
     <ClInclude Include="Menu.h" />
-    <ClInclude Include="Pause.h" />
+    <ClInclude Include="ReturnHome.h" />
     <ClInclude Include="Progress.h" />
     <ClInclude Include="Rail.h" />
     <ClInclude Include="Result.h" />
     <ClInclude Include="Road.h" />
     <ClInclude Include="MenuBG.h" />
     <ClInclude Include="SafeZone.h" />
+    <ClInclude Include="SaveLoad.cpp" />
+    <ClInclude Include="SaveLoadType.h" />
     <ClInclude Include="SharedAudio.h" />
     <ClInclude Include="StringRes.h" />
     <ClInclude Include="Surface.h" />

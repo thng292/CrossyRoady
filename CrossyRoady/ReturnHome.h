@@ -1,7 +1,14 @@
 #pragma once
 #include "ConsoleGame.h"
+#include "MainMenu.h"
+#include "Menu.h"
+#include "SharedAudio.h"
+#include "StringRes.h"
 
-class Pause : public ConsoleGame::AbstractScreen {
+class ReturnHome : public ConsoleGame::AbstractScreen {
+    Menu<3> menu;
+    SharedAudio& audio = SharedAudio::GetInstance();
+    Button title;
     // Inherited via AbstractScreen
     static const std::wstring_view ScreenName();
     virtual std::wstring_view getName() override;
@@ -12,4 +19,3 @@ class Pause : public ConsoleGame::AbstractScreen {
     ) override;
     virtual void Draw(ConsoleGame::AbstractCanvas* canvas) const override;
 };
-    

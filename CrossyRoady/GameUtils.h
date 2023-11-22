@@ -2,6 +2,7 @@
 #include <math.h>
 
 #include <format>
+#include <fstream>
 
 #include "ConsoleGame.h"
 #include "GameType.h"
@@ -45,4 +46,5 @@ namespace GameUtils {
     float GetDistance(int x1, int y1, int x2, int y2);
     std::string GetPathToMap(GameType::MapType mapType);
     std::string GetPathToChar(GameType::CharaType charaType);
+
 }  // namespace GameUtils

@@ -22,8 +22,12 @@ class Item {
     Item(GameType::ItemType type, const ConsoleGame::AniSprite& sprite);
 
     void Init(
-        float y, GameType::ItemType type, const ConsoleGame::AniSprite& sprite
+        float x,
+        float y,
+        GameType::ItemType type,
+        const ConsoleGame::AniSprite& sprite
     );
+
     void Draw(ConsoleGame::AbstractCanvas* canvas) const;
     void UpdateSprite(float deltaTime);
 
@@ -32,5 +36,6 @@ class Item {
     ConsoleGame::Box GetHitBox() const;
     float GetBottomY() const;
     float GetY() const;
+    float GetX() const;
     GameType::ItemType GetType() const;
 };

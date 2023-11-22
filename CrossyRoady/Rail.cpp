@@ -54,20 +54,22 @@ Rail::Rail(
     GameType::MobType type,
     ConsoleGame::Sprite& roadSprite,
     const ConsoleGame::AniSprite& mobSprite,
-    bool isLeftToRight
+    bool isLeftToRight,
+    std::vector<float> enList
 )
     : Lane(
           y,
           mobSprite.GetDim(),
           roadSprite,
           GameType::LaneType::RAIL,
-          isLeftToRight
+          isLeftToRight,
+          enList
       )
 {
     speed = 200;
     _mobSprite = mobSprite;
     _mobSprite.Play(1);
-    Init();
+    if (enList.empty()) Init();
 }
 
 Rail::Rail(

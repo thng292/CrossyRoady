@@ -11,6 +11,7 @@
 class Character {
    private:
     GameType::CharaType _type;
+    GameType::Direction _direc = GameType::UP;
     int maxHealth;
     int curHealth;
     float _speed;
@@ -29,6 +30,15 @@ class Character {
     Character() = default;
 
     void Init(GameType::CharaType type, float xIn, float yIn);
+    void InitSave(
+        GameType::CharaType type,
+        float xIn,
+        float yIn,
+        int health,
+        int mhealth,
+        int speed,
+        GameType::Direction direc
+    );
 
     void MoveLeft(float dist);
     void MoveRight(float dist);
@@ -51,12 +61,14 @@ class Character {
     void AdvanceFrame();
     void ResetSprite();
 
+    GameType::Direction GetDirec() const;
     int GetCurHealth() const;
-    int getMaxHealth() const;
+    int GetMaxHealth() const;
     int getSpeed() const;
     float GetBottomY() const;
     ConsoleGame::Box GetHitBox() const;
     float GetX() const;
     float GetY() const;
+    GameType::CharaType GetType() const;
     ConsoleGame::Vec2 GetDrawCoord() const;
 };

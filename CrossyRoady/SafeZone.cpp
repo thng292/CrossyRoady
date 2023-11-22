@@ -19,21 +19,25 @@ SafeZone::SafeZone(
     const ConsoleGame::Sprite& safeSprite,
     const ConsoleGame::Sprite& blockSprite,
     bool isLeftToRight,
-    bool isInitialSafe
+    bool isInitialSafe,
+    std::vector<float> enList
 )
     : Lane(
           y,
           blockSprite.GetDim(),
           safeSprite,
           GameType::LaneType::SAFE,
-          isLeftToRight
+          isLeftToRight,
+          enList
       )
 {
     _blockSprite = blockSprite;
-    if (isInitialSafe) {
-        SafeInit();
-    } else {
-        Init();
+    if (enList.empty()) {
+        if (isInitialSafe) {
+            SafeInit();
+        } else {
+            Init();
+        }
     }
 }
 
