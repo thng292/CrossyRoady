@@ -15,6 +15,7 @@
 #define SFX_PATH "sfx/"
 
 constexpr int LevelExpReq = 200;
+constexpr int CharaExpReq = 300;
 constexpr uint8_t numberOfChars = 6;
 
 constexpr std::array<std::string_view, 6> fileCharName = {
@@ -79,7 +80,7 @@ struct StringResource {
         std::string_view PlayTime = "Play time";
         std::string_view MobCollided = "Number of mobs hit";
         std::string_view SkillUse = "Number of skill uses";
-        std::string_view ItemPick = "Number of item picked";
+        std::string_view ItemPick = "Number of items picked";
         std::string_view DiffReached = "Difficulty reached";
 
         std::string_view PlayAgain = "Play again";
@@ -89,6 +90,10 @@ struct StringResource {
         std::string_view ReturnMenu = "Return to main menu";
         std::string_view SaveGame = "Save game?";
     } Pause;
+
+    struct {
+        std::string_view Continue = "Coninue playing your previous save?";
+    } AskSave;
 
     struct {
         std::string_view Title = "Setting";

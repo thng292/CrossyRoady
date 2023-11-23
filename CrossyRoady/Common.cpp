@@ -27,5 +27,5 @@ void DrawRhombus(AbstractCanvas* canvas, Vec2 center, uint8_t R, Color color)
         for (int i = y; i <= ny; i++) {
             (*canvas)[i][x] = color;
         }
-   }
+    }
 }

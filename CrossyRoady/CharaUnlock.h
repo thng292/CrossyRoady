@@ -1,4 +1,5 @@
 #pragma once
+#include "CharaSelectScreen.h"
 #include "ConsoleGame.h"
 #include "GameType.h"
 #include "Menu.h"

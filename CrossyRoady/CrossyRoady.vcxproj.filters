@@ -141,6 +141,9 @@
     <ClCompile Include="Result.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AskSave.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="About.h">
@@ -256,6 +259,9 @@
     </ClInclude>
     <ClInclude Include="SaveLoadType.h">
       <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="AskSave.h">
+      <Filter>Header Files\ScreenHeader</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

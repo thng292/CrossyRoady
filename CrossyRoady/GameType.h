@@ -153,4 +153,15 @@ namespace GameType {
         uint16_t time;
     };
 
+    struct GameResult {
+        size_t score = 0;
+        size_t time = 0;
+        size_t damage = 0;
+        size_t numOfMob = 0;
+        size_t numOfSkill = 0;
+        size_t numOfItem = 0;
+        MobType diff;
+        MapType map;
+    };
+
 }  // namespace GameType

@@ -1,6 +1,7 @@
 #pragma once
 #include "ArrowButton.h"
 #include "ConsoleGame.h"
+#include "GameType.h"
 #include "HMenu.h"
 #include "MenuBG.h"
 #include "SharedAudio.h"
@@ -10,11 +11,14 @@ class Result : public ConsoleGame::AbstractScreen {
     MenuBG* bg;
     SharedAudio& audio = SharedAudio::GetInstance();
     std::array<std::string, 7> data;
-
     Surface surfaceStat;
     Surface surfaceExp;
 
+    GameType::GameResult gameRes;
+    bool charaUnlock = false;
+
     void DrawStat(ConsoleGame::AbstractCanvas* canvas) const;
+    bool CheckCharaUnlock();
 
    public:
     Result() = default;

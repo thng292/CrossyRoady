@@ -43,6 +43,8 @@ namespace GameUtils {
         ConsoleGame::Box box1, ConsoleGame::Box box2
     );
 
+    std::string SecondsToMMSS(float time);
+
     float GetDistance(int x1, int y1, int x2, int y2);
     std::string GetPathToMap(GameType::MapType mapType);
     std::string GetPathToChar(GameType::CharaType charaType);

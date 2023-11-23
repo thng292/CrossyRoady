@@ -20,6 +20,7 @@ void Character::Init(CharaType type, float xIn, float yIn)
     maxHealth = CHARA_HEALTH[type];
     curHealth = maxHealth;
     _type = type;
+    // skillAdd
 
     LoadSprites(type);
     SetSpeed(70);

@@ -36,7 +36,7 @@ void GameMap::Init(const std::any& args)
         std::any_cast<const GameMapData&>(args);*/
     GameMapData gm;
     gm.charaType = KRONII;
-    gm.mapMode = INF;
+    gm.mapMode = NINF;
     gm.mapType = SPACE;
     gm.mapDifficulty = MHARD;
     SetGameMapData(gm);
@@ -44,11 +44,15 @@ void GameMap::Init(const std::any& args)
         gameEventArgs.mobRange = gameData.mapDifficulty;
         gameEventArgs.mapDragSpeed =
             gameData.mapDifficulty == MHARD ? MAP_DRAG_SPEED : 0.0f;
+        gameEventArgs.difficultyReached =
+            static_cast<MobType>(gameData.mapDifficulty - 1);
     } else {
         gameEventArgs.mobRange = 1;
     }
 
+    gameEventArgs.timeLeft = 10;
     gameEventArgs.skillCharge = MAX_SKILL_CHARGE;
+    gameEventArgs.currentScore = 300;
 
     menu.Init(
         {20, 80},
@@ -83,6 +87,7 @@ AbstractNavigation::NavigationRes GameMap::Update(
     UpdateDifficulty();
     UpdateLanes(deltaTime);
     UpdateCooldowns(deltaTime);
+    UpdateTime(deltaTime);
 
     CheckGameOver();
     CheckCollision(deltaTime);
@@ -306,6 +311,7 @@ void GameMap::HandleItemCollision()
             }
             break;
     }
+    gameEventArgs.numOfItemPick += 1;
 }
 
 void GameMap::HandleGameOver(
@@ -320,7 +326,17 @@ void GameMap::HandleGameOver(
     gameSprites.deathVfx.AutoUpdateFrame(deltaTime);
     if (gameOverWait <= 0) {
         //  go to next screen
-        res = navigation->Navigate(L"Result");
+        GameResult gameRes;
+        gameRes.damage = gameEventArgs.damageTaken;
+        gameRes.diff = gameEventArgs.difficultyReached;
+        gameRes.numOfItem = gameEventArgs.numOfItemPick;
+        gameRes.numOfMob = gameEventArgs.numOfMobsHit;
+        gameRes.numOfSkill = gameEventArgs.numOfSkillUse;
+        gameRes.score = gameEventArgs.currentScore;
+        gameRes.time = gameEventArgs.playTime;
+        gameRes.map = gameData.mapType;
+
+        res = navigation->Navigate(L"Result", gameRes);
     }
 }
 
@@ -716,12 +732,13 @@ void GameMap::Draw(AbstractCanvas* canvas) const
 {
     DrawFlat(canvas);
     DrawEntity(canvas);
+    DrawDarkness(canvas);
     DrawHealth(canvas);
     DrawSkill(canvas);
     DrawDebuff(canvas);
     DrawScore(canvas);
     DrawDeathVFX(canvas);
-    DrawDarkness(canvas);
+    DrawTime(canvas);
     if (gameFlags.gamePaused) {
         if (selectedScr == -1) {
             menu.Draw(canvas);
@@ -895,6 +912,19 @@ void GameMap::DrawDeathVFX(ConsoleGame::AbstractCanvas* canvas) const
     );
 }
 
+void GameMap::DrawTime(ConsoleGame::AbstractCanvas* canvas) const
+{
+    if (gameData.mapMode != NINF) return;
+    Font::DrawString(
+        canvas,
+        SecondsToMMSS(gameEventArgs.timeLeft),
+        {170, 10},
+        1,
+        1,
+        (Color)14
+    );
+}
+
 void GameMap::ResetFlags()
 {
     if (gameFlags.gamePaused) return;
@@ -1025,6 +1055,7 @@ void GameMap::CheckSkill()
     gameEventArgs.skillType = charaType;
     gameFlags.skillActivate = true;
     gameEventArgs.skillCharge = 0;
+    gameEventArgs.numOfSkillUse += 1;
 }
 
 void GameMap::CheckOutOfBound()
@@ -1166,6 +1197,7 @@ void GameMap::HandleDamage()
     } else {
         int newHealth =
             character.GetCurHealth() - (gameEventArgs.collidedMobtype + 1);
+        gameEventArgs.damageTaken += gameEventArgs.collidedMobtype + 1;
         character.SetCurHealth(newHealth);
 
         if (character.GetCurHealth() > 0 && R.Config.Sfx) {
@@ -1174,6 +1206,7 @@ void GameMap::HandleDamage()
     }
     gameFlags.isDamageCooldown = true;
     gameEventArgs.damageCooldownTime = 3;
+    gameEventArgs.numOfMobsHit += 1;
 }
 
 void GameMap::HandleDebuff(float deltaTime)
@@ -1193,8 +1226,9 @@ void GameMap::HandleDebuff(float deltaTime)
             if (gameEventArgs.notMovingTime >= MAX_IDLE_TIME) {
                 int newHealth = character.GetCurHealth() - 1;
                 character.SetCurHealth(newHealth);
-                gameEventArgs.notMovingTime = 0;
 
+                gameEventArgs.damageTaken += 1;
+                gameEventArgs.notMovingTime = 0;
                 gameFlags.isDamageCooldown = true;
                 gameEventArgs.damageCooldownTime = 3;
 
@@ -1346,19 +1380,22 @@ void GameMap::UpdateDifficulty()
 {
     if (gameFlags.gamePaused) return;
     if (gameFlags.isGameOver) return;
-
     if (gameData.mapDifficulty != MPROG) return;
+
     if (gameEventArgs.currentScore >= 150) {
         gameEventArgs.mobRange = 3;
+        gameEventArgs.difficultyReached = HARD;
         if (gameFlags.allowLaneUpdate && !gameFlags.skillInUse) {
             gameEventArgs.mapDragSpeed = MAP_DRAG_SPEED;
         }
     } else if (gameEventArgs.currentScore >= 50) {
         gameEventArgs.mobRange = 2;
         gameEventArgs.mapDragSpeed = 0;
+        gameEventArgs.difficultyReached = NORMAL;
     } else {
         gameEventArgs.mobRange = 1;
         gameEventArgs.mapDragSpeed = 0;
+        gameEventArgs.difficultyReached = EASY;
     }
 }
 
@@ -1371,6 +1408,22 @@ void GameMap::UpdateMapSpeed()
         gameEventArgs.mapSpeedY = character.getSpeed();
     } else {
         gameEventArgs.mapSpeedY = gameEventArgs.mapDragSpeed;
+    }
+}
+
+void GameMap::UpdateTime(float deltaTime)
+{
+    if (gameFlags.gamePaused) return;
+    if (gameFlags.isGameOver) return;
+    gameEventArgs.playTime += deltaTime;
+
+    if (gameData.mapMode != NINF) return;
+    gameEventArgs.timeLeft -= deltaTime;
+    if (gameEventArgs.timeLeft <= 0) {
+        gameFlags.isGameOver = true;
+        if (R.Config.Sfx) {
+            gameAudio.deadSfx.Play();
+        }
     }
 }
 

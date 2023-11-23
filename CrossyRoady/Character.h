@@ -15,6 +15,7 @@ class Character {
     int maxHealth;
     int curHealth;
     float _speed;
+    size_t skillAdd;
 
     float x;
     float y;

@@ -79,6 +79,7 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void DrawDarkness(ConsoleGame::AbstractCanvas* canvas) const;
     void DrawScore(ConsoleGame::AbstractCanvas* canvas) const;
     void DrawDeathVFX(ConsoleGame::AbstractCanvas* canvas) const;
+    void DrawTime(ConsoleGame::AbstractCanvas* canvas) const;
 
     void ResetFlags();
 
@@ -92,6 +93,7 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void UpdateCooldowns(float deltaTime);
     void UpdateDifficulty();
     void UpdateMapSpeed();
+    void UpdateTime(float deltaTime);
 
     void HandleCollision(
         const std::unique_ptr<Lane>& lane, GameType::CollisionType colType

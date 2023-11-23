@@ -1,10 +1,12 @@
 #include "Result.h"
 
 #include "Common.h"
+#include "GameUtils.h"
 #include "StringRes.h"
-#include "TimePlayedTracker.h"
 
 using namespace ConsoleGame;
+using namespace GameType;
+using namespace GameUtils;
 
 constexpr Color Black = Color(13);
 constexpr Color White = Color(14);
@@ -16,6 +18,12 @@ std::wstring_view Result::getName() { return ScreenName(); }
 
 void Result::Init(const std::any& args)
 {
+    if (args.has_value()) {
+        gameRes = any_cast<GameResult>(args);
+    }
+
+    charaUnlock = CheckCharaUnlock();
+
     menu.Init({90, 190}, {100, 18}, {R.String.Result.PlayAgain, R.String.Next});
     surfaceStat.props = {
         .size = {180, 170},
@@ -35,7 +43,16 @@ void Result::Init(const std::any& args)
         R.String.Result.ItemPick,
         R.String.Result.DiffReached};
 
-    std::string_view right[] = {"0", "0", "0", "0", "0", "0", "0"};
+    std::string tmp[] = {"Easy", "Normal", "Hard"};
+    std::string right[] = {
+        SecondsToMMSS(gameRes.time),
+        std::to_string(gameRes.score),
+        std::to_string(gameRes.damage),
+        std::to_string(gameRes.numOfMob),
+        std::to_string(gameRes.numOfSkill),
+        std::to_string(gameRes.numOfItem),
+        tmp[gameRes.diff],
+    };
 
     std::string spacePad = "";
     for (int i = 0; i < data.size(); i++) {
@@ -63,6 +80,11 @@ AbstractNavigation::NavigationRes Result::Update(
                     res = navigation->Navigate(L"GameMap");
                     break;
                 case 1:
+                    if (charaUnlock) {
+                        res = navigation->Navigate(L"CharaUnlock", gameRes.map);
+                    } else {
+                        res = navigation->Navigate(L"CharSelect");
+                    }
                     break;
             }
         }
@@ -88,4 +110,42 @@ void Result::DrawStat(ConsoleGame::AbstractCanvas* canvas) const
         Font::DrawString(canvas, data[i], tmp, 1, 0, Black);
         tmp.y += Font::GetDim(0).height + 3;
     }
+}
+
+bool Result::CheckCharaUnlock()
+{
+    bool res = false;
+    switch (gameRes.map) {
+        case CITY:
+            R.Config.CityXP += gameRes.score;
+            if (R.Config.CityXP >= CharaExpReq) {
+                res = true;
+            }
+            break;
+        case HOUSE:
+            R.Config.HouseXP += gameRes.score;
+            if (R.Config.HouseXP >= CharaExpReq) {
+                res = true;
+            }
+            break;
+        case DESERT:
+            R.Config.DesertXP += gameRes.score;
+            if (R.Config.DesertXP >= CharaExpReq) {
+                res = true;
+            }
+            break;
+        case SPACE:
+            R.Config.SpaceXP += gameRes.score;
+            if (R.Config.SpaceXP >= CharaExpReq) {
+                res = true;
+            }
+            break;
+        case CASINO:
+            R.Config.CasinoXP += gameRes.score;
+            if (R.Config.CasinoXP >= CharaExpReq) {
+                res = true;
+            }
+            break;
+    }
+    return res;
 }

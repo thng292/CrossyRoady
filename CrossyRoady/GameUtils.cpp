@@ -140,6 +140,17 @@ CollisionType GameUtils::GetCollisionType(
     return CollisionType::None;
 }
 
+std::string GameUtils::SecondsToMMSS(float time)
+{
+    auto min = (int)time / 60;
+    auto sec = (int)time % 60;
+    std::string minStr =
+        (min < 10) ? "0" + std::to_string(min) : std::to_string(min);
+    std::string secStr =
+        (sec < 10) ? "0" + std::to_string(sec) : std::to_string(sec);
+    return std::format("{}:{}", minStr, secStr);
+}
+
 float GameUtils::GetDistance(int x1, int y1, int x2, int y2)
 {
     return std::hypot(x2 - x1, y2 - y1);
