@@ -237,17 +237,25 @@ struct StringResource {
 struct CharStat {
     uint8_t Speed = 0;
     uint8_t Health = 0;
-    uint8_t CoolDown = 0;
-    uint8_t UpgradedCoolDown = 0;
+    uint8_t ChargeStep = 0;
 };
 
 struct CharsStat {
-    CharStat Fauna;
-    CharStat Irys;
-    CharStat Mumei;
-    CharStat Kronii;
-    CharStat Sana;
-    CharStat Bae;
+    CharStat Fauna = {.Speed = 70, .Health = 3, .ChargeStep = 0};
+    CharStat Irys = {.Speed = 70, .Health = 4, .ChargeStep = 0};
+    CharStat Mumei = {.Speed = 70, .Health = 3, .ChargeStep = 0};
+    CharStat Kronii = {.Speed = 70, .Health = 5, .ChargeStep = 0};
+    CharStat Sana = {.Speed = 70, .Health = 5, .ChargeStep = 0};
+    CharStat Bae = {.Speed = 70, .Health = 3, .ChargeStep = 0};
+};
+
+struct DebuffDuration {
+    uint8_t Forest = 10;
+    uint8_t City = 10;
+    uint8_t House = 10;
+    uint8_t Desert = 10;
+    uint8_t Space = 10;
+    uint8_t Casino = 10;
 };
 
 struct Config {
@@ -287,6 +295,7 @@ struct Config {
 struct Resource {
     const StringResource String;
     const CharsStat CharsStat;
+    const DebuffDuration DebuffDur;
     Config Config;
 };
 

@@ -6,7 +6,7 @@ using namespace ConsoleGame;
 Lane::Lane(
     float y,
     Vec2 dim,
-    const Sprite& laneSprite,
+    Sprite* laneSprite,
     LaneType type,
     bool isLeftToRight,
     const std::vector<float>& enList
@@ -19,25 +19,6 @@ Lane::Lane(
     entityHeight = dim.height;
     entityWidth = dim.width;
     entityList = enList;
-    SetY(y);
-}
-
-Lane::Lane(
-    float y,
-    ConsoleGame::Vec2 dim,
-    GameType::LaneType type,
-    bool isLeftToRight,
-    bool hasItem,
-    const std::vector<float>& enList
-)
-{
-    _type = type;
-    IsLeftToRight = isLeftToRight;
-    _hasItem = hasItem;
-    entityHeight = dim.height;
-    entityWidth = dim.width;
-    entityList = enList;
-
     SetY(y);
 }
 
@@ -186,11 +167,6 @@ std::vector<float> Lane::GetEntityList() const { return entityList; }
 
 float Lane::GetWidth() const { return entityWidth; }
 
-void Lane::SetLaneSprite(const ConsoleGame::Sprite& laneSprite)
-{
-    _laneSprite = laneSprite;
-}
-
 std::vector<Box> Lane::GetLaneHitBoxRTL() const
 {
     std::vector<Box> laneBoxList;
@@ -234,7 +210,7 @@ std::vector<Box> Lane::GetLaneHitBoxRTL() const
 void Lane::DrawLane(AbstractCanvas* canvas) const
 {
     for (int x = 0; x < _CONSOLE_WIDTH_; x += 32) {
-        _laneSprite.Draw(canvas, {x, laneDrawY});
+        _laneSprite->Draw(canvas, {x, laneDrawY});
     }
 }
 

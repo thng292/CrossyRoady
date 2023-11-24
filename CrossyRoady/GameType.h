@@ -18,7 +18,6 @@ namespace GameType {
 
     // Debuff values
     constexpr int MAP_DEBUFF_COOLDOWN = 30;
-
     constexpr int MAX_IDLE_TIME = 3;
     constexpr int IRYS_DEBUFF_HEALTH = 1;
     constexpr int VISIBLE_RADIUS = 30;
@@ -54,21 +53,6 @@ namespace GameType {
     enum SkillCategory { TIME, SHIELD };
 
     enum ItemType { SPEED, STAR, HEALTH };
-
-    constexpr int CHARA_HEALTH[] = {3, 4, 3, 5, 5, 3};
-    constexpr double CHARA_SPEED[] = {120, 120, 180, 120, 120, 120};
-    constexpr float DEBUFF_DURATION[] = {10, 10, 10, 10, 30, 10};
-
-    const std::string CHARA_NAME_FILE[] = {
-        "fauna", "irys", "mumei", "kronii", "sana", "bae"};
-
-    const std::string MAP_NAME_FILE[] = {
-        "forest", "city", "house", "desert", "space", "casino"};
-
-    const std::string MOB_NAME_FILE[] = {"mob1", "mob2", "mob3"};
-
-    const std::string SPRITE_NAME_FILE[] = {
-        "road", "block", "float", "health", "skill", "debuff", "speed", "star"};
 
     struct MobData {
         MobType type;

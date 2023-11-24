@@ -8,24 +8,17 @@
 class Item {
    private:
     GameType::ItemType _type;
-    ConsoleGame::AniSprite _sprite;
+    ConsoleGame::AniSprite* _sprite;
     float _x, _y;
 
    public:
     Item() = default;
-    Item(
-        GameType::ItemType type,
-        const ConsoleGame::AniSprite& sprite,
-        float x,
-        float y
-    );
-    Item(GameType::ItemType type, const ConsoleGame::AniSprite& sprite);
 
     void Init(
         float x,
         float y,
         GameType::ItemType type,
-        const ConsoleGame::AniSprite& sprite
+        ConsoleGame::AniSprite* sprite
     );
 
     void Draw(ConsoleGame::AbstractCanvas* canvas) const;

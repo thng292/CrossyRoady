@@ -17,13 +17,12 @@ void Character::Init(CharaType type, float xIn, float yIn)
     x = xIn;
     y = yIn;
 
-    maxHealth = CHARA_HEALTH[type];
+    maxHealth = charStat[type].Health;
     curHealth = maxHealth;
     _type = type;
-    // skillAdd
+    SetSpeed(charStat[type].Speed);
 
     LoadSprites(type);
-    SetSpeed(70);
 
     currentSprite = &upSprite;
 };
@@ -94,7 +93,7 @@ void Character::InitSave(
 
 void Character::LoadSprites(CharaType type)
 {
-    std::string_view charNameFile = CHARA_NAME_FILE[type];
+    std::string_view charNameFile = fileCharName[type];
     leftSprite.Load(std::format(
         "{}{}{}L.anisprite", RESOURCE_PATH, CHARACTER_PATH, charNameFile
     ));

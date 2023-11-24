@@ -24,6 +24,7 @@ class Character {
 
     ConsoleGame::AniSprite* currentSprite;
     ConsoleGame::AniSprite leftSprite, upSprite, rightSprite, downSprite;
+    CharStat* charStat = ((CharStat*)&R.CharsStat);
 
     void UpdateHitBox(ConsoleGame::AniSprite& sprite);
 

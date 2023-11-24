@@ -3,7 +3,7 @@
 #include "Lane.h"
 
 class SafeZone : public Lane {
-    ConsoleGame::Sprite _blockSprite;
+    ConsoleGame::Sprite* _blockSprite;
 
    public:
     SafeZone() = default;
@@ -12,23 +12,14 @@ class SafeZone : public Lane {
 
     SafeZone(
         float y,
-        const ConsoleGame::Sprite& safeSprite,
-        const ConsoleGame::Sprite& blockSprite,
+        ConsoleGame::Sprite* safeSprite,
+        ConsoleGame::Sprite* blockSprite,
         bool isLeftToRight,
         bool isInitialSafe = false,
         std::vector<float> enList = std::vector<float>()
     );
 
-    SafeZone(
-        float y,
-        ConsoleGame::Vec2 dim,
-        bool isLeftToRight,
-        bool hasItem,
-        const std::vector<float>& enList
-    );
-
     void DrawEntity(ConsoleGame::AbstractCanvas* canvas) const override;
-    void SetSprite(const ConsoleGame::Sprite& sprite);
 
     ConsoleGame::Box GetHitBox(size_t ind) const;
 };

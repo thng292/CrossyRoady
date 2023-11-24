@@ -22,26 +22,17 @@ class Lane {
     float entityFeetY;
     int entityDrawY;
 
-    ConsoleGame::Sprite _laneSprite;
+    ConsoleGame::Sprite* _laneSprite;
 
    public:
     Lane() = default;
     Lane(
         float y,
         ConsoleGame::Vec2 dim,
-        const ConsoleGame::Sprite& laneSprite,
+        ConsoleGame::Sprite* laneSprite,
         GameType::LaneType type,
         bool isLeftToRight,
         const std::vector<float>& enList = std::vector<float>()
-    );
-
-    Lane(
-        float y,
-        ConsoleGame::Vec2 dim,
-        GameType::LaneType type,
-        bool isLeftToRight,
-        bool hasItem,
-        const std::vector<float>& enList
     );
 
     virtual void Init();
@@ -64,7 +55,6 @@ class Lane {
 
     void SetY(float y);
     void SetHasItem(bool hasItem);
-    void SetLaneSprite(const ConsoleGame::Sprite& laneSprite);
 
     void DrawLane(ConsoleGame::AbstractCanvas* canvas) const;
 

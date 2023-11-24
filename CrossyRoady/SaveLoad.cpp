@@ -91,14 +91,14 @@ std::unique_ptr<Lane> GameMap::GetEquivLane(
 )
 {
     std::unique_ptr<Lane> lane;
-    AniSprite mobSprite = GetMobSprite(valLane.mobType, valLane.IsLeftToRight);
+    AniSprite &mobSprite = GetMobSprite(valLane.mobType, valLane.IsLeftToRight);
     switch (valLane.type) {
         case ROAD:
             lane = std::make_unique<Road>(
                 valLane.laneY,
                 valLane.mobType,
-                gameSprites.roadSprite,
-                mobSprite,
+                &gameSprites.roadSprite,
+                &mobSprite,
                 valLane.IsLeftToRight,
                 enList
             );
@@ -107,8 +107,8 @@ std::unique_ptr<Lane> GameMap::GetEquivLane(
             lane = std::make_unique<Rail>(
                 valLane.laneY,
                 valLane.mobType,
-                gameSprites.roadSprite,
-                mobSprite,
+                &gameSprites.roadSprite,
+                &mobSprite,
                 valLane.IsLeftToRight,
                 enList
             );
@@ -116,8 +116,8 @@ std::unique_ptr<Lane> GameMap::GetEquivLane(
         case SAFE:
             lane = std::make_unique<SafeZone>(
                 valLane.laneY,
-                gameSprites.safeSprite,
-                gameSprites.blockSprite,
+                &gameSprites.safeSprite,
+                &gameSprites.blockSprite,
                 valLane.IsLeftToRight,
                 false,
                 enList
@@ -126,8 +126,8 @@ std::unique_ptr<Lane> GameMap::GetEquivLane(
         case WATER:
             lane = std::make_unique<Water>(
                 valLane.laneY,
-                gameSprites.waterSprite,
-                gameSprites.floatSprite,
+                &gameSprites.waterSprite,
+                &gameSprites.floatSprite,
                 valLane.IsLeftToRight,
                 enList
             );
@@ -182,7 +182,7 @@ void GameMap::LoadGameData()
         saveData.mapItem.x,
         saveData.mapItem.y,
         saveData.mapItem.type,
-        GetItemSprite(saveData.mapItem.type)
+        &GetItemSprite(saveData.mapItem.type)
     );
 
     size_t listSize;

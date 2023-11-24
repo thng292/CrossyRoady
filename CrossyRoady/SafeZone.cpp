@@ -16,15 +16,15 @@ void SafeZone::SafeInit()
 
 SafeZone::SafeZone(
     float y,
-    const ConsoleGame::Sprite& safeSprite,
-    const ConsoleGame::Sprite& blockSprite,
+    ConsoleGame::Sprite* safeSprite,
+    ConsoleGame::Sprite* blockSprite,
     bool isLeftToRight,
     bool isInitialSafe,
     std::vector<float> enList
 )
     : Lane(
           y,
-          blockSprite.GetDim(),
+          blockSprite->GetDim(),
           safeSprite,
           GameType::LaneType::SAFE,
           isLeftToRight,
@@ -41,34 +41,18 @@ SafeZone::SafeZone(
     }
 }
 
-SafeZone::SafeZone(
-    float y,
-    ConsoleGame::Vec2 dim,
-    bool isLeftToRight,
-    bool hasItem,
-    const std::vector<float>& enList
-)
-    : Lane(y, dim, GameType::LaneType::SAFE, isLeftToRight, hasItem, enList)
-{
-}
-
 void SafeZone::DrawEntity(ConsoleGame::AbstractCanvas* canvas) const
 {
     size_t listSize = entityList.size();
     for (size_t i = 0; i < listSize; ++i) {
-        _blockSprite.Draw(canvas, {(int)entityList[i], entityDrawY});
+        _blockSprite->Draw(canvas, {(int)entityList[i], entityDrawY});
         // GameUtils::DrawHitbox(canvas, GetHitBox(i));
     }
 }
 
-void SafeZone::SetSprite(const ConsoleGame::Sprite& sprite)
-{
-    _blockSprite = sprite;
-}
-
 ConsoleGame::Box SafeZone::GetHitBox(size_t ind) const
 {
-    ConsoleGame::Box hitbox = _blockSprite.GetHitBox();
+    ConsoleGame::Box hitbox = _blockSprite->GetHitBox();
     hitbox.coord.x += entityList[ind];
     hitbox.coord.y = entityY - hitbox.coord.y;
 
