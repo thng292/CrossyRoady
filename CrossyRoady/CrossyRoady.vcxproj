@@ -181,6 +181,7 @@
     <ClCompile Include="HowToPlay.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Lane.cpp" />
+    <ClCompile Include="MapSelect.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="ReturnHome.cpp" />
     <ClCompile Include="Progress.cpp" />
@@ -225,6 +226,7 @@
     <ClInclude Include="HowToPlay.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Lane.h" />
+    <ClInclude Include="MapSelect.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="ReturnHome.h" />
     <ClInclude Include="Progress.h" />

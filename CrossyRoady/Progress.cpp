@@ -82,13 +82,13 @@ void Progress::Init(const std::any& args)
         std::to_string(R.Config.Walked),
         std::to_string(earnedXP),
         std::to_string(R.Config.GetCurrentLevel()),
-        std::to_string(R.Config.CharUnlocked) + "/6",
+        std::to_string(R.Config.GetCharUnlocked()) + "/6",
         std::format("{}/6", charUpgraded),
         std::to_string(R.Config.MapUnlocked) + "/6",
         std::format(
             "{:.2f}%",
             float(
-                R.Config.CharUnlocked - 1 + R.Config.MapUnlocked - 1 +
+                R.Config.GetCharUnlocked() - 1 + R.Config.MapUnlocked - 1 +
                 charUpgraded
             ) / 16
         ),

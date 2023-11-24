@@ -4,8 +4,6 @@
 #include <filesystem>
 #include <string_view>
 
-#include "../ConsoleEngine/Common.h"
-
 #define RESOURCE_PATH "resource/"
 #define CHARACTER_PATH "character/"
 #define FONT_PATH "font/"
@@ -132,6 +130,15 @@ struct StringResource {
     } CharUnlock;
 
     struct {
+        std::string_view Title = "Choose Level";
+        std::string_view Play = "Play";
+        std::string_view Mode = "Mode: ";
+        std::string_view Difficulty = "Difficulty: ";
+        std::string_view Music = "Music: ";
+        std::string_view Debuff = "Debuff: ";
+    } MapSelect;
+
+    struct {
         struct {
             std::string_view Name = "Forest";
             std::string_view Debuff =
@@ -248,10 +255,16 @@ struct Config {
     uint16_t SpaceXP = 0;
     uint16_t DesertXP = 0;
 
-    uint8_t CharUnlocked : 3 = 6;
     uint8_t MapUnlocked : 3 = 6;
     uint8_t Music : 1 = 1;
     uint8_t Sfx : 1 = 1;
+
+    uint8_t FaunaUnlocked : 1 = 1;
+    uint8_t IrysUnlocked : 1 = 0;
+    uint8_t MumeiUnlocked : 1 = 0;
+    uint8_t KroniiUnlocked : 1 = 0;
+    uint8_t SanaUnlocked : 1 = 0;
+    uint8_t BaeUnlocked : 1 = 0;
 
     uint8_t FaunaUpgraded : 1 = 0;
     uint8_t IrysUpgraded : 1 = 0;
@@ -262,9 +275,19 @@ struct Config {
 
     uint8_t UpgradePoint : 3 = 0;
 
+    uint16_t CasinoHighScore = 0;
+    uint16_t CityHighScore = 0;
+    uint16_t ForestHighScore = 0;
+    uint16_t HouseHighScore = 0;
+    uint16_t SpaceHighScore = 0;
+    uint16_t DesertHighScore = 0;
+
     void Load(std::filesystem::path path);
     void Save(std::filesystem::path path);
     bool GetCharUpgradeStatus(uint8_t character);
+    uint8_t GetCharUnlocked();
+    bool GetCharUnlocked(uint8_t character);
+    void SetCharUnlocked(uint8_t character);
     void SetCharUpgradeStatus(uint8_t character);
     uint64_t GetTotalXP();
     uint8_t GetCurrentLevel();

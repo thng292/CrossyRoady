@@ -17,6 +17,7 @@ namespace ConsoleGame {
                 continue;
             }*/
             _command.wait(nullptr);
+            //LogDebug("{}", _command.load());
             auto err = mciSendStringA(_command.load(), 0, 0, 0);
 #ifdef _DEBUG
             if (err) {
@@ -52,7 +53,6 @@ namespace ConsoleGame {
         );
         _command.store(commandBuffer);
         _command.notify_all();
-        LogDebug("{}", commandBuffer);
     }
 
     void Audio::Close()
@@ -89,7 +89,6 @@ namespace ConsoleGame {
         snprintf(commandBuffer, sizeof(commandBuffer), command, thiss);
         _command.store(commandBuffer);
         _command.notify_all();
-        LogDebug("{}", commandBuffer);
         _isPlaying = true;
     }
 
@@ -99,7 +98,6 @@ namespace ConsoleGame {
         snprintf(commandBuffer, sizeof(commandBuffer), "pause %llu", thiss);
         _command.store(commandBuffer);
         _command.notify_all();
-        LogDebug("{}", commandBuffer);
         _isPlaying = false;
     }
 
@@ -109,7 +107,6 @@ namespace ConsoleGame {
         snprintf(commandBuffer, sizeof(commandBuffer), "resume %llu", thiss);
         _command.store(commandBuffer);
         _command.notify_all();
-        LogDebug("{}", commandBuffer);
         _isPlaying = true;
     }
 
@@ -119,7 +116,6 @@ namespace ConsoleGame {
         snprintf(commandBuffer, sizeof(commandBuffer), "stop %llu", thiss);
         _command.store(commandBuffer);
         _command.notify_all();
-        LogDebug("{}", commandBuffer);
     }
 
     void Audio::ChangeSong(std::filesystem::path file)

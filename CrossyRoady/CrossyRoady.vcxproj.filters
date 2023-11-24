@@ -19,9 +19,6 @@
     <Filter Include="Source Files\ScreenImpl">
       <UniqueIdentifier>{9cc318cb-10f9-48cd-b9fb-f084d90b0b90}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\LevelHeader">
-      <UniqueIdentifier>{14343920-bed3-4a5a-b3b1-bd112efee60f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\UIComponent">
       <UniqueIdentifier>{3bf5a665-bfcf-411b-bf0d-379ad5a06c12}</UniqueIdentifier>
     </Filter>
@@ -129,17 +126,20 @@
     <ClCompile Include="Rail.cpp">
       <Filter>Source Files\GameImpl</Filter>
     </ClCompile>
-    <ClCompile Include="Item.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ReturnHome.cpp">
       <Filter>Source Files\ScreenImpl</Filter>
     </ClCompile>
     <ClCompile Include="CharaUnlock.cpp">
       <Filter>Source Files\ScreenImpl</Filter>
     </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Source Files\GameImpl</Filter>
+    </ClCompile>
+    <ClCompile Include="MapSelect.cpp">
+      <Filter>Source Files\ScreenImpl</Filter>
+    </ClCompile>
     <ClCompile Include="Result.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\ScreenImpl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -236,9 +236,6 @@
     <ClInclude Include="Character.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameMaster.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
@@ -256,6 +253,12 @@
     </ClInclude>
     <ClInclude Include="SaveLoadType.h">
       <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="MapSelect.h">
+      <Filter>Header Files\ScreenHeader</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

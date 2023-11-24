@@ -46,11 +46,13 @@ void CharacterSelectScreen::LoadRes(bool fresh)
         RESOURCE_PATH EXTRA_PATH "{}-sel.hex", fileCharName[selected]
     ));
     ChangeColorPalette(currentPalette);
+
     charShowCase.Load(std::format(
         RESOURCE_PATH EXTRA_PATH "{}-show.anisprite", fileCharName[selected]
     ));
     charShowCase.ResetFrame();
     charShowCase.Play(true);
+
     speedIcon.Load(RESOURCE_PATH EXTRA_PATH "speed.sprite");
     heartIcon.Load(std::format(
         RESOURCE_PATH EXTRA_PATH "{}-health.sprite", fileCharName[selected]
@@ -63,18 +65,19 @@ void CharacterSelectScreen::LoadRes(bool fresh)
     ));
 
     if (fresh) {
-        for (int i = 0; i < R.Config.CharUnlocked; i++) {
+        for (int i = 0; i < numberOfChars; i++) {
             if (i == selected) {
                 continue;
             }
-            charAvaMenu[i].Load(std::format(
-                RESOURCE_PATH EXTRA_PATH "{}-gs.sprite", fileCharName[i]
-            ));
-        }
-        for (int i = R.Config.CharUnlocked; i < numberOfChars; i++) {
-            charAvaMenu[i].Load(std::format(
-                RESOURCE_PATH EXTRA_PATH "{}-locked.sprite", fileCharName[i]
-            ));
+            if (R.Config.GetCharUnlocked(i)) {
+                charAvaMenu[i].Load(std::format(
+                    RESOURCE_PATH EXTRA_PATH "{}-gs.sprite", fileCharName[i]
+                ));
+            } else {
+                charAvaMenu[i].Load(std::format(
+                    RESOURCE_PATH EXTRA_PATH "{}-locked.sprite", fileCharName[i]
+                ));
+            }
         }
     } else {
         charAvaMenu[lastSelected].Load(std::format(
@@ -100,10 +103,11 @@ AbstractNavigation::NavigationRes CharacterSelectScreen::Update(
     charShowCase.AutoUpdateFrame(deltaTime);
     auto mpos = GetMousePos();
     auto inBox = [](Vec2 pos, Vec2 mpos) {
-        return mpos.x >= pos.x and mpos.x <= pos.x + 56 and mpos.y >= pos.y and mpos.y <= pos.y + 56; 
+        return mpos.x >= pos.x and mpos.x <= pos.x + 56 and mpos.y >= pos.y and
+               mpos.y <= pos.y + 56;
     };
-    for (int i = 0; i < R.Config.CharUnlocked; i++) {
-        if (inBox(charAvaPos[i], mpos)) {
+    for (int i = 0; i < numberOfChars; i++) {
+        if (inBox(charAvaPos[i], mpos) and R.Config.GetCharUnlocked(i)) {
             selected = i;
         }
     }
@@ -119,7 +123,7 @@ AbstractNavigation::NavigationRes CharacterSelectScreen::Update(
         }
     }
     if (UiIsKeyMeanDown()) {
-        if (selected + 2 < R.Config.CharUnlocked and not isBackButtSelected) {
+        if (selected + 2 < numberOfChars and not isBackButtSelected) {
             selected += 2;
         } else {
             isBackButtSelected = false;
@@ -133,7 +137,7 @@ AbstractNavigation::NavigationRes CharacterSelectScreen::Update(
         }
     }
     if (UiIsKeyMeanRight()) {
-        if (selected + 1 < R.Config.CharUnlocked and not isBackButtSelected) {
+        if (selected + 1 < numberOfChars and not isBackButtSelected) {
             selected += 1;
         } else {
             isBackButtSelected = false;
@@ -151,6 +155,10 @@ AbstractNavigation::NavigationRes CharacterSelectScreen::Update(
     }
     if (UiIsKeyMeanBack()) {
         return navigation->Back();
+    }
+    while (!R.Config.GetCharUnlocked(selected)) {
+        selected++;
+        selected = selected % numberOfChars;
     }
     if (selected != lastSelected) {
         LoadRes(false);

@@ -367,3 +367,5 @@ spritegen/outtest
 *.mp4
 *.exe
 /CrossyRoady/out.anisprite
+log.txt
+config.bin

@@ -1,6 +1,7 @@
 #include "CharactersInfo.h"
 
 #include <format>
+
 #include "GameType.h"
 
 using namespace ConsoleGame;
@@ -59,6 +60,7 @@ void CharactersInfo::Init(const std::any& args)
         "{}{}", R.String.CharInfo.UpgradePoint, int(R.Config.UpgradePoint)
     );
     LoadStuff();
+    numberOfCharOwned = R.Config.GetCharUnlocked();
 }
 
 AbstractScreen* CharactersInfo::Clone() const { return new CharactersInfo; }
@@ -79,12 +81,14 @@ AbstractNavigation::NavigationRes CharactersInfo::Update(
                 leftArr.ChangeColor(fontColor, fontColor);
             },
             [&] {
-                currentSelect--;
+                while (currentSelect--) {
+                    if (R.Config.GetCharUnlocked(currentSelect)) break;
+                }
                 LoadStuff();
             }
         );
     }
-    if (currentSelect != R.Config.CharUnlocked - 1) {
+    if (currentSelect != numberOfCharOwned - 1) {
         rightArr.Update(
             deltaTime,
             [&] {
@@ -92,7 +96,9 @@ AbstractNavigation::NavigationRes CharactersInfo::Update(
                 rightArr.ChangeColor(fontColor, fontColor);
             },
             [&] {
-                currentSelect++;
+                while (currentSelect--) {
+                    if (R.Config.GetCharUnlocked(currentSelect)) break;
+                }
                 LoadStuff();
             }
         );
@@ -130,7 +136,7 @@ void CharactersInfo::Draw(AbstractCanvas* canvas) const
     if (currentSelect != 0) {
         leftArr.Draw(canvas);
     }
-    if (currentSelect != R.Config.CharUnlocked - 1) {
+    if (currentSelect != numberOfCharOwned - 1) {
         rightArr.Draw(canvas);
     }
     if (redraw) {

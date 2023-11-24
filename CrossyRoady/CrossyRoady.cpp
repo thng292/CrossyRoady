@@ -12,6 +12,7 @@
 #include "Result.h"
 #include "ReturnHome.h"
 #include "Setting.h"
+#include "MapSelect.h"
 using namespace ConsoleGame;
 
 // #define _TEST_PERF_ 
@@ -49,7 +50,8 @@ auto main() -> int
     game->AddScreen(std::make_unique<ReturnHome>());
     game->AddScreen(std::make_unique<CharaUnlock>());
     game->AddScreen(std::make_unique<Result>());
-    game->Run(GameMap::ScreenName());
+    game->AddScreen(std::make_unique<MapSelect>());
+    game->Run(MainMenu::ScreenName());
 
     return 0;
 }
