@@ -91,14 +91,14 @@ std::unique_ptr<Lane> GameMap::GetEquivLane(
 )
 {
     std::unique_ptr<Lane> lane;
-    AniSprite &mobSprite = GetMobSprite(valLane.mobType, valLane.IsLeftToRight);
+    AniSprite *mobSprite = GetMobSprite(valLane.mobType, valLane.IsLeftToRight);
     switch (valLane.type) {
         case ROAD:
             lane = std::make_unique<Road>(
                 valLane.laneY,
                 valLane.mobType,
                 &gameSprites.roadSprite,
-                &mobSprite,
+                mobSprite,
                 valLane.IsLeftToRight,
                 enList
             );
@@ -108,7 +108,7 @@ std::unique_ptr<Lane> GameMap::GetEquivLane(
                 valLane.laneY,
                 valLane.mobType,
                 &gameSprites.roadSprite,
-                &mobSprite,
+                mobSprite,
                 valLane.IsLeftToRight,
                 enList
             );

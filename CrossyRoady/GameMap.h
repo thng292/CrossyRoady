@@ -136,7 +136,7 @@ class GameMap : public ConsoleGame::AbstractScreen {
     );
 
     std::unique_ptr<Lane> GetRandomLane();
-    ConsoleGame::AniSprite& GetMobSprite(
+    ConsoleGame::AniSprite* GetMobSprite(
         GameType::MobType type, bool isLeftToRight
     );
     ConsoleGame::AniSprite& GetItemSprite(GameType::ItemType type);

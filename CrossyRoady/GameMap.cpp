@@ -466,7 +466,7 @@ std::unique_ptr<Lane> GameMap::GetRandomLane()
 
     // produce random mob
     MobType mobType = static_cast<MobType>(rand() % gameEventArgs.mobRange);
-    AniSprite& mobSprite = GetMobSprite(mobType, isLeftToRight);
+    AniSprite* mobSprite = GetMobSprite(mobType, isLeftToRight);
 
     std::unique_ptr<Lane> lane;
     bool isNotSafeLane = true;
@@ -477,7 +477,7 @@ std::unique_ptr<Lane> GameMap::GetRandomLane()
                 laneList.back()->GetY() + 32,
                 mobType,
                 &gameSprites.roadSprite,
-                &mobSprite,
+                mobSprite,
                 isLeftToRight
             );
             break;
@@ -486,7 +486,7 @@ std::unique_ptr<Lane> GameMap::GetRandomLane()
                 laneList.back()->GetY() + 32,
                 mobType,
                 &gameSprites.roadSprite,
-                &mobSprite,
+                mobSprite,
                 isLeftToRight
             );
             break;
@@ -540,32 +540,32 @@ std::unique_ptr<Lane> GameMap::GetRandomLane()
     return lane;
 }
 
-ConsoleGame::AniSprite& GameMap::GetMobSprite(
+ConsoleGame::AniSprite* GameMap::GetMobSprite(
     GameType::MobType type, bool isLeftToRight
 )
 {
     if (isLeftToRight) {
         switch (type) {
             case EASY:
-                return gameSprites.mobSpriteEasy.MobRight;
+                return &gameSprites.mobSpriteEasy.MobRight;
                 break;
             case NORMAL:
-                return gameSprites.mobSpriteNormal.MobRight;
+                return &gameSprites.mobSpriteNormal.MobRight;
                 break;
             case HARD:
-                return gameSprites.mobSpriteHard.MobRight;
+                return &gameSprites.mobSpriteHard.MobRight;
                 break;
         }
     } else {
         switch (type) {
             case EASY:
-                return gameSprites.mobSpriteEasy.MobLeft;
+                return &gameSprites.mobSpriteEasy.MobLeft;
                 break;
             case NORMAL:
-                return gameSprites.mobSpriteNormal.MobLeft;
+                return &gameSprites.mobSpriteNormal.MobLeft;
                 break;
             case HARD:
-                return gameSprites.mobSpriteHard.MobLeft;
+                return &gameSprites.mobSpriteHard.MobLeft;
                 break;
         }
     }
