@@ -52,7 +52,7 @@ auto main() -> int
     game->AddScreen(std::make_unique<Result>());
     game->AddScreen(std::make_unique<AskSave>());
 
-    game->Run(GameMap::ScreenName());
+    game->Run(MainMenu::ScreenName());
 
     return 0;
 }
