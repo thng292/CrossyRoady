@@ -55,7 +55,7 @@ ConsoleGame::AbstractNavigation::NavigationRes Credit::Update(
         [](uint8_t) noexcept {},
         [&](uint8_t) noexcept {
             audio.PlayClickSfx();
-            res = navigation->Back();
+            res = navigation->Back(1);
         }
     );
     return res;

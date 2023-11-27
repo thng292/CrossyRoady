@@ -2,8 +2,6 @@
 
 #include <format>
 
-#include "GameType.h"
-
 using namespace ConsoleGame;
 using namespace GameType;
 
@@ -30,6 +28,9 @@ std::wstring_view CharaUnlock::getName() { return ScreenName(); }
 
 void CharaUnlock::Init(const std::any& args)
 {
+    if (args.has_value()) {
+        mapType = std::any_cast<MapType>(args);
+    }
     menu.primaryColor = (Color)1;
     menu.secondaryColor = (Color)2;
     menu.tertiaryColor = (Color)0;
@@ -55,6 +56,10 @@ void CharaUnlock::Init(const std::any& args)
             break;
     }
     menu.Init({295, 160 + yShift}, {80, 18}, {R.String.Next});
+    unlockSfx.Open(RESOURCE_PATH SFX_PATH "unlock.wav");
+    if (R.Config.Sfx) {
+        unlockSfx.Play();
+    }
     LoadStuff();
 }
 
@@ -71,8 +76,9 @@ AbstractNavigation::NavigationRes CharaUnlock::Update(
         [&](uint8_t selection) noexcept {
             switch (selection) {
                 case 0:
-
-                    res = navigation->Back();
+                    res = navigation->PopBackTo(
+                        CharacterSelectScreen::ScreenName()
+                    );
                     break;
             }
         }

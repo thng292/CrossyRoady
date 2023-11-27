@@ -15,6 +15,7 @@ class Character {
     int maxHealth;
     int curHealth;
     float _speed;
+    size_t skillAdd;
 
     float x;
     float y;
@@ -23,6 +24,7 @@ class Character {
 
     ConsoleGame::AniSprite* currentSprite;
     ConsoleGame::AniSprite leftSprite, upSprite, rightSprite, downSprite;
+    CharStat* charStat = ((CharStat*)&R.CharsStat);
 
     void UpdateHitBox(ConsoleGame::AniSprite& sprite);
 

@@ -8,10 +8,10 @@ std::wstring_view ReturnHome::getName() { return ScreenName(); }
 
 void ReturnHome::Init(const std::any& args)
 {
-    menu.Init({20, 80}, {130, 18}, {R.String.Yes, R.String.No, R.String.Back});
+    menu.Init({127, 80}, {130, 18}, {R.String.Yes, R.String.No, R.String.Back});
     title = Button(
         {.size = {150, 24},
-         .pos = {10, 30},
+         .pos = {117, 30},
          .cornerSize = 5,
          .hasBorder = true,
          .background = (Color)14,

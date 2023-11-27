@@ -1,5 +1,6 @@
 #include <memory>
 
+#include "AskSave.h"
 #include "CharaSelectScreen.h"
 #include "CharaUnlock.h"
 #include "CharactersInfo.h"
@@ -15,7 +16,7 @@
 #include "MapSelect.h"
 using namespace ConsoleGame;
 
-// #define _TEST_PERF_ 
+// #define _TEST_PERF_
 
 const char* configFilePath = "config.txt";
 
@@ -33,7 +34,7 @@ auto main() -> int
     defer { R.Config.Save(CONFIG_PATH); };
 
     auto game =
-#ifndef _TEST_PERF_ 
+#ifndef _TEST_PERF_
         std::make_unique<Game>(L"Crossy Roady", GetDisplayRefreshRate());
 #else
         std::make_unique<Game>(L"Crossy Roady", 9999999);
@@ -50,6 +51,8 @@ auto main() -> int
     game->AddScreen(std::make_unique<ReturnHome>());
     game->AddScreen(std::make_unique<CharaUnlock>());
     game->AddScreen(std::make_unique<Result>());
+    game->AddScreen(std::make_unique<AskSave>());
+
     game->AddScreen(std::make_unique<MapSelect>());
     game->Run(MainMenu::ScreenName());
 

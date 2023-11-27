@@ -1,4 +1,5 @@
 #pragma once
+#include "CharaSelectScreen.h"
 #include "ConsoleGame.h"
 #include "GameType.h"
 #include "Menu.h"
@@ -9,6 +10,7 @@ class CharaUnlock : public ConsoleGame::AbstractScreen {
     ConsoleGame::Sprite portrait;
     ConsoleGame::Vec2 portraitPos;
     SharedAudio& audio = SharedAudio::GetInstance();
+    ConsoleGame::Audio unlockSfx;
     bool redraw = true;
     CharStuff charStuff;
     Menu<1> menu;

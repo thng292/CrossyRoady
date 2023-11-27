@@ -33,6 +33,14 @@ namespace GameUtils {
         GameType::MapType mapType, GameType::CharaType charaType
     );
 
+    void LoadHeartSprite(
+        ConsoleGame::AniSprite& sprite, GameType::CharaType charaType
+    );
+
+    ConsoleGame::Palette GetGamePalette(
+        GameType::MapType mapType, GameType::CharaType charaType
+    );
+
     void DrawHitbox(
         ConsoleGame::AbstractCanvas* canvas,
         ConsoleGame::Box hitbox,
@@ -42,6 +50,8 @@ namespace GameUtils {
     GameType::CollisionType GetCollisionType(
         ConsoleGame::Box box1, ConsoleGame::Box box2
     );
+
+    std::string SecondsToMMSS(float time);
 
     float GetDistance(int x1, int y1, int x2, int y2);
     std::string GetPathToMap(GameType::MapType mapType);

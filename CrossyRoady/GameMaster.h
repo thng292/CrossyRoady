@@ -72,6 +72,7 @@ namespace GameMaster {
         // Map stuff
         float mapSpeedY;
         float mapSpeedX;
+        float timeLeft = 60;
 
         // Results
         size_t currentScore;
@@ -80,7 +81,7 @@ namespace GameMaster {
         size_t numOfSkillUse;
         size_t numOfItemPick;
         GameType::MobType difficultyReached;
-        float playTime;
+        float playTime = 0;
 
         // Cooldown
         float damageCooldownTime = GameType::DAMAGE_COOLDOWN;

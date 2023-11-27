@@ -13,6 +13,7 @@
 #define SFX_PATH "sfx/"
 
 constexpr int LevelExpReq = 200;
+constexpr int CharaExpReq = 300;
 constexpr uint8_t numberOfChars = 6;
 
 constexpr std::array<std::string_view, 6> fileCharName = {
@@ -25,6 +26,8 @@ constexpr std::array<std::string_view, 3> fileMobName = {
     "mob1", "mob2", "mob3"};
 
 constexpr auto CONFIG_PATH = "config.bin";
+
+constexpr auto SAVE_PATH = "save.bin";
 
 struct CharStuff {
     std::string_view Name;
@@ -77,7 +80,7 @@ struct StringResource {
         std::string_view PlayTime = "Play time";
         std::string_view MobCollided = "Number of mobs hit";
         std::string_view SkillUse = "Number of skill uses";
-        std::string_view ItemPick = "Number of item picked";
+        std::string_view ItemPick = "Number of items picked";
         std::string_view DiffReached = "Difficulty reached";
 
         std::string_view PlayAgain = "Play again";
@@ -87,6 +90,10 @@ struct StringResource {
         std::string_view ReturnMenu = "Return to main menu";
         std::string_view SaveGame = "Save game?";
     } Pause;
+
+    struct {
+        std::string_view Continue = "Coninue playing your previous save?";
+    } AskSave;
 
     struct {
         std::string_view Title = "Setting";
@@ -172,6 +179,15 @@ struct StringResource {
             std::string_view Debuff =
                 "Randomly chooses a debuff from the other maps";
         } Casino;
+
+        struct {
+            std::string_view Forest = "Let Me Stay Here";
+            std::string_view City = "Theme of Irys";
+            std::string_view House = "Haunted Birdhouse";
+            std::string_view Desert = "Daydream";
+            std::string_view Space = "Daystar";
+            std::string_view Casino = "Play Dice!";
+        } BGM;
     } Map;
 
     struct {
@@ -230,17 +246,25 @@ struct StringResource {
 struct CharStat {
     uint8_t Speed = 0;
     uint8_t Health = 0;
-    uint8_t CoolDown = 0;
-    uint8_t UpgradedCoolDown = 0;
+    uint8_t ChargeStep = 0;
 };
 
 struct CharsStat {
-    CharStat Fauna;
-    CharStat Irys;
-    CharStat Mumei;
-    CharStat Kronii;
-    CharStat Sana;
-    CharStat Bae;
+    CharStat Fauna = {.Speed = 70, .Health = 3, .ChargeStep = 0};
+    CharStat Irys = {.Speed = 70, .Health = 4, .ChargeStep = 0};
+    CharStat Mumei = {.Speed = 70, .Health = 3, .ChargeStep = 0};
+    CharStat Kronii = {.Speed = 70, .Health = 5, .ChargeStep = 0};
+    CharStat Sana = {.Speed = 70, .Health = 5, .ChargeStep = 0};
+    CharStat Bae = {.Speed = 70, .Health = 3, .ChargeStep = 0};
+};
+
+struct DebuffDuration {
+    uint8_t Forest = 10;
+    uint8_t City = 10;
+    uint8_t House = 10;
+    uint8_t Desert = 10;
+    uint8_t Space = 10;
+    uint8_t Casino = 10;
 };
 
 struct Config {
@@ -296,6 +320,7 @@ struct Config {
 struct Resource {
     const StringResource String;
     const CharsStat CharsStat;
+    const DebuffDuration DebuffDur;
     Config Config;
 };
 

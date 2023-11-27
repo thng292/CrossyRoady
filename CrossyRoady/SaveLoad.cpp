@@ -43,7 +43,7 @@ void GameMap::SaveGameData()
     saveData.gameData = gameData;
     saveData.gameEventArgs = gameEventArgs;
     saveData.gameFlags = gameFlags;
-    std::ofstream outfile("save.bin", std::ios::binary);
+    std::ofstream outfile(SAVE_PATH, std::ios::binary);
     if (!outfile) {
         // Handle error opening the file
         return;
@@ -91,13 +91,13 @@ std::unique_ptr<Lane> GameMap::GetEquivLane(
 )
 {
     std::unique_ptr<Lane> lane;
-    AniSprite mobSprite = GetMobSprite(valLane.mobType, valLane.IsLeftToRight);
+    AniSprite *mobSprite = GetMobSprite(valLane.mobType, valLane.IsLeftToRight);
     switch (valLane.type) {
         case ROAD:
             lane = std::make_unique<Road>(
                 valLane.laneY,
                 valLane.mobType,
-                gameSprites.roadSprite,
+                &gameSprites.roadSprite,
                 mobSprite,
                 valLane.IsLeftToRight,
                 enList
@@ -107,7 +107,7 @@ std::unique_ptr<Lane> GameMap::GetEquivLane(
             lane = std::make_unique<Rail>(
                 valLane.laneY,
                 valLane.mobType,
-                gameSprites.roadSprite,
+                &gameSprites.roadSprite,
                 mobSprite,
                 valLane.IsLeftToRight,
                 enList
@@ -116,8 +116,8 @@ std::unique_ptr<Lane> GameMap::GetEquivLane(
         case SAFE:
             lane = std::make_unique<SafeZone>(
                 valLane.laneY,
-                gameSprites.safeSprite,
-                gameSprites.blockSprite,
+                &gameSprites.safeSprite,
+                &gameSprites.blockSprite,
                 valLane.IsLeftToRight,
                 false,
                 enList
@@ -126,8 +126,8 @@ std::unique_ptr<Lane> GameMap::GetEquivLane(
         case WATER:
             lane = std::make_unique<Water>(
                 valLane.laneY,
-                gameSprites.waterSprite,
-                gameSprites.floatSprite,
+                &gameSprites.waterSprite,
+                &gameSprites.floatSprite,
                 valLane.IsLeftToRight,
                 enList
             );
@@ -141,7 +141,7 @@ std::unique_ptr<Lane> GameMap::GetEquivLane(
 
 void GameMap::LoadGameData()
 {
-    std::ifstream infile("save.bin", std::ios::binary);
+    std::ifstream infile(SAVE_PATH, std::ios::binary);
     if (!infile) {
         // Handle error opening the file
         return;
@@ -166,6 +166,8 @@ void GameMap::LoadGameData()
     gameEventArgs = saveData.gameEventArgs;
     gameFlags = saveData.gameFlags;
 
+    LoadSprites();
+
     character.InitSave(
         saveData.character.type,
         saveData.character.x,
@@ -180,7 +182,7 @@ void GameMap::LoadGameData()
         saveData.mapItem.x,
         saveData.mapItem.y,
         saveData.mapItem.type,
-        GetItemSprite(saveData.mapItem.type)
+        &GetItemSprite(saveData.mapItem.type)
     );
 
     size_t listSize;
@@ -202,5 +204,4 @@ void GameMap::LoadGameData()
     }
     // Close the file
     infile.close();
-    std::remove("save.bin");
 }

@@ -141,6 +141,9 @@
     <ClCompile Include="Result.cpp">
       <Filter>Source Files\ScreenImpl</Filter>
     </ClCompile>
+    <ClCompile Include="AskSave.cpp">
+      <Filter>Source Files\ScreenImpl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="About.h">
@@ -258,6 +261,9 @@
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="MapSelect.h">
+      <Filter>Header Files\ScreenHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="AskSave.h">
       <Filter>Header Files\ScreenHeader</Filter>
     </ClInclude>
   </ItemGroup>

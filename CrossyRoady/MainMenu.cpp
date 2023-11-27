@@ -1,5 +1,6 @@
 #include "MainMenu.h"
 
+#include "AskSave.h"
 #include "CharaSelectScreen.h"
 #include "CharactersInfo.h"
 #include "Progress.h"
@@ -56,9 +57,14 @@ AbstractNavigation::NavigationRes MainMenu::Update(
             audio.PlayClickSfx();
             switch (selection) {
                 case 0:
-                    res =
-                        navigation->Navigate(CharacterSelectScreen::ScreenName()
+                    if (std::filesystem::exists(std::filesystem::path(SAVE_PATH)
+                        )) {
+                        res = navigation->Navigate(AskSave::ScreenName());
+                    } else {
+                        res = navigation->Navigate(
+                            CharacterSelectScreen::ScreenName()
                         );
+                    }
                     break;
                 case 2:
                     res = navigation->Navigate(Progress::ScreenName(), &bg);

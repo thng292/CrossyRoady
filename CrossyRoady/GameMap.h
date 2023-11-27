@@ -37,15 +37,17 @@ class GameMap : public ConsoleGame::AbstractScreen {
     GameMaster::GameEventsArgs gameEventArgs;  // save
     GameMaster::GameFlags gameFlags;           // save
 
+    bool loadSave = false;
     float gameOverWait = 3.0f;
     GameType::GameMapSprites gameSprites;
     GameType::GameAudio gameAudio;
+    uint8_t* debuffDur = ((uint8_t*)&R.DebuffDur);
+    CharStat* charStat = ((CharStat*)&R.CharsStat);
 
     SharedAudio& audio = SharedAudio::GetInstance();
     std::array<std::unique_ptr<ConsoleGame::AbstractScreen>, 4> subScreen;
     Menu<3> menu;
     int selectedScr = -1;
-    bool saveGame = false;
 
    public:
     GameMap() = default;
@@ -80,6 +82,7 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void DrawDarkness(ConsoleGame::AbstractCanvas* canvas) const;
     void DrawScore(ConsoleGame::AbstractCanvas* canvas) const;
     void DrawDeathVFX(ConsoleGame::AbstractCanvas* canvas) const;
+    void DrawTime(ConsoleGame::AbstractCanvas* canvas) const;
 
     void ResetFlags();
 
@@ -88,17 +91,18 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void CheckSkill();
     void CheckOutOfBound();
     void CheckGameOver();
+    void CheckCollisionAgain(Lane* lane, float deltaTime);
 
     void UpdateLanes(float deltaTime);
     void UpdateCooldowns(float deltaTime);
     void UpdateDifficulty();
     void UpdateMapSpeed();
+    void UpdateTime(float deltaTime);
+    void UpdateSprites(float deltaTime);
 
-    void HandleCollision(
-        const std::unique_ptr<Lane>& lane, GameType::CollisionType colType
-    );
+    void HandleCollision(Lane* lane, GameType::CollisionType colType);
     void HandleWaterCollision(GameType::CollisionType colType);
-    void HandleCharaOnLog(const std::unique_ptr<Lane>& lane, float deltaTime);
+    void HandleCharaOnLog(Lane* lane, float deltaTime);
     void HandleDamage();
     void HandleDebuff(float deltaTime);
     void HandleSkill(float deltaTime);
@@ -133,8 +137,8 @@ class GameMap : public ConsoleGame::AbstractScreen {
     );
 
     std::unique_ptr<Lane> GetRandomLane();
-    ConsoleGame::AniSprite GetMobSprite(
+    ConsoleGame::AniSprite* GetMobSprite(
         GameType::MobType type, bool isLeftToRight
     );
-    ConsoleGame::AniSprite GetItemSprite(GameType::ItemType type);
+    ConsoleGame::AniSprite& GetItemSprite(GameType::ItemType type);
 };

@@ -168,6 +168,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ArrowButton.cpp" />
+    <ClCompile Include="AskSave.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="CharaUnlock.cpp" />
     <ClCompile Include="Control.cpp" />
@@ -212,6 +213,7 @@
   <ItemGroup>
     <ClInclude Include="About.h" />
     <ClInclude Include="ArrowButton.h" />
+    <ClInclude Include="AskSave.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Control.h" />
     <ClInclude Include="Credit.h" />

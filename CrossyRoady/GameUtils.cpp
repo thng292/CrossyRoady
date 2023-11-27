@@ -63,6 +63,18 @@ ConsoleGame::Palette GameUtils::GetGamePalette(
     return palette;
 }
 
+void GameUtils::LoadHeartSprite(
+    ConsoleGame::AniSprite& sprite, GameType::CharaType charaType
+)
+{
+    sprite.Load(std::format(
+        "{}{}item-heart-{}.anisprite",
+        RESOURCE_PATH,
+        EXTRA_PATH,
+        fileCharName[charaType]
+    ));
+}
+
 void GameUtils::DrawHitbox(
     ConsoleGame::AbstractCanvas* canvas,
     ConsoleGame::Box hitbox,
@@ -138,6 +150,17 @@ CollisionType GameUtils::GetCollisionType(
         }
     }
     return CollisionType::None;
+}
+
+std::string GameUtils::SecondsToMMSS(float time)
+{
+    auto min = (int)time / 60;
+    auto sec = (int)time % 60;
+    std::string minStr =
+        (min < 10) ? "0" + std::to_string(min) : std::to_string(min);
+    std::string secStr =
+        (sec < 10) ? "0" + std::to_string(sec) : std::to_string(sec);
+    return std::format("{}:{}", minStr, secStr);
 }
 
 float GameUtils::GetDistance(int x1, int y1, int x2, int y2)
