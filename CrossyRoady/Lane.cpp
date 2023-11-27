@@ -39,7 +39,7 @@ void Lane::DeleteEntity()
 
 void Lane::CreateEntity()
 {
-    float tmp = rand() % 200;
+    float tmp = rand() % 150;
     if (IsLeftToRight) {
         entityList.push_back(entityList.back() - tmp - entityWidth);
 

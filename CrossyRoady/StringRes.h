@@ -29,6 +29,8 @@ constexpr std::array<std::string_view, 3> fileMobName = {
 
 constexpr auto CONFIG_PATH = "config.bin";
 
+constexpr auto SAVE_PATH = "save.bin";
+
 struct CharStuff {
     std::string_view Name;
     std::string_view Skill;

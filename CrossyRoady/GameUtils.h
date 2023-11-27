@@ -33,6 +33,14 @@ namespace GameUtils {
         GameType::MapType mapType, GameType::CharaType charaType
     );
 
+    void LoadHeartSprite(
+        ConsoleGame::AniSprite& sprite, GameType::CharaType charaType
+    );
+
+    ConsoleGame::Palette GetGamePalette(
+        GameType::MapType mapType, GameType::CharaType charaType
+    );
+
     void DrawHitbox(
         ConsoleGame::AbstractCanvas* canvas,
         ConsoleGame::Box hitbox,

@@ -63,6 +63,18 @@ ConsoleGame::Palette GameUtils::GetGamePalette(
     return palette;
 }
 
+void GameUtils::LoadHeartSprite(
+    ConsoleGame::AniSprite& sprite, GameType::CharaType charaType
+)
+{
+    sprite.Load(std::format(
+        "{}{}item-heart-{}.anisprite",
+        RESOURCE_PATH,
+        EXTRA_PATH,
+        fileCharName[charaType]
+    ));
+}
+
 void GameUtils::DrawHitbox(
     ConsoleGame::AbstractCanvas* canvas,
     ConsoleGame::Box hitbox,

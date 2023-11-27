@@ -61,7 +61,13 @@ void Result::Init(const std::any& args)
     }
 }
 
-void Result::Mount(const std::any& args) {}
+void Result::Mount(const std::any& args)
+{
+    resultSfx.Open(RESOURCE_PATH SFX_PATH "result.wav");
+    if (R.Config.Sfx) {
+        resultSfx.Play();
+    };
+}
 
 AbstractScreen* Result::Clone() const { return new Result; }
 
@@ -83,7 +89,7 @@ AbstractNavigation::NavigationRes Result::Update(
                     if (charaUnlock) {
                         res = navigation->Navigate(L"CharaUnlock", gameRes.map);
                     } else {
-                        res = navigation->Navigate(L"CharSelect");
+                        res = navigation->PopBackTo(L"CharSelect");
                     }
                     break;
             }

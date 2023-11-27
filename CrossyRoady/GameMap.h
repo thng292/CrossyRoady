@@ -37,6 +37,7 @@ class GameMap : public ConsoleGame::AbstractScreen {
     GameMaster::GameEventsArgs gameEventArgs;  // save
     GameMaster::GameFlags gameFlags;           // save
 
+    bool loadSave = false;
     float gameOverWait = 3.0f;
     GameType::GameMapSprites gameSprites;
     GameType::GameAudio gameAudio;

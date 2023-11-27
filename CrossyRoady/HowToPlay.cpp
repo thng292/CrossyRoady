@@ -78,7 +78,7 @@ ConsoleGame::AbstractNavigation::NavigationRes HowToPlay::Update(
                     break;
                 case 3:
                     menu.selected = 0;
-                    res = navigation->Back();
+                    res = navigation->Back(1);
                     break;
             }
         }

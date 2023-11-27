@@ -20,10 +20,8 @@ void Character::Init(CharaType type, float xIn, float yIn)
     maxHealth = charStat[type].Health;
     curHealth = maxHealth;
     _type = type;
-    SetSpeed(charStat[type].Speed);
-
     LoadSprites(type);
-
+    SetSpeed(charStat[type].Speed);
     currentSprite = &upSprite;
 };
 
@@ -89,6 +87,7 @@ void Character::InitSave(
     _speed = speed;
     _direc = direc;
     LoadSprites(type);
+    SetSpeed(speed);
 }
 
 void Character::LoadSprites(CharaType type)

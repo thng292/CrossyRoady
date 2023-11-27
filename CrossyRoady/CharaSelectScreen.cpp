@@ -100,7 +100,8 @@ AbstractNavigation::NavigationRes CharacterSelectScreen::Update(
     charShowCase.AutoUpdateFrame(deltaTime);
     auto mpos = GetMousePos();
     auto inBox = [](Vec2 pos, Vec2 mpos) {
-        return mpos.x >= pos.x and mpos.x <= pos.x + 56 and mpos.y >= pos.y and mpos.y <= pos.y + 56; 
+        return mpos.x >= pos.x and mpos.x <= pos.x + 56 and mpos.y >= pos.y and
+               mpos.y <= pos.y + 56;
     };
     for (int i = 0; i < R.Config.CharUnlocked; i++) {
         if (inBox(charAvaPos[i], mpos)) {

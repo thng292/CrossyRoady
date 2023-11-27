@@ -8,6 +8,9 @@ std::wstring_view AskSave::getName() { return ScreenName(); }
 
 void AskSave::Init(const std::any& args)
 {
+    if (args.has_value()) {
+        bg = std::any_cast<MenuBG*>(args);
+    }
     menu.Init(
         {(384 - 100) / 2, 80},
         {100, 18},
@@ -24,6 +27,9 @@ AbstractNavigation::NavigationRes AskSave::Update(
     float deltaTime, const AbstractNavigation* navigation
 )
 {
+    if (bg) {
+        bg->Update(deltaTime);
+    }
     auto nav = navigation->NoChange();
     menu.Update(
         deltaTime,
@@ -50,6 +56,9 @@ AbstractNavigation::NavigationRes AskSave::Update(
 
 void AskSave::Draw(AbstractCanvas* canvas) const
 {
+    if (bg) {
+        bg->Draw(canvas);
+    }
     Font::DrawString(
         canvas, R.String.AskSave.Continue, drawPos, 1, 0, Color(14)
     );

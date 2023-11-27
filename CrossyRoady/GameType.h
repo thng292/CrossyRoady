@@ -8,7 +8,7 @@ namespace GameType {
     // Map values
     constexpr int DAMAGE_COOLDOWN = 3;
     constexpr int MAP_DRAG_SPEED = 20.0f;
-    constexpr float ITEM_SPAWN_RATE = 1.0f;
+    constexpr float ITEM_SPAWN_RATE = 0.1f;
     constexpr float RAIL_SPAWN_RATE = 0.1f;
     constexpr float SPEED_ADDITION = 3.0f;
     constexpr float MIN_DIST_SCORE = 32.0f;
@@ -20,7 +20,7 @@ namespace GameType {
     constexpr int MAP_DEBUFF_COOLDOWN = 30;
     constexpr int MAX_IDLE_TIME = 3;
     constexpr int IRYS_DEBUFF_HEALTH = 1;
-    constexpr int VISIBLE_RADIUS = 30;
+    constexpr int VISIBLE_RADIUS = 50;
     constexpr int MUMEI_VISIBLE_RADIUS = 100;
 
     // Skill values
@@ -53,12 +53,6 @@ namespace GameType {
     enum SkillCategory { TIME, SHIELD };
 
     enum ItemType { SPEED, STAR, HEALTH };
-
-    struct MobData {
-        MobType type;
-        ConsoleGame::Vec2 size;
-        ConsoleGame::AniSprite anisprite;
-    };
 
     struct MobSprite {
         ConsoleGame::AniSprite MobLeft, MobRight;

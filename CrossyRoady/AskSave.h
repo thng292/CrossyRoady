@@ -10,7 +10,7 @@
 
 class AskSave : public ConsoleGame::AbstractScreen {
     Menu<3> menu;
-
+    MenuBG* bg = nullptr;
     ConsoleGame::Vec2 drawPos;
     SharedAudio& audio = SharedAudio::GetInstance();
 

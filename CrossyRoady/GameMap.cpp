@@ -32,13 +32,22 @@ std::wstring_view GameMap::getName() { return ScreenName(); }
 
 void GameMap::Init(const std::any& args)
 {
-    /*const GameType::GameMapData& gameDataArg =
-        std::any_cast<const GameMapData&>(args);*/
+    if (args.has_value()) {
+        try {
+            const GameType::GameMapData& gameDataArg =
+                std::any_cast<const GameMapData&>(args);
+            SetGameMapData(gameDataArg);
+        } catch (const std::exception& e) {
+            loadSave = std::any_cast<bool>(args);
+        }
+    }
+
     GameMapData gm;
-    gm.charaType = KRONII;
-    gm.mapMode = NINF;
-    gm.mapType = SPACE;
+    gm.charaType = SANA;
+    gm.mapMode = INF;
+    gm.mapType = HOUSE;
     gm.mapDifficulty = MNORMAL;
+
     SetGameMapData(gm);
     if (gameData.mapDifficulty != MPROG) {
         gameEventArgs.mobRange = gameData.mapDifficulty;
@@ -112,22 +121,14 @@ void GameMap::Mount(const std::any& args)
 {
     gameFlags.gamePaused = false;
     LoadAudio();
-    bool loadSave = false;  // pass from init
     if (loadSave) {
         LoadGameData();
     } else {
         LoadSprites();
-        if (gameFlags.isFirstMount) {
-            character.Init(gameData.charaType, _CONSOLE_WIDTH_ / 2 - 32, 50);
-        } else {
-            character.LoadSprites(gameData.charaType);
-        }
-        if (gameFlags.isFirstMount) {
-            InitLaneList();
-            gameFlags.isFirstMount = false;
-        }
+        character.Init(gameData.charaType, _CONSOLE_WIDTH_ / 2 - 32, 50);
+        InitLaneList();
     }
-
+    std::remove(SAVE_PATH);
     ChangeColorPalette(GetGamePalette(gameData.mapType, gameData.charaType));
 }
 
@@ -370,15 +371,19 @@ void GameMap::HandleGamePause(
     } else {
         auto navRes = subScreen[selectedScr]->Update(deltaTime, navigation);
         if (navRes.ActionType == AbstractNavigation::NavigationAction::Back) {
-            selectedScr = -1;
+            if (navRes.Payload.has_value()) {
+                selectedScr = 0;
+            } else {
+                selectedScr = -1;
+            }
         }
         if (navRes.ActionType ==
             AbstractNavigation::NavigationAction::Navigate) {
             if (navRes.ActionData == L"Yes") {
-                res = navigation->Navigate(MainMenu::ScreenName());
+                res = navigation->PopBackTo(MainMenu::ScreenName());
                 SaveGameData();
             } else if (navRes.ActionData == L"No") {
-                res = navigation->Navigate(MainMenu::ScreenName());
+                res = navigation->PopBackTo(MainMenu::ScreenName());
             } else if (navRes.ActionData == HowToPlay::ScreenName()) {
                 selectedScr = 2;
             } else if (navRes.ActionData == Credit::ScreenName()) {
@@ -516,6 +521,7 @@ std::unique_ptr<Lane> GameMap::GetRandomLane()
             lane->SetHasItem(true);
             laneWithItem = lane.get();
             ItemType itemType = static_cast<ItemType>((int)(rand() % 3));
+            itemType = HEALTH;
             AniSprite* itemSprite = &gameSprites.itemSpeed;
             switch (itemType) {
                 case SPEED:
@@ -620,8 +626,7 @@ void GameMap::LoadSprites()
 
     // items
     gameSprites.itemSpeed.Load(RESOURCE_PATH EXTRA_PATH "item-speed.anisprite");
-    gameSprites.itemHealth.Load(RESOURCE_PATH EXTRA_PATH "item-heart.anisprite"
-    );
+    LoadHeartSprite(gameSprites.itemHealth, gameData.charaType);
     gameSprites.itemStar.Load(RESOURCE_PATH EXTRA_PATH "item-star.anisprite");
 
     float frameDur = 0.15f;
@@ -888,7 +893,7 @@ void GameMap::DrawDarkness(ConsoleGame::AbstractCanvas* canvas) const
     int yCenter = screenHeight - charaBox.coord.y;
 
     int visibleRadius = VISIBLE_RADIUS;
-    Color darknessColor = Color::BLACK;
+    Color darknessColor = Color(13);
     for (int y = 0; y <= screenHeight; ++y) {
         for (int x = 0; x <= screenWidth; ++x) {
             if (GetDistance(xCenter, yCenter, x, y) > visibleRadius) {
@@ -924,12 +929,7 @@ void GameMap::DrawTime(ConsoleGame::AbstractCanvas* canvas) const
 {
     if (gameData.mapMode != NINF) return;
     Font::DrawString(
-        canvas,
-        SecondsToMMSS(gameEventArgs.timeLeft),
-        {170, 10},
-        1,
-        1,
-        (Color)14
+        canvas, SecondsToMMSS(gameEventArgs.timeLeft), {5, 34}, 1, 1, (Color)14
     );
 }
 
@@ -991,6 +991,8 @@ void GameMap::CheckDebuff()
     if (gameFlags.gamePaused) return;
     if (gameFlags.isGameOver) return;
     if (!gameFlags.debuffCalled) return;
+    if (!gameFlags.allowDebuff) return;
+
     gameFlags.debuffCalled = false;
 
     MapType mapType = gameData.mapType;
@@ -1307,8 +1309,11 @@ void GameMap::HandleSkill(float deltaTime)
                 gameEventArgs.skillCategory = TIME;
                 break;
             case SANA:
-                TurnOffDebuff();
+                if (gameFlags.debuffInUse) {
+                    TurnOffDebuff();
+                }
                 gameEventArgs.skillCategory = TIME;
+                gameFlags.allowDebuff = false;
                 break;
             case BAE:
                 gameFlags.isReverseKey = true;
@@ -1373,7 +1378,11 @@ void GameMap::UpdateCooldowns(float deltaTime)
             gameEventArgs.debuffFlasingTimer += deltaTime;
         }
         if (gameEventArgs.mapDebuffCooldownTime <= 0) {
-            gameFlags.debuffCalled = true;
+            if (gameFlags.allowDebuff) {
+                gameFlags.debuffCalled = true;
+            } else {
+                TurnOffDebuff();
+            }
             gameFlags.debuffWarning = false;
         }
     }

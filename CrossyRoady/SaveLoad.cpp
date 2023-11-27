@@ -43,7 +43,7 @@ void GameMap::SaveGameData()
     saveData.gameData = gameData;
     saveData.gameEventArgs = gameEventArgs;
     saveData.gameFlags = gameFlags;
-    std::ofstream outfile("save.bin", std::ios::binary);
+    std::ofstream outfile(SAVE_PATH, std::ios::binary);
     if (!outfile) {
         // Handle error opening the file
         return;
@@ -141,7 +141,7 @@ std::unique_ptr<Lane> GameMap::GetEquivLane(
 
 void GameMap::LoadGameData()
 {
-    std::ifstream infile("save.bin", std::ios::binary);
+    std::ifstream infile(SAVE_PATH, std::ios::binary);
     if (!infile) {
         // Handle error opening the file
         return;
@@ -204,5 +204,4 @@ void GameMap::LoadGameData()
     }
     // Close the file
     infile.close();
-    std::remove("save.bin");
 }
