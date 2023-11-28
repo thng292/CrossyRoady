@@ -396,32 +396,33 @@ void GameMap::HandleGamePause(
 
 void GameMap::TurnOffDebuff()
 {
-    gameFlags.debuffInUse = false;
     gameEventArgs.mapDebuffTime = debuffDur[gameEventArgs.debuffType];
     gameEventArgs.mapDebuffCooldownTime = MAP_DEBUFF_COOLDOWN;
-
-    switch (gameEventArgs.debuffType) {
-        case FOREST:
-            gameEventArgs.notMovingTime = 0;
-            break;
-        case CITY:
-            character.SetCurHealth(gameEventArgs.originalHealth);
-            gameEventArgs.originalHealth = 0;
-            break;
-        case HOUSE:
-            gameFlags.isDarkMap = false;
-            break;
-        case DESERT:
-            gameFlags.allowMovementKeys = true;
-            gameFlags.allowSkillKey = true;
-            break;
-        case SPACE:
-            gameFlags.allowSkill = true;
-            break;
-        case CASINO:
-            gameFlags.isReverseKey = false;
-            break;
+    if (gameFlags.debuffInUse) {
+        switch (gameEventArgs.debuffType) {
+            case FOREST:
+                gameEventArgs.notMovingTime = 0;
+                break;
+            case CITY:
+                character.SetCurHealth(gameEventArgs.originalHealth);
+                gameEventArgs.originalHealth = 0;
+                break;
+            case HOUSE:
+                gameFlags.isDarkMap = false;
+                break;
+            case DESERT:
+                gameFlags.allowMovementKeys = true;
+                gameFlags.allowSkillKey = true;
+                break;
+            case SPACE:
+                gameFlags.allowSkill = true;
+                break;
+            case CASINO:
+                gameFlags.isReverseKey = false;
+                break;
+        }
     }
+    gameFlags.debuffInUse = false;
 }
 
 void GameMap::TurnOffSkill()
@@ -472,7 +473,6 @@ std::unique_ptr<Lane> GameMap::GetRandomLane()
 
     // produce random mob
     MobType mobType = static_cast<MobType>(rand() % gameEventArgs.mobRange);
-    // mobType = HARD;
     AniSprite* mobSprite = GetMobSprite(mobType, isLeftToRight);
 
     std::unique_ptr<Lane> lane;
