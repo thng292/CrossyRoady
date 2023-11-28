@@ -1,6 +1,7 @@
 #include "CharaSelectScreen.h"
 
 #include "GameType.h"
+#include "GameUtils.h"
 #include "StringRes.h"
 
 using namespace ConsoleGame;
@@ -177,6 +178,8 @@ AbstractNavigation::NavigationRes CharacterSelectScreen::Update(
 void CharacterSelectScreen::Draw(AbstractCanvas* canvas) const
 {
     canvas->Clear(BGPrimary);
+    GameUtils::DrawBLTriangle(canvas, 70);
+    GameUtils::DrawTRTriangle(canvas, 70);
     auto& title = R.String.CharSelect.Title;
     static int titlePos =
         (_CanvasSize.width - title.length() * Font::GetDim(1).width) / 2;

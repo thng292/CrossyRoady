@@ -43,9 +43,9 @@ void GameMap::Init(const std::any& args)
     }
 
     GameMapData gm;
-    gm.charaType = SANA;
+    gm.charaType = KRONII;
     gm.mapMode = INF;
-    gm.mapType = HOUSE;
+    gm.mapType = DESERT;
     gm.mapDifficulty = MNORMAL;
 
     SetGameMapData(gm);
@@ -61,7 +61,8 @@ void GameMap::Init(const std::any& args)
 
     gameEventArgs.timeLeft = 10;
     gameEventArgs.skillCharge = MAX_SKILL_CHARGE;
-    gameEventArgs.currentScore = 300;
+    gameFlags.allowDebuff = false;
+    // gameEventArgs.currentScore = 300;
 
     menu.Init(
         {20, 80},
@@ -471,6 +472,7 @@ std::unique_ptr<Lane> GameMap::GetRandomLane()
 
     // produce random mob
     MobType mobType = static_cast<MobType>(rand() % gameEventArgs.mobRange);
+    // mobType = HARD;
     AniSprite* mobSprite = GetMobSprite(mobType, isLeftToRight);
 
     std::unique_ptr<Lane> lane;

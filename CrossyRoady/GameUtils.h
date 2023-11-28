@@ -47,6 +47,9 @@ namespace GameUtils {
         ConsoleGame::Color color = ConsoleGame::Color::BLACK
     );
 
+    void DrawTRTriangle(ConsoleGame::AbstractCanvas* canvas, uint16_t length);
+    void DrawBLTriangle(ConsoleGame::AbstractCanvas* canvas, uint16_t length);
+
     GameType::CollisionType GetCollisionType(
         ConsoleGame::Box box1, ConsoleGame::Box box2
     );
