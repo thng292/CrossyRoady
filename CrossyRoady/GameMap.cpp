@@ -61,8 +61,8 @@ void GameMap::Init(const std::any& args)
 
     gameEventArgs.timeLeft = 10;
     gameEventArgs.skillCharge = MAX_SKILL_CHARGE;
-    gameFlags.allowDebuff = false;
-    // gameEventArgs.currentScore = 300;
+    // gameFlags.allowDebuff = false;
+    //  gameEventArgs.currentScore = 300;
 
     menu.Init(
         {20, 80},
