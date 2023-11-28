@@ -14,6 +14,8 @@ void GameUtils::LoadMobSprite(
     mobSprite.MobRight.Load(
         std::format("{}/{}R.anisprite", pathToMap, fileMobName[mobType])
     );
+    mobSprite.MobLeft.Play(1);
+    mobSprite.MobRight.Play(1);
 }
 
 void GameUtils::LoadMapSprite(

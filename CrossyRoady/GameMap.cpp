@@ -640,13 +640,6 @@ void GameMap::LoadSprites()
     gameSprites.itemHealth.Play(1);
     gameSprites.itemStar.Play(1);
 
-    gameSprites.mobSpriteEasy.MobLeft.Play(1);
-    gameSprites.mobSpriteEasy.MobRight.Play(1);
-    gameSprites.mobSpriteNormal.MobLeft.Play(1);
-    gameSprites.mobSpriteNormal.MobRight.Play(1);
-    gameSprites.mobSpriteHard.MobLeft.Play(1);
-    gameSprites.mobSpriteHard.MobRight.Play(1);
-
     // effects
     gameSprites.deathVfx.Load(RESOURCE_PATH EXTRA_PATH "death.anisprite");
     gameSprites.deathVfx.Play();

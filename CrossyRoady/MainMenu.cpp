@@ -8,6 +8,8 @@
 #include "StringRes.h"
 
 using namespace ConsoleGame;
+using namespace GameType;
+using namespace GameUtils;
 using namespace std::literals;
 using enum AbstractNavigation::NavigationAction;
 
@@ -17,7 +19,8 @@ std::wstring_view MainMenu::getName() { return ScreenName(); }
 
 void MainMenu::Init(const std::any& args)
 {
-    bg.Init();
+    bgType = static_cast<MapType>(rand() % 6);
+    bg.Init(bgType);
     menu.Init(
         startPos,
         buttDim,
@@ -33,7 +36,15 @@ void MainMenu::Init(const std::any& args)
 
 void MainMenu::Mount(const std::any& args)
 {
-    Palette levelPalette(RESOURCE_PATH MAP_PATH "space/space.hex");
+    Palette levelPalette(
+        std::format("{}/{}.hex", GetPathToMap(bgType), fileMapName[bgType])
+    );
+    Palette titlePallete(RESOURCE_PATH EXTRA_PATH "title.hex");
+    for (auto i = 0; i < 6; ++i) {
+        levelPalette[i] = titlePallete[i];
+    }
+    title.Load(RESOURCE_PATH EXTRA_PATH "title-1.sprite");
+
     ChangeColorPalette(levelPalette);
     if (bg.IsUnmounted()) {
         bg.Mount();
@@ -87,8 +98,9 @@ AbstractNavigation::NavigationRes MainMenu::Update(
 void MainMenu::Draw(AbstractCanvas* canvas) const
 {
     bg.Draw(canvas);
-    Font::DrawString(canvas, "Crossy Roady", {10, 10}, 3, 1, (Color)13);
+    // Font::DrawString(canvas, "Crossy Roady", {10, 10}, 3, 1, (Color)13);
     menu.Draw(canvas);
+    title.Draw(canvas, {45, 10});
 }
 
 void MainMenu::Unmount()
