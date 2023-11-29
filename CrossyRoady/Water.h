@@ -1,4 +1,4 @@
-// #pragma once
+#pragma once
 #include "ConsoleGame.h"
 #include "Lane.h"
 

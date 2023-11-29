@@ -1,6 +1,7 @@
 #include "GameUtils.h"
 
 using namespace GameType;
+using namespace ConsoleGame;
 
 void GameUtils::LoadMobSprite(
     MapType mapType, MobType mobType, MobSprite& mobSprite
@@ -13,17 +14,19 @@ void GameUtils::LoadMobSprite(
     mobSprite.MobRight.Load(
         std::format("{}/{}R.anisprite", pathToMap, fileMobName[mobType])
     );
+    mobSprite.MobLeft.Play(1);
+    mobSprite.MobRight.Play(1);
 }
 
 void GameUtils::LoadMapSprite(
-    MapType mapType, ConsoleGame::Sprite& sprite, const std::string& src
+    MapType mapType, Sprite& sprite, const std::string& src
 )
 {
     sprite.Load(std::format("{}/{}.sprite", GetPathToMap(mapType), src));
 }
 
 void GameUtils::LoadCharaSprite(
-    CharaType charaType, ConsoleGame::Sprite& sprite, const std::string& src
+    CharaType charaType, Sprite& sprite, const std::string& src
 )
 {
     sprite.Load(std::format(
@@ -34,25 +37,21 @@ void GameUtils::LoadCharaSprite(
     ));
 }
 
-void GameUtils::LoadExtraSprite(
-    ConsoleGame::Sprite& sprite, const std::string& src
-)
+void GameUtils::LoadExtraSprite(Sprite& sprite, const std::string& src)
 {
     sprite.Load(std::format("{}{}{}.sprite", RESOURCE_PATH, EXTRA_PATH, src));
 }
 
-ConsoleGame::Palette GameUtils::GetGamePalette(
-    MapType mapType, CharaType charaType
-)
+Palette GameUtils::GetGamePalette(MapType mapType, CharaType charaType)
 {
     auto padColor = RGB(85, 85, 85);
-    ConsoleGame::Palette mapPalette(
+    Palette mapPalette(
         std::format("{}/{}.hex", GetPathToMap(mapType), fileMapName[mapType])
     );
-    ConsoleGame::Palette charaPalette(std::format(
+    Palette charaPalette(std::format(
         "{}/{}.hex", GetPathToChar(charaType), fileCharName[charaType]
     ));
-    ConsoleGame::Palette palette;
+    Palette palette;
 
     auto charaPaletteVal = charaPalette.GetColorPalette();
     auto mapPaletteVal = mapPalette.GetColorPalette();
@@ -64,7 +63,7 @@ ConsoleGame::Palette GameUtils::GetGamePalette(
 }
 
 void GameUtils::LoadHeartSprite(
-    ConsoleGame::AniSprite& sprite, GameType::CharaType charaType
+    AniSprite& sprite, GameType::CharaType charaType
 )
 {
     sprite.Load(std::format(
@@ -75,42 +74,66 @@ void GameUtils::LoadHeartSprite(
     ));
 }
 
-void GameUtils::DrawHitbox(
-    ConsoleGame::AbstractCanvas* canvas,
-    ConsoleGame::Box hitbox,
-    ConsoleGame::Color color
-)
+void GameUtils::DrawHitbox(AbstractCanvas* canvas, Box hitbox, Color color)
 {
     int width = hitbox.dim.width;
     int height = hitbox.dim.height;
     int hitX = hitbox.coord.x;
-    int hitY = ConsoleGame::_CONSOLE_HEIGHT_ * 2 - hitbox.coord.y;
+    int hitY = _CONSOLE_HEIGHT_ * 2 - hitbox.coord.y;
 
     for (int i = 0; i < width; i++) {
         int curX = hitX + i;
-        if (curX > 0 && curX < ConsoleGame::_CONSOLE_WIDTH_) {
+        if (curX > 0 && curX < _CONSOLE_WIDTH_) {
             (*canvas)[hitY][curX] = color;
             int bottomY = hitY + height;
-            if (bottomY > 0 && bottomY < ConsoleGame::_CONSOLE_HEIGHT_ * 2) {
+            if (bottomY > 0 && bottomY < _CONSOLE_HEIGHT_ * 2) {
                 (*canvas)[bottomY][curX] = color;
             }
         }
     }
     for (int i = 0; i < height; i++) {
         int curY = hitY + i;
-        if (curY > 0 && curY < ConsoleGame::_CONSOLE_HEIGHT_ * 2) {
+        if (curY > 0 && curY < _CONSOLE_HEIGHT_ * 2) {
             (*canvas)[curY][hitX] = color;
             int rightX = hitX + width;
-            if (rightX > 0 && rightX < ConsoleGame::_CONSOLE_WIDTH_) {
+            if (rightX > 0 && rightX < _CONSOLE_WIDTH_) {
                 (*canvas)[curY][rightX] = color;
             }
         }
     }
 }
 
-CollisionType GameUtils::GetCollisionType(
-    ConsoleGame::Box box1, ConsoleGame::Box box2
+void GameUtils::DrawTRTriangle(AbstractCanvas* canvas, uint16_t length)
+{
+    auto startX = _CONSOLE_WIDTH_ - length;
+    auto startY = 0;
+    auto endY = startY + length;
+    auto endX = _CONSOLE_WIDTH_;
+    for (auto y = startY; y < endY; ++y) {
+        for (auto x = startX; x < endX; ++x) {
+            (*canvas)[y][x] = Color(10);
+        }
+        ++startX;
+    }
+}
+
+void GameUtils::DrawBLTriangle(
+    ConsoleGame::AbstractCanvas* canvas, uint16_t length
 )
+{
+    auto startX = 0;
+    auto startY = _CONSOLE_HEIGHT_ * 2 - length;
+    auto endY = startY + length;
+    auto endX = 0;
+    for (auto y = startY; y < endY; ++y) {
+        for (auto x = startX; x < endX; ++x) {
+            (*canvas)[y][x] = Color(10);
+        }
+        ++endX;
+    }
+}
+
+CollisionType GameUtils::GetCollisionType(Box box1, Box box2)
 {
     int box1Left = box1.coord.x;
     int box1Right = box1.coord.x + box1.dim.width;

@@ -1,11 +1,14 @@
 #pragma once
 #include <array>
 #include <filesystem>
+#include <format>
 #include <memory>
 
 #include "Button.h"
 #include "Common.h"
 #include "ConsoleGame.h"
+#include "GameType.h"
+#include "GameUtils.h"
 #include "Menu.h"
 #include "MenuBG.h"
 #include "SharedAudio.h"
@@ -17,6 +20,8 @@ class MainMenu : public ConsoleGame::AbstractScreen {
     MenuBG bg;
     SharedAudio& audio = SharedAudio::GetInstance();
     Menu<5> menu;
+    ConsoleGame::Sprite title;
+    GameType::MapType bgType;
 
    public:
     static const std::wstring_view ScreenName();

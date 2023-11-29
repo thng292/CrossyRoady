@@ -43,9 +43,9 @@ void GameMap::Init(const std::any& args)
     }
 
     GameMapData gm;
-    gm.charaType = SANA;
+    gm.charaType = KRONII;
     gm.mapMode = INF;
-    gm.mapType = HOUSE;
+    gm.mapType = DESERT;
     gm.mapDifficulty = MNORMAL;
 
     SetGameMapData(gm);
@@ -61,7 +61,8 @@ void GameMap::Init(const std::any& args)
 
     gameEventArgs.timeLeft = 10;
     gameEventArgs.skillCharge = MAX_SKILL_CHARGE;
-    gameEventArgs.currentScore = 300;
+    // gameFlags.allowDebuff = false;
+    //  gameEventArgs.currentScore = 300;
 
     menu.Init(
         {20, 80},
@@ -395,32 +396,33 @@ void GameMap::HandleGamePause(
 
 void GameMap::TurnOffDebuff()
 {
-    gameFlags.debuffInUse = false;
     gameEventArgs.mapDebuffTime = debuffDur[gameEventArgs.debuffType];
     gameEventArgs.mapDebuffCooldownTime = MAP_DEBUFF_COOLDOWN;
-
-    switch (gameEventArgs.debuffType) {
-        case FOREST:
-            gameEventArgs.notMovingTime = 0;
-            break;
-        case CITY:
-            character.SetCurHealth(gameEventArgs.originalHealth);
-            gameEventArgs.originalHealth = 0;
-            break;
-        case HOUSE:
-            gameFlags.isDarkMap = false;
-            break;
-        case DESERT:
-            gameFlags.allowMovementKeys = true;
-            gameFlags.allowSkillKey = true;
-            break;
-        case SPACE:
-            gameFlags.allowSkill = true;
-            break;
-        case CASINO:
-            gameFlags.isReverseKey = false;
-            break;
+    if (gameFlags.debuffInUse) {
+        switch (gameEventArgs.debuffType) {
+            case FOREST:
+                gameEventArgs.notMovingTime = 0;
+                break;
+            case CITY:
+                character.SetCurHealth(gameEventArgs.originalHealth);
+                gameEventArgs.originalHealth = 0;
+                break;
+            case HOUSE:
+                gameFlags.isDarkMap = false;
+                break;
+            case DESERT:
+                gameFlags.allowMovementKeys = true;
+                gameFlags.allowSkillKey = true;
+                break;
+            case SPACE:
+                gameFlags.allowSkill = true;
+                break;
+            case CASINO:
+                gameFlags.isReverseKey = false;
+                break;
+        }
     }
+    gameFlags.debuffInUse = false;
 }
 
 void GameMap::TurnOffSkill()
@@ -637,13 +639,6 @@ void GameMap::LoadSprites()
     gameSprites.itemSpeed.Play(1);
     gameSprites.itemHealth.Play(1);
     gameSprites.itemStar.Play(1);
-
-    gameSprites.mobSpriteEasy.MobLeft.Play(1);
-    gameSprites.mobSpriteEasy.MobRight.Play(1);
-    gameSprites.mobSpriteNormal.MobLeft.Play(1);
-    gameSprites.mobSpriteNormal.MobRight.Play(1);
-    gameSprites.mobSpriteHard.MobLeft.Play(1);
-    gameSprites.mobSpriteHard.MobRight.Play(1);
 
     // effects
     gameSprites.deathVfx.Load(RESOURCE_PATH EXTRA_PATH "death.anisprite");
