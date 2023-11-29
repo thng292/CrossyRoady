@@ -21,9 +21,9 @@ void MainMenu::Init(const std::any& args)
     menu.Init(
         startPos,
         buttDim,
-        std::array<const std::string_view, 6>{
+        std::array<const std::string_view, 5>{
             R.String.SinglePlayer.Title,
-            R.String.MultiPlayer.Title,
+            //R.String.MultiPlayer.Title,
             R.String.Progress.Title,
             R.String.CharInfo.Title,
             R.String.Setting.Title,

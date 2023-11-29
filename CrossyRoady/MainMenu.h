@@ -16,7 +16,7 @@ class MainMenu : public ConsoleGame::AbstractScreen {
 
     MenuBG bg;
     SharedAudio& audio = SharedAudio::GetInstance();
-    Menu<6> menu;
+    Menu<5> menu;
 
    public:
     static const std::wstring_view ScreenName();
