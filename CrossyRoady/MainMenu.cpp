@@ -77,16 +77,16 @@ AbstractNavigation::NavigationRes MainMenu::Update(
                         );
                     }
                     break;
-                case 2:
+                case 1:
                     res = navigation->Navigate(Progress::ScreenName(), &bg);
                     break;
-                case 3:
+                case 2:
                     res = navigation->Navigate(CharactersInfo::ScreenName());
                     break;
-                case 4:
+                case 3:
                     res = navigation->Navigate(Setting::ScreenName(), &bg);
                     break;
-                case 5:
+                case 4:
                     res = navigation->Exit();
                     break;
             }
@@ -100,7 +100,7 @@ void MainMenu::Draw(AbstractCanvas* canvas) const
     bg.Draw(canvas);
     // Font::DrawString(canvas, "Crossy Roady", {10, 10}, 3, 1, (Color)13);
     menu.Draw(canvas);
-    title.Draw(canvas, {45, 10});
+    title.Draw(canvas, {45, 20});
 }
 
 void MainMenu::Unmount()

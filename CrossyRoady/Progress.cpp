@@ -34,8 +34,6 @@ const std::wstring_view Progress::ScreenName() { return L"Progress"; }
 
 std::wstring_view Progress::getName() { return ScreenName(); }
 
-int GetCharUpgraded();
-
 void Progress::Init(const std::any& args)
 {
     bg = std::any_cast<MenuBG*>(args);
@@ -74,7 +72,7 @@ void Progress::Init(const std::any& args)
 
     currentLevel = R.Config.GetCurrentLevel();
     earnedXP = R.Config.GetTotalXP();
-    int charUpgraded = GetCharUpgraded();
+    int charUpgraded = R.Config.GetCharUpgraded();
 
     std::string right[] = {
         SecondsToHMStr(TimePlayedTracker::GetTimePlayed()),
@@ -114,15 +112,15 @@ AbstractNavigation::NavigationRes Progress::Update(
 {
     auto res = navigation->NoChange();
 
-    leftArr.ChangeColor(White, Black);
-    rightArr.ChangeColor(White, Black);
+    //leftArr.ChangeColor(White, Black);
+    //rightArr.ChangeColor(White, Black);
     bg->Update(deltaTime);
     if (currentLevel != 0) {
         leftArr.Update(
             deltaTime,
             [&] {
                 audio.PlayHoverSfx();
-                leftArr.ChangeColor(Black, Black);
+                //leftArr.ChangeColor(Black, Black);
             },
             [&] {
                 audio.PlayClickSfx();
@@ -135,7 +133,7 @@ AbstractNavigation::NavigationRes Progress::Update(
             deltaTime,
             [&] {
                 audio.PlayHoverSfx();
-                rightArr.ChangeColor(Black, Black);
+                //rightArr.ChangeColor(Black, Black);
             },
             [&] {
                 audio.PlayClickSfx();
@@ -249,16 +247,4 @@ void Progress::DrawExp(ConsoleGame::AbstractCanvas* canvas) const
         0,
         Black
     );
-}
-
-int GetCharUpgraded()
-{
-    int res = 0;
-    res += R.Config.BaeUpgraded;
-    res += R.Config.FaunaUpgraded;
-    res += R.Config.IrysUpgraded;
-    res += R.Config.KroniiUpgraded;
-    res += R.Config.MumeiUpgraded;
-    res += R.Config.SanaUpgraded;
-    return res;
 }

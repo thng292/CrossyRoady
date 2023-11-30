@@ -15,15 +15,23 @@
 constexpr int LevelExpReq = 200;
 constexpr int CharaExpReq = 300;
 constexpr uint8_t numberOfChars = 6;
+constexpr uint8_t numberOfMaps = 6;
 
-constexpr std::array<std::string_view, 6> fileCharName = {
+constexpr std::array<const std::string_view, numberOfChars> fileCharName = {
     "fauna", "irys", "mumei", "kronii", "sana", "bae"};
 
-constexpr std::array<std::string_view, 6> fileMapName = {
+constexpr std::array<const std::string_view, numberOfMaps> fileMapName = {
     "forest", "city", "house", "desert", "space", "casino"};
 
-constexpr std::array<std::string_view, 3> fileMobName = {
+constexpr std::array<const std::string_view, 3> fileMobName = {
     "mob1", "mob2", "mob3"};
+constexpr std::array<const std::string_view, numberOfMaps> SongName{
+    "Let Me Stay Here",
+    "Theme of Irys",
+    "Haunted Birdhouse",
+    "Daydream",
+    "Daystar",
+    "Play Dice!"};
 
 constexpr auto CONFIG_PATH = "config.bin";
 
@@ -33,6 +41,11 @@ struct CharStuff {
     std::string_view Name;
     std::string_view Skill;
     std::string_view Desc;
+};
+
+struct MapStuff {
+    std::string_view Name;
+    std::string_view Debuff;
 };
 
 struct StringResource {
@@ -140,54 +153,47 @@ struct StringResource {
         std::string_view Title = "Choose Level";
         std::string_view Play = "Play";
         std::string_view Mode = "Mode: ";
+        std::array<const std::string_view, 4> Modes = {
+            "Infinity", "5 min", "10 min", "15 min"};
         std::string_view Difficulty = "Difficulty: ";
+        std::array<const std::string_view, 4> Difficulties = {
+            "Auto", "Easy", "Normal", "Hard"};
         std::string_view Music = "Music: ";
         std::string_view Debuff = "Debuff: ";
+        std::array<const std::string_view, 2> DebuffOpt = {"On", "Off"};
     } MapSelect;
 
     struct {
-        struct {
-            std::string_view Name = "Forest";
-            std::string_view Debuff =
-                "Removes one health whenever the character stops moving";
-        } Forest;
+        MapStuff Forest = {
+            .Name = "Forest",
+            .Debuff = "Removes one health whenever the character stops moving",
+        };
 
-        struct {
-            std::string_view Name = "City";
-            std::string_view Debuff =
-                "Decreases the character's health to only one";
-        } City;
+        MapStuff City = {
+            .Name = "City",
+            .Debuff = "Decreases the character's health to only one",
+        };
 
-        struct {
-            std::string_view Name = "Haunted House";
-            std::string_view Debuff = "Darkens the area around the character";
-        } House;
+        MapStuff House = {
+            .Name = "Haunted House",
+            .Debuff = "Darkens the area around the character",
+        };
 
-        struct {
-            std::string_view Name = "Dessert";
-            std::string_view Debuff = "Paralyzes the character's controls";
-        } Dessert;
+        MapStuff Dessert = {
+            .Name = "Dessert",
+            .Debuff = "Paralyzes the character's controls",
+        };
 
-        struct {
-            std::string_view Name = "Space";
-            std::string_view Debuff =
-                "Locks the character's skill until a threshold is passed";
-        } Space;
+        MapStuff Space = {
+            .Name = "Space",
+            .Debuff = "Locks the character's skill until a threshold is passed",
+        };
 
-        struct {
-            std::string_view Name = "Casino";
-            std::string_view Debuff =
-                "Randomly chooses a debuff from the other maps";
-        } Casino;
+        MapStuff Casino = {
+            .Name = "Casino",
+            .Debuff = "Randomly chooses a debuff from the other maps",
+        };
 
-        struct {
-            std::string_view Forest = "Let Me Stay Here";
-            std::string_view City = "Theme of Irys";
-            std::string_view House = "Haunted Birdhouse";
-            std::string_view Desert = "Daydream";
-            std::string_view Space = "Daystar";
-            std::string_view Casino = "Play Dice!";
-        } BGM;
     } Map;
 
     struct {
@@ -309,6 +315,7 @@ struct Config {
     void Load(std::filesystem::path path);
     void Save(std::filesystem::path path);
     bool GetCharUpgradeStatus(uint8_t character);
+    uint8_t GetCharUpgraded();
     uint8_t GetCharUnlocked();
     bool GetCharUnlocked(uint8_t character);
     void SetCharUnlocked(uint8_t character);

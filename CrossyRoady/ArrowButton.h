@@ -3,9 +3,12 @@
 #include "Common.h"
 #include "Surface.h"
 
-class ArrowButton : private Surface {
+class ArrowButton : public Surface {
     bool direction;
     bool lastHover = false;
+    ConsoleGame::Color primaryColor = (ConsoleGame::Color)13;
+    ConsoleGame::Color secondaryColor = (ConsoleGame::Color)15;
+    ConsoleGame::Color tertiaryColor = (ConsoleGame::Color)14;
 
    public:
     ArrowButton() = default;
@@ -26,14 +29,18 @@ class ArrowButton : private Surface {
         if (direction) {
             KeyFunc = ConsoleGame::UiIsKeyMeanRight;
         }
-        auto tmp = IsHover(ConsoleGame::GetMousePos());
-        if (tmp and not lastHover) {
-            onHover();
+        auto isHover = IsHover(ConsoleGame::GetMousePos());
+        if (isHover) {
+            if (!lastHover) {
+                onHover();
+            }
+            Surface::props.background = primaryColor;
             lastHover = true;
         } else {
+            Surface::props.background = tertiaryColor;
             lastHover = false;
         }
-        if ((ConsoleGame::UiIsKeyMeanClick() and tmp) or KeyFunc()) {
+        if ((ConsoleGame::UiIsKeyMeanClick() and isHover) or KeyFunc()) {
             onClick();
         }
     }

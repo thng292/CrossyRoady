@@ -3,7 +3,7 @@
 
 #include "Surface.h"
 
-class Button : private Surface {
+class Button : public Surface {
     std::string_view text;
     ConsoleGame::Color textColor;
     ConsoleGame::Vec2 textPos;

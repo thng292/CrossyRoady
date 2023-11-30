@@ -1,32 +1,45 @@
 #pragma once
 #include "ArrowButton.h"
 #include "ConsoleGame.h"
-#include "Menu.h"
 #include "GameType.h"
+#include "Menu.h"
+#include "SharedAudio.h"
+#include "StringRes.h"
 
 class MapSelect : public ConsoleGame::AbstractScreen {
     ConsoleGame::Sprite preview;
-    uint8_t selectedMap = 0;
-    uint8_t selectedMusic = 0;
-    uint8_t selectedDifficulty = 0;
+    ConsoleGame::Sprite debuff;
+    uint8_t lastSelectedMap = 0;
     uint8_t selectedMode = 0;
-    bool enableDebuff = 0;
+    bool enableDebuff = true;
+    bool hasChangedMusic = false;
 
     std::string MusicTitle;
     std::string DifficultyTitle;
     std::string ModeTitle;
     std::string DebuffTitle;
 
-    Menu<5> menu;
+    Menu<6> menu;
+    Menu<SongName.size()> musicMenu;
+    Menu<R.String.MapSelect.Modes.size()> modeMenu;
+    Menu<R.String.MapSelect.Difficulties.size()> diffMenu;
+    Button mapTitleButton;
+    Surface debuffSurface;
+    uint8_t currentMenu = 0;
     ArrowButton mapL, mapR;
-    ArrowButton difficultyL, difficultyR;
-    ArrowButton modeL, modeR;
-    ArrowButton musicL, musicR;
+    ConsoleGame::Palette currentPalette;
+    SharedAudio& audio = SharedAudio::GetInstance();
+
+    GameType::UserOption userOpt;
+
+    void ChangePreview();
+    void UpdateStr();
 
    public:
     static const std::wstring_view ScreenName();
     std::wstring_view getName() override;
     void Init(const std::any& args) override;
+    void Mount(const std::any& args) override;
     ConsoleGame::AbstractScreen* Clone() const override;
     ConsoleGame::AbstractNavigation::NavigationRes Update(
         float deltaTime, const ConsoleGame::AbstractNavigation* navigation

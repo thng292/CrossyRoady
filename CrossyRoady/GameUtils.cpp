@@ -103,7 +103,9 @@ void GameUtils::DrawHitbox(AbstractCanvas* canvas, Box hitbox, Color color)
     }
 }
 
-void GameUtils::DrawTRTriangle(AbstractCanvas* canvas, uint16_t length)
+void GameUtils::DrawTRTriangle(
+    ConsoleGame::AbstractCanvas* canvas, uint16_t length, Color color
+)
 {
     auto startX = _CONSOLE_WIDTH_ - length;
     auto startY = 0;
@@ -111,14 +113,14 @@ void GameUtils::DrawTRTriangle(AbstractCanvas* canvas, uint16_t length)
     auto endX = _CONSOLE_WIDTH_;
     for (auto y = startY; y < endY; ++y) {
         for (auto x = startX; x < endX; ++x) {
-            (*canvas)[y][x] = Color(10);
+            (*canvas)[y][x] = color;
         }
         ++startX;
     }
 }
 
 void GameUtils::DrawBLTriangle(
-    ConsoleGame::AbstractCanvas* canvas, uint16_t length
+    ConsoleGame::AbstractCanvas* canvas, uint16_t length, Color color
 )
 {
     auto startX = 0;
@@ -127,7 +129,7 @@ void GameUtils::DrawBLTriangle(
     auto endX = 0;
     for (auto y = startY; y < endY; ++y) {
         for (auto x = startX; x < endX; ++x) {
-            (*canvas)[y][x] = Color(10);
+            (*canvas)[y][x] = color;
         }
         ++endX;
     }

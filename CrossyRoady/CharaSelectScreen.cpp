@@ -2,6 +2,7 @@
 
 #include "GameType.h"
 #include "GameUtils.h"
+#include "MapSelect.h"
 #include "StringRes.h"
 
 using namespace ConsoleGame;
@@ -107,9 +108,11 @@ AbstractNavigation::NavigationRes CharacterSelectScreen::Update(
         return mpos.x >= pos.x and mpos.x <= pos.x + 56 and mpos.y >= pos.y and
                mpos.y <= pos.y + 56;
     };
+    bool isHovering = false;
     for (int i = 0; i < numberOfChars; i++) {
         if (inBox(charAvaPos[i], mpos) and R.Config.GetCharUnlocked(i)) {
             selected = i;
+            isHovering = true;
         }
     }
 
@@ -150,7 +153,8 @@ AbstractNavigation::NavigationRes CharacterSelectScreen::Update(
             return navigation->Back();
         } else {
             return navigation->Navigate(
-                L"tmp", GameType::UserOption{.character = selected}
+                MapSelect::ScreenName(),
+                GameType::UserOption{.character = selected}
             );
         }
     }
@@ -166,13 +170,18 @@ AbstractNavigation::NavigationRes CharacterSelectScreen::Update(
         lastSelected = selected;
         audio.PlayHoverSfx();
     }
+    if (UiIsKeyMeanClick() && isHovering) {
+        return navigation->Navigate(
+            MapSelect::ScreenName(), GameType::UserOption{.character = selected}
+        );
+    }
     if (backButton.IsHover(GetMousePos()) or isBackButtSelected) {
         if (not backButtLastHover) {
             backButtLastHover = true;
             audio.PlayHoverSfx();
         }
         backButton.ChangeColor(BGPrimary, (Color)14);
-        if (UiIsKeyMeanClick()) {
+        if (backButton.IsHover(GetMousePos()) and UiIsKeyMeanClick()) {
             return navigation->Back();
         }
     } else {

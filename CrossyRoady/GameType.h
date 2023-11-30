@@ -127,6 +127,7 @@ namespace GameType {
         uint8_t debuff : 1;
         uint8_t isTimed : 1;
         uint8_t music : 3;
+        uint8_t difficulty : 2;
 
         uint16_t time;
     };

@@ -15,7 +15,7 @@
 
 class MainMenu : public ConsoleGame::AbstractScreen {
     static constexpr ConsoleGame::Vec2 buttDim = {100, 18};
-    static constexpr ConsoleGame::Vec2 startPos = {(384 - 100) / 2, 70};
+    static constexpr ConsoleGame::Vec2 startPos = {(384 - 100) / 2, 90};
 
     MenuBG bg;
     SharedAudio& audio = SharedAudio::GetInstance();

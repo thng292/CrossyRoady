@@ -16,7 +16,7 @@
 #include "MapSelect.h"
 using namespace ConsoleGame;
 
-// #define _TEST_PERF_
+ //#define _TEST_PERF_
 
 const char* configFilePath = "config.txt";
 

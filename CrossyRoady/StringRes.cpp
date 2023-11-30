@@ -55,7 +55,20 @@ bool Config::GetCharUpgradeStatus(uint8_t character)
     }
 }
 
-uint8_t Config::GetCharUnlocked() { 
+uint8_t Config::GetCharUpgraded()
+{
+    uint8_t res = 0;
+    res += R.Config.BaeUpgraded;
+    res += R.Config.FaunaUpgraded;
+    res += R.Config.IrysUpgraded;
+    res += R.Config.KroniiUpgraded;
+    res += R.Config.MumeiUpgraded;
+    res += R.Config.SanaUpgraded;
+    return res;
+}
+
+uint8_t Config::GetCharUnlocked()
+{
     int res = 0;
     res += FaunaUnlocked;
     res += IrysUnlocked;
@@ -66,7 +79,8 @@ uint8_t Config::GetCharUnlocked() {
     return res;
 }
 
-bool Config::GetCharUnlocked(uint8_t character) { 
+bool Config::GetCharUnlocked(uint8_t character)
+{
     switch (character) {
         case 0:
             return FaunaUnlocked;
@@ -83,7 +97,8 @@ bool Config::GetCharUnlocked(uint8_t character) {
     }
 }
 
-void Config::SetCharUnlocked(uint8_t character) { 
+void Config::SetCharUnlocked(uint8_t character)
+{
     switch (character) {
         case 0:
             FaunaUnlocked = 1;
