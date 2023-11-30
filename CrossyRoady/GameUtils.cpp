@@ -37,11 +37,6 @@ void GameUtils::LoadCharaSprite(
     ));
 }
 
-void GameUtils::LoadExtraSprite(Sprite& sprite, const std::string& src)
-{
-    sprite.Load(std::format("{}{}{}.sprite", RESOURCE_PATH, EXTRA_PATH, src));
-}
-
 Palette GameUtils::GetGamePalette(MapType mapType, CharaType charaType)
 {
     auto padColor = RGB(85, 85, 85);
@@ -204,4 +199,18 @@ std::string GameUtils::GetPathToChar(CharaType charaType)
 {
     std::string path = std::format("{}{}", RESOURCE_PATH, CHARACTER_PATH);
     return path;
+}
+
+GameMapData GameUtils::GetGMData(GameType::UserOption userOpt)
+{
+    GameMapData gm;
+    gm.charaType = static_cast<CharaType>(userOpt.character);
+    gm.mapType = static_cast<MapType>(userOpt.map);
+    gm.enableDebuff = userOpt.debuff;
+    gm.mapMode = userOpt.isTimed ? NINF : INF;
+    gm.mapDifficulty = static_cast<MapDifficulty>(userOpt.difficulty);
+    gm.music = userOpt.music;
+    gm.time = userOpt.time;
+
+    return gm;
 }

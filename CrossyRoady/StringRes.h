@@ -13,7 +13,7 @@
 #define SFX_PATH "sfx/"
 
 constexpr int LevelExpReq = 200;
-constexpr int CharaExpReq = 300;
+constexpr int CharaExpReq = 200;
 constexpr uint8_t numberOfChars = 6;
 constexpr uint8_t numberOfMaps = 6;
 
@@ -50,7 +50,7 @@ struct MapStuff {
 
 struct StringResource {
     std::string_view Back = "Back";
-    std::string_view Next = "Main Menu";
+    std::string_view Next = "Main menu";
     std::string_view Yes = "Yes";
     std::string_view No = "No";
 
@@ -102,10 +102,17 @@ struct StringResource {
     struct {
         std::string_view ReturnMenu = "Return to main menu";
         std::string_view SaveGame = "Save game?";
+        std::string_view Title = "Game paused";
     } Pause;
 
     struct {
         std::string_view Continue = "Coninue playing your previous save?";
+        std::string_view Date = "Date";
+        std::string_view PlayTime = "PlayTime";
+        std::string_view Score = "Score";
+        std::string_view Character = "Character";
+        std::string_view Map = "Map";
+        std::string_view Difficulty = "Difficulty";
     } AskSave;
 
     struct {

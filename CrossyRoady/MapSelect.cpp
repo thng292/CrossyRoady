@@ -172,8 +172,8 @@ AbstractNavigation::NavigationRes MapSelect::Update(
                     audio.PlayClickSfx();
                     switch (choosed) {
                         case 0:
-                            res = navigation->Navigate(GameMap::ScreenName()
-                                                       //     ,userOpt
+                            res = navigation->Navigate(
+                                GameMap::ScreenName(), userOpt
                             );
                             break;
                         case 1:

@@ -26,7 +26,7 @@ void MainMenu::Init(const std::any& args)
         buttDim,
         std::array<const std::string_view, 5>{
             R.String.SinglePlayer.Title,
-            //R.String.MultiPlayer.Title,
+            // R.String.MultiPlayer.Title,
             R.String.Progress.Title,
             R.String.CharInfo.Title,
             R.String.Setting.Title,
@@ -70,7 +70,7 @@ AbstractNavigation::NavigationRes MainMenu::Update(
                 case 0:
                     if (std::filesystem::exists(std::filesystem::path(SAVE_PATH)
                         )) {
-                        res = navigation->Navigate(AskSave::ScreenName());
+                        res = navigation->Navigate(AskSave::ScreenName(), &bg);
                     } else {
                         res = navigation->Navigate(
                             CharacterSelectScreen::ScreenName()

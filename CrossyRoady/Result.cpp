@@ -1,9 +1,9 @@
 #include "Result.h"
 
-#include "MainMenu.h"
 #include "CharaUnlock.h"
 #include "Common.h"
 #include "GameUtils.h"
+#include "MainMenu.h"
 #include "StringRes.h"
 
 using namespace ConsoleGame;
@@ -93,9 +93,7 @@ AbstractNavigation::NavigationRes Result::Update(
                             CharaUnlock::ScreenName(), gameRes.map
                         );
                     } else {
-                        res = navigation->PopBackTo(
-                            MainMenu::ScreenName()
-                        );
+                        res = navigation->PopBackTo(MainMenu::ScreenName());
                     }
                     break;
             }
@@ -128,33 +126,36 @@ bool Result::CheckCharaUnlock()
 {
     bool res = false;
     switch (gameRes.map) {
+        case FOREST:
+            R.Config.ForestXP += gameRes.score;
+            break;
         case CITY:
             R.Config.CityXP += gameRes.score;
-            if (R.Config.CityXP >= CharaExpReq) {
+            if (gameRes.score >= CharaExpReq && !R.Config.IrysUnlocked) {
                 res = true;
             }
             break;
         case HOUSE:
             R.Config.HouseXP += gameRes.score;
-            if (R.Config.HouseXP >= CharaExpReq) {
+            if (gameRes.score >= CharaExpReq && !R.Config.MumeiUnlocked) {
                 res = true;
             }
             break;
         case DESERT:
             R.Config.DesertXP += gameRes.score;
-            if (R.Config.DesertXP >= CharaExpReq) {
+            if (gameRes.score >= CharaExpReq && !R.Config.KroniiUnlocked) {
                 res = true;
             }
             break;
         case SPACE:
             R.Config.SpaceXP += gameRes.score;
-            if (R.Config.SpaceXP >= CharaExpReq) {
+            if (gameRes.score >= CharaExpReq && R.Config.SanaUnlocked) {
                 res = true;
             }
             break;
         case CASINO:
             R.Config.CasinoXP += gameRes.score;
-            if (R.Config.CasinoXP >= CharaExpReq) {
+            if (gameRes.score >= CharaExpReq && R.Config.BaeUnlocked) {
                 res = true;
             }
             break;

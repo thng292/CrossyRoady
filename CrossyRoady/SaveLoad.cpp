@@ -50,6 +50,9 @@ void GameMap::SaveGameData()
     }
 
     // Write the data to the file
+    std::time_t currentTime = std::time(nullptr);
+    outfile.write(reinterpret_cast<const char *>(&currentTime), sizeof(time_t));
+
     outfile.write(
         reinterpret_cast<const char *>(&saveData.gameData), sizeof(GameMapData)
     );
@@ -110,7 +113,10 @@ std::unique_ptr<Lane> GameMap::GetEquivLane(
                 &gameSprites.roadSprite,
                 mobSprite,
                 valLane.IsLeftToRight,
-                enList
+                enList,
+                valLane.IsLeftToRight ? &gameSprites.arrowRight
+                                      : &gameSprites.arrowLeft,
+                &gameAudio.railSfx
             );
             break;
         case SAFE:
@@ -148,6 +154,9 @@ void GameMap::LoadGameData()
     }
 
     // Read the data from the file
+    std::time_t currentTime = std::time(nullptr);
+    infile.read(reinterpret_cast<char *>(&currentTime), sizeof(time_t));
+
     SaveData saveData;
     infile.read(
         reinterpret_cast<char *>(&saveData.gameData), sizeof(GameMapData)

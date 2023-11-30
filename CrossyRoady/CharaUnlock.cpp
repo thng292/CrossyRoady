@@ -38,21 +38,27 @@ void CharaUnlock::Init(const std::any& args)
     switch (mapType) {
         case FOREST:
             charStuff = R.String.Character.Fauna;
+            R.Config.FaunaUnlocked = true;
             break;
         case CITY:
             charStuff = R.String.Character.Irys;
+            R.Config.IrysUnlocked = true;
             break;
         case HOUSE:
             charStuff = R.String.Character.Mumei;
+            R.Config.MumeiUnlocked = true;
             break;
         case DESERT:
             charStuff = R.String.Character.Kronii;
+            R.Config.KroniiUnlocked = true;
             break;
         case SPACE:
             charStuff = R.String.Character.Sana;
+            R.Config.SanaUnlocked = true;
             break;
         case CASINO:
             charStuff = R.String.Character.Bae;
+            R.Config.BaeUnlocked = true;
             break;
     }
     menu.Init({295, 160 + yShift}, {80, 18}, {R.String.Next});

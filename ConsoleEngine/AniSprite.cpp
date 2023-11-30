@@ -6,8 +6,9 @@
 namespace ConsoleGame {
     void AniSprite::findHitBox()
     {
-        hitBox.dim = dim;
-        bool tmp   = true;
+        hitBox.dim   = dim;
+        hitBox.coord = {.x = 0, .y = 0};
+        bool tmp     = true;
         for (int top = 0; top < dim.height and tmp; top++) {
             for (int i = 0; i < dim.width; i++) {
                 if (data[top * dim.width + i] != Color::C_TRANSPARENT) {

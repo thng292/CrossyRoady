@@ -64,22 +64,23 @@ namespace GameMaster {
     };
 
     struct GameEventsArgs {
-        GameType::MobType collidedMobtype;
-        GameType::MapType debuffType;
-        GameType::CharaType skillType;
-        GameType::SkillCategory skillCategory;
+        GameType::MobType collidedMobtype = GameType::EASY;
+        GameType::MapType debuffType = GameType::FOREST;
+        GameType::CharaType skillType = GameType::FAUNA;
+        GameType::SkillCategory skillCategory = GameType::TIME;
+        float gameOverWait = 3.0f;
 
         // Map stuff
-        float mapSpeedY;
-        float mapSpeedX;
+        float mapSpeedY = 0;
+        float mapSpeedX = 0;
         float timeLeft = 60;
 
         // Results
-        size_t currentScore;
-        size_t damageTaken;
-        size_t numOfMobsHit;
-        size_t numOfSkillUse;
-        size_t numOfItemPick;
+        size_t currentScore = 0;
+        size_t damageTaken = 0;
+        size_t numOfMobsHit = 0;
+        size_t numOfSkillUse = 0;
+        size_t numOfItemPick = 0;
         GameType::MobType difficultyReached;
         float playTime = 0;
 
@@ -88,8 +89,9 @@ namespace GameMaster {
         float mapDebuffCooldownTime = GameType::MAP_DEBUFF_COOLDOWN;
 
         // Walking
-        float distWalked = 0;
+        float distWalkedScore = 0;
         float distWalkedSkill = 0;
+        float distWalked = 0;
 
         // Difficulty
         size_t mobRange;
@@ -111,5 +113,6 @@ namespace GameMaster {
         // Skill
         int skillCharge = 0;
         int shield = 0;
+        uint8_t skillStep = 1;
     };
 }  // namespace GameMaster

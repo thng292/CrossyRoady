@@ -25,6 +25,7 @@
 #include "Setting.h"
 #include "SharedAudio.h"
 #include "StringRes.h"
+#include "TimePlayedTracker.h"
 #include "Water.h"
 
 class GameMap : public ConsoleGame::AbstractScreen {
@@ -38,7 +39,6 @@ class GameMap : public ConsoleGame::AbstractScreen {
     GameMaster::GameFlags gameFlags;           // save
 
     bool loadSave = false;
-    float gameOverWait = 3.0f;
     GameType::GameMapSprites gameSprites;
     GameType::GameAudio gameAudio;
     uint8_t* debuffDur = ((uint8_t*)&R.DebuffDur);
@@ -48,6 +48,7 @@ class GameMap : public ConsoleGame::AbstractScreen {
     std::array<std::unique_ptr<ConsoleGame::AbstractScreen>, 4> subScreen;
     Menu<3> menu;
     int selectedScr = -1;
+    Button pauseTitle;
 
    public:
     GameMap() = default;
@@ -85,6 +86,8 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void DrawTime(ConsoleGame::AbstractCanvas* canvas) const;
 
     void ResetFlags();
+    void InitFlags();
+    void InitEventArgs();
 
     void CheckCollision(float deltaTime);
     void CheckDebuff();

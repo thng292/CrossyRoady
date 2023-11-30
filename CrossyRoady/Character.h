@@ -15,12 +15,9 @@ class Character {
     int maxHealth;
     int curHealth;
     float _speed;
-    size_t skillAdd;
 
     float x;
     float y;
-    int drawX;
-    int drawY;
 
     ConsoleGame::AniSprite* currentSprite;
     ConsoleGame::AniSprite leftSprite, upSprite, rightSprite, downSprite;

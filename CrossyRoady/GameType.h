@@ -80,6 +80,9 @@ namespace GameType {
         ConsoleGame::Sprite debuff;
         ConsoleGame::Sprite debuffExtra;
 
+        ConsoleGame::Sprite arrowLeft;
+        ConsoleGame::Sprite arrowRight;
+
         ConsoleGame::AniSprite itemSpeed;
         ConsoleGame::AniSprite itemStar;
         ConsoleGame::AniSprite itemHealth;
@@ -91,18 +94,11 @@ namespace GameType {
         ConsoleGame::AniSprite deathVfx;
     };
 
-    struct GameMapData {
-        MapType mapType;
-        CharaType charaType;
-        MapMode mapMode;
-        MapDifficulty mapDifficulty;
-        bool enableDebuff;
-    };
-
     struct GameAudio {
         ConsoleGame::Audio damageSfx;
         ConsoleGame::Audio deadSfx;
         ConsoleGame::Audio warningSfx;
+        ConsoleGame::Audio railSfx;
         ConsoleGame::Audio scoreSfx;
 
         ConsoleGame::Audio debuffActivateSfx;
@@ -124,11 +120,21 @@ namespace GameType {
     struct UserOption {
         uint8_t character : 3;
         uint8_t map : 3;
-        uint8_t debuff : 1;
+        uint8_t debuff : 1 = 1;
         uint8_t isTimed : 1;
         uint8_t music : 3;
         uint8_t difficulty : 2;
 
+        uint16_t time;
+    };
+
+    struct GameMapData {
+        CharaType charaType;
+        MapType mapType;
+        bool enableDebuff;
+        MapMode mapMode;
+        MapDifficulty mapDifficulty;
+        uint8_t music : 3;
         uint16_t time;
     };
 

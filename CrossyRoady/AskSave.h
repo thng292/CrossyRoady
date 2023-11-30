@@ -1,4 +1,6 @@
 #pragma once
+#include <fstream>
+
 #include "CharaSelectScreen.h"
 #include "ConsoleGame.h"
 #include "GameMap.h"
@@ -13,6 +15,17 @@ class AskSave : public ConsoleGame::AbstractScreen {
     MenuBG* bg = nullptr;
     ConsoleGame::Vec2 drawPos;
     SharedAudio& audio = SharedAudio::GetInstance();
+    Surface surface;
+    Surface surfaceData;
+    SaveData saveData;
+
+    std::array<std::string, 6> data;
+    Character* chara = ((Character*)&R.String.Character);
+    MapStuff* mapStuff = ((MapStuff*)&R.String.Map);
+    std::time_t currentTime;
+
+    void DataPeak();
+    void DrawStat(ConsoleGame::AbstractCanvas* canvas) const;
 
    public:
     // Inherited via AbstractScreen

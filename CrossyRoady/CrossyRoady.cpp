@@ -9,14 +9,14 @@
 #include "GameMap.h"
 #include "HowToPlay.h"
 #include "MainMenu.h"
+#include "MapSelect.h"
 #include "Progress.h"
 #include "Result.h"
 #include "ReturnHome.h"
 #include "Setting.h"
-#include "MapSelect.h"
 using namespace ConsoleGame;
 
- //#define _TEST_PERF_
+// #define _TEST_PERF_
 
 const char* configFilePath = "config.txt";
 
@@ -40,6 +40,7 @@ auto main() -> int
         std::make_unique<Game>(L"Crossy Roady", 9999999);
 #endif
 
+    srand(time(NULL));
     game->AddScreen(std::make_unique<MainMenu>());
     game->AddScreen(std::make_unique<Setting>());
     game->AddScreen(std::make_unique<Progress>());

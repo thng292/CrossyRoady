@@ -27,8 +27,6 @@ namespace GameUtils {
         const std::string& src
     );
 
-    void LoadExtraSprite(ConsoleGame::Sprite& sprite, const std::string& src);
-
     ConsoleGame::Palette GetGamePalette(
         GameType::MapType mapType, GameType::CharaType charaType
     );
@@ -67,5 +65,6 @@ namespace GameUtils {
     float GetDistance(int x1, int y1, int x2, int y2);
     std::string GetPathToMap(GameType::MapType mapType);
     std::string GetPathToChar(GameType::CharaType charaType);
+    GameType::GameMapData GetGMData(GameType::UserOption userOpt);
 
 }  // namespace GameUtils
