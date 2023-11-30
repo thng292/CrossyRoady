@@ -2,13 +2,13 @@
 #include "ConsoleGame.h"
 
 enum class BGMusic : uint8_t {
-    Menu,
-    Casino,
-    City,
-    Desert,
     Forest,
+    City,
     House,
-    Space
+    Desert,
+    Space,
+    Casino,
+    Menu,
 };
 
 class SharedAudio {

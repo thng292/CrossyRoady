@@ -28,6 +28,8 @@ void MapSelect::ChangePreview()
 
     if (not hasChangedMusic) {
         userOpt.music = userOpt.map;
+        audio.SwitchMusic(BGMusic(userOpt.music));
+        audio.PlayMusic();
     }
     mapTitleButton.ChangeText(maps[userOpt.map].Name);
 }
@@ -170,7 +172,9 @@ AbstractNavigation::NavigationRes MapSelect::Update(
                     audio.PlayClickSfx();
                     switch (choosed) {
                         case 0:
-                            res = navigation->Navigate(GameMap::ScreenName(), userOpt);
+                            res = navigation->Navigate(GameMap::ScreenName()
+                                                       //     ,userOpt
+                            );
                             break;
                         case 1:
                         case 2:
@@ -209,6 +213,8 @@ AbstractNavigation::NavigationRes MapSelect::Update(
                     currentMenu = 0;
                     userOpt.music = choosed;
                     UpdateStr();
+                    audio.SwitchMusic(BGMusic(userOpt.music));
+                    audio.PlayMusic();
                 }
             );
             break;
@@ -286,4 +292,10 @@ void MapSelect::Draw(AbstractCanvas* canvas) const
             modeMenu.Draw(canvas);
             break;
     }
+}
+
+void MapSelect::Unmount()
+{
+    audio.SwitchMusic(BGMusic::Menu);
+    audio.PlayMusic();
 }

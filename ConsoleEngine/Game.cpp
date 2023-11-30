@@ -237,14 +237,13 @@ namespace ConsoleGame {
                     lastWasBack = true;
                     break;
                 case AbstractNavigation::NavigationAction::PopBackTo:
-                    for (auto it = naviStack.rbegin(), rend = naviStack.rend();
-                         it != rend;
-                         it++) {
-                        if ((*it)->getName() == navigationRes.ActionData) {
-                            for (auto tmp = it.base(); tmp != naviStack.end();
-                                 tmp++) {
+                    for (auto i = naviStack.size() - 1; i >= 0; i--) {
+                        if (naviStack[i]->getName() ==
+                            navigationRes.ActionData) {
+                            while (naviStack.size()  - 1 != i) {
+                                naviStack.pop_back();
                             }
-                            naviStack.erase(it.base(), naviStack.end());
+                            break;
                         }
                     }
                     lastWasBack = true;

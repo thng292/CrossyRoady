@@ -45,4 +45,5 @@ class MapSelect : public ConsoleGame::AbstractScreen {
         float deltaTime, const ConsoleGame::AbstractNavigation* navigation
     ) override;
     void Draw(ConsoleGame::AbstractCanvas* canvas) const override;
+    void Unmount() override;
 };

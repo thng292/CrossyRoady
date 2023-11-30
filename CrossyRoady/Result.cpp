@@ -1,5 +1,7 @@
 #include "Result.h"
 
+#include "MainMenu.h"
+#include "CharaUnlock.h"
 #include "Common.h"
 #include "GameUtils.h"
 #include "StringRes.h"
@@ -83,13 +85,17 @@ AbstractNavigation::NavigationRes Result::Update(
             audio.PlayClickSfx();
             switch (selected) {
                 case 0:
-                    res = navigation->Navigate(L"GameMap");
+                    res = navigation->Back(true);
                     break;
                 case 1:
                     if (charaUnlock) {
-                        res = navigation->Navigate(L"CharaUnlock", gameRes.map);
+                        res = navigation->Navigate(
+                            CharaUnlock::ScreenName(), gameRes.map
+                        );
                     } else {
-                        res = navigation->PopBackTo(L"CharSelect");
+                        res = navigation->PopBackTo(
+                            MainMenu::ScreenName()
+                        );
                     }
                     break;
             }

@@ -41,10 +41,10 @@ class HMenu {
     template <MenuSelectedCB Func1, MenuSelectedCB Func2>
     void Update(float deltaTime, Func1 onSelectChange, Func2 onTriggerCB)
     {
-        if (ConsoleGame::UiIsKeyMeanDown()) {
+        if (ConsoleGame::UiIsKeyMeanRight()) {
             hover = (hover + 1 + buttons.size()) % buttons.size();
         }
-        if (ConsoleGame::UiIsKeyMeanUp()) {
+        if (ConsoleGame::UiIsKeyMeanLeft()) {
             hover = (hover - 1 + buttons.size()) % buttons.size();
         }
 

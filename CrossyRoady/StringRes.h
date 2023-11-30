@@ -50,7 +50,7 @@ struct MapStuff {
 
 struct StringResource {
     std::string_view Back = "Back";
-    std::string_view Next = "Next";
+    std::string_view Next = "Main Menu";
     std::string_view Yes = "Yes";
     std::string_view No = "No";
 
