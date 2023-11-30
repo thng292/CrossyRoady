@@ -227,7 +227,8 @@ void Progress::DrawExp(ConsoleGame::AbstractCanvas* canvas) const
     Font::DrawString(
         canvas,
         R.String.Progress.Rewards,
-        {int(284 - Font::GetDim(1).x * R.String.Progress.Rewards.length() / 2), 110},
+        {int(284 - Font::GetDim(1).x * R.String.Progress.Rewards.length() / 2),
+         110},
         1,
         1,
         Black
@@ -235,6 +236,9 @@ void Progress::DrawExp(ConsoleGame::AbstractCanvas* canvas) const
     auto reward = R.String.Progress.UnlockNewMap;
     if (currentLevel % 2 == 0) {
         reward = R.String.Progress.UnlockUpgradeToken;
+    }
+    if (currentLevel == 0) {
+        reward = "";
     }
     if (currentLevel == 10) {
         reward = R.String.Progress.Unlock2UpgradeToken;

@@ -160,7 +160,7 @@ struct StringResource {
             "Auto", "Easy", "Normal", "Hard"};
         std::string_view Music = "Music: ";
         std::string_view Debuff = "Debuff: ";
-        std::array<const std::string_view, 2> DebuffOpt = {"On", "Off"};
+        std::array<const std::string_view, 2> DebuffOpt = {"Off", "On"};
     } MapSelect;
 
     struct {
