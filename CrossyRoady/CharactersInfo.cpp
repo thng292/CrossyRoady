@@ -96,7 +96,7 @@ AbstractNavigation::NavigationRes CharactersInfo::Update(
                 rightArr.ChangeColor(fontColor, fontColor);
             },
             [&] {
-                while (currentSelect--) {
+                while (currentSelect++) {
                     if (R.Config.GetCharUnlocked(currentSelect)) break;
                 }
                 LoadStuff();

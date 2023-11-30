@@ -25,6 +25,9 @@ void MapSelect::ChangePreview()
     preview.Load(std::format(
         RESOURCE_PATH MAP_PATH "{}/preview.sprite", fileMapName[userOpt.map]
     ));
+    debuff.Load(std::format(
+        RESOURCE_PATH MAP_PATH "{}/debuff.sprite", fileMapName[userOpt.map]
+    ));
 
     if (not hasChangedMusic) {
         userOpt.music = userOpt.map;
@@ -69,7 +72,6 @@ void MapSelect::Init(const std::any& args)
     userOpt = std::any_cast<GameType::UserOption>(args);
     constexpr Vec2 startPos = {210, 40};
     constexpr Vec2 buttSize = {160, 19};
-    UpdateStr();
     userOpt.map = R.Config.MapUnlocked - 1;
     menu.Init(
         startPos,
@@ -131,6 +133,7 @@ void MapSelect::Mount(const std::any& args)
     currentPalette[1] = currentPalette[11];
     currentPalette[2] = currentPalette[12];
     ChangePreview();
+    UpdateStr();
 }
 
 AbstractScreen* MapSelect::Clone() const { return new MapSelect; }
@@ -212,6 +215,7 @@ AbstractNavigation::NavigationRes MapSelect::Update(
                     audio.PlayClickSfx();
                     currentMenu = 0;
                     userOpt.music = choosed;
+                    hasChangedMusic = true;
                     UpdateStr();
                     audio.SwitchMusic(BGMusic(userOpt.music));
                     audio.PlayMusic();
@@ -236,6 +240,7 @@ AbstractNavigation::NavigationRes MapSelect::Update(
 
     if (lastSelectedMap != userOpt.map) {
         ChangePreview();
+        UpdateStr();
     }
 
     return res;
@@ -260,6 +265,7 @@ void MapSelect::Draw(AbstractCanvas* canvas) const
     );
 
     preview.Draw(canvas, {15, 40});
+    debuff.Draw(canvas, {20, 45});
     debuffSurface.Draw(canvas);
     Font::DrawStringInBox(
         canvas,

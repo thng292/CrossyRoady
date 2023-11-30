@@ -29,6 +29,8 @@ class CharacterSelectScreen : public ConsoleGame::AbstractScreen {
     uint8_t selected = 0;
     uint8_t lastSelected = 0;
     SharedAudio& audio = SharedAudio::GetInstance();
+    std::string healthStr;
+    std::string speedStr;
 
     void DrawLeftPanel(ConsoleGame::AbstractCanvas* canvas) const;
     void DrawRightPanel(ConsoleGame::AbstractCanvas* canvas) const;

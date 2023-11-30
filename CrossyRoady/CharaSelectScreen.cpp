@@ -89,6 +89,8 @@ void CharacterSelectScreen::LoadRes(bool fresh)
 
     auto tmp = charStuff[selected].Name.find(' ');
     charName = charStuff[selected].Name.substr(tmp + 1);
+    healthStr = std::to_string(charStat[selected].Health);
+    speedStr = std::to_string(charStat[selected].Speed);
 }
 
 void CharacterSelectScreen::Mount(const std::any& args) { LoadRes(true); }
@@ -256,7 +258,6 @@ void CharacterSelectScreen::DrawLeftPanel(AbstractCanvas* canvas) const
         canvas, R.String.CharSelect.Health, heartRowPos, 1, 0, (Color)14
     );
     heartRowPos.x += R.String.CharSelect.Health.length() * fontDim0.width;
-    static auto healthStr = std::to_string(charStat[selected].Health);
     Font::DrawString(canvas, healthStr, heartRowPos, 1, 0, (Color)14);
 
     for (int i = surfaces[1].props.pos.x + 20;
@@ -275,7 +276,6 @@ void CharacterSelectScreen::DrawLeftPanel(AbstractCanvas* canvas) const
         canvas, R.String.CharSelect.Speed, speedRowPos, 1, 0, (Color)14
     );
     speedRowPos.x += R.String.CharSelect.Speed.length() * fontDim0.width;
-    static auto speedStr = std::to_string(charStat[selected].Speed);
     Font::DrawString(canvas, speedStr, speedRowPos, 1, 0, (Color)14);
 }
 
