@@ -97,6 +97,8 @@ struct StringResource {
         std::string_view DiffReached = "Difficulty reached";
 
         std::string_view PlayAgain = "Play again";
+        std::string_view MapUnlock = "New map unlocked!";
+        std::string_view LevelUp = "Level Up!";
     } Result;
 
     struct {
