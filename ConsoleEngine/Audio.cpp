@@ -8,28 +8,18 @@
 #include "Logger.h"
 
 namespace ConsoleGame {
-    char commandBuffer[512]     = {0};
-    std::atomic<char*> _command = nullptr;
-    std::atomic_bool isClose    = false;
+    constexpr size_t QLEN         = 5;
+    char commandBuffer[QLEN][128] = {0};
+    int head                      = 0;
+    int tail                      = 0;
+    std::mutex queueLock;
     std::jthread audioThread([](std::stop_token stoken) {
         while (!stoken.stop_requested()) {
-            /*if (_command == nullptr) {
-                continue;
-            }*/
-            _command.wait(nullptr);
-            //LogDebug("{}", _command.load());
-            auto err = mciSendStringA(_command.load(), 0, 0, 0);
-#ifdef _DEBUG
-            if (err) {
-                mciGetErrorStringA(err, commandBuffer, sizeof(commandBuffer));
-                if (!isClose) {
-                    LogDebug("{}", commandBuffer);
-                }
-                isClose = false;
+            if (head != tail) {
+                std::lock_guard lk(queueLock);
+                auto err = mciSendStringA(commandBuffer[head], 0, 0, 0);
+                head     = (head + 1) % QLEN;
             }
-#endif
-            _command.store(nullptr);
-            _command.notify_all();
         }
     });
 
@@ -42,27 +32,28 @@ namespace ConsoleGame {
             device = "mpegvideo";
         }
         auto file = audioFile.string();
-        _command.wait(commandBuffer);
+        std::lock_guard lk(queueLock);
         snprintf(
-            commandBuffer,
-            sizeof(commandBuffer),
+            commandBuffer[tail],
+            sizeof(commandBuffer[tail]),
             "open %s type %s alias %llu",
             file.c_str(),
             device,
             thiss
         );
-        _command.store(commandBuffer);
-        _command.notify_all();
+        tail = (tail + 1) % QLEN;
     }
 
     void Audio::Close()
     {
-        _command.wait(commandBuffer);
-        isClose = true;
-        snprintf(commandBuffer, sizeof(commandBuffer), "close %llu", thiss);
-        _command.store(commandBuffer);
-        _command.notify_all();
-        _isPlaying = false;
+        std::lock_guard lk(queueLock);
+        snprintf(
+            commandBuffer[tail],
+            sizeof(commandBuffer[tail]),
+            "close %llu",
+            thiss
+        );
+        tail = (tail + 1) % QLEN;
     }
 
     Audio::Audio(std::filesystem::path file) { Open(file); }
@@ -85,37 +76,47 @@ namespace ConsoleGame {
                 command = (char*)"play %llu";
             }
         }
-        _command.wait(commandBuffer);
-        snprintf(commandBuffer, sizeof(commandBuffer), command, thiss);
-        _command.store(commandBuffer);
-        _command.notify_all();
         _isPlaying = true;
+        std::lock_guard lk(queueLock);
+        snprintf(
+            commandBuffer[tail], sizeof(commandBuffer[tail]), command, thiss
+        );
+        tail = (tail + 1) % QLEN;
     }
 
     void Audio::Pause()
     {
-        _command.wait(commandBuffer);
-        snprintf(commandBuffer, sizeof(commandBuffer), "pause %llu", thiss);
-        _command.store(commandBuffer);
-        _command.notify_all();
         _isPlaying = false;
+        std::lock_guard lk(queueLock);
+        snprintf(
+            commandBuffer[tail],
+            sizeof(commandBuffer[tail]),
+            "pause %llu",
+            thiss
+        );
+        tail = (tail + 1) % QLEN;
     }
 
     void Audio::Resume()
     {
-        _command.wait(commandBuffer);
-        snprintf(commandBuffer, sizeof(commandBuffer), "resume %llu", thiss);
-        _command.store(commandBuffer);
-        _command.notify_all();
         _isPlaying = true;
+        std::lock_guard lk(queueLock);
+        snprintf(
+            commandBuffer[tail],
+            sizeof(commandBuffer[tail]),
+            "resume %llu",
+            thiss
+        );
+        tail = (tail + 1) % QLEN;
     }
 
     void Audio::Stop()
     {
-        _command.wait(commandBuffer);
-        snprintf(commandBuffer, sizeof(commandBuffer), "stop %llu", thiss);
-        _command.store(commandBuffer);
-        _command.notify_all();
+        std::lock_guard lk(queueLock);
+        snprintf(
+            commandBuffer[tail], sizeof(commandBuffer[tail]), "stop %llu", thiss
+        );
+        tail = (tail + 1) % QLEN;
     }
 
     void Audio::ChangeSong(std::filesystem::path file)

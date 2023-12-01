@@ -11,7 +11,6 @@ class MapSelect : public ConsoleGame::AbstractScreen {
     ConsoleGame::Sprite debuff;
     uint8_t lastSelectedMap = 0;
     uint8_t selectedMode = 0;
-    bool enableDebuff = true;
     bool hasChangedMusic = false;
 
     std::string MusicTitle;

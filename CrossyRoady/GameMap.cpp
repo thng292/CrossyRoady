@@ -84,9 +84,9 @@ AbstractNavigation::NavigationRes GameMap::Update(
     auto res = navigation->NoChange();
 
     ResetFlags();
+    DragMapDown(deltaTime);
 
     UpdateMapSpeed();
-    DragMapDown(deltaTime);
     UpdateSprites(deltaTime);
     UpdateDifficulty();
     UpdateLanes(deltaTime);
@@ -250,7 +250,8 @@ void GameMap::HandlePlayerMovement(float deltaTime)
         }
         if (gameEventArgs.distWalkedSkill > MIN_DIST_CHARGE) {
             gameEventArgs.distWalkedSkill = 0;
-            if (gameEventArgs.skillCharge < MAX_SKILL_CHARGE) {
+            if (gameEventArgs.skillCharge < MAX_SKILL_CHARGE &&
+                !gameFlags.skillInUse) {
                 gameEventArgs.skillCharge += gameEventArgs.skillStep;
                 if (gameEventArgs.skillCharge >= MAX_SKILL_CHARGE) {
                     gameEventArgs.skillCharge = MAX_SKILL_CHARGE;
