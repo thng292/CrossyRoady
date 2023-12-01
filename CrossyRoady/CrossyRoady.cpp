@@ -47,13 +47,13 @@ auto main() -> int
     game->AddScreen(std::make_unique<GameMap>());
     game->AddScreen(std::make_unique<CharactersInfo>());
     game->AddScreen(std::make_unique<HowToPlay>());
-    game->AddScreen(std::make_unique<CharacterSelectScreen>());
+    game->AddScreen(std::make_unique<CharacterSelect>());
     game->AddScreen(std::make_unique<ReturnHome>());
     game->AddScreen(std::make_unique<CharaUnlock>());
     game->AddScreen(std::make_unique<Result>());
     game->AddScreen(std::make_unique<AskSave>());
-
     game->AddScreen(std::make_unique<MapSelect>());
+
     game->Run(MainMenu::ScreenName());
 
     return 0;

@@ -83,7 +83,7 @@ AbstractNavigation::NavigationRes CharaUnlock::Update(
             switch (selection) {
                 case 0:
                     res = navigation->PopBackTo(
-                        CharacterSelectScreen::ScreenName()
+                        CharacterSelect::ScreenName()
                     );
                     break;
             }

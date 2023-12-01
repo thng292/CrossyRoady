@@ -12,14 +12,14 @@ constexpr auto BGSecond = (ConsoleGame::Color)11;
 const auto* charStuff = (CharStuff*)&R.String.Character;
 const auto* charStat = (CharStat*)&R.CharsStat;
 
-const std::wstring_view CharacterSelectScreen::ScreenName()
+const std::wstring_view CharacterSelect::ScreenName()
 {
     return L"CharSelect";
 }
 
-std::wstring_view CharacterSelectScreen::getName() { return ScreenName(); }
+std::wstring_view CharacterSelect::getName() { return ScreenName(); }
 
-void CharacterSelectScreen::Init(const std::any& args)
+void CharacterSelect::Init(const std::any& args)
 {
     constexpr auto panelWidth = 100;
     surfaces[0].props = {
@@ -43,7 +43,7 @@ void CharacterSelectScreen::Init(const std::any& args)
     backButton = ArrowButton({.pos = {15, 5}, .cornerSize = 8}, false);
 }
 
-void CharacterSelectScreen::LoadRes(bool fresh)
+void CharacterSelect::LoadRes(bool fresh)
 {
     currentPalette.Load(std::format(
         RESOURCE_PATH EXTRA_PATH "{}-sel.hex", fileCharName[selected]
@@ -94,14 +94,14 @@ void CharacterSelectScreen::LoadRes(bool fresh)
     speedStr = std::to_string(charStat[selected].Speed);
 }
 
-void CharacterSelectScreen::Mount(const std::any& args) { LoadRes(true); }
+void CharacterSelect::Mount(const std::any& args) { LoadRes(true); }
 
-AbstractScreen* CharacterSelectScreen::Clone() const
+AbstractScreen* CharacterSelect::Clone() const
 {
-    return new CharacterSelectScreen;
+    return new CharacterSelect;
 }
 
-AbstractNavigation::NavigationRes CharacterSelectScreen::Update(
+AbstractNavigation::NavigationRes CharacterSelect::Update(
     float deltaTime, const AbstractNavigation* navigation
 )
 {
@@ -194,7 +194,7 @@ AbstractNavigation::NavigationRes CharacterSelectScreen::Update(
     return navigation->NoChange();
 }
 
-void CharacterSelectScreen::Draw(AbstractCanvas* canvas) const
+void CharacterSelect::Draw(AbstractCanvas* canvas) const
 {
     canvas->Clear(BGPrimary);
     GameUtils::DrawBLTriangle(canvas, 70);
@@ -215,7 +215,7 @@ void CharacterSelectScreen::Draw(AbstractCanvas* canvas) const
     // Font::DrawString(canvas, R.String.Back, {25, 7}, 1, 0, (Color)14);
 }
 
-void CharacterSelectScreen::Unmount()
+void CharacterSelect::Unmount()
 {
     speedIcon.Unload();
     heartIcon.Unload();
@@ -225,7 +225,7 @@ void CharacterSelectScreen::Unmount()
     }
 }
 
-void CharacterSelectScreen::DrawLeftPanel(AbstractCanvas* canvas) const
+void CharacterSelect::DrawLeftPanel(AbstractCanvas* canvas) const
 {
     const auto fontDim0 = Font::GetDim(0);
     const auto fontDim1 = Font::GetDim(1);
@@ -280,7 +280,7 @@ void CharacterSelectScreen::DrawLeftPanel(AbstractCanvas* canvas) const
     Font::DrawString(canvas, speedStr, speedRowPos, 1, 0, (Color)14);
 }
 
-void CharacterSelectScreen::DrawRightPanel(AbstractCanvas* canvas) const
+void CharacterSelect::DrawRightPanel(AbstractCanvas* canvas) const
 {
     const auto fontDim0 = Font::GetDim(0);
     const auto fontDim1 = Font::GetDim(1);

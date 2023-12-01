@@ -6,7 +6,7 @@
 #include "Surface.h"
 #include "ArrowButton.h"
 
-class CharacterSelectScreen : public ConsoleGame::AbstractScreen {
+class CharacterSelect : public ConsoleGame::AbstractScreen {
     // clang-format off
     using Vec2 = ConsoleGame::Vec2;
     static constexpr std::array<Vec2, numberOfChars> charAvaPos = {

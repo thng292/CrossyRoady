@@ -72,7 +72,6 @@ void GameMap::Init(const std::any& args)
         tmp->Init(std::any());
     }
     audio.SwitchMusic((BGMusic)gameData.music);
-    audio.PlayMusic();
 }
 
 AbstractScreen* GameMap::Clone() const { return new GameMap; }
@@ -353,7 +352,7 @@ void GameMap::HandleGameOver(
 
         TimePlayedTracker::StopCount();
         R.Config.Deaths++;
-        res = navigation->Navigate(L"Result", gameRes);
+        res = navigation->Navigate(Result::ScreenName(), gameRes);
     }
 }
 
@@ -736,12 +735,10 @@ void GameMap::LoadSprites()
 
 void GameMap::LoadAudio()
 {
-    gameAudio.itemPickSfx.Open(RESOURCE_PATH SFX_PATH "item-pick.wav");
     gameAudio.damageSfx.Open(RESOURCE_PATH SFX_PATH "hurt.wav");
     gameAudio.deadSfx.Open(RESOURCE_PATH SFX_PATH "dead.wav");
     gameAudio.warningSfx.Open(RESOURCE_PATH SFX_PATH "warning.wav");
-    gameAudio.railSfx.Open(RESOURCE_PATH SFX_PATH "rail.wav");
-    gameAudio.shieldBreakSfx.Open(RESOURCE_PATH SFX_PATH "shield-break.wav");
+    gameAudio.itemPickSfx.Open(RESOURCE_PATH SFX_PATH "item-pick.wav");
     gameAudio.scoreSfx.Open(RESOURCE_PATH SFX_PATH "score.wav");
     gameAudio.noSkillSfx.Open(RESOURCE_PATH SFX_PATH "no-skill.wav");
 
@@ -751,12 +748,12 @@ void GameMap::LoadAudio()
     gameAudio.debuffActivateSfx.Open(RESOURCE_PATH SFX_PATH "debuff-start.wav");
     gameAudio.debuffOverSfx.Open(RESOURCE_PATH SFX_PATH "debuff-over.wav");
 
+    gameAudio.skillBaeSfx.Open(RESOURCE_PATH SFX_PATH "bae-skill.wav");
     gameAudio.skillFaunaSfx.Open(RESOURCE_PATH SFX_PATH "fauna-skill.wav");
     gameAudio.skillIrysSfx.Open(RESOURCE_PATH SFX_PATH "irys-skill.wav");
     gameAudio.skillMumeiSfx.Open(RESOURCE_PATH SFX_PATH "mumei-skill.wav");
     gameAudio.skillKroniiSfx.Open(RESOURCE_PATH SFX_PATH "kronii-skill.wav");
     gameAudio.skillSanaSfx.Open(RESOURCE_PATH SFX_PATH "sana-skill.wav");
-    gameAudio.skillBaeSfx.Open(RESOURCE_PATH SFX_PATH "bae-skill.wav");
 }
 
 void GameMap::UnloadSprites()
@@ -812,11 +809,16 @@ void GameMap::UnloadAudio()
     gameAudio.damageSfx.Close();
     gameAudio.deadSfx.Close();
     gameAudio.warningSfx.Close();
-    gameAudio.debuffActivateSfx.Close();
-    gameAudio.debuffOverSfx.Close();
     gameAudio.itemPickSfx.Close();
     gameAudio.scoreSfx.Close();
     gameAudio.shieldBreakSfx.Close();
+    gameAudio.railSfx.Close();
+
+    gameAudio.skillReadySfx.Close();
+    gameAudio.skillOverSfx.Close();
+
+    gameAudio.debuffActivateSfx.Close();
+    gameAudio.debuffOverSfx.Close();
 
     gameAudio.skillBaeSfx.Close();
     gameAudio.skillFaunaSfx.Close();
@@ -824,8 +826,6 @@ void GameMap::UnloadAudio()
     gameAudio.skillMumeiSfx.Close();
     gameAudio.skillKroniiSfx.Close();
     gameAudio.skillSanaSfx.Close();
-    gameAudio.skillOverSfx.Close();
-    gameAudio.skillReadySfx.Close();
 };
 
 void GameMap::SetGameMapData(const GameMapData& gmData) { gameData = gmData; }
@@ -984,8 +984,8 @@ void GameMap::DrawDarkness(ConsoleGame::AbstractCanvas* canvas) const
 
     int visibleRadius = VISIBLE_RADIUS;
     Color darknessColor = Color(13);
-    for (int y = 0; y <= screenHeight; ++y) {
-        for (int x = 0; x <= screenWidth; ++x) {
+    for (int y = 0; y < screenHeight; ++y) {
+        for (int x = 0; x < screenWidth; ++x) {
             if (GetDistance(xCenter, yCenter, x, y) > visibleRadius) {
                 (*canvas)[y][x] = darknessColor;
             }
