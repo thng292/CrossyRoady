@@ -58,7 +58,7 @@ void MapSelect::UpdateStr()
     DebuffTitle = std::format(
         "{}{}",
         R.String.MapSelect.Debuff,
-        R.String.MapSelect.DebuffOpt[enableDebuff]
+        R.String.MapSelect.DebuffOpt[userOpt.debuff]
     );
     menu.buttons[4].ChangeText(DebuffTitle);
 }
@@ -188,7 +188,7 @@ AbstractNavigation::NavigationRes MapSelect::Update(
                             currentMenu = choosed;
                             break;
                         case 4:
-                            enableDebuff = !enableDebuff;
+                            userOpt.debuff = ~userOpt.debuff;
                             UpdateStr();
                             break;
                         case 5:
@@ -285,7 +285,7 @@ void MapSelect::Draw(AbstractCanvas* canvas) const
     if (userOpt.map != 0) {
         mapL.Draw(canvas);
     }
-    if (userOpt.map !=  R.Config.MapUnlocked - 1) {
+    if (userOpt.map != R.Config.MapUnlocked - 1) {
         mapR.Draw(canvas);
     }
 

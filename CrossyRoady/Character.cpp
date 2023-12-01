@@ -46,7 +46,6 @@ void Character::SetMaxHealth(int health) { maxHealth = health; }
 void Character::SetSpeed(const double& speed)
 {
     _speed = speed;
-
     float frameDur = ((_speed - 70) / (120 - 70)) * (0.12 - 0.15) + 0.15;
     leftSprite.SetFrameDuration(frameDur);
     rightSprite.SetFrameDuration(frameDur);
