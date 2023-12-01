@@ -26,6 +26,11 @@ void TimePlayedTracker::StopCount()
     auto tmp = std::chrono::steady_clock::now() - sessionStart;
     constexpr auto secToNano = std::chrono::nanoseconds(1s).count();
     timePlayed += std::chrono::seconds(tmp.count() / secToNano);
+    Save();
 }
 
-void TimePlayedTracker::Save() { R.Config.PlayTime = timePlayed.count(); }
+void TimePlayedTracker::Save()
+{
+    R.Config.PlayTime = timePlayed.count();
+    R.Config.Save(CONFIG_PATH);
+}

@@ -71,6 +71,8 @@ void GameMap::Init(const std::any& args)
     for (auto& tmp : subScreen) {
         tmp->Init(std::any());
     }
+    audio.SwitchMusic((BGMusic)gameData.music);
+    audio.PlayMusic();
 }
 
 AbstractScreen* GameMap::Clone() const { return new GameMap; }
@@ -539,7 +541,7 @@ std::unique_ptr<Lane> GameMap::GetRandomLane()
             lane->SetHasItem(true);
             laneWithItem = lane.get();
             ItemType itemType = static_cast<ItemType>((int)(rand() % 3));
-            itemType = HEALTH;
+            //itemType = HEALTH;
             AniSprite* itemSprite = &gameSprites.itemSpeed;
             switch (itemType) {
                 case SPEED:

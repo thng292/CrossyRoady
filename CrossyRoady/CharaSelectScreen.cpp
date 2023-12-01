@@ -2,6 +2,7 @@
 
 #include "GameType.h"
 #include "GameUtils.h"
+#include "MainMenu.h"
 #include "MapSelect.h"
 #include "StringRes.h"
 
@@ -161,7 +162,7 @@ AbstractNavigation::NavigationRes CharacterSelectScreen::Update(
         }
     }
     if (UiIsKeyMeanBack()) {
-        return navigation->Back();
+        return navigation->PopBackTo(MainMenu::ScreenName());
     }
     while (!R.Config.GetCharUnlocked(selected)) {
         selected++;
@@ -184,7 +185,7 @@ AbstractNavigation::NavigationRes CharacterSelectScreen::Update(
         }
         backButton.ChangeColor(BGPrimary, (Color)14);
         if (backButton.IsHover(GetMousePos()) and UiIsKeyMeanClick()) {
-            return navigation->Back();
+            return navigation->PopBackTo(MainMenu::ScreenName());
         }
     } else {
         backButtLastHover = false;

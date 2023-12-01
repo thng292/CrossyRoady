@@ -19,7 +19,7 @@ std::wstring_view MainMenu::getName() { return ScreenName(); }
 
 void MainMenu::Init(const std::any& args)
 {
-    bgType = static_cast<MapType>(rand() % 6);
+    bgType = static_cast<MapType>(rand() % R.Config.MapUnlocked);
     bg.Init(bgType);
     menu.Init(
         startPos,
