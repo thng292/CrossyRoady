@@ -26,9 +26,10 @@ namespace ConsoleGame {
                 std::lock_guard lk(queueLock);
                 auto err = mciSendStringA(commandBuffer[head], 0, 0, 0);
 #ifdef _DEBUG
-                //LogDebug("{}", commandBuffer[head]);
+                LogDebug("{}", commandBuffer[head]);
                 if (err != 0) {
                     mciGetErrorStringA(err, errBuffer, sizeof(errBuffer));
+                    LogDebug("{}", errBuffer);
                 }
 #endif
                 head = (head + 1) % QLEN;
