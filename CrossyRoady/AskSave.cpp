@@ -125,7 +125,7 @@ AbstractNavigation::NavigationRes AskSave::Update(
                     break;
                 case 1:
                     nav =
-                        navigation->Navigate(CharacterSelectScreen::ScreenName()
+                        navigation->Navigate(CharacterSelect::ScreenName()
                         );
                     break;
                 case 2:
