@@ -31,6 +31,9 @@ void Result::Init(const std::any& args)
     if ((levelA + 1) / 2 + 1 > R.Config.MapUnlocked) {
         mapUnlock = true;
         R.Config.MapUnlocked++;
+    } else {
+        R.Config.UpgradePoint++;
+        R.Config.UpgradePoint += levelA == 10;
     }
 
     menu.Init({90, 190}, {100, 18}, {R.String.Result.PlayAgain, R.String.Next});
@@ -149,30 +152,35 @@ bool Result::CheckCharaUnlock()
             R.Config.CityXP += gameRes.score;
             if (gameRes.score >= CharaExpReq && !R.Config.IrysUnlocked) {
                 res = true;
+                R.Config.IrysUnlocked = 1;
             }
             break;
         case HOUSE:
             R.Config.HouseXP += gameRes.score;
             if (gameRes.score >= CharaExpReq && !R.Config.MumeiUnlocked) {
                 res = true;
+                R.Config.MumeiUnlocked = 1;
             }
             break;
         case DESERT:
             R.Config.DesertXP += gameRes.score;
             if (gameRes.score >= CharaExpReq && !R.Config.KroniiUnlocked) {
                 res = true;
+                R.Config.KroniiUnlocked = 1;
             }
             break;
         case SPACE:
             R.Config.SpaceXP += gameRes.score;
-            if (gameRes.score >= CharaExpReq && R.Config.SanaUnlocked) {
+            if (gameRes.score >= CharaExpReq && !R.Config.SanaUnlocked) {
                 res = true;
+                R.Config.SanaUnlocked = 1;
             }
             break;
         case CASINO:
             R.Config.CasinoXP += gameRes.score;
-            if (gameRes.score >= CharaExpReq && R.Config.BaeUnlocked) {
+            if (gameRes.score >= CharaExpReq && !R.Config.BaeUnlocked) {
                 res = true;
+                R.Config.BaeUnlocked = 1;
             }
             break;
     }
