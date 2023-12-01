@@ -735,16 +735,17 @@ void GameMap::LoadSprites()
 
 void GameMap::LoadAudio()
 {
+    gameAudio.itemPickSfx.Open(RESOURCE_PATH SFX_PATH "item-pick.wav");
     gameAudio.damageSfx.Open(RESOURCE_PATH SFX_PATH "hurt.wav");
     gameAudio.deadSfx.Open(RESOURCE_PATH SFX_PATH "dead.wav");
     gameAudio.warningSfx.Open(RESOURCE_PATH SFX_PATH "warning.wav");
-    gameAudio.itemPickSfx.Open(RESOURCE_PATH SFX_PATH "item-pick.wav");
+    gameAudio.railSfx.Open(RESOURCE_PATH SFX_PATH "rail.wav");
+    gameAudio.shieldBreakSfx.Open(RESOURCE_PATH SFX_PATH "shield-break.wav");
     gameAudio.scoreSfx.Open(RESOURCE_PATH SFX_PATH "score.wav");
     gameAudio.noSkillSfx.Open(RESOURCE_PATH SFX_PATH "no-skill.wav");
 
     gameAudio.skillReadySfx.Open(RESOURCE_PATH SFX_PATH "skill-ready.wav");
     gameAudio.skillOverSfx.Open(RESOURCE_PATH SFX_PATH "skill-end.wav");
-
     gameAudio.debuffActivateSfx.Open(RESOURCE_PATH SFX_PATH "debuff-start.wav");
     gameAudio.debuffOverSfx.Open(RESOURCE_PATH SFX_PATH "debuff-over.wav");
 
@@ -813,6 +814,7 @@ void GameMap::UnloadAudio()
     gameAudio.scoreSfx.Close();
     gameAudio.shieldBreakSfx.Close();
     gameAudio.railSfx.Close();
+    gameAudio.noSkillSfx.Close();
 
     gameAudio.skillReadySfx.Close();
     gameAudio.skillOverSfx.Close();
