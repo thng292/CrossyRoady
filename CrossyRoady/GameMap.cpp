@@ -538,8 +538,15 @@ std::unique_ptr<Lane> GameMap::GetRandomLane()
         if (randomNum < ITEM_SPAWN_RATE) {
             lane->SetHasItem(true);
             laneWithItem = lane.get();
-            ItemType itemType = static_cast<ItemType>((int)(rand() % 3));
-            itemType = HEALTH;
+            float itemRate = static_cast<float>(rand()) / RAND_MAX;
+            ItemType itemType;
+            if (itemRate < 0.1) {
+                itemType = STAR;
+            } else if (itemRate < 0.5) {
+                itemType = HEALTH;
+            } else {
+                itemType = SPEED;
+            }
             AniSprite* itemSprite = &gameSprites.itemSpeed;
             switch (itemType) {
                 case SPEED:

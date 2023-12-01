@@ -20,6 +20,9 @@ void MenuBG::LoadSprites()
 
 void MenuBG::LoadLanes()
 {
+    if (!laneList.empty()) {
+        laneList.clear();
+    }
     size_t laneNum = _CONSOLE_HEIGHT_ * 2 / 32;
     for (size_t i = 0; i < laneNum; ++i) {
         LaneType laneType = static_cast<LaneType>(rand() % 4);
@@ -149,4 +152,19 @@ void MenuBG::Draw(ConsoleGame::AbstractCanvas* canvas) const
     DrawEntity(canvas);
 }
 
-void MenuBG::Unmount() { Unmounted = true; }
+void MenuBG::Unmount()
+{
+    Unmounted = true;
+    sprite.mobSpriteEasy.MobLeft.Unload();
+    sprite.mobSpriteEasy.MobRight.Unload();
+    sprite.mobSpriteNormal.MobLeft.Unload();
+    sprite.mobSpriteNormal.MobRight.Unload();
+    sprite.mobSpriteHard.MobLeft.Unload();
+    sprite.mobSpriteHard.MobRight.Unload();
+
+    sprite.blockSprite.Unload();
+    sprite.floatSprite.Unload();
+    sprite.roadSprite.Unload();
+    sprite.safeSprite.Unload();
+    sprite.waterSprite.Unload();
+}
