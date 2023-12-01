@@ -2,7 +2,9 @@
 
 #include <Windows.h>
 
+#include <atomic>
 #include <cstdint>
+#include <mutex>
 #include <thread>
 
 #include "Logger.h"
@@ -10,16 +12,28 @@
 namespace ConsoleGame {
     constexpr size_t QLEN         = 5;
     char commandBuffer[QLEN][128] = {0};
-    int head                      = 0;
-    int tail                      = 0;
+#ifdef _DEBUG
+    char errBuffer[128] = {0};
+#endif
+    int head = 0;
+    int tail = 0;
+    std::atomic_bool hasJob;
     std::mutex queueLock;
     std::jthread audioThread([](std::stop_token stoken) {
         while (!stoken.stop_requested()) {
-            if (head != tail) {
+            hasJob.wait(false);
+            while (head != tail) {
                 std::lock_guard lk(queueLock);
                 auto err = mciSendStringA(commandBuffer[head], 0, 0, 0);
-                head     = (head + 1) % QLEN;
+#ifdef _DEBUG
+                //LogDebug("{}", commandBuffer[head]);
+                if (err != 0) {
+                    mciGetErrorStringA(err, errBuffer, sizeof(errBuffer));
+                }
+#endif
+                head = (head + 1) % QLEN;
             }
+            hasJob.store(false);
         }
     });
 
@@ -42,10 +56,13 @@ namespace ConsoleGame {
             thiss
         );
         tail = (tail + 1) % QLEN;
+        hasJob.store(true);
+        hasJob.notify_all();
     }
 
     void Audio::Close()
     {
+        _isPlaying = false;
         std::lock_guard lk(queueLock);
         snprintf(
             commandBuffer[tail],
@@ -54,6 +71,8 @@ namespace ConsoleGame {
             thiss
         );
         tail = (tail + 1) % QLEN;
+        hasJob.store(true);
+        hasJob.notify_all();
     }
 
     Audio::Audio(std::filesystem::path file) { Open(file); }
@@ -82,6 +101,8 @@ namespace ConsoleGame {
             commandBuffer[tail], sizeof(commandBuffer[tail]), command, thiss
         );
         tail = (tail + 1) % QLEN;
+        hasJob.store(true);
+        hasJob.notify_all();
     }
 
     void Audio::Pause()
@@ -95,6 +116,8 @@ namespace ConsoleGame {
             thiss
         );
         tail = (tail + 1) % QLEN;
+        hasJob.store(true);
+        hasJob.notify_all();
     }
 
     void Audio::Resume()
@@ -108,6 +131,8 @@ namespace ConsoleGame {
             thiss
         );
         tail = (tail + 1) % QLEN;
+        hasJob.store(true);
+        hasJob.notify_all();
     }
 
     void Audio::Stop()
@@ -117,6 +142,8 @@ namespace ConsoleGame {
             commandBuffer[tail], sizeof(commandBuffer[tail]), "stop %llu", thiss
         );
         tail = (tail + 1) % QLEN;
+        hasJob.store(true);
+        hasJob.notify_all();
     }
 
     void Audio::ChangeSong(std::filesystem::path file)

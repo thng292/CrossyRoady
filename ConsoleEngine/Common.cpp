@@ -43,7 +43,6 @@ namespace ConsoleGame {
             mousePos = Vec2{
                 .x = pos.x / canvasPixelSize.width,
                 .y = pos.y / canvasPixelSize.height};
-            LogDebug("{}, {}", mousePos.x, mousePos.y);
         }
         for (int i = 0; i < inputFunc.size(); i++) {
             auto isDown = inputFunc[i]();

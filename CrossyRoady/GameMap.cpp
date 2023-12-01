@@ -72,7 +72,6 @@ void GameMap::Init(const std::any& args)
         tmp->Init(std::any());
     }
     audio.SwitchMusic((BGMusic)gameData.music);
-    audio.PlayMusic();
 }
 
 AbstractScreen* GameMap::Clone() const { return new GameMap; }

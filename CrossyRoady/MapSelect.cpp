@@ -32,7 +32,6 @@ void MapSelect::ChangePreview()
     if (not hasChangedMusic) {
         userOpt.music = userOpt.map;
         audio.SwitchMusic(BGMusic(userOpt.music));
-        audio.PlayMusic();
     }
     mapTitleButton.ChangeText(maps[userOpt.map].Name);
 }
@@ -222,7 +221,6 @@ AbstractNavigation::NavigationRes MapSelect::Update(
                         hasChangedMusic = true;
                         UpdateStr();
                         audio.SwitchMusic(BGMusic(userOpt.music));
-                        audio.PlayMusic();
                     }
                 }
             );
@@ -308,5 +306,4 @@ void MapSelect::Draw(AbstractCanvas* canvas) const
 void MapSelect::Unmount()
 {
     audio.SwitchMusic(BGMusic::Menu);
-    audio.PlayMusic();
 }
