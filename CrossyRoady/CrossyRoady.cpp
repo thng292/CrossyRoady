@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <memory>
 
 #include "AskSave.h"
@@ -18,7 +19,6 @@ using namespace ConsoleGame;
 
 // #define _TEST_PERF_
 
-
 auto main() -> int
 {
 #ifdef _DEBUG
@@ -30,7 +30,7 @@ auto main() -> int
     Font::Load(RESOURCE_PATH FONT_PATH "big.font", 1);
 
     R.Config.Load(CONFIG_PATH);
-    defer { R.Config.Save(CONFIG_PATH); };
+    atexit(+[] { R.Config.Save(CONFIG_PATH); });
 
     auto game =
 #ifndef _TEST_PERF_
