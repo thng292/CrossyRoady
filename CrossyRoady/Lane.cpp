@@ -39,7 +39,7 @@ void Lane::DeleteEntity()
 
 void Lane::CreateEntity()
 {
-    float tmp = rand() % 150;
+    float tmp = minSpace + rand() % 150;
     if (IsLeftToRight) {
         entityList.push_back(entityList.back() - tmp - entityWidth);
 
@@ -248,9 +248,10 @@ void Lane::SetY(float y)
             break;
         case SAFE:
             if (entityHeight > 32) {
-                entityY = laneY + (entityHeight - 32);
+                entityY = laneY + (entityHeight - 32) + 5;
+
             } else
-                entityY = laneY;
+                entityY = laneY + 5;
             break;
     }
 

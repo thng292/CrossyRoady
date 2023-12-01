@@ -10,7 +10,7 @@ namespace GameType {
     constexpr int MAP_DRAG_SPEED = 20.0f;
     constexpr float ITEM_SPAWN_RATE = 0.1f;
     constexpr float RAIL_SPAWN_RATE = 0.1f;
-    constexpr float SPEED_ADDITION = 3.0f;
+    constexpr float SPEED_ADDITION = 5.0f;
     constexpr float MIN_DIST_SCORE = 32.0f;
     constexpr float MIN_DIST_CHARGE = 20.0f;
 
@@ -74,11 +74,24 @@ namespace GameType {
 
         ConsoleGame::Sprite emptyHealth;
         ConsoleGame::Sprite health;
-        ConsoleGame::Sprite skill;
-        ConsoleGame::Sprite skillDebuff;
 
-        ConsoleGame::Sprite debuff;
-        ConsoleGame::Sprite debuffExtra;
+        ConsoleGame::Sprite* skillCur;
+        ConsoleGame::Sprite* debuffCur;
+        ConsoleGame::Sprite* skillChara;
+
+        ConsoleGame::Sprite skillFauna;
+        ConsoleGame::Sprite skillIrys;
+        ConsoleGame::Sprite skillMumei;
+        ConsoleGame::Sprite skillKronii;
+        ConsoleGame::Sprite skillSana;
+        ConsoleGame::Sprite skillBae;
+
+        ConsoleGame::Sprite debuffForest;
+        ConsoleGame::Sprite debuffCity;
+        ConsoleGame::Sprite debuffHouse;
+        ConsoleGame::Sprite debuffDesert;
+        ConsoleGame::Sprite debuffSpace;
+        ConsoleGame::Sprite debuffCasino;
 
         ConsoleGame::Sprite arrowLeft;
         ConsoleGame::Sprite arrowRight;
@@ -115,6 +128,7 @@ namespace GameType {
         ConsoleGame::Audio skillOverSfx;
 
         ConsoleGame::Audio itemPickSfx;
+        ConsoleGame::Audio noSkillSfx;
     };
 
     struct UserOption {

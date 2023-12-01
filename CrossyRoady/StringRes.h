@@ -278,7 +278,7 @@ struct DebuffDuration {
     uint8_t Forest = 10;
     uint8_t City = 10;
     uint8_t House = 10;
-    uint8_t Desert = 10;
+    uint8_t Desert = 3;
     uint8_t Space = 10;
     uint8_t Casino = 10;
 };

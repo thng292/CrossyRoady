@@ -163,7 +163,7 @@ void GameMap::HandlePlayerInput()
                 gameFlags.movingLeft = !correctKeyFlag;
             }
         }
-        if (IsKeyMeanSelect()) {
+        if (UiIsKeyMeanSelect()) {
             gameFlags.skillCalled = true;
         }
     }
@@ -436,6 +436,9 @@ void GameMap::TurnOffDebuff()
                 break;
         }
     }
+    if (gameData.mapType == CASINO) {
+        gameSprites.debuffCur = &gameSprites.debuffCasino;
+    }
     gameFlags.debuffInUse = false;
     gameFlags.debuffWarning = false;
 }
@@ -461,6 +464,7 @@ void GameMap::TurnOffSkill()
         case KRONII:
             gameFlags.allowLaneUpdate = true;
             gameEventArgs.mapDragSpeed = MAP_DRAG_SPEED;
+            gameFlags.allowMapDrag = true;
             break;
         case SANA:
             gameFlags.allowDebuff = true;
@@ -646,11 +650,65 @@ void GameMap::LoadSprites()
     LoadMapSprite(gameData.mapType, gameSprites.roadSprite, "road");
     LoadMapSprite(gameData.mapType, gameSprites.safeSprite, "safe");
     LoadMapSprite(gameData.mapType, gameSprites.waterSprite, "water");
-    LoadMapSprite(gameData.mapType, gameSprites.debuff, "debuff");
+
+    LoadMapSprite(FOREST, gameSprites.debuffForest, "debuff");
+    LoadMapSprite(CITY, gameSprites.debuffCity, "debuff");
+    LoadMapSprite(HOUSE, gameSprites.debuffHouse, "debuff");
+    LoadMapSprite(DESERT, gameSprites.debuffDesert, "debuff");
+    LoadMapSprite(SPACE, gameSprites.debuffSpace, "debuff");
+    LoadMapSprite(CASINO, gameSprites.debuffCasino, "debuff");
 
     LoadCharaSprite(gameData.charaType, gameSprites.health, "health");
-    LoadCharaSprite(gameData.charaType, gameSprites.skill, "skill");
     LoadHeartSprite(gameSprites.itemHealth, gameData.charaType);
+
+    LoadCharaSprite(FAUNA, gameSprites.skillFauna, "skill");
+    LoadCharaSprite(IRYS, gameSprites.skillIrys, "skill");
+    LoadCharaSprite(MUMEI, gameSprites.skillMumei, "skill");
+    LoadCharaSprite(KRONII, gameSprites.skillKronii, "skill");
+    LoadCharaSprite(SANA, gameSprites.skillSana, "skill");
+    LoadCharaSprite(BAE, gameSprites.skillBae, "skill");
+
+    switch (gameData.charaType) {
+        case FAUNA:
+            gameSprites.skillChara = &gameSprites.skillFauna;
+            break;
+        case IRYS:
+            gameSprites.skillChara = &gameSprites.skillIrys;
+            break;
+        case MUMEI:
+            gameSprites.skillChara = &gameSprites.skillMumei;
+            break;
+        case KRONII:
+            gameSprites.skillChara = &gameSprites.skillKronii;
+            break;
+        case SANA:
+            gameSprites.skillChara = &gameSprites.skillSana;
+            break;
+        case BAE:
+            gameSprites.skillChara = &gameSprites.skillBae;
+            break;
+    }
+
+    switch (gameData.mapType) {
+        case FOREST:
+            gameSprites.debuffCur = &gameSprites.debuffForest;
+            break;
+        case CITY:
+            gameSprites.debuffCur = &gameSprites.debuffCity;
+            break;
+        case HOUSE:
+            gameSprites.debuffCur = &gameSprites.debuffHouse;
+            break;
+        case DESERT:
+            gameSprites.debuffCur = &gameSprites.debuffDesert;
+            break;
+        case SPACE:
+            gameSprites.debuffCur = &gameSprites.debuffSpace;
+            break;
+        case CASINO:
+            gameSprites.debuffCur = &gameSprites.debuffCasino;
+            break;
+    }
 
     // items
     gameSprites.itemSpeed.Load(RESOURCE_PATH EXTRA_PATH "item-speed.anisprite");
@@ -685,6 +743,7 @@ void GameMap::LoadAudio()
     gameAudio.railSfx.Open(RESOURCE_PATH SFX_PATH "rail.wav");
     gameAudio.shieldBreakSfx.Open(RESOURCE_PATH SFX_PATH "shield-break.wav");
     gameAudio.scoreSfx.Open(RESOURCE_PATH SFX_PATH "score.wav");
+    gameAudio.noSkillSfx.Open(RESOURCE_PATH SFX_PATH "no-skill.wav");
 
     gameAudio.skillReadySfx.Open(RESOURCE_PATH SFX_PATH "skill-ready.wav");
     gameAudio.skillOverSfx.Open(RESOURCE_PATH SFX_PATH "skill-end.wav");
@@ -712,8 +771,19 @@ void GameMap::UnloadSprites()
     gameSprites.itemSpeed.Unload();
     gameSprites.itemStar.Unload();
 
-    gameSprites.skill.Unload();
-    gameSprites.debuff.Unload();
+    gameSprites.skillFauna.Unload();
+    gameSprites.skillIrys.Unload();
+    gameSprites.skillMumei.Unload();
+    gameSprites.skillKronii.Unload();
+    gameSprites.skillSana.Unload();
+    gameSprites.skillBae.Unload();
+
+    gameSprites.debuffForest.Unload();
+    gameSprites.debuffCity.Unload();
+    gameSprites.debuffHouse.Unload();
+    gameSprites.debuffDesert.Unload();
+    gameSprites.debuffSpace.Unload();
+    gameSprites.debuffCasino.Unload();
 
     // mob
     gameSprites.mobSpriteEasy.MobLeft.Unload();
@@ -846,7 +916,7 @@ void GameMap::DrawSkill(ConsoleGame::AbstractCanvas* canvas) const
 
     // skill icon
     Vec2 skillCoord{.x = skillX, .y = skillY};
-    gameSprites.skill.Draw(canvas, skillCoord);
+    gameSprites.skillChara->Draw(canvas, skillCoord);
 
     // skill charge
     std::string percentStr =
@@ -865,7 +935,7 @@ void GameMap::DrawSkill(ConsoleGame::AbstractCanvas* canvas) const
                 (*canvas)[activeY + i][activeX + j] = (Color)1;
             }
         }
-        gameSprites.skill.Draw(canvas, activeSkillCoord);
+        gameSprites.skillCur->Draw(canvas, activeSkillCoord);
 
         for (size_t j = 0; j < 15; ++j) {
             (*canvas)[activeY][activeX + j] = (Color)14;
@@ -896,10 +966,10 @@ void GameMap::DrawDebuff(ConsoleGame::AbstractCanvas* canvas) const
     Vec2 coord{.x = ConsoleGame::_CONSOLE_WIDTH_ - 19, .y = 18};
     if (gameFlags.debuffWarning) {
         if (gameEventArgs.debuffFlasingTimer >= 0.5) {
-            gameSprites.debuff.Draw(canvas, coord);
+            gameSprites.debuffCur->Draw(canvas, coord);
         }
     } else {
-        gameSprites.debuff.Draw(canvas, coord);
+        gameSprites.debuffCur->Draw(canvas, coord);
     }
 }
 
@@ -998,32 +1068,32 @@ void GameMap::InitEventArgs()
     switch (gameData.charaType) {
         case FAUNA:
             if (R.Config.FaunaUpgraded) {
-                gameEventArgs.skillStep = 3;
+                gameEventArgs.skillStep = 2;
             }
             break;
         case IRYS:
             if (R.Config.IrysUpgraded) {
-                gameEventArgs.skillStep = 3;
+                gameEventArgs.skillStep = 2;
             }
             break;
         case MUMEI:
             if (R.Config.MumeiUpgraded) {
-                gameEventArgs.skillStep = 3;
+                gameEventArgs.skillStep = 2;
             }
             break;
         case KRONII:
             if (R.Config.KroniiUpgraded) {
-                gameEventArgs.skillStep = 3;
+                gameEventArgs.skillStep = 2;
             }
             break;
         case SANA:
             if (R.Config.SanaUpgraded) {
-                gameEventArgs.skillStep = 3;
+                gameEventArgs.skillStep = 2;
             }
             break;
         case BAE:
             if (R.Config.BaeUpgraded) {
-                gameEventArgs.skillStep = 3;
+                gameEventArgs.skillStep = 2;
             }
             break;
     }
@@ -1093,8 +1163,12 @@ void GameMap::CheckSkill()
 
     if (!gameFlags.skillCalled) return;
     gameFlags.skillCalled = false;
-    if (!gameFlags.allowSkill) return;
-    if (gameEventArgs.skillCharge < MAX_SKILL_CHARGE) return;
+    if (!gameFlags.allowSkill || gameEventArgs.skillCharge < MAX_SKILL_CHARGE) {
+        if (R.Config.Sfx) {
+            gameAudio.noSkillSfx.Play();
+        }
+        return;
+    }
 
     CharaType charaType = gameData.charaType;
     if (charaType == BAE) {
@@ -1140,9 +1214,12 @@ void GameMap::CheckOutOfBound()
     float charaX = box.coord.x;
     float charaY = box.coord.y;
     float charaWidth = box.dim.width;
+    if (charaY < 0) {
+        character.SetCurHealth(0);
+        return;
+    }
     if (gameFlags.isOnLog) {
-        if (charaY < 0 ||
-            (charaX >= _CONSOLE_WIDTH_ || charaX + charaWidth <= 0)) {
+        if (charaX >= _CONSOLE_WIDTH_ || charaX + charaWidth <= 0) {
             character.SetCurHealth(0);
         }
     } else {
@@ -1333,28 +1410,38 @@ void GameMap::HandleDebuff(float deltaTime)
                     gameAudio.damageSfx.Play();
                 }
             }
+            gameSprites.debuffCur = &gameSprites.debuffForest;
             break;
         case CITY:
             if (curHealth > IRYS_DEBUFF_HEALTH) {
                 gameEventArgs.originalHealth = curHealth;
                 character.SetCurHealth(IRYS_DEBUFF_HEALTH);
             }
+            gameSprites.debuffCur = &gameSprites.debuffCity;
+
             break;
         case HOUSE:
             gameFlags.isDarkMap = true;
+            gameSprites.debuffCur = &gameSprites.debuffHouse;
+
             break;
         case DESERT:
             gameFlags.allowMovementKeys = false;
             if (gameData.charaType != SANA) {
                 gameFlags.allowSkillKey = false;
             }
+            gameSprites.debuffCur = &gameSprites.debuffDesert;
+
             break;
         case SPACE:
             TurnOffSkill();
             gameFlags.allowSkill = false;
+            gameSprites.debuffCur = &gameSprites.debuffSpace;
+
             break;
         case CASINO:
             gameFlags.isReverseKey = true;
+            gameSprites.debuffCur = &gameSprites.debuffCasino;
             break;
     }
 
@@ -1380,21 +1467,26 @@ void GameMap::HandleSkill(float deltaTime)
                 character.SetMaxHealth(FAUNA_EXTRA_MAX_HEALTH);
                 character.SetCurHealth(FAUNA_EXTRA_MAX_HEALTH);
                 gameEventArgs.skillCategory = TIME;
+                gameSprites.skillCur = &gameSprites.skillFauna;
                 break;
             case IRYS:
                 gameEventArgs.shield = IRYS_SHIELD_COUNT;
                 gameEventArgs.skillCategory = SHIELD;
+                gameSprites.skillCur = &gameSprites.skillIrys;
                 break;
             case MUMEI:
                 gameEventArgs.originalSpeed = curSpeed;
                 character.SetSpeed(curSpeed + MUMEI_SPEED_BUFF);
                 gameFlags.isInvincible = true;
                 gameEventArgs.skillCategory = TIME;
+                gameSprites.skillCur = &gameSprites.skillMumei;
                 break;
             case KRONII:
                 gameFlags.allowLaneUpdate = false;
                 gameEventArgs.mapDragSpeed = 0;
                 gameEventArgs.skillCategory = TIME;
+                gameFlags.allowMapDrag = false;
+                gameSprites.skillCur = &gameSprites.skillKronii;
                 break;
             case SANA:
                 if (gameFlags.debuffInUse) {
@@ -1402,10 +1494,12 @@ void GameMap::HandleSkill(float deltaTime)
                 }
                 gameEventArgs.skillCategory = TIME;
                 gameFlags.allowDebuff = false;
+                gameSprites.skillCur = &gameSprites.skillSana;
                 break;
             case BAE:
                 gameFlags.isReverseKey = true;
                 gameEventArgs.skillCategory = TIME;
+                gameSprites.skillCur = &gameSprites.skillBae;
                 break;
         }
         gameFlags.skillActivate = false;
@@ -1489,7 +1583,7 @@ void GameMap::UpdateDifficulty()
     if (gameEventArgs.currentScore >= 150) {
         gameEventArgs.mobRange = 3;
         gameEventArgs.difficultyReached = HARD;
-        if (gameFlags.allowLaneUpdate && !gameFlags.skillInUse) {
+        if (gameFlags.allowLaneUpdate && gameFlags.allowMapDrag) {
             gameEventArgs.mapDragSpeed = MAP_DRAG_SPEED;
         }
     } else if (gameEventArgs.currentScore >= 50) {

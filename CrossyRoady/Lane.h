@@ -22,6 +22,8 @@ class Lane {
     float entityFeetY;
     int entityDrawY;
 
+    float minSpace = 0;
+
     ConsoleGame::Sprite* _laneSprite;
 
    public:

@@ -31,6 +31,7 @@ SafeZone::SafeZone(
           enList
       )
 {
+    minSpace = 50;
     _blockSprite = blockSprite;
     if (enList.empty()) {
         if (isInitialSafe) {
