@@ -18,7 +18,6 @@ using namespace ConsoleGame;
 
 // #define _TEST_PERF_
 
-const char* configFilePath = "config.txt";
 
 auto main() -> int
 {

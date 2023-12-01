@@ -168,6 +168,7 @@ struct StringResource {
         std::string_view Music = "Music: ";
         std::string_view Debuff = "Debuff: ";
         std::array<const std::string_view, 2> DebuffOpt = {"Off", "On"};
+        std::string_view Locked = "Locked";
     } MapSelect;
 
     struct {
@@ -292,7 +293,7 @@ struct Config {
     uint16_t SpaceXP = 0;
     uint16_t DesertXP = 0;
 
-    uint8_t MapUnlocked : 3 = 6;
+    uint8_t MapUnlocked : 3 = 1;
     uint8_t Music : 1 = 1;
     uint8_t Sfx : 1 = 1;
 

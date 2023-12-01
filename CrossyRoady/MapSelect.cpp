@@ -87,6 +87,9 @@ void MapSelect::Init(const std::any& args)
     );
 
     musicMenu.Init(startPos, buttSize, SongName);
+    for (int i = R.Config.MapUnlocked; i < numberOfMaps; i++) {
+        musicMenu.buttons[i].ChangeText(R.String.MapSelect.Locked);
+    }
     diffMenu.Init(startPos, buttSize, R.String.MapSelect.Difficulties);
     modeMenu.Init(startPos, buttSize, R.String.MapSelect.Modes);
 
@@ -157,7 +160,7 @@ AbstractNavigation::NavigationRes MapSelect::Update(
                     }
                 );
             }
-            if (userOpt.map != numberOfMaps - 1) {
+            if (userOpt.map != R.Config.MapUnlocked - 1) {
                 mapR.Update(
                     deltaTime,
                     [&] { audio.PlayHoverSfx(); },
@@ -213,12 +216,14 @@ AbstractNavigation::NavigationRes MapSelect::Update(
                 handleOnHover,
                 [&](uint8_t choosed) noexcept {
                     audio.PlayClickSfx();
-                    currentMenu = 0;
-                    userOpt.music = choosed;
-                    hasChangedMusic = true;
-                    UpdateStr();
-                    audio.SwitchMusic(BGMusic(userOpt.music));
-                    audio.PlayMusic();
+                    if (choosed < R.Config.MapUnlocked) {
+                        currentMenu = 0;
+                        userOpt.music = choosed;
+                        hasChangedMusic = true;
+                        UpdateStr();
+                        audio.SwitchMusic(BGMusic(userOpt.music));
+                        audio.PlayMusic();
+                    }
                 }
             );
             break;
@@ -280,7 +285,7 @@ void MapSelect::Draw(AbstractCanvas* canvas) const
     if (userOpt.map != 0) {
         mapL.Draw(canvas);
     }
-    if (userOpt.map != numberOfMaps - 1) {
+    if (userOpt.map !=  R.Config.MapUnlocked - 1) {
         mapR.Draw(canvas);
     }
 
