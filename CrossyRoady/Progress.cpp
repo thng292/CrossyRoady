@@ -112,15 +112,15 @@ AbstractNavigation::NavigationRes Progress::Update(
 {
     auto res = navigation->NoChange();
 
-    //leftArr.ChangeColor(White, Black);
-    //rightArr.ChangeColor(White, Black);
+    // leftArr.ChangeColor(White, Black);
+    // rightArr.ChangeColor(White, Black);
     bg->Update(deltaTime);
     if (currentLevel != 0) {
         leftArr.Update(
             deltaTime,
             [&] {
                 audio.PlayHoverSfx();
-                //leftArr.ChangeColor(Black, Black);
+                // leftArr.ChangeColor(Black, Black);
             },
             [&] {
                 audio.PlayClickSfx();
@@ -133,7 +133,7 @@ AbstractNavigation::NavigationRes Progress::Update(
             deltaTime,
             [&] {
                 audio.PlayHoverSfx();
-                //rightArr.ChangeColor(Black, Black);
+                // rightArr.ChangeColor(Black, Black);
             },
             [&] {
                 audio.PlayClickSfx();
@@ -174,7 +174,9 @@ void Progress::DrawStat(ConsoleGame::AbstractCanvas* canvas) const
 {
     surfaceStat.Draw(canvas);
 
-    Font::DrawString(canvas, R.String.Progress.Stat_Title, {20, 20}, 1, 1, Black);
+    Font::DrawString(
+        canvas, R.String.Progress.Stat_Title, {20, 20}, 1, 1, Black
+    );
     Vec2 tmp = {20, 60};
     for (int i = 0; i < data.size(); i++) {
         Font::DrawString(canvas, data[i], tmp, 1, 0, Black);

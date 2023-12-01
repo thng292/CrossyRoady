@@ -15,6 +15,8 @@ class MenuBG {
     GameType::MapType _type;
     GameType::GameMapSprites sprite;
     bool Unmounted = true;
+    uint8_t mountCnt = 0;
+
     void InitLaneList();
     void LoadSprites();
     void LoadLanes();
@@ -38,4 +40,5 @@ class MenuBG {
     void Update(float deltaTime);
     void Draw(ConsoleGame::AbstractCanvas* canvas) const;
     void Unmount();
+    void SetUnmount(bool val);
 };

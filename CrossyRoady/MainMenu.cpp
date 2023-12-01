@@ -76,12 +76,14 @@ AbstractNavigation::NavigationRes MainMenu::Update(
                             CharacterSelectScreen::ScreenName()
                         );
                     }
+                    bg.SetUnmount(true);
                     break;
                 case 1:
                     res = navigation->Navigate(Progress::ScreenName(), &bg);
                     break;
                 case 2:
                     res = navigation->Navigate(CharactersInfo::ScreenName());
+                    bg.SetUnmount(true);
                     break;
                 case 3:
                     res = navigation->Navigate(Setting::ScreenName(), &bg);

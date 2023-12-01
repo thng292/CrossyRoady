@@ -13,7 +13,7 @@
 #define SFX_PATH "sfx/"
 
 constexpr int LevelExpReq = 200;
-constexpr int CharaExpReq = 200;
+constexpr int CharaExpReq = 150;
 constexpr uint8_t numberOfChars = 6;
 constexpr uint8_t numberOfMaps = 6;
 
@@ -268,10 +268,10 @@ struct CharStat {
 struct CharsStat {
     CharStat Fauna = {.Speed = 70, .Health = 3, .ChargeStep = 0};
     CharStat Irys = {.Speed = 70, .Health = 4, .ChargeStep = 0};
-    CharStat Mumei = {.Speed = 70, .Health = 3, .ChargeStep = 0};
-    CharStat Kronii = {.Speed = 70, .Health = 5, .ChargeStep = 0};
+    CharStat Mumei = {.Speed = 80, .Health = 3, .ChargeStep = 0};
+    CharStat Kronii = {.Speed = 60, .Health = 5, .ChargeStep = 0};
     CharStat Sana = {.Speed = 70, .Health = 5, .ChargeStep = 0};
-    CharStat Bae = {.Speed = 70, .Health = 3, .ChargeStep = 0};
+    CharStat Bae = {.Speed = 80, .Health = 3, .ChargeStep = 0};
 };
 
 struct DebuffDuration {
