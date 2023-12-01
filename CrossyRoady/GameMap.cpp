@@ -969,6 +969,8 @@ void GameMap::ResetFlags()
     gameFlags.damageCollision = false;
     gameFlags.logCollision = false;
     gameFlags.itemCollision = false;
+
+    gameFlags.isOnLog = false;
 }
 
 void GameMap::InitFlags()
@@ -1133,11 +1135,21 @@ void GameMap::CheckOutOfBound()
     if (gameFlags.gamePaused) return;
     if (gameFlags.isGameOver) return;
 
-    float charaX = character.GetX();
-    float charaY = character.GetY();
-    float charaWidth = character.GetHitBox().dim.width;
-    if (charaX > _CONSOLE_WIDTH_ || charaY < 0 || charaX + charaWidth < 0) {
-        character.SetCurHealth(0);
+    auto box = character.GetHitBox();
+    float charaX = box.coord.x;
+    float charaY = box.coord.y;
+    float charaWidth = box.dim.width;
+    if (gameFlags.isOnLog) {
+        if (charaY < 0 ||
+            (charaX >= _CONSOLE_WIDTH_ || charaX + charaWidth <= 0)) {
+            character.SetCurHealth(0);
+        }
+    } else {
+        if (charaX + charaWidth >= _CONSOLE_WIDTH_) {
+            gameFlags.allowMoveRight = false;
+        } else if (charaX <= 0) {
+            gameFlags.allowMoveLeft = false;
+        }
     }
 }
 
@@ -1163,6 +1175,7 @@ void GameMap::CheckCollisionAgain(Lane* lane, float deltaTime)
             waterColType != CollisionType::Top) {
             if (lane->ContainsChara(character)) {
                 HandleCharaOnLog(lane, deltaTime);
+                gameFlags.isOnLog = true;
             }
         }
         HandleWaterCollision(waterColType);
