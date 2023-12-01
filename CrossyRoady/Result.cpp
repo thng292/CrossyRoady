@@ -24,7 +24,14 @@ void Result::Init(const std::any& args)
         gameRes = any_cast<GameResult>(args);
     }
 
+    const auto levelB = R.Config.GetCurrentLevel();
     charaUnlock = CheckCharaUnlock();
+    const auto levelA = R.Config.GetCurrentLevel();
+    levelUp = levelA != levelB;
+    if ((levelA + 1) / 2 + 1 > R.Config.MapUnlocked) {
+        mapUnlock = true;
+        R.Config.MapUnlocked++;
+    }
 
     menu.Init({90, 190}, {100, 18}, {R.String.Result.PlayAgain, R.String.Next});
     surfaceStat.props = {
@@ -115,10 +122,19 @@ void Result::DrawStat(ConsoleGame::AbstractCanvas* canvas) const
     surfaceStat.Draw(canvas);
 
     Font::DrawString(canvas, R.String.Result.Title, {112, 20}, 1, 1, Black);
-    Vec2 tmp = {112, 60};
+    Vec2 tmp = {112, 50};
     for (int i = 0; i < data.size(); i++) {
         Font::DrawString(canvas, data[i], tmp, 1, 0, Black);
         tmp.y += Font::GetDim(0).height + 3;
+    }
+    if (levelUp) {
+        Font::DrawString(canvas, R.String.Result.LevelUp, tmp, 1, 1, Black);
+        tmp.y += Font::GetDim(1).height + 3;
+    }
+
+    if (mapUnlock) {
+        Font::DrawString(canvas, R.String.Result.MapUnlock, tmp, 1, 1, Black);
+        tmp.y += Font::GetDim(1).height + 3;
     }
 }
 

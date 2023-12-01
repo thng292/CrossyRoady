@@ -18,6 +18,8 @@ class Result : public ConsoleGame::AbstractScreen {
 
     GameType::GameResult gameRes;
     bool charaUnlock = false;
+    bool mapUnlock = false;
+    bool levelUp = false;
 
     void DrawStat(ConsoleGame::AbstractCanvas* canvas) const;
     bool CheckCharaUnlock();
