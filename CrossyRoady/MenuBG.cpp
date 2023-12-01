@@ -134,6 +134,7 @@ void MenuBG::Init(MapType type)
 
 void MenuBG::Mount()
 {
+    ++mountCnt;
     Unmounted = false;
     LoadSprites();
     LoadLanes();
@@ -154,17 +155,20 @@ void MenuBG::Draw(ConsoleGame::AbstractCanvas* canvas) const
 
 void MenuBG::Unmount()
 {
-    Unmounted = true;
-    sprite.mobSpriteEasy.MobLeft.Unload();
-    sprite.mobSpriteEasy.MobRight.Unload();
-    sprite.mobSpriteNormal.MobLeft.Unload();
-    sprite.mobSpriteNormal.MobRight.Unload();
-    sprite.mobSpriteHard.MobLeft.Unload();
-    sprite.mobSpriteHard.MobRight.Unload();
+    if (Unmounted) {
+        sprite.mobSpriteEasy.MobLeft.Unload();
+        sprite.mobSpriteEasy.MobRight.Unload();
+        sprite.mobSpriteNormal.MobLeft.Unload();
+        sprite.mobSpriteNormal.MobRight.Unload();
+        sprite.mobSpriteHard.MobLeft.Unload();
+        sprite.mobSpriteHard.MobRight.Unload();
 
-    sprite.blockSprite.Unload();
-    sprite.floatSprite.Unload();
-    sprite.roadSprite.Unload();
-    sprite.safeSprite.Unload();
-    sprite.waterSprite.Unload();
+        sprite.blockSprite.Unload();
+        sprite.floatSprite.Unload();
+        sprite.roadSprite.Unload();
+        sprite.safeSprite.Unload();
+        sprite.waterSprite.Unload();
+    }
 }
+
+void MenuBG::SetUnmount(bool val) { Unmounted = val; }
