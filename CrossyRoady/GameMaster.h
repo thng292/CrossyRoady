@@ -56,6 +56,7 @@ namespace GameMaster {
         bool isDarkMap : 1 = false;
         bool isReverseKey : 1 = false;
         bool isGameOver : 1 = false;
+        bool isOnLog : 1 = false;
 
         // Pause
         bool gamePaused : 1 = false;
