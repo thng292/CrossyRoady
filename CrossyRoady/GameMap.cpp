@@ -1491,6 +1491,8 @@ void GameMap::HandleDebuff(float deltaTime)
             if (curHealth > IRYS_DEBUFF_HEALTH) {
                 gameEventArgs.originalHealth = curHealth;
                 character.SetCurHealth(IRYS_DEBUFF_HEALTH);
+            } else {
+                gameEventArgs.originalHealth = 1;
             }
             gameSprites.debuffCur = &gameSprites.debuffCity;
 
@@ -1572,9 +1574,6 @@ void GameMap::HandleSkill(float deltaTime)
                 gameFlags.isKroniiSkill = true;
                 break;
             case SANA:
-                if (gameFlags.debuffInUse) {
-                    TurnOffDebuff();
-                }
                 gameEventArgs.skillCategory = TIME;
                 gameFlags.allowDebuff = false;
                 gameSprites.skillCur = &gameSprites.skillSana;
@@ -1650,7 +1649,6 @@ void GameMap::UpdateCooldowns(float deltaTime)
             } else {
                 TurnOffDebuff();
             }
-            gameFlags.debuffWarning = false;
         }
     }
 
