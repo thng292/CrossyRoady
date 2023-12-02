@@ -183,33 +183,32 @@ struct StringResource {
     struct {
         MapStuff Forest = {
             .Name = "Forest",
-            .Debuff = "Removes one health whenever the character stops moving",
+            .Debuff = "Removes one health whenever the character stops moving.",
         };
 
         MapStuff City = {
             .Name = "City",
-            .Debuff = "Locks the character's health to only one",
+            .Debuff = "Locks the character's health to only one.",
         };
 
         MapStuff House = {
             .Name = "Haunted House",
-            .Debuff = "Darkens the area around the character",
+            .Debuff = "Darkens the area around the character.",
         };
 
         MapStuff Dessert = {
             .Name = "Dessert",
-            .Debuff = "Paralyzes the character's movements",
+            .Debuff = "Paralyzes the character's movements.",
         };
 
         MapStuff Space = {
             .Name = "Space",
-            .Debuff = "Disables the character's usage of skill",
+            .Debuff = "Disables the character's usage of skill.",
         };
 
         MapStuff Casino = {
             .Name = "Casino",
-            .Debuff =
-                "Chooses a debuff from the other maps or inverts the controls",
+            .Debuff = "Chooses a random debuff, inverts the controls.",
         };
 
     } Map;
@@ -217,51 +216,51 @@ struct StringResource {
     struct {
         CharStuff Fauna = {
             .Name = "Ceres Fauna",
-            .Skill = "Gains back full health with two additional hearts",
+            .Skill = "Gains back full health with two additional hearts.",
             .Desc =
                 "The Keeper of Nature, a druidic kirin who materialized in the "
-                "mortal realm in a bid to save nature",
+                "mortal realm in a bid to save nature.",
         };
 
         CharStuff Irys = {
             .Name = "Irys",
-            .Skill = "Tanks two hits without taking any damage",
+            .Skill = "Tanks two hits without taking any damage.",
             .Desc =
                 "A half-demon, half-angel also known as a Nephilim. She has "
-                "arrived to deliver hope and determination to the current era",
+                "arrived to deliver hope and determination to the current era.",
         };
 
         CharStuff Mumei = {
             .Name = "Nanashi Mumei",
-            .Skill = "Becomes invulnerable and gains a speed boost",
+            .Skill = "Becomes invulnerable and gains a speed boost.",
             .Desc =
                 "The Guardian of Civilization, a traveling owl who has borne "
-                "witness to numerous events",
+                "witness to numerous events.",
         };
 
         CharStuff Kronii = {
             .Name = "Ouro Kronii",
-            .Skill = "Stops every entity's movement",
+            .Skill = "Stops every entity's movement.",
             .Desc =
                 "The Warden of Time, the third concept birthed by the Gods and "
-                "the one most intrinsically linked with mankind",
+                "the one most intrinsically linked with mankind.",
         };
 
         CharStuff Sana = {
             .Name = "Tsukumo Sana",
-            .Skill = "Removes any incoming or active debuff",
+            .Skill = "Removes any incoming or active debuff.",
             .Desc =
                 "The Speaker of Space, a concept unbridled by definition, and "
-                "one that continues to grow in scope limitlessly",
+                "one that continues to grow in scope limitlessly.",
         };
 
         CharStuff Bae = {
             .Name = "Hakos Baelz",
-            .Skill = "Randomly chooses any skill, may confuses oneself",
+            .Skill = "Randomly chooses any skill, may confuses oneself.",
             .Desc =
                 "The very concept of Chaos, she believes that rules are not "
                 "the be-all and end-all, which is why she has come to break "
-                "them all",
+                "them all.",
         };
 
     } Character;
