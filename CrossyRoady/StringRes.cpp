@@ -145,4 +145,4 @@ void Config::SetCharUpgradeStatus(uint8_t character)
     }
 }
 
-uint8_t Config::GetCurrentLevel() { return GetTotalXP() / LevelExpReq; }
+uint8_t Config::GetCurrentLevel() { return std::min(uint8_t(GetTotalXP() / LevelExpReq), LEVEL_CAP); }
