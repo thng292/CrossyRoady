@@ -160,10 +160,12 @@ namespace ConsoleGame {
         timePassed += deltaTime;
         playingFrame = timePassed / frameDuration;
         if (playingFrame >= totalFrame) {
-            playingFrame = 0;
             timePassed -= frameDuration * totalFrame;
             if (!repeat) {
+                playingFrame = totalFrame - 1;
                 Stop();
+            } else {
+                playingFrame = 0;
             }
         }
     }

@@ -63,6 +63,13 @@ namespace GameMaster {
         bool gamePaused : 1 = false;
         bool isFirstMount : 1 = true;
         bool savedGame : 1 = true;
+
+        bool isFaunaSkill : 1 = false;
+        bool isIrysSkill : 1 = false;
+        bool isMumeiSkill : 1 = false;
+        bool isKroniiSkill : 1 = false;
+        bool isSanaSkill : 1 = false;
+        bool isBaeSkill : 1 = false;
     };
 
     struct GameEventsArgs {
@@ -72,10 +79,13 @@ namespace GameMaster {
         GameType::SkillCategory skillCategory = GameType::TIME;
         float gameOverWait = 3.0f;
 
+        float visibleRadius = GameType::MAX_VISIBLE_RADIUS;
+        float minVisibleRadius;
+
         // Map stuff
         float mapSpeedY = 0;
         float mapSpeedX = 0;
-        float timeLeft = 60;
+        float timeLeft = 0;
 
         // Results
         size_t currentScore = 0;

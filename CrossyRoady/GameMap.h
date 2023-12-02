@@ -84,6 +84,8 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void DrawScore(ConsoleGame::AbstractCanvas* canvas) const;
     void DrawDeathVFX(ConsoleGame::AbstractCanvas* canvas) const;
     void DrawTime(ConsoleGame::AbstractCanvas* canvas) const;
+    void DrawSkillVFX(ConsoleGame::AbstractCanvas* canvas) const;
+    void DrawDebuffVFX(ConsoleGame::AbstractCanvas* canvas) const;
 
     void ResetFlags();
     void InitFlags();

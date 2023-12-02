@@ -59,6 +59,11 @@ CharaType Character::GetType() const { return _type; }
 
 GameType::Direction Character::GetDirec() const { return _direc; }
 
+ConsoleGame::Vec2 Character::GetSpriteDim() const
+{
+    return currentSprite->GetDim();
+}
+
 void Character::UnloadSprites()
 {
     // currentSprite = nullptr;

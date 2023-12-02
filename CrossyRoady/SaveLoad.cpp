@@ -211,6 +211,21 @@ void GameMap::LoadGameData()
             laneWithItem = laneList.back().get();
         }
     }
+
+    if (gameFlags.isFaunaSkill) {
+        gameSprites.skillCur = &gameSprites.skillFauna;
+    } else if (gameFlags.isIrysSkill) {
+        gameSprites.skillCur = &gameSprites.skillIrys;
+    } else if (gameFlags.isMumeiSkill) {
+        gameSprites.skillCur = &gameSprites.skillMumei;
+    } else if (gameFlags.isKroniiSkill) {
+        gameSprites.skillCur = &gameSprites.skillKronii;
+    } else if (gameFlags.isSanaSkill) {
+        gameSprites.skillCur = &gameSprites.skillSana;
+    } else if (gameFlags.isBaeSkill) {
+        gameSprites.skillCur = &gameSprites.skillBae;
+    }
+
     // Close the file
     infile.close();
 }

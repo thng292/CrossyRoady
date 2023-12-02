@@ -63,6 +63,7 @@ class Character {
     GameType::Direction GetDirec() const;
     int GetCurHealth() const;
     int GetMaxHealth() const;
+    ConsoleGame::Vec2 GetSpriteDim() const;
     int getSpeed() const;
     float GetBottomY() const;
     ConsoleGame::Box GetHitBox() const;
