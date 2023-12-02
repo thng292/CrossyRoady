@@ -55,7 +55,7 @@ void Result::Init(const std::any& args)
         R.String.Result.ItemPick,
         R.String.Result.DiffReached};
 
-    std::string tmp[] = {"Easy", "Normal", "Hard"};
+    std::string tmp[] = {"Auto", "Easy", "Normal", "Hard"};
     std::string right[] = {
         SecondsToMMSS(gameRes.time),
         std::to_string(gameRes.score),
@@ -150,35 +150,40 @@ bool Result::CheckCharaUnlock()
             break;
         case CITY:
             R.Config.CityXP += gameRes.score;
-            if (gameRes.score >= CharaExpReq && !R.Config.IrysUnlocked) {
+            if (gameRes.score >= charReq[gameRes.diff] &&
+                !R.Config.IrysUnlocked) {
                 res = true;
                 R.Config.IrysUnlocked = 1;
             }
             break;
         case HOUSE:
             R.Config.HouseXP += gameRes.score;
-            if (gameRes.score >= CharaExpReq && !R.Config.MumeiUnlocked) {
+            if (gameRes.score >= charReq[gameRes.diff] &&
+                !R.Config.MumeiUnlocked) {
                 res = true;
                 R.Config.MumeiUnlocked = 1;
             }
             break;
         case DESERT:
             R.Config.DesertXP += gameRes.score;
-            if (gameRes.score >= CharaExpReq && !R.Config.KroniiUnlocked) {
+            if (gameRes.score >= charReq[gameRes.diff] &&
+                !R.Config.KroniiUnlocked) {
                 res = true;
                 R.Config.KroniiUnlocked = 1;
             }
             break;
         case SPACE:
             R.Config.SpaceXP += gameRes.score;
-            if (gameRes.score >= CharaExpReq && !R.Config.SanaUnlocked) {
+            if (gameRes.score >= charReq[gameRes.diff] &&
+                !R.Config.SanaUnlocked) {
                 res = true;
                 R.Config.SanaUnlocked = 1;
             }
             break;
         case CASINO:
             R.Config.CasinoXP += gameRes.score;
-            if (gameRes.score >= CharaExpReq && !R.Config.BaeUnlocked) {
+            if (gameRes.score >= charReq[gameRes.diff] &&
+                !R.Config.BaeUnlocked) {
                 res = true;
                 R.Config.BaeUnlocked = 1;
             }

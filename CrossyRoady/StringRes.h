@@ -13,7 +13,6 @@
 #define SFX_PATH "sfx/"
 
 constexpr int LevelExpReq = 800;
-constexpr int CharaExpReq = 200;
 constexpr uint8_t LEVEL_CAP = 10;
 constexpr uint8_t numberOfChars = 6;
 constexpr uint8_t numberOfMaps = 6;
@@ -37,6 +36,13 @@ constexpr std::array<const std::string_view, numberOfMaps> SongName{
 constexpr auto CONFIG_PATH = "config.bin";
 
 constexpr auto SAVE_PATH = "save.bin";
+
+struct CharUnlockReq {
+    int Auto = 250;
+    int Easy = 400;
+    int Normal = 300;
+    int Hard = 100;
+};
 
 struct CharStuff {
     std::string_view Name;
@@ -88,14 +94,14 @@ struct StringResource {
     } Progress;
 
     struct {
-        std::string_view Title = "Results";
+        std::string_view Title = "Game Over";
         std::string_view Score = "Score";
         std::string_view DamageTaken = "Damage taken";
         std::string_view PlayTime = "Play time";
         std::string_view MobCollided = "Number of mobs hit";
         std::string_view SkillUse = "Number of skill uses";
         std::string_view ItemPick = "Number of items picked";
-        std::string_view DiffReached = "Difficulty reached";
+        std::string_view DiffReached = "Difficulty";
 
         std::string_view PlayAgain = "Play again";
         std::string_view MapUnlock = "New map unlocked!";
@@ -339,6 +345,7 @@ struct Resource {
     const StringResource String;
     const CharsStat CharsStat;
     const DebuffDuration DebuffDur;
+    const CharUnlockReq CharReq;
     Config Config;
 };
 

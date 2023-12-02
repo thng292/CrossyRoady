@@ -311,13 +311,16 @@ void GameMap::HandleItemCollision()
 {
     if (gameFlags.gamePaused) return;
     if (gameFlags.isGameOver) return;
-
+    float speed;
     switch (mapItem.GetType()) {
         case SPEED:
-            character.SetSpeed(character.getSpeed() + SPEED_ADDITION);
+            speed = character.getSpeed();
+            if (speed + SPEED_ADDITION <= MAX_SPEED) {
+                character.SetSpeed(speed + SPEED_ADDITION);
+            }
             break;
         case STAR:
-            gameEventArgs.skillCharge = 100;
+            gameEventArgs.skillCharge = MAX_SKILL_CHARGE;
             break;
         case HEALTH:
             int curHealth = character.GetCurHealth();
@@ -343,7 +346,7 @@ void GameMap::HandleGameOver(
         //  go to next screen
         GameResult gameRes;
         gameRes.damage = gameEventArgs.damageTaken;
-        gameRes.diff = gameEventArgs.difficultyReached;
+        gameRes.diff = gameData.mapDifficulty;
         gameRes.numOfItem = gameEventArgs.numOfItemPick;
         gameRes.numOfMob = gameEventArgs.numOfMobsHit;
         gameRes.numOfSkill = gameEventArgs.numOfSkillUse;

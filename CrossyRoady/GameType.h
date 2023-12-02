@@ -15,6 +15,7 @@ namespace GameType {
     constexpr float MIN_DIST_CHARGE = 20.0f;
 
     constexpr int MAX_SKILL_CHARGE = 100;
+    constexpr float MAX_SPEED = 100;
 
     // Debuff values
     constexpr int MAP_DEBUFF_COOLDOWN = 30;
@@ -162,7 +163,7 @@ namespace GameType {
         size_t numOfMob = 0;
         size_t numOfSkill = 0;
         size_t numOfItem = 0;
-        MobType diff;
+        MapDifficulty diff;
         MapType map;
     };
 
