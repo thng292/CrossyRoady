@@ -10,29 +10,38 @@
 #include "Logger.h"
 
 namespace ConsoleGame {
-    constexpr size_t QLEN         = 20;
+    constexpr size_t QLEN         = 30;
     char commandBuffer[QLEN][128] = {0};
-#ifdef _DEBUG
-    char errBuffer[128] = {0};
-#endif
+    char currentBuffer[128] = {0};
+
     int head = 0;
     int tail = 0;
+
     std::atomic_bool hasJob;
     std::mutex queueLock;
     std::jthread audioThread([](std::stop_token stoken) {
         while (!stoken.stop_requested()) {
             hasJob.wait(false);
             while (head != tail) {
-                std::lock_guard lk(queueLock);
-                auto err = mciSendStringA(commandBuffer[head], 0, 0, 0);
+                {
+                    std::lock_guard lk(queueLock);
+                    strncpy_s(
+                        currentBuffer,
+                        commandBuffer[head],
+                        sizeof(currentBuffer)
+                    );
+                    head = (head + 1) % QLEN;
+                }
+                auto err = mciSendStringA(currentBuffer, 0, 0, 0);
 #ifdef _DEBUG
-                LogDebug("{}", commandBuffer[head]);
+                LogDebug("{}", currentBuffer);
                 if (err != 0) {
-                    mciGetErrorStringA(err, errBuffer, sizeof(errBuffer));
-                    LogDebug("{}", errBuffer);
+                    mciGetErrorStringA(
+                        err, currentBuffer, sizeof(currentBuffer)
+                    );
+                    LogDebug("{}", currentBuffer);
                 }
 #endif
-                head = (head + 1) % QLEN;
             }
             hasJob.store(false);
         }
