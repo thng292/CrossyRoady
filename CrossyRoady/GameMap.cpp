@@ -311,13 +311,16 @@ void GameMap::HandleItemCollision()
 {
     if (gameFlags.gamePaused) return;
     if (gameFlags.isGameOver) return;
-
+    float speed;
     switch (mapItem.GetType()) {
         case SPEED:
-            character.SetSpeed(character.getSpeed() + SPEED_ADDITION);
+            speed = character.getSpeed();
+            if (speed + SPEED_ADDITION <= MAX_SPEED) {
+                character.SetSpeed(speed + SPEED_ADDITION);
+            }
             break;
         case STAR:
-            gameEventArgs.skillCharge = 100;
+            gameEventArgs.skillCharge = MAX_SKILL_CHARGE;
             break;
         case HEALTH:
             int curHealth = character.GetCurHealth();
@@ -343,7 +346,7 @@ void GameMap::HandleGameOver(
         //  go to next screen
         GameResult gameRes;
         gameRes.damage = gameEventArgs.damageTaken;
-        gameRes.diff = gameEventArgs.difficultyReached;
+        gameRes.diff = gameData.mapDifficulty;
         gameRes.numOfItem = gameEventArgs.numOfItemPick;
         gameRes.numOfMob = gameEventArgs.numOfMobsHit;
         gameRes.numOfSkill = gameEventArgs.numOfSkillUse;
@@ -1295,8 +1298,8 @@ void GameMap::CheckGameOver()
 {
     if (gameFlags.gamePaused) return;
     if (gameFlags.isGameOver) return;
-
-    if (character.GetCurHealth() <= 0) {
+    if ((gameData.mapMode == NINF && gameEventArgs.timeLeft <= 0) ||
+        character.GetCurHealth() <= 0) {
         gameSprites.deathVfx.Play();
         gameFlags.isGameOver = true;
         if (R.Config.Sfx) {
@@ -1690,12 +1693,6 @@ void GameMap::UpdateTime(float deltaTime)
 
     if (gameData.mapMode != NINF) return;
     gameEventArgs.timeLeft -= deltaTime;
-    if (gameEventArgs.timeLeft <= 0) {
-        gameFlags.isGameOver = true;
-        if (R.Config.Sfx) {
-            gameAudio.deadSfx.Play();
-        }
-    }
 }
 
 void GameMap::UpdateSprites(float deltaTime)

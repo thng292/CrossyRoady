@@ -21,6 +21,8 @@ class Result : public ConsoleGame::AbstractScreen {
     bool mapUnlock = false;
     bool levelUp = false;
 
+    int* charReq = ((int*)&R.CharReq);
+
     void DrawStat(ConsoleGame::AbstractCanvas* canvas) const;
     bool CheckCharaUnlock();
 
