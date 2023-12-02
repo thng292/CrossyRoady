@@ -84,7 +84,6 @@ AbstractNavigation::NavigationRes GameMap::Update(
 
     ResetFlags();
     DragMapDown(deltaTime);
-    ClearMob();
 
     UpdateMapSpeed();
     UpdateSprites(deltaTime);
@@ -478,7 +477,7 @@ void GameMap::TurnOffSkill()
             gameFlags.isKroniiSkill = false;
             break;
         case SANA:
-            gameFlags.clearMob = false;
+            gameFlags.allowDebuff = true;
             gameFlags.isSanaSkill = false;
             break;
         case BAE:
@@ -1167,7 +1166,6 @@ void GameMap::InitEventArgs()
             }
             break;
     }
-    gameEventArgs.skillCharge = 100;
 }
 
 void GameMap::CheckCollision(float deltaTime)
@@ -1344,21 +1342,6 @@ void GameMap::CheckCollisionAgain(Lane* lane, float deltaTime)
         CollisionType colType = lane->GetCollision(character);
         if (colType != CollisionType::None) {
             HandleCollision(lane, colType);
-        }
-    }
-}
-
-void GameMap::ClearMob()
-{
-    if (!gameFlags.clearMob) return;
-    auto laneListEnd = laneList.rend();
-    for (auto it = laneList.rbegin(); it != laneListEnd; ++it) {
-        auto tmp = it->get();
-        auto type = tmp->GetType();
-        if (type == ROAD || type == RAIL) {
-            if (it->get()->ClearLane()) {
-                break;
-            }
         }
     }
 }
@@ -1592,7 +1575,7 @@ void GameMap::HandleSkill(float deltaTime)
                 break;
             case SANA:
                 gameEventArgs.skillCategory = TIME;
-                gameFlags.clearMob = true;
+                gameFlags.allowDebuff = false;
                 gameSprites.skillCur = &gameSprites.skillSana;
                 gameFlags.isSanaSkill = true;
                 break;
@@ -1661,8 +1644,11 @@ void GameMap::UpdateCooldowns(float deltaTime)
             gameEventArgs.debuffFlasingTimer += deltaTime;
         }
         if (gameEventArgs.mapDebuffCooldownTime <= 0) {
-            gameFlags.debuffCalled = true;
-            gameFlags.debuffWarning = false;
+            if (gameFlags.allowDebuff) {
+                gameFlags.debuffCalled = true;
+            } else {
+                TurnOffDebuff();
+            }
         }
     }
 

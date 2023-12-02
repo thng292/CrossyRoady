@@ -97,7 +97,6 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void CheckOutOfBound();
     void CheckGameOver();
     void CheckCollisionAgain(Lane* lane, float deltaTime);
-    void ClearMob();
 
     void UpdateLanes(float deltaTime);
     void UpdateCooldowns(float deltaTime);
