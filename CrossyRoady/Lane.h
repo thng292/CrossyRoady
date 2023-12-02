@@ -11,7 +11,7 @@ class Lane {
     std::vector<float> entityList;
     bool IsLeftToRight;
     bool _hasItem = false;
-    float speed = 50.0f;
+    float speed;
 
     float laneY;
     int laneDrawY;

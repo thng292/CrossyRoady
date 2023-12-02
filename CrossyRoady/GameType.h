@@ -21,6 +21,7 @@ namespace GameType {
     constexpr int MAX_IDLE_TIME = 3;
     constexpr int IRYS_DEBUFF_HEALTH = 1;
     constexpr int VISIBLE_RADIUS = 50;
+    constexpr int MAX_VISIBLE_RADIUS = 360;
     constexpr int MUMEI_VISIBLE_RADIUS = 100;
 
     // Skill values
@@ -105,6 +106,8 @@ namespace GameType {
         MobSprite mobSpriteHard;
 
         ConsoleGame::AniSprite deathVfx;
+        ConsoleGame::AniSprite skillVfx;
+        ConsoleGame::AniSprite debuffVfx;
     };
 
     struct GameAudio {

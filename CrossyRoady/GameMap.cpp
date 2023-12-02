@@ -116,6 +116,7 @@ void GameMap::Mount(const std::any& args)
     LoadAudio();
     if (loadSave) {
         LoadGameData();
+        loadSave = false;
     } else {
         LoadSprites();
         InitFlags();
@@ -422,6 +423,7 @@ void GameMap::TurnOffDebuff()
                 break;
             case HOUSE:
                 gameFlags.isDarkMap = false;
+                gameEventArgs.visibleRadius = MAX_VISIBLE_RADIUS;
                 break;
             case DESERT:
                 gameFlags.allowMovementKeys = true;
@@ -452,24 +454,30 @@ void GameMap::TurnOffSkill()
             if (character.GetCurHealth() >= FAUNA_MAX_HEALTH) {
                 character.SetCurHealth(FAUNA_MAX_HEALTH);
             }
+            gameFlags.isFaunaSkill = false;
             break;
         case IRYS:
             gameEventArgs.shield = 0;
+            gameFlags.isIrysSkill = false;
             break;
         case MUMEI:
             character.SetSpeed(gameEventArgs.originalSpeed);
             gameFlags.isInvincible = false;
+            gameFlags.isMumeiSkill = false;
             break;
         case KRONII:
             gameFlags.allowLaneUpdate = true;
             gameEventArgs.mapDragSpeed = MAP_DRAG_SPEED;
             gameFlags.allowMapDrag = true;
+            gameFlags.isKroniiSkill = false;
             break;
         case SANA:
             gameFlags.allowDebuff = true;
+            gameFlags.isSanaSkill = false;
             break;
         case BAE:
             gameFlags.isReverseKey = false;
+            gameFlags.isBaeSkill = false;
             break;
     }
     gameFlags.skillInUse = false;
@@ -727,8 +735,17 @@ void GameMap::LoadSprites()
     gameSprites.itemStar.Play(1);
 
     // effects
-    gameSprites.deathVfx.Load(RESOURCE_PATH EXTRA_PATH "death.anisprite");
-    gameSprites.deathVfx.Play();
+    gameSprites.deathVfx.Load(RESOURCE_PATH EXTRA_PATH "death-vfx.anisprite");
+    gameSprites.skillVfx.Load(RESOURCE_PATH EXTRA_PATH "skill-vfx.anisprite");
+    gameSprites.debuffVfx.Load(RESOURCE_PATH EXTRA_PATH "debuff-vfx.anisprite");
+
+    gameSprites.skillVfx.Stop();
+    gameSprites.debuffVfx.Stop();
+    gameSprites.deathVfx.Stop();
+
+    gameSprites.skillVfx.ResetFrame();
+    gameSprites.debuffVfx.ResetFrame();
+    gameSprites.deathVfx.ResetFrame();
 
     ResiseBlockHitBox();
 }
@@ -842,6 +859,8 @@ void GameMap::Draw(AbstractCanvas* canvas) const
     DrawDebuff(canvas);
     DrawScore(canvas);
     DrawDeathVFX(canvas);
+    DrawSkillVFX(canvas);
+    DrawDebuffVFX(canvas);
     DrawTime(canvas);
     if (gameFlags.gamePaused) {
         pauseTitle.Draw(canvas);
@@ -984,11 +1003,11 @@ void GameMap::DrawDarkness(ConsoleGame::AbstractCanvas* canvas) const
     int xCenter = charaBox.coord.x + charaBox.dim.width / 2;
     int yCenter = screenHeight - charaBox.coord.y;
 
-    int visibleRadius = VISIBLE_RADIUS;
     Color darknessColor = Color(13);
     for (int y = 0; y < screenHeight; ++y) {
         for (int x = 0; x < screenWidth; ++x) {
-            if (GetDistance(xCenter, yCenter, x, y) > visibleRadius) {
+            if (GetDistance(xCenter, yCenter, x, y) >
+                gameEventArgs.visibleRadius) {
                 (*canvas)[y][x] = darknessColor;
             }
         }
@@ -1006,15 +1025,17 @@ void GameMap::DrawScore(ConsoleGame::AbstractCanvas* canvas) const
 
 void GameMap::DrawDeathVFX(ConsoleGame::AbstractCanvas* canvas) const
 {
-    if (!gameFlags.isGameOver) return;
-    if (gameEventArgs.gameOverWait <= 2.5) return;
-    Box hitbox = character.GetHitBox();
-    float charaY = hitbox.coord.y + hitbox.dim.height / 2;
-    float charaX = character.GetX() + hitbox.dim.width / 2;
-    int screenHeight = _CONSOLE_HEIGHT_ * 2;
-    gameSprites.deathVfx.Draw(
-        canvas, {.x = (int)charaX, .y = screenHeight - (int)charaY}
-    );
+    if (!gameSprites.deathVfx.IsPlaying()) return;
+    int x;
+    int y = _CONSOLE_HEIGHT_ * 2 - character.GetY();
+    auto charW = character.GetSpriteDim().width;
+    auto vfxW = gameSprites.deathVfx.GetDim().width;
+    if (charW > vfxW) {
+        x = character.GetX() + (charW - vfxW) / 2;
+    } else {
+        x = character.GetX() - (vfxW - charW) / 2;
+    }
+    gameSprites.deathVfx.Draw(canvas, {.x = x, .y = y});
 }
 
 void GameMap::DrawTime(ConsoleGame::AbstractCanvas* canvas) const
@@ -1023,6 +1044,36 @@ void GameMap::DrawTime(ConsoleGame::AbstractCanvas* canvas) const
     Font::DrawString(
         canvas, SecondsToMMSS(gameEventArgs.timeLeft), {5, 34}, 1, 1, (Color)14
     );
+}
+
+void GameMap::DrawSkillVFX(ConsoleGame::AbstractCanvas* canvas) const
+{
+    if (!gameSprites.skillVfx.IsPlaying()) return;
+    int x;
+    int y = _CONSOLE_HEIGHT_ * 2 - character.GetY();
+    auto charW = character.GetSpriteDim().width;
+    auto vfxW = gameSprites.skillVfx.GetDim().width;
+    if (charW > vfxW) {
+        x = character.GetX() + (charW - vfxW) / 2;
+    } else {
+        x = character.GetX() - (vfxW - charW) / 2;
+    }
+    gameSprites.skillVfx.Draw(canvas, {.x = x, .y = y});
+}
+
+void GameMap::DrawDebuffVFX(ConsoleGame::AbstractCanvas* canvas) const
+{
+    if (!gameSprites.debuffVfx.IsPlaying()) return;
+    int x;
+    int y = _CONSOLE_HEIGHT_ * 2 - character.GetY();
+    auto charW = character.GetSpriteDim().width;
+    auto vfxW = gameSprites.debuffVfx.GetDim().width;
+    if (charW > vfxW) {
+        x = character.GetX() + (charW - vfxW) / 2;
+    } else {
+        x = character.GetX() - (vfxW - charW) / 2;
+    }
+    gameSprites.debuffVfx.Draw(canvas, {.x = x, .y = y});
 }
 
 void GameMap::ResetFlags()
@@ -1067,6 +1118,7 @@ void GameMap::InitEventArgs()
     } else {
         gameEventArgs.mobRange = 1;
     }
+    gameEventArgs.minVisibleRadius = VISIBLE_RADIUS;
     switch (gameData.charaType) {
         case FAUNA:
             if (R.Config.FaunaUpgraded) {
@@ -1082,6 +1134,7 @@ void GameMap::InitEventArgs()
             if (R.Config.MumeiUpgraded) {
                 gameEventArgs.skillStep = 2;
             }
+            gameEventArgs.minVisibleRadius = MUMEI_VISIBLE_RADIUS;
             break;
         case KRONII:
             if (R.Config.KroniiUpgraded) {
@@ -1156,6 +1209,8 @@ void GameMap::CheckDebuff()
     if (R.Config.Sfx) {
         gameAudio.debuffActivateSfx.Play();
     }
+
+    gameSprites.debuffVfx.Play();
 }
 
 void GameMap::CheckSkill()
@@ -1171,7 +1226,6 @@ void GameMap::CheckSkill()
         }
         return;
     }
-
     CharaType charaType = gameData.charaType;
     if (charaType == BAE) {
         int randInd = std::rand() % (BAE + 1);
@@ -1205,6 +1259,8 @@ void GameMap::CheckSkill()
     gameFlags.skillActivate = true;
     gameEventArgs.skillCharge = 0;
     gameEventArgs.numOfSkillUse += 1;
+
+    gameSprites.skillVfx.Play();
 }
 
 void GameMap::CheckOutOfBound()
@@ -1239,6 +1295,7 @@ void GameMap::CheckGameOver()
     if (gameFlags.isGameOver) return;
 
     if (character.GetCurHealth() <= 0) {
+        gameSprites.deathVfx.Play();
         gameFlags.isGameOver = true;
         if (R.Config.Sfx) {
             gameAudio.deadSfx.Play();
@@ -1391,6 +1448,8 @@ void GameMap::HandleDebuff(float deltaTime)
     if (gameFlags.isGameOver) return;
     if (!gameFlags.debuffInUse) return;
 
+    gameSprites.debuffVfx.AutoUpdateFrame(deltaTime);
+
     int curHealth = character.GetCurHealth();
     switch (gameEventArgs.debuffType) {
         case FOREST:
@@ -1425,7 +1484,9 @@ void GameMap::HandleDebuff(float deltaTime)
         case HOUSE:
             gameFlags.isDarkMap = true;
             gameSprites.debuffCur = &gameSprites.debuffHouse;
-
+            if (gameEventArgs.visibleRadius > gameEventArgs.minVisibleRadius) {
+                gameEventArgs.visibleRadius -= 5;
+            }
             break;
         case DESERT:
             gameFlags.allowMovementKeys = false;
@@ -1461,6 +1522,8 @@ void GameMap::HandleSkill(float deltaTime)
     if (gameFlags.gamePaused) return;
     if (gameFlags.isGameOver) return;
 
+    gameSprites.skillVfx.AutoUpdateFrame(deltaTime);
+
     if (gameFlags.skillActivate) {
         gameEventArgs.skillTime = SKILL_DURATION;
         int curSpeed = character.getSpeed();
@@ -1470,11 +1533,13 @@ void GameMap::HandleSkill(float deltaTime)
                 character.SetCurHealth(FAUNA_EXTRA_MAX_HEALTH);
                 gameEventArgs.skillCategory = TIME;
                 gameSprites.skillCur = &gameSprites.skillFauna;
+                gameFlags.isFaunaSkill = true;
                 break;
             case IRYS:
                 gameEventArgs.shield = IRYS_SHIELD_COUNT;
                 gameEventArgs.skillCategory = SHIELD;
                 gameSprites.skillCur = &gameSprites.skillIrys;
+                gameFlags.isIrysSkill = true;
                 break;
             case MUMEI:
                 gameEventArgs.originalSpeed = curSpeed;
@@ -1482,6 +1547,7 @@ void GameMap::HandleSkill(float deltaTime)
                 gameFlags.isInvincible = true;
                 gameEventArgs.skillCategory = TIME;
                 gameSprites.skillCur = &gameSprites.skillMumei;
+                gameFlags.isMumeiSkill = true;
                 break;
             case KRONII:
                 gameFlags.allowLaneUpdate = false;
@@ -1489,6 +1555,7 @@ void GameMap::HandleSkill(float deltaTime)
                 gameEventArgs.skillCategory = TIME;
                 gameFlags.allowMapDrag = false;
                 gameSprites.skillCur = &gameSprites.skillKronii;
+                gameFlags.isKroniiSkill = true;
                 break;
             case SANA:
                 if (gameFlags.debuffInUse) {
@@ -1497,11 +1564,13 @@ void GameMap::HandleSkill(float deltaTime)
                 gameEventArgs.skillCategory = TIME;
                 gameFlags.allowDebuff = false;
                 gameSprites.skillCur = &gameSprites.skillSana;
+                gameFlags.isSanaSkill = true;
                 break;
             case BAE:
                 gameFlags.isReverseKey = true;
                 gameEventArgs.skillCategory = TIME;
                 gameSprites.skillCur = &gameSprites.skillBae;
+                gameFlags.isBaeSkill = true;
                 break;
         }
         gameFlags.skillActivate = false;

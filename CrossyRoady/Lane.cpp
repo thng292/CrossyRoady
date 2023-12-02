@@ -19,6 +19,7 @@ Lane::Lane(
     entityHeight = dim.height;
     entityWidth = dim.width;
     entityList = enList;
+    speed = 50.0 + rand() % 11;
     SetY(y);
 }
 
@@ -125,6 +126,9 @@ std::vector<Box> Lane::GetLaneHitBoxLTR() const
     std::vector<Box> laneBoxList;
     const size_t entityCount = entityList.size();
 
+    int hitBoxHeight = 38;
+    int hitboxY = laneY + 3;
+
     for (size_t i = 0; i < entityCount - 1; ++i) {
         const Box& rightEntityBox = GetHitBox(i);
         const Box& leftEntityBox = GetHitBox(i + 1);
@@ -133,8 +137,8 @@ std::vector<Box> Lane::GetLaneHitBoxLTR() const
                        (leftEntityBox.coord.x + leftEntityBox.dim.width);
         int boxX = leftEntityBox.coord.x + leftEntityBox.dim.width;
 
-        const Vec2 boxCoord = {.x = boxX, .y = (int)laneY};
-        const Vec2 boxDim = {.width = boxWidth, .height = 32};
+        const Vec2 boxCoord = {.x = boxX, .y = (int)hitboxY};
+        const Vec2 boxDim = {.width = boxWidth, .height = hitBoxHeight};
         const Box newBox = {.coord = boxCoord, .dim = boxDim};
         if (newBox.dim.width > 10) {
             laneBoxList.push_back(newBox);
@@ -146,14 +150,15 @@ std::vector<Box> Lane::GetLaneHitBoxLTR() const
     int rightMostX = firstEntityBox.coord.x + firstEntityBox.dim.width;
     int leftMostX = lastEntityBox.coord.x;
     if (rightMostX < _CONSOLE_WIDTH_) {
-        Vec2 boxCoord = {.x = rightMostX, .y = (int)laneY};
-        Vec2 boxDim = {.width = _CONSOLE_WIDTH_ - rightMostX, .height = 32};
+        Vec2 boxCoord = {.x = rightMostX, .y = (int)hitboxY};
+        Vec2 boxDim = {
+            .width = _CONSOLE_WIDTH_ - rightMostX, .height = hitBoxHeight};
         Box newBox = {.coord = boxCoord, .dim = boxDim};
         laneBoxList.push_back(newBox);
     }
     if (leftMostX > 0) {
-        Vec2 boxCoord = {.x = 0, .y = (int)laneY};
-        Vec2 boxDim = {.width = leftMostX, .height = 32};
+        Vec2 boxCoord = {.x = 0, .y = (int)hitboxY};
+        Vec2 boxDim = {.width = leftMostX, .height = hitBoxHeight};
         Box newBox = {.coord = boxCoord, .dim = boxDim};
         laneBoxList.push_back(newBox);
     }
@@ -172,6 +177,9 @@ std::vector<Box> Lane::GetLaneHitBoxRTL() const
     std::vector<Box> laneBoxList;
     const size_t entityCount = entityList.size();
 
+    int hitBoxHeight = 38;
+    int hitboxY = laneY + 3;
+
     for (size_t i = 0; i < entityCount - 1; ++i) {
         const Box& leftEntityBox = GetHitBox(i);
         const Box& rightEntityBox = GetHitBox(i + 1);
@@ -180,8 +188,8 @@ std::vector<Box> Lane::GetLaneHitBoxRTL() const
                        (leftEntityBox.coord.x + leftEntityBox.dim.width);
         int boxX = leftEntityBox.coord.x + leftEntityBox.dim.width;
 
-        const Vec2 boxCoord = {.x = boxX, .y = (int)laneY};
-        const Vec2 boxDim = {.width = boxWidth, .height = 32};
+        const Vec2 boxCoord = {.x = boxX, .y = (int)hitboxY};
+        const Vec2 boxDim = {.width = boxWidth, .height = hitBoxHeight};
         const Box newBox = {.coord = boxCoord, .dim = boxDim};
         if (newBox.dim.width > 10) {
             laneBoxList.push_back(newBox);
@@ -193,14 +201,15 @@ std::vector<Box> Lane::GetLaneHitBoxRTL() const
     int rightMostX = lastEntityBox.coord.x + lastEntityBox.dim.width;
     int leftMostX = firstEntityBox.coord.x;
     if (rightMostX < _CONSOLE_WIDTH_) {
-        Vec2 boxCoord = {.x = rightMostX, .y = (int)laneY};
-        Vec2 boxDim = {.width = _CONSOLE_WIDTH_ - rightMostX, .height = 32};
+        Vec2 boxCoord = {.x = rightMostX, .y = (int)hitboxY};
+        Vec2 boxDim = {
+            .width = _CONSOLE_WIDTH_ - rightMostX, .height = hitBoxHeight};
         Box newBox = {.coord = boxCoord, .dim = boxDim};
         laneBoxList.push_back(newBox);
     }
     if (leftMostX > 0) {
-        Vec2 boxCoord = {.x = 0, .y = (int)laneY};
-        Vec2 boxDim = {.width = leftMostX, .height = 32};
+        Vec2 boxCoord = {.x = 0, .y = (int)hitboxY};
+        Vec2 boxDim = {.width = leftMostX, .height = hitBoxHeight};
         Box newBox = {.coord = boxCoord, .dim = boxDim};
         laneBoxList.push_back(newBox);
     }
