@@ -1295,8 +1295,8 @@ void GameMap::CheckGameOver()
 {
     if (gameFlags.gamePaused) return;
     if (gameFlags.isGameOver) return;
-
-    if (character.GetCurHealth() <= 0) {
+    if ((gameData.mapMode == NINF && gameEventArgs.timeLeft <= 0) ||
+        character.GetCurHealth() <= 0) {
         gameSprites.deathVfx.Play();
         gameFlags.isGameOver = true;
         if (R.Config.Sfx) {
@@ -1690,12 +1690,6 @@ void GameMap::UpdateTime(float deltaTime)
 
     if (gameData.mapMode != NINF) return;
     gameEventArgs.timeLeft -= deltaTime;
-    if (gameEventArgs.timeLeft <= 0) {
-        gameFlags.isGameOver = true;
-        if (R.Config.Sfx) {
-            gameAudio.deadSfx.Play();
-        }
-    }
 }
 
 void GameMap::UpdateSprites(float deltaTime)
