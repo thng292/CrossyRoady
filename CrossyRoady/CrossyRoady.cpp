@@ -18,12 +18,12 @@
 using namespace ConsoleGame;
 
 // #define _TEST_PERF_
+std::ofstream logfile("log.txt");
 
 auto main() -> int
 {
 #ifdef _DEBUG
-    std::ofstream log("log.txt");
-    Logger::Init(&log);
+    Logger::Init(&logfile);
 #endif
 
     Font::Load(RESOURCE_PATH FONT_PATH "small.font");
