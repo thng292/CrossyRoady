@@ -817,6 +817,8 @@ void GameMap::UnloadSprites()
 
     // effects
     gameSprites.deathVfx.Unload();
+    gameSprites.skillVfx.Unload();
+    gameSprites.debuffVfx.Unload();
 
     // chara
     character.UnloadSprites();

@@ -2,6 +2,7 @@
 
 #include "GameMap.h"
 #include "SaveLoadType.h"
+#include "SharedAudio.h"
 
 using namespace GameType;
 using namespace GameMaster;
@@ -225,6 +226,9 @@ void GameMap::LoadGameData()
     } else if (gameFlags.isBaeSkill) {
         gameSprites.skillCur = &gameSprites.skillBae;
     }
+
+    SharedAudio &audio = SharedAudio::GetInstance();
+    audio.SwitchMusic(BGMusic(gameData.music));
 
     // Close the file
     infile.close();
