@@ -87,6 +87,7 @@ namespace GameType {
         ConsoleGame::Sprite skillKronii;
         ConsoleGame::Sprite skillSana;
         ConsoleGame::Sprite skillBae;
+        ConsoleGame::Sprite skillInvert;
 
         ConsoleGame::Sprite debuffForest;
         ConsoleGame::Sprite debuffCity;
@@ -94,6 +95,7 @@ namespace GameType {
         ConsoleGame::Sprite debuffDesert;
         ConsoleGame::Sprite debuffSpace;
         ConsoleGame::Sprite debuffCasino;
+        ConsoleGame::Sprite debuffInvert;
 
         ConsoleGame::Sprite arrowLeft;
         ConsoleGame::Sprite arrowRight;

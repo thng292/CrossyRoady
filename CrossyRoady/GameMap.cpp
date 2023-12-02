@@ -454,7 +454,9 @@ void GameMap::TurnOffSkill()
     switch (gameEventArgs.skillType) {
         case FAUNA:
             character.SetMaxHealth(FAUNA_MAX_HEALTH);
-            if (character.GetCurHealth() >= FAUNA_MAX_HEALTH) {
+            if (gameFlags.skillInUse && gameEventArgs.debuffType == CITY) {
+                character.SetCurHealth(FAUNA_MAX_HEALTH);
+            } else if (character.GetCurHealth() >= FAUNA_MAX_HEALTH) {
                 character.SetCurHealth(FAUNA_MAX_HEALTH);
             }
             gameFlags.isFaunaSkill = false;
@@ -728,6 +730,11 @@ void GameMap::LoadSprites()
     gameSprites.emptyHealth.Load(RESOURCE_PATH EXTRA_PATH "health-empty.sprite"
     );
 
+    gameSprites.debuffInvert.Load(RESOURCE_PATH EXTRA_PATH
+                                  "invert-debuff.sprite");
+    gameSprites.skillInvert.Load(RESOURCE_PATH EXTRA_PATH "invert-skill.sprite"
+    );
+
     float frameDur = 0.15f;
     gameSprites.itemSpeed.SetFrameDuration(frameDur);
     gameSprites.itemHealth.SetFrameDuration(frameDur);
@@ -795,6 +802,7 @@ void GameMap::UnloadSprites()
     gameSprites.skillKronii.Unload();
     gameSprites.skillSana.Unload();
     gameSprites.skillBae.Unload();
+    gameSprites.skillInvert.Unload();
 
     gameSprites.debuffForest.Unload();
     gameSprites.debuffCity.Unload();
@@ -802,6 +810,7 @@ void GameMap::UnloadSprites()
     gameSprites.debuffDesert.Unload();
     gameSprites.debuffSpace.Unload();
     gameSprites.debuffCasino.Unload();
+    gameSprites.debuffInvert.Unload();
 
     // mob
     gameSprites.mobSpriteEasy.MobLeft.Unload();
@@ -1509,7 +1518,7 @@ void GameMap::HandleDebuff(float deltaTime)
             break;
         case CASINO:
             gameFlags.isReverseKey = true;
-            gameSprites.debuffCur = &gameSprites.debuffCasino;
+            gameSprites.debuffCur = &gameSprites.debuffInvert;
             break;
     }
 
@@ -1574,7 +1583,7 @@ void GameMap::HandleSkill(float deltaTime)
             case BAE:
                 gameFlags.isReverseKey = true;
                 gameEventArgs.skillCategory = TIME;
-                gameSprites.skillCur = &gameSprites.skillBae;
+                gameSprites.skillCur = &gameSprites.skillInvert;
                 gameFlags.isBaeSkill = true;
                 break;
         }

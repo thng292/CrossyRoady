@@ -188,7 +188,7 @@ struct StringResource {
 
         MapStuff City = {
             .Name = "City",
-            .Debuff = "Decreases the character's health to only one",
+            .Debuff = "Locks the character's health to only one",
         };
 
         MapStuff House = {
@@ -198,17 +198,18 @@ struct StringResource {
 
         MapStuff Dessert = {
             .Name = "Dessert",
-            .Debuff = "Paralyzes the character's controls",
+            .Debuff = "Paralyzes the character's movements",
         };
 
         MapStuff Space = {
             .Name = "Space",
-            .Debuff = "Locks the character's skill until a threshold is passed",
+            .Debuff = "Disables the character's usage of skill",
         };
 
         MapStuff Casino = {
             .Name = "Casino",
-            .Debuff = "Randomly chooses a debuff from the other maps",
+            .Debuff =
+                "Chooses a debuff from the other maps or inverts the controls",
         };
 
     } Map;
@@ -216,7 +217,7 @@ struct StringResource {
     struct {
         CharStuff Fauna = {
             .Name = "Ceres Fauna",
-            .Skill = "Gains back full health and with two additional hearts",
+            .Skill = "Gains back full health with two additional hearts",
             .Desc =
                 "The Keeper of Nature, a druidic kirin who materialized in the "
                 "mortal realm in a bid to save nature",
@@ -232,7 +233,7 @@ struct StringResource {
 
         CharStuff Mumei = {
             .Name = "Nanashi Mumei",
-            .Skill = "Becomes invincible and gains a speed boost",
+            .Skill = "Becomes invulnerable and gains a speed boost",
             .Desc =
                 "The Guardian of Civilization, a traveling owl who has borne "
                 "witness to numerous events",

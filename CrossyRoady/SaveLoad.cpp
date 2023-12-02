@@ -224,7 +224,7 @@ void GameMap::LoadGameData()
     } else if (gameFlags.isSanaSkill) {
         gameSprites.skillCur = &gameSprites.skillSana;
     } else if (gameFlags.isBaeSkill) {
-        gameSprites.skillCur = &gameSprites.skillBae;
+        gameSprites.skillCur = &gameSprites.skillInvert;
     }
 
     SharedAudio &audio = SharedAudio::GetInstance();
