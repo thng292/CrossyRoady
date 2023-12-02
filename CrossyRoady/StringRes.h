@@ -12,8 +12,9 @@
 #define BGM_PATH "bgm/"
 #define SFX_PATH "sfx/"
 
-constexpr int LevelExpReq = 200;
-constexpr int CharaExpReq = 150;
+constexpr int LevelExpReq = 800;
+constexpr int CharaExpReq = 200;
+constexpr uint8_t LEVEL_CAP = 10;
 constexpr uint8_t numberOfChars = 6;
 constexpr uint8_t numberOfMaps = 6;
 
