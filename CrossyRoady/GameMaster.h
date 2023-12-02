@@ -23,6 +23,7 @@ namespace GameMaster {
         bool allowDebuff : 1 = true;
         bool allowLaneUpdate : 1 = true;
         bool allowMapDrag : 1 = true;
+        bool clearMob : 1 = false;
 
         // Movements
         bool allowMoveLeft : 1 = true;

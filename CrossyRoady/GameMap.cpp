@@ -84,6 +84,7 @@ AbstractNavigation::NavigationRes GameMap::Update(
 
     ResetFlags();
     DragMapDown(deltaTime);
+    ClearMob();
 
     UpdateMapSpeed();
     UpdateSprites(deltaTime);
@@ -477,7 +478,7 @@ void GameMap::TurnOffSkill()
             gameFlags.isKroniiSkill = false;
             break;
         case SANA:
-            gameFlags.allowDebuff = true;
+            gameFlags.clearMob = false;
             gameFlags.isSanaSkill = false;
             break;
         case BAE:
@@ -1166,6 +1167,7 @@ void GameMap::InitEventArgs()
             }
             break;
     }
+    gameEventArgs.skillCharge = 100;
 }
 
 void GameMap::CheckCollision(float deltaTime)
@@ -1346,6 +1348,21 @@ void GameMap::CheckCollisionAgain(Lane* lane, float deltaTime)
     }
 }
 
+void GameMap::ClearMob()
+{
+    if (!gameFlags.clearMob) return;
+    auto laneListEnd = laneList.rend();
+    for (auto it = laneList.rbegin(); it != laneListEnd; ++it) {
+        auto tmp = it->get();
+        auto type = tmp->GetType();
+        if (type == ROAD || type == RAIL) {
+            if (it->get()->ClearLane()) {
+                break;
+            }
+        }
+    }
+}
+
 void GameMap::UpdateLanes(float deltaTime)
 {
     if (gameFlags.gamePaused) return;
@@ -1491,6 +1508,8 @@ void GameMap::HandleDebuff(float deltaTime)
             if (curHealth > IRYS_DEBUFF_HEALTH) {
                 gameEventArgs.originalHealth = curHealth;
                 character.SetCurHealth(IRYS_DEBUFF_HEALTH);
+            } else {
+                gameEventArgs.originalHealth = 1;
             }
             gameSprites.debuffCur = &gameSprites.debuffCity;
 
@@ -1572,11 +1591,8 @@ void GameMap::HandleSkill(float deltaTime)
                 gameFlags.isKroniiSkill = true;
                 break;
             case SANA:
-                if (gameFlags.debuffInUse) {
-                    TurnOffDebuff();
-                }
                 gameEventArgs.skillCategory = TIME;
-                gameFlags.allowDebuff = false;
+                gameFlags.clearMob = true;
                 gameSprites.skillCur = &gameSprites.skillSana;
                 gameFlags.isSanaSkill = true;
                 break;
@@ -1645,11 +1661,7 @@ void GameMap::UpdateCooldowns(float deltaTime)
             gameEventArgs.debuffFlasingTimer += deltaTime;
         }
         if (gameEventArgs.mapDebuffCooldownTime <= 0) {
-            if (gameFlags.allowDebuff) {
-                gameFlags.debuffCalled = true;
-            } else {
-                TurnOffDebuff();
-            }
+            gameFlags.debuffCalled = true;
             gameFlags.debuffWarning = false;
         }
     }
