@@ -12,11 +12,11 @@
 namespace ConsoleGame {
     constexpr size_t QLEN         = 20;
     char commandBuffer[QLEN][128] = {0};
-#ifdef _DEBUG
     char currentBuffer[128] = {0};
-#endif
+
     int head = 0;
     int tail = 0;
+
     std::atomic_bool hasJob;
     std::mutex queueLock;
     std::jthread audioThread([](std::stop_token stoken) {
