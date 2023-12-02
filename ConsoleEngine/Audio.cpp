@@ -10,7 +10,7 @@
 #include "Logger.h"
 
 namespace ConsoleGame {
-    constexpr size_t QLEN         = 5;
+    constexpr size_t QLEN         = 20;
     char commandBuffer[QLEN][128] = {0};
 #ifdef _DEBUG
     char errBuffer[128] = {0};
