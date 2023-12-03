@@ -21,7 +21,8 @@
 	- Các màn hình inherit từ AbstractScreen
 	- Các làn đường trong game
 	- ...
-
+- Singleton:
+  	- SharedAudio
 - Cơ chế hiển thị và vẽ của game
 	- Hiển thị hình ảnh, các định dạng đã dùng
 	- Main Game loop
