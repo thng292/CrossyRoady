@@ -119,7 +119,7 @@ namespace GameMaster {
 
         // Miscel
         float notMovingTime = 0;
-        float originalHealth = 0;
+        float originalHealth = 1;
         float originalSpeed = 0;
 
         // Skill

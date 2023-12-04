@@ -422,7 +422,7 @@ void GameMap::TurnOffDebuff()
                 break;
             case CITY:
                 character.SetCurHealth(gameEventArgs.originalHealth);
-                gameEventArgs.originalHealth = 0;
+                gameEventArgs.originalHealth = 1;
                 break;
             case HOUSE:
                 gameFlags.isDarkMap = false;
@@ -1523,8 +1523,6 @@ void GameMap::HandleDebuff(float deltaTime)
             if (curHealth > IRYS_DEBUFF_HEALTH) {
                 gameEventArgs.originalHealth = curHealth;
                 character.SetCurHealth(IRYS_DEBUFF_HEALTH);
-            } else {
-                gameEventArgs.originalHealth = 1;
             }
             gameSprites.debuffCur = &gameSprites.debuffCity;
 
