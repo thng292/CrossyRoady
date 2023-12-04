@@ -20,37 +20,42 @@ void Exp::Draw(ConsoleGame::AbstractCanvas* canvas) const
 {
     Font::DrawString(
         canvas,
-        "When plaing in a game, you'll receive",
+        "When playing in a game, you'll receive",
         {137, 60},
         1,
         0,
         (Color)15
     );
-    Font::DrawString(canvas, "EXP", {137, 75}, 1, 0, (Color)13);
-    Font::DrawString(canvas, "to", {161, 75}, 1, 0, (Color)15);
-    Font::DrawString(canvas, "level-up", {179, 75}, 1, 0, (Color)13);
-    Font::DrawString(canvas, "after each play.", {233, 75}, 1, 0, (Color)15);
     Font::DrawString(
-        canvas, "After each level, you can unlock", {137, 100}, 1, 0, (Color)15
+        canvas, "EXP to level-up in Progress.", {137, 75}, 1, 0, (Color)15
     );
-    Font::DrawString(canvas, "new", {335, 100}, 1, 0, (Color)13);
-    Font::DrawString(canvas, "characters", {137, 115}, 1, 0, (Color)13);
-    Font::DrawString(
-        canvas, "with unique and interesting", {203, 115}, 1, 0, (Color)15
-    );
-    Font::DrawString(canvas, "skills, along with", {137, 130}, 1, 0, (Color)15);
-    Font::DrawString(canvas, "new game maps", {251, 130}, 1, 0, (Color)13);
-    Font::DrawString(canvas, "with", {335, 130}, 1, 0, (Color)15);
     Font::DrawString(
         canvas,
-        "special effects, or you can choose to",
-        {137, 145},
+        "800 exp points -> Level-up in Progress",
+        {137, 90},
         1,
         0,
         (Color)15
     );
-    Font::DrawString(canvas, "upgrade", {137, 160}, 1, 0, (Color)13);
     Font::DrawString(
-        canvas, "your current character.", {185, 160}, 1, 0, (Color)15
+        canvas,
+        "In each map, if you get enough points",
+        {137, 115},
+        1,
+        0,
+        (Color)15
     );
+    Font::DrawString(
+        canvas,
+        "in one play, you will receive a new",
+        {137, 130},
+        1,
+        0,
+        (Color)15
+    );
+    Font::DrawString(canvas, "character.", {137, 145}, 1, 0, (Color)15);
+    Font::DrawString(canvas, "Easy: 400", {160, 165}, 1, 0, (Color)15);
+    Font::DrawString(canvas, "Hard: 100", {280, 165}, 1, 0, (Color)15);
+    Font::DrawString(canvas, "Normal: 300", {160, 180}, 1, 0, (Color)15);
+    Font::DrawString(canvas, "Auto: 200", {280, 180}, 1, 0, (Color)15);
 }
