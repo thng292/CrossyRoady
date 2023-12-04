@@ -108,6 +108,7 @@ namespace GameMaster {
         // Difficulty
         size_t mobRange;
         float mapDragSpeed = 0;
+        float origMapDragSpeed = 0;
 
         // Animation
         float damageFlashingTimer = 0;

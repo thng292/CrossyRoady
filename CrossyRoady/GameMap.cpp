@@ -477,9 +477,9 @@ void GameMap::TurnOffSkill()
             break;
         case KRONII:
             gameFlags.allowLaneUpdate = true;
-            gameEventArgs.mapDragSpeed = MAP_DRAG_SPEED;
             gameFlags.allowMapDrag = true;
             gameFlags.isKroniiSkill = false;
+            gameEventArgs.mapDragSpeed = gameEventArgs.origMapDragSpeed;
             break;
         case SANA:
             gameFlags.allowDebuff = true;
@@ -506,7 +506,6 @@ std::unique_ptr<Lane> GameMap::GetRandomLane()
     } else {
         laneType = static_cast<LaneType>(rand() % 3);
     }
-
     // produce random mob
     MobType mobType = static_cast<MobType>(rand() % gameEventArgs.mobRange);
     AniSprite* mobSprite = GetMobSprite(mobType, isLeftToRight);
@@ -1130,7 +1129,7 @@ void GameMap::InitEventArgs()
     gameEventArgs.timeLeft = gameData.time;
     if (gameData.mapDifficulty != MPROG) {
         gameEventArgs.mobRange = gameData.mapDifficulty;
-        gameEventArgs.mapDragSpeed =
+        gameEventArgs.origMapDragSpeed =
             gameData.mapDifficulty == MHARD ? MAP_DRAG_SPEED : 0.0f;
         gameEventArgs.difficultyReached =
             static_cast<MobType>(gameData.mapDifficulty - 1);
@@ -1609,9 +1608,9 @@ void GameMap::HandleSkill(float deltaTime)
                 break;
             case KRONII:
                 gameFlags.allowLaneUpdate = false;
+                gameFlags.allowMapDrag = false;
                 gameEventArgs.mapDragSpeed = 0;
                 gameEventArgs.skillCategory = TIME;
-                gameFlags.allowMapDrag = false;
                 gameSprites.skillCur = &gameSprites.skillKronii;
                 gameFlags.isKroniiSkill = true;
                 break;

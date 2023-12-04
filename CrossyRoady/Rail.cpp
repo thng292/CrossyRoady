@@ -101,6 +101,7 @@ Rail::Rail(
 
 {
     speed = 200;
+    _type = type;
     _mobSprite = mobSprite;
     _arrow = arrow;
     _warningSfx = warningSfx;
