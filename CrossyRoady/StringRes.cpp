@@ -47,9 +47,9 @@ bool Config::GetCharUpgradeStatus(uint8_t character)
         case 2:
             return MumeiUpgraded;
         case 3:
-            return SanaUpgraded;
-        case 4:
             return KroniiUpgraded;
+        case 4:
+            return SanaUpgraded;
         case 5:
             return BaeUpgraded;
     }
@@ -89,9 +89,9 @@ bool Config::GetCharUnlocked(uint8_t character)
         case 2:
             return MumeiUnlocked;
         case 3:
-            return SanaUnlocked;
-        case 4:
             return KroniiUnlocked;
+        case 4:
+            return SanaUnlocked;
         case 5:
             return BaeUnlocked;
     }
@@ -110,10 +110,10 @@ void Config::SetCharUnlocked(uint8_t character)
             MumeiUnlocked = 1;
             break;
         case 3:
-            SanaUnlocked = 1;
+            KroniiUnlocked = 1;
             break;
         case 4:
-            KroniiUnlocked = 1;
+            SanaUnlocked = 1;
             break;
         case 5:
             BaeUnlocked = 1;
@@ -134,10 +134,10 @@ void Config::SetCharUpgradeStatus(uint8_t character)
             MumeiUpgraded = 1;
             break;
         case 3:
-            SanaUpgraded = 1;
+            KroniiUpgraded = 1;
             break;
         case 4:
-            KroniiUpgraded = 1;
+            SanaUpgraded = 1;
             break;
         case 5:
             BaeUpgraded = 1;
@@ -145,4 +145,7 @@ void Config::SetCharUpgradeStatus(uint8_t character)
     }
 }
 
-uint8_t Config::GetCurrentLevel() { return std::min(uint8_t(GetTotalXP() / LevelExpReq), LEVEL_CAP); }
+uint8_t Config::GetCurrentLevel()
+{
+    return std::min(uint8_t(GetTotalXP() / LevelExpReq), LEVEL_CAP);
+}
