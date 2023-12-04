@@ -4,7 +4,7 @@
 
 #ifdef _DEBUG
 #define LogDebug(format, ...) \
-    Logger::Log("{}:{} - " format "\n", __FILE__, __LINE__, __VA_ARGS__)
+    Logger::Log(__FILE__ ":{} - " format "\n", __LINE__, __VA_ARGS__)
 #else
 #define LogDebug(format, ...) void(0)
 #endif

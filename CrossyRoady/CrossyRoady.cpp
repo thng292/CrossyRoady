@@ -18,7 +18,9 @@
 using namespace ConsoleGame;
 
 // #define _TEST_PERF_
+#ifdef _DEBUG
 std::ofstream logfile("log.txt");
+#endif
 
 auto main() -> int
 {
