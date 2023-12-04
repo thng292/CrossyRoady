@@ -39,6 +39,7 @@ void GameMap::Init(const std::any& args)
         try {
             const UserOption& userOpt = std::any_cast<const UserOption&>(args);
             SetGameMapData(GetGMData(userOpt));
+            audio.SwitchMusic((BGMusic)gameData.music);
         } catch (const std::exception& e) {
             loadSave = true;
         }
@@ -71,7 +72,6 @@ void GameMap::Init(const std::any& args)
     for (auto& tmp : subScreen) {
         tmp->Init(std::any());
     }
-    audio.SwitchMusic((BGMusic)gameData.music);
 }
 
 AbstractScreen* GameMap::Clone() const { return new GameMap; }
