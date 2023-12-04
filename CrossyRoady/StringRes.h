@@ -66,7 +66,7 @@ struct StringResource {
     } MainMenu;
 
     struct {
-        std::string_view Title = "Single Player";
+        std::string_view Title = "New Game";
     } SinglePlayer;
 
     struct {
@@ -197,7 +197,7 @@ struct StringResource {
         };
 
         MapStuff Dessert = {
-            .Name = "Dessert",
+            .Name = "Desert",
             .Debuff = "Paralyzes the character's movements.",
         };
 
