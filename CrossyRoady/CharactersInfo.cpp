@@ -109,7 +109,7 @@ AbstractNavigation::NavigationRes CharactersInfo::Update(
         [&](uint8_t selection) noexcept {
             switch (selection) {
                 case 0:
-                    if (R.Config.UpgradePoint > 0 and R.Config.GetCharUpgradeStatus(selection) == 0) {
+                    if (R.Config.UpgradePoint > 0 and R.Config.GetCharUpgradeStatus(currentSelect) == 0) {
                         R.Config.SetCharUpgradeStatus(currentSelect);
                         R.Config.UpgradePoint--;
                         UpgradePointStr = std::format(
