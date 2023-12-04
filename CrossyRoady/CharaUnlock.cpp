@@ -82,9 +82,7 @@ AbstractNavigation::NavigationRes CharaUnlock::Update(
         [&](uint8_t selection) noexcept {
             switch (selection) {
                 case 0:
-                    res = navigation->PopBackTo(
-                        CharacterSelect::ScreenName()
-                    );
+                    res = navigation->PopBackTo(MainMenu::ScreenName());
                     break;
             }
         }

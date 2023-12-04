@@ -1,7 +1,7 @@
 #pragma once
-#include "CharaSelectScreen.h"
 #include "ConsoleGame.h"
 #include "GameType.h"
+#include "MainMenu.h"
 #include "Menu.h"
 #include "SharedAudio.h"
 #include "StringRes.h"

@@ -323,10 +323,17 @@ void GameMap::HandleItemCollision()
             gameEventArgs.skillCharge = MAX_SKILL_CHARGE;
             break;
         case HEALTH:
-            int curHealth = character.GetCurHealth();
-            if (curHealth < character.GetMaxHealth()) {
-                character.SetCurHealth(curHealth + 1);
+            if (gameEventArgs.originalHealth != 0) {
+                if (gameEventArgs.originalHealth < character.GetMaxHealth()) {
+                    gameEventArgs.originalHealth += 1;
+                }
+            } else {
+                int curHealth = character.GetCurHealth();
+                if (curHealth < character.GetMaxHealth()) {
+                    character.SetCurHealth(curHealth + 1);
+                }
             }
+
             break;
     }
     gameEventArgs.numOfItemPick += 1;
@@ -422,7 +429,7 @@ void GameMap::TurnOffDebuff()
                 break;
             case CITY:
                 character.SetCurHealth(gameEventArgs.originalHealth);
-                gameEventArgs.originalHealth = 1;
+                gameEventArgs.originalHealth = 0;
                 break;
             case HOUSE:
                 gameFlags.isDarkMap = false;
@@ -454,9 +461,7 @@ void GameMap::TurnOffSkill()
     switch (gameEventArgs.skillType) {
         case FAUNA:
             character.SetMaxHealth(FAUNA_MAX_HEALTH);
-            if (gameFlags.skillInUse && gameEventArgs.debuffType == CITY) {
-                character.SetCurHealth(FAUNA_MAX_HEALTH);
-            } else if (character.GetCurHealth() >= FAUNA_MAX_HEALTH) {
+            if (character.GetCurHealth() >= FAUNA_MAX_HEALTH) {
                 character.SetCurHealth(FAUNA_MAX_HEALTH);
             }
             gameFlags.isFaunaSkill = false;
@@ -1520,8 +1525,10 @@ void GameMap::HandleDebuff(float deltaTime)
             gameSprites.debuffCur = &gameSprites.debuffForest;
             break;
         case CITY:
-            if (curHealth > IRYS_DEBUFF_HEALTH) {
+            if (gameEventArgs.originalHealth == 0) {
                 gameEventArgs.originalHealth = curHealth;
+            }
+            if (curHealth > IRYS_DEBUFF_HEALTH) {
                 character.SetCurHealth(IRYS_DEBUFF_HEALTH);
             }
             gameSprites.debuffCur = &gameSprites.debuffCity;
@@ -1575,8 +1582,13 @@ void GameMap::HandleSkill(float deltaTime)
         int curSpeed = character.getSpeed();
         switch (gameEventArgs.skillType) {
             case FAUNA:
-                character.SetMaxHealth(FAUNA_EXTRA_MAX_HEALTH);
-                character.SetCurHealth(FAUNA_EXTRA_MAX_HEALTH);
+                if (gameEventArgs.originalHealth != 0) {
+                    gameEventArgs.originalHealth = FAUNA_EXTRA_MAX_HEALTH;
+                } else {
+                    character.SetMaxHealth(FAUNA_EXTRA_MAX_HEALTH);
+                    character.SetCurHealth(FAUNA_EXTRA_MAX_HEALTH);
+                }
+
                 gameEventArgs.skillCategory = TIME;
                 gameSprites.skillCur = &gameSprites.skillFauna;
                 gameFlags.isFaunaSkill = true;
