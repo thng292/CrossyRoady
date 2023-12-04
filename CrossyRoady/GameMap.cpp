@@ -875,8 +875,8 @@ void GameMap::Draw(AbstractCanvas* canvas) const
     DrawDebuffVFX(canvas);
     DrawTime(canvas);
     if (gameFlags.gamePaused) {
-        pauseTitle.Draw(canvas);
         if (selectedScr == -1) {
+            pauseTitle.Draw(canvas);
             menu.Draw(canvas);
         } else {
             subScreen[selectedScr]->Draw(canvas);
