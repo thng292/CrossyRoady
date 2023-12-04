@@ -31,9 +31,9 @@ void Result::Init(const std::any& args)
     if ((levelA + 1) / 2 + 1 > R.Config.MapUnlocked) {
         mapUnlock = true;
         R.Config.MapUnlocked++;
-    } else {
+    } else if (levelUp) {
         R.Config.UpgradePoint++;
-        R.Config.UpgradePoint += levelA == 10;
+        R.Config.UpgradePoint += (levelA == 10);
     }
 
     menu.Init({90, 190}, {100, 18}, {R.String.Result.PlayAgain, R.String.Next});
