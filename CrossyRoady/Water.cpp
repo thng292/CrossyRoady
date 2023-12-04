@@ -17,6 +17,7 @@ Water::Water(
       )
 {
     _logSprite = logSprite;
+    speed = 40 + rand() % 11;
     if (enList.empty()) Init();
 }
 

@@ -50,7 +50,17 @@ namespace GameType {
 
     enum LaneType { ROAD, WATER, SAFE, RAIL };
 
-    enum CollisionType { None, Left, Right, Top, Bottom };
+    enum CollisionType {
+        None,
+        Left,
+        Right,
+        Top,
+        Bottom,
+        TopLeft,
+        TopRight,
+        BottomLeft,
+        BottomRight
+    };
 
     enum SkillCategory { TIME, SHIELD };
 

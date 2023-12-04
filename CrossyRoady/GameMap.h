@@ -88,6 +88,7 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void DrawDebuffVFX(ConsoleGame::AbstractCanvas* canvas) const;
 
     void ResetFlags();
+    void ResetEventArgs();
     void InitFlags();
     void InitEventArgs();
 
@@ -106,7 +107,9 @@ class GameMap : public ConsoleGame::AbstractScreen {
     void UpdateSprites(float deltaTime);
 
     void HandleCollision(Lane* lane, GameType::CollisionType colType);
-    void HandleWaterCollision(GameType::CollisionType colType);
+    void HandleWaterCollision(
+        GameType::CollisionType colType, bool containsChara
+    );
     void HandleCharaOnLog(Lane* lane, float deltaTime);
     void HandleDamage();
     void HandleDebuff(float deltaTime);

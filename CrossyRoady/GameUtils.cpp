@@ -142,6 +142,8 @@ CollisionType GameUtils::GetCollisionType(Box box1, Box box2)
     int box2Top = box2.coord.y;
     int box2Bottom = box2.coord.y - box2.dim.height;
 
+    int thres = 3;
+
     if (box1Left <= box2Right && box1Right >= box2Left &&
         box1Top >= box2Bottom && box1Bottom <= box2Top) {
         // Calculate overlap in x and y dimensions
@@ -151,25 +153,44 @@ CollisionType GameUtils::GetCollisionType(Box box1, Box box2)
         int minDistY = std::min(
             std::abs(box1Bottom - box2Top), std::abs(box1Top - box2Bottom)
         );
+        bool isRightIn = box1Right >= box2Left && box1Right <= box2Right;
+        bool isBottomIn = box1Bottom >= box2Bottom && box1Bottom <= box2Top;
+        bool isLeftIn = box1Left <= box2Right && box1Left >= box2Left;
+        bool isTopIn = box1Top >= box2Bottom && box1Top <= box2Top;
+        if (minDistX >= thres && minDistY >= thres) {
+            if (isRightIn && isTopIn) {
+                return BottomLeft;
+            }
+            if (isLeftIn && isTopIn) {
+                return BottomRight;
+            }
+            if (isRightIn && isBottomIn) {
+                return TopLeft;
+            }
+
+            if (isLeftIn && isBottomIn) {
+                return TopRight;
+            }
+        }
 
         // Determine the type of collision based on overlap
         if (minDistX <= minDistY) {
             bool isRightIn = box1Right >= box2Left && box1Right <= box2Right;
             if (isRightIn) {
-                return CollisionType::Left;
+                return Left;
             } else {
-                return CollisionType::Right;
+                return Right;
             }
         } else {
             bool isBottomIn = box1Bottom >= box2Bottom && box1Bottom <= box2Top;
             if (isBottomIn) {
-                return CollisionType::Top;
+                return Top;
             } else {
-                return CollisionType::Bottom;
+                return Bottom;
             }
         }
     }
-    return CollisionType::None;
+    return None;
 }
 
 std::string GameUtils::SecondsToMMSS(float time)

@@ -590,9 +590,7 @@ std::unique_ptr<Lane> GameMap::GetRandomLane()
     return lane;
 }
 
-ConsoleGame::AniSprite* GameMap::GetMobSprite(
-    GameType::MobType type, bool isLeftToRight
-)
+ConsoleGame::AniSprite* GameMap::GetMobSprite(MobType type, bool isLeftToRight)
 {
     if (isLeftToRight) {
         switch (type) {
@@ -621,7 +619,7 @@ ConsoleGame::AniSprite* GameMap::GetMobSprite(
     }
 }
 
-ConsoleGame::AniSprite& GameMap::GetItemSprite(GameType::ItemType type)
+ConsoleGame::AniSprite& GameMap::GetItemSprite(ItemType type)
 {
     switch (type) {
         case SPEED:
@@ -1111,6 +1109,8 @@ void GameMap::ResetFlags()
     gameFlags.isOnLog = false;
 }
 
+void GameMap::ResetEventArgs() { gameEventArgs.mapSpeedX = 0; }
+
 void GameMap::InitFlags()
 {
     GameFlags tmp;
@@ -1183,6 +1183,7 @@ void GameMap::CheckCollision(float deltaTime)
             if (i + 1 < listSize) {
                 CheckCollisionAgain(laneList[i + 1].get(), deltaTime);
             }
+            break;
         }
     }
 
@@ -1191,7 +1192,7 @@ void GameMap::CheckCollision(float deltaTime)
         Box charaHitbox = character.GetHitBox();
         Box itemHitbox = mapItem.GetHitBox();
         CollisionType colType = GetCollisionType(charaHitbox, itemHitbox);
-        if (colType != CollisionType::None) {
+        if (colType != None) {
             HandleItemCollision();
             if (R.Config.Sfx) {
                 gameAudio.itemPickSfx.Play();
@@ -1322,25 +1323,25 @@ void GameMap::CheckCollisionAgain(Lane* lane, float deltaTime)
     LaneType laneType = lane->GetType();
     if (laneType == LaneType::WATER) {
         CollisionType waterColType = lane->GetLaneCollision(character);
-        if (waterColType != CollisionType::Bottom &&
-            waterColType != CollisionType::Top) {
-            if (lane->ContainsChara(character)) {
-                HandleCharaOnLog(lane, deltaTime);
-                gameFlags.isOnLog = true;
-            }
+        auto containsChara = lane->ContainsChara(character);
+        if (containsChara) {
+            HandleCharaOnLog(lane, deltaTime);
+            gameFlags.isOnLog = true;
         }
-        HandleWaterCollision(waterColType);
+
+        // PutCharaInMiddle(lane, deltaTime, waterColType);
+        HandleWaterCollision(waterColType, containsChara);
 
     } else if (laneType == LaneType::ROAD || laneType == LaneType::RAIL) {
         if (lane->ContainsChara(character)) {
             CollisionType colType = lane->GetCollision(character);
-            if (colType != CollisionType::None) {
+            if (colType != None) {
                 HandleCollision(lane, colType);
             }
         }
     } else {
         CollisionType colType = lane->GetCollision(character);
-        if (colType != CollisionType::None) {
+        if (colType != None) {
             HandleCollision(lane, colType);
         }
     }
@@ -1379,14 +1380,25 @@ void GameMap::HandleCollision(Lane* lane, CollisionType colType)
             gameFlags.damageCollision = true;
             break;
         case SAFE:
-            gameFlags.blockCollision = true;
-            if (colType == CollisionType::Left) {
+            if (colType == Left) {
                 gameFlags.allowMoveRight = false;
-            } else if (colType == CollisionType::Right) {
+            } else if (colType == Right) {
                 gameFlags.allowMoveLeft = false;
-            } else if (colType == CollisionType::Top) {
+            } else if (colType == Top) {
                 gameFlags.allowMoveDown = false;
-            } else if (colType == CollisionType::Bottom) {
+            } else if (colType == Bottom) {
+                gameFlags.allowMoveUp = false;
+            } else if (colType == TopLeft) {
+                gameFlags.allowMoveRight = false;
+                gameFlags.allowMoveDown = false;
+            } else if (colType == BottomLeft) {
+                gameFlags.allowMoveRight = false;
+                gameFlags.allowMoveUp = false;
+            } else if (colType == TopRight) {
+                gameFlags.allowMoveLeft = false;
+                gameFlags.allowMoveDown = false;
+            } else if (colType == BottomRight) {
+                gameFlags.allowMoveLeft = false;
                 gameFlags.allowMoveUp = false;
             }
             break;
@@ -1395,18 +1407,38 @@ void GameMap::HandleCollision(Lane* lane, CollisionType colType)
     }
 }
 
-void GameMap::HandleWaterCollision(GameType::CollisionType colType)
+void GameMap::HandleWaterCollision(CollisionType colType, bool containsChara)
 {
     if (gameFlags.gamePaused) return;
     if (gameFlags.isGameOver) return;
 
-    if (colType == CollisionType::Left) {
+    if (colType == Left && containsChara) {
         gameFlags.allowMoveRight = false;
-    } else if (colType == CollisionType::Right) {
+    } else if (colType == Right && containsChara) {
         gameFlags.allowMoveLeft = false;
-    } else if (colType == CollisionType::Top) {
+    } else if (colType == Top) {
         gameFlags.allowMoveDown = false;
-    } else if (colType == CollisionType::Bottom) {
+    } else if (colType == Bottom) {
+        gameFlags.allowMoveUp = false;
+    } else if (colType == TopLeft) {
+        if (containsChara) {
+            gameFlags.allowMoveRight = false;
+        }
+        gameFlags.allowMoveDown = false;
+    } else if (colType == BottomLeft) {
+        if (containsChara) {
+            gameFlags.allowMoveRight = false;
+        }
+        gameFlags.allowMoveUp = false;
+    } else if (colType == TopRight) {
+        if (containsChara) {
+            gameFlags.allowMoveLeft = false;
+        }
+        gameFlags.allowMoveDown = false;
+    } else if (colType == BottomRight) {
+        if (containsChara) {
+            gameFlags.allowMoveLeft = false;
+        }
         gameFlags.allowMoveUp = false;
     }
 }
