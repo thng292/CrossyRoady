@@ -1212,9 +1212,9 @@ void GameMap::CheckDebuff()
     if (gameFlags.gamePaused) return;
     if (gameFlags.isGameOver) return;
     if (!gameFlags.debuffCalled) return;
-    if (!gameFlags.allowDebuff) return;
-
     gameFlags.debuffCalled = false;
+
+    if (!gameFlags.allowDebuff) return;
 
     MapType mapType = gameData.mapType;
     if (mapType == CASINO) {
@@ -1743,14 +1743,6 @@ void GameMap::UpdateTime(float deltaTime)
 void GameMap::UpdateSprites(float deltaTime)
 {
     if (gameFlags.gamePaused) return;
-    if (!gameFlags.allowLaneUpdate) return;
-
-    gameSprites.mobSpriteEasy.MobLeft.AutoUpdateFrame(deltaTime);
-    gameSprites.mobSpriteEasy.MobRight.AutoUpdateFrame(deltaTime);
-    gameSprites.mobSpriteNormal.MobLeft.AutoUpdateFrame(deltaTime);
-    gameSprites.mobSpriteNormal.MobRight.AutoUpdateFrame(deltaTime);
-    gameSprites.mobSpriteHard.MobLeft.AutoUpdateFrame(deltaTime);
-    gameSprites.mobSpriteHard.MobRight.AutoUpdateFrame(deltaTime);
 
     if (gameSprites.deathVfx.IsPlaying()) {
         gameSprites.deathVfx.AutoUpdateFrame(deltaTime);
@@ -1763,6 +1755,14 @@ void GameMap::UpdateSprites(float deltaTime)
     if (gameSprites.debuffVfx.IsPlaying()) {
         gameSprites.debuffVfx.AutoUpdateFrame(deltaTime);
     }
+
+    if (!gameFlags.allowLaneUpdate) return;
+    gameSprites.mobSpriteEasy.MobLeft.AutoUpdateFrame(deltaTime);
+    gameSprites.mobSpriteEasy.MobRight.AutoUpdateFrame(deltaTime);
+    gameSprites.mobSpriteNormal.MobLeft.AutoUpdateFrame(deltaTime);
+    gameSprites.mobSpriteNormal.MobRight.AutoUpdateFrame(deltaTime);
+    gameSprites.mobSpriteHard.MobLeft.AutoUpdateFrame(deltaTime);
+    gameSprites.mobSpriteHard.MobRight.AutoUpdateFrame(deltaTime);
 
     if (gameFlags.mapHasItem) {
         mapItem.UpdateSprite(deltaTime);

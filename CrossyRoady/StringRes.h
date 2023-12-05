@@ -38,7 +38,7 @@ constexpr auto CONFIG_PATH = "config.bin";
 constexpr auto SAVE_PATH = "save.bin";
 
 struct CharUnlockReq {
-    int Auto = 250;
+    int Auto = 200;
     int Easy = 400;
     int Normal = 300;
     int Hard = 100;
