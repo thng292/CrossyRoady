@@ -56,7 +56,7 @@ void Rail::UpdatePos(float deltaTime)
         if (IsLeftToRight) {
             if (front >= -speed * 3 && front < 0) {
                 if (warning == false && R.Config.Sfx &&
-                    (laneY - 32 < _CONSOLE_HEIGHT_ * 2 || laneY > 0)) {
+                    (laneY - 32 <= _CONSOLE_HEIGHT_ * 2 && laneY >= 0)) {
                     _warningSfx->Play();
                 }
                 warning = true;
@@ -66,7 +66,7 @@ void Rail::UpdatePos(float deltaTime)
         } else {
             if (front <= speed * 3 && front > _CONSOLE_WIDTH_) {
                 if (warning == false && R.Config.Sfx &&
-                    (laneY - 32 < _CONSOLE_HEIGHT_ * 2 || laneY > 0)) {
+                    (laneY - 32 <= _CONSOLE_HEIGHT_ * 2 && laneY >= 0)) {
                     _warningSfx->Play();
                 }
                 warning = true;

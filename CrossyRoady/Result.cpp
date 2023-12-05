@@ -71,6 +71,7 @@ void Result::Init(const std::any& args)
         spacePad.resize(strLen - left[i].size() - right[i].size() - 1, ' ');
         data[i] = std::format("{}:{}{}", left[i], spacePad, right[i]);
     }
+    // R.Config.ForestXP += 500;
 }
 
 void Result::Mount(const std::any& args)
@@ -147,6 +148,9 @@ bool Result::CheckCharaUnlock()
     switch (gameRes.map) {
         case FOREST:
             R.Config.ForestXP += gameRes.score;
+            if (gameRes.score > R.Config.ForestHighScore) {
+                R.Config.ForestHighScore = gameRes.score;
+            }
             break;
         case CITY:
             R.Config.CityXP += gameRes.score;
@@ -154,6 +158,9 @@ bool Result::CheckCharaUnlock()
                 !R.Config.IrysUnlocked) {
                 res = true;
                 R.Config.IrysUnlocked = 1;
+            }
+            if (gameRes.score > R.Config.CityHighScore) {
+                R.Config.CityHighScore = gameRes.score;
             }
             break;
         case HOUSE:
@@ -163,6 +170,9 @@ bool Result::CheckCharaUnlock()
                 res = true;
                 R.Config.MumeiUnlocked = 1;
             }
+            if (gameRes.score > R.Config.HouseHighScore) {
+                R.Config.HouseHighScore = gameRes.score;
+            }
             break;
         case DESERT:
             R.Config.DesertXP += gameRes.score;
@@ -170,6 +180,9 @@ bool Result::CheckCharaUnlock()
                 !R.Config.KroniiUnlocked) {
                 res = true;
                 R.Config.KroniiUnlocked = 1;
+            }
+            if (gameRes.score > R.Config.DesertHighScore) {
+                R.Config.DesertHighScore = gameRes.score;
             }
             break;
         case SPACE:
@@ -179,6 +192,9 @@ bool Result::CheckCharaUnlock()
                 res = true;
                 R.Config.SanaUnlocked = 1;
             }
+            if (gameRes.score > R.Config.SpaceHighScore) {
+                R.Config.SpaceHighScore = gameRes.score;
+            }
             break;
         case CASINO:
             R.Config.CasinoXP += gameRes.score;
@@ -186,6 +202,9 @@ bool Result::CheckCharaUnlock()
                 !R.Config.BaeUnlocked) {
                 res = true;
                 R.Config.BaeUnlocked = 1;
+            }
+            if (gameRes.score > R.Config.CasinoHighScore) {
+                R.Config.CasinoHighScore = gameRes.score;
             }
             break;
     }

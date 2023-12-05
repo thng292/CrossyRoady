@@ -39,7 +39,6 @@ void GameMap::Init(const std::any& args)
         try {
             const UserOption& userOpt = std::any_cast<const UserOption&>(args);
             SetGameMapData(GetGMData(userOpt));
-            audio.SwitchMusic((BGMusic)gameData.music);
         } catch (const std::exception& e) {
             loadSave = true;
         }
@@ -126,6 +125,7 @@ void GameMap::Mount(const std::any& args)
     }
 
     std::remove(SAVE_PATH);
+    audio.SwitchMusic((BGMusic)gameData.music);
     ChangeColorPalette(GetGamePalette(gameData.mapType, gameData.charaType));
 }
 
@@ -348,7 +348,6 @@ void GameMap::HandleGameOver(
     if (!gameFlags.isGameOver) return;
 
     gameEventArgs.gameOverWait -= deltaTime;
-    gameSprites.deathVfx.AutoUpdateFrame(deltaTime);
     if (gameEventArgs.gameOverWait <= 0) {
         //  go to next screen
         GameResult gameRes;
@@ -1136,7 +1135,7 @@ void GameMap::InitEventArgs()
     } else {
         gameEventArgs.mobRange = 1;
     }
-    gameEventArgs.minVisibleRadius = VISIBLE_RADIUS;
+    gameEventArgs.mapDragSpeed = gameEventArgs.origMapDragSpeed;
     switch (gameData.charaType) {
         case FAUNA:
             if (R.Config.FaunaUpgraded) {
@@ -1498,8 +1497,6 @@ void GameMap::HandleDebuff(float deltaTime)
     if (gameFlags.isGameOver) return;
     if (!gameFlags.debuffInUse) return;
 
-    gameSprites.debuffVfx.AutoUpdateFrame(deltaTime);
-
     int curHealth = character.GetCurHealth();
     switch (gameEventArgs.debuffType) {
         case FOREST:
@@ -1573,8 +1570,6 @@ void GameMap::HandleSkill(float deltaTime)
 {
     if (gameFlags.gamePaused) return;
     if (gameFlags.isGameOver) return;
-
-    gameSprites.skillVfx.AutoUpdateFrame(deltaTime);
 
     if (gameFlags.skillActivate) {
         gameEventArgs.skillTime = SKILL_DURATION;
@@ -1754,6 +1749,18 @@ void GameMap::UpdateSprites(float deltaTime)
     gameSprites.mobSpriteNormal.MobRight.AutoUpdateFrame(deltaTime);
     gameSprites.mobSpriteHard.MobLeft.AutoUpdateFrame(deltaTime);
     gameSprites.mobSpriteHard.MobRight.AutoUpdateFrame(deltaTime);
+
+    if (gameSprites.deathVfx.IsPlaying()) {
+        gameSprites.deathVfx.AutoUpdateFrame(deltaTime);
+    }
+
+    if (gameSprites.skillVfx.IsPlaying()) {
+        gameSprites.skillVfx.AutoUpdateFrame(deltaTime);
+    }
+
+    if (gameSprites.debuffVfx.IsPlaying()) {
+        gameSprites.debuffVfx.AutoUpdateFrame(deltaTime);
+    }
 
     if (gameFlags.mapHasItem) {
         mapItem.UpdateSprite(deltaTime);

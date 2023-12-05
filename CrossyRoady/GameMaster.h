@@ -80,7 +80,7 @@ namespace GameMaster {
         float gameOverWait = 3.0f;
 
         float visibleRadius = GameType::MAX_VISIBLE_RADIUS;
-        float minVisibleRadius;
+        float minVisibleRadius = GameType::VISIBLE_RADIUS;
 
         // Map stuff
         float mapSpeedY = 0;
