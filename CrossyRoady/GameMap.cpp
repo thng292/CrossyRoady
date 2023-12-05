@@ -82,6 +82,7 @@ AbstractNavigation::NavigationRes GameMap::Update(
     auto res = navigation->NoChange();
 
     ResetFlags();
+    ResetEventArgs();
     DragMapDown(deltaTime);
 
     UpdateMapSpeed();
@@ -1614,6 +1615,7 @@ void GameMap::HandleSkill(float deltaTime)
                 gameFlags.allowDebuff = false;
                 gameSprites.skillCur = &gameSprites.skillSana;
                 gameFlags.isSanaSkill = true;
+                TurnOffDebuff();
                 break;
             case BAE:
                 gameFlags.isReverseKey = true;
