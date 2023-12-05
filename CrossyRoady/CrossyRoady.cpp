@@ -32,6 +32,7 @@ auto main() -> int
     Font::Load(RESOURCE_PATH FONT_PATH "big.font", 1);
 
     R.Config.Load(CONFIG_PATH);
+    TimePlayedTracker::Load();
     atexit(+[] { R.Config.Save(CONFIG_PATH); });
 
     auto game =
