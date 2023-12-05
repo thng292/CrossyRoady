@@ -71,7 +71,6 @@ void Result::Init(const std::any& args)
         spacePad.resize(strLen - left[i].size() - right[i].size() - 1, ' ');
         data[i] = std::format("{}:{}{}", left[i], spacePad, right[i]);
     }
-    // R.Config.ForestXP += 500;
 }
 
 void Result::Mount(const std::any& args)
