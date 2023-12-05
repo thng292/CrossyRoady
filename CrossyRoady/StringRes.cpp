@@ -10,7 +10,6 @@ void Config::Load(std::filesystem::path path)
     if (in.fail()) {
         return;
     }
-
     in.read((char*)this, sizeof(*this));
 }
 

@@ -328,4 +328,4 @@ void MapSelect::Draw(AbstractCanvas* canvas) const
     Font::DrawString(canvas, HighScore, {15, 30}, 1, 0, (Color)14);
 }
 
-void MapSelect::Unmount() { audio.SwitchMusic(BGMusic::Menu); }
+void MapSelect::Unmount() {  }
