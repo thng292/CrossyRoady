@@ -47,7 +47,6 @@ class TabMenu {
     template <MenuSelectedCB Func1, MenuSelectedCB Func2>
     void Update(float deltaTime, Func1 onSelectChange, Func2 onTriggerCB)
     {
-        hover = -1;
         if (ConsoleGame::UiIsKeyMeanDown()) {
             hover = (hover + 1 + buttons.size()) % buttons.size();
         }
