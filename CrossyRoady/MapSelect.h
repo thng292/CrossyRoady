@@ -17,6 +17,7 @@ class MapSelect : public ConsoleGame::AbstractScreen {
     std::string DifficultyTitle;
     std::string ModeTitle;
     std::string DebuffTitle;
+    std::string HighScore;
 
     Menu<6> menu;
     Menu<SongName.size()> musicMenu;

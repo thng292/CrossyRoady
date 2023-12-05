@@ -39,7 +39,6 @@ void GameMap::Init(const std::any& args)
         try {
             const UserOption& userOpt = std::any_cast<const UserOption&>(args);
             SetGameMapData(GetGMData(userOpt));
-            audio.SwitchMusic((BGMusic)gameData.music);
         } catch (const std::exception& e) {
             loadSave = true;
         }
@@ -126,6 +125,7 @@ void GameMap::Mount(const std::any& args)
     }
 
     std::remove(SAVE_PATH);
+    audio.SwitchMusic((BGMusic)gameData.music);
     ChangeColorPalette(GetGamePalette(gameData.mapType, gameData.charaType));
 }
 

@@ -72,9 +72,8 @@ AbstractNavigation::NavigationRes MainMenu::Update(
                         )) {
                         res = navigation->Navigate(AskSave::ScreenName(), &bg);
                     } else {
-                        res = navigation->Navigate(
-                            CharacterSelect::ScreenName()
-                        );
+                        res =
+                            navigation->Navigate(CharacterSelect::ScreenName());
                     }
                     bg.SetUnmount(true);
                     break;

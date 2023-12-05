@@ -227,9 +227,6 @@ void GameMap::LoadGameData()
         gameSprites.skillCur = &gameSprites.skillInvert;
     }
 
-    SharedAudio &audio = SharedAudio::GetInstance();
-    audio.SwitchMusic(BGMusic(gameData.music));
-
     // Close the file
     infile.close();
 }

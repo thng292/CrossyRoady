@@ -60,6 +60,29 @@ void MapSelect::UpdateStr()
         R.String.MapSelect.DebuffOpt[userOpt.debuff]
     );
     menu.buttons[4].ChangeText(DebuffTitle);
+
+    std::string score;
+    switch (userOpt.map) {
+        case 0:
+            score = std::to_string(R.Config.ForestHighScore);
+            break;
+        case 1:
+            score = std::to_string(R.Config.CityHighScore);
+            break;
+        case 2:
+            score = std::to_string(R.Config.HouseHighScore);
+            break;
+        case 3:
+            score = std::to_string(R.Config.DesertHighScore);
+            break;
+        case 4:
+            score = std::to_string(R.Config.SpaceHighScore);
+            break;
+        case 5:
+            score = std::to_string(R.Config.CasinoHighScore);
+            break;
+    }
+    HighScore = std::format("High Score: {}", score);
 }
 
 const std::wstring_view MapSelect::ScreenName() { return L"MapSelect"; }
@@ -301,9 +324,8 @@ void MapSelect::Draw(AbstractCanvas* canvas) const
             modeMenu.Draw(canvas);
             break;
     }
+
+    Font::DrawString(canvas, HighScore, {15, 30}, 1, 0, (Color)14);
 }
 
-void MapSelect::Unmount()
-{
-    audio.SwitchMusic(BGMusic::Menu);
-}
+void MapSelect::Unmount() { audio.SwitchMusic(BGMusic::Menu); }
