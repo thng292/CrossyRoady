@@ -143,6 +143,7 @@ std::unique_ptr<Lane> GameMap::GetEquivLane(
     if (valLane.hasItem) {
         lane->SetHasItem(true);
     }
+    lane->SetSpeed(valLane.speed);
     return lane;
 }
 

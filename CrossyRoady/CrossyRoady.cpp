@@ -42,7 +42,8 @@ auto main() -> int
         std::make_unique<Game>(L"Crossy Roady", 9999999);
 #endif
 
-    srand(time(NULL));
+    // srand(time(NULL));
+    srand(2);
     game->AddScreen(std::make_unique<MainMenu>());
     game->AddScreen(std::make_unique<Setting>());
     game->AddScreen(std::make_unique<Progress>());

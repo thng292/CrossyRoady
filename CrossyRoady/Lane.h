@@ -56,6 +56,7 @@ class Lane {
     float GetHeight() const;
 
     void SetY(float y);
+    void SetSpeed(float speedIn);
     void SetHasItem(bool hasItem);
 
     void DrawLane(ConsoleGame::AbstractCanvas* canvas) const;

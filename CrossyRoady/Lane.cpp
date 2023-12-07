@@ -266,3 +266,5 @@ void Lane::SetY(float y)
 
     entityDrawY = screenHeight - entityY;
 }
+
+void Lane::SetSpeed(float speedIn) { speed = speedIn; }
