@@ -107,6 +107,7 @@ AbstractNavigation::NavigationRes CharactersInfo::Update(
         deltaTime,
         [&](uint8_t) noexcept { audio.PlayHoverSfx(); },
         [&](uint8_t selection) noexcept {
+            audio.PlayClickSfx();
             switch (selection) {
                 case 0:
                     if (R.Config.UpgradePoint > 0 and R.Config.GetCharUpgradeStatus(currentSelect) == 0) {
