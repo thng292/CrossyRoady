@@ -17,7 +17,7 @@
 #include "Setting.h"
 using namespace ConsoleGame;
 
-// #define _TEST_PERF_
+ #define _TEST_PERF_
 #ifdef _DEBUG
 std::ofstream logfile("log.txt");
 #endif
@@ -39,7 +39,7 @@ auto main() -> int
 #ifndef _TEST_PERF_
         std::make_unique<Game>(L"Crossy Roady", GetDisplayRefreshRate());
 #else
-        std::make_unique<Game>(L"Crossy Roady", 9999999);
+        std::make_unique<Game>(L"Crossy Roady", 100);
 #endif
 
     srand(time(NULL));

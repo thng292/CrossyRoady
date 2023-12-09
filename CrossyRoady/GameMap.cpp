@@ -112,6 +112,7 @@ AbstractNavigation::NavigationRes GameMap::Update(
 
 void GameMap::Mount(const std::any& args)
 {
+    srand(2);
     TimePlayedTracker::StartCount();
     LoadAudio();
     if (loadSave) {

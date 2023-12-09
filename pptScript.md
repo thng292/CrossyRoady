@@ -17,18 +17,15 @@
 - Các nhân vật + skill (Vũ)
 - Một chút technical detail về cách làm debuff, skill (1 - 2 slide) (Vũ)
 - Cơ chế lưu và tải của trò chơi (Vũ)
+- Xử lí các làn đường trong game
 
 # Các kĩ thuật đã sử dụng trong trò chơi
-
-- Polymorphism (Vũ)
-
-  - Các màn hình inherit từ AbstractScreen
-  - Các làn đường trong game
 
 - Cơ chế hiển thị và vẽ của game (Thông)
 
   - Hiển thị hình ảnh, các định dạng đã dùng
   - Main Game loop
+    - Các màn hình inherit từ AbstractScreen
     - Pros: đơn luồng, có thể giới hạn fps, viết logic game đơn giản hơn, consitent game speed
     - Cons: code cần chạy nhanh
 

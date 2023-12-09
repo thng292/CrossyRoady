@@ -15,7 +15,7 @@
 #include "Palette.h"
 #include "Signal.h"
 
-// #define _ENABLE_ASYNC_DRAW_
+ //#define _ENABLE_ASYNC_DRAW_
 constexpr bool SHOW_FPS          = true;
 constexpr bool SHOULD_SKIP_FRAME = true;
 

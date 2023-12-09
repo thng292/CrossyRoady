@@ -19,6 +19,9 @@ void CharactersInfo::LoadStuff()
     auto palettePath =
         std::format("{}{}-por.hex", basePath, fileCharName[currentSelect]);
     ChangeColorPalette(Palette(palettePath));
+    /*auto tmp1 = Palette();
+    tmp1.LoadDefault();
+    ChangeColorPalette(tmp1);*/
     portrait.Load(spritePath);
     auto tmp = portrait.GetDim();
     portraitPos = {
