@@ -16,6 +16,7 @@ std::wstring_view PreviewScreen::getName()
 void PreviewScreen::Init(const std::any& args)
 {
     preview.Load(fileName);
+    ChangeColorPalette(Palette("pal.hex"));
 }
 
 AbstractScreen* PreviewScreen::Clone() const
@@ -41,6 +42,7 @@ AbstractNavigation::NavigationRes PreviewScreen::Update(float deltaTime, const A
 
 void PreviewScreen::Draw(AbstractCanvas* canvas) const
 {
+    canvas->Clear();
     preview.Draw(canvas, drawCoord);
 }
 

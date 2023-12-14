@@ -39,7 +39,7 @@ auto main() -> int
 #ifndef _TEST_PERF_
         std::make_unique<Game>(L"Crossy Roady", GetDisplayRefreshRate());
 #else
-        std::make_unique<Game>(L"Crossy Roady", 100);
+        std::make_unique<Game>(L"Crossy Roady", 99999);
 #endif
 
     srand(time(NULL));
