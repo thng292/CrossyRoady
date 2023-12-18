@@ -1,0 +1,224 @@
+[
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/ConsoleEngine.dir/AniSprite.cpp.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/AniSprite.cpp",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/AniSprite.cpp",
+  "output": "CMakeFiles/ConsoleEngine.dir/AniSprite.cpp.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/ConsoleEngine.dir/Audio.cpp.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Audio.cpp",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Audio.cpp",
+  "output": "CMakeFiles/ConsoleEngine.dir/Audio.cpp.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/ConsoleEngine.dir/Canvas.cpp.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Canvas.cpp",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Canvas.cpp",
+  "output": "CMakeFiles/ConsoleEngine.dir/Canvas.cpp.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/ConsoleEngine.dir/Common.cpp.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Common.cpp",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Common.cpp",
+  "output": "CMakeFiles/ConsoleEngine.dir/Common.cpp.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/ConsoleEngine.dir/Font.cpp.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Font.cpp",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Font.cpp",
+  "output": "CMakeFiles/ConsoleEngine.dir/Font.cpp.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/ConsoleEngine.dir/Game.cpp.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Game.cpp",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Game.cpp",
+  "output": "CMakeFiles/ConsoleEngine.dir/Game.cpp.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/ConsoleEngine.dir/LocalStorage.cpp.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/LocalStorage.cpp",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/LocalStorage.cpp",
+  "output": "CMakeFiles/ConsoleEngine.dir/LocalStorage.cpp.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/ConsoleEngine.dir/Logger.cpp.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Logger.cpp",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Logger.cpp",
+  "output": "CMakeFiles/ConsoleEngine.dir/Logger.cpp.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/ConsoleEngine.dir/Navigation.cpp.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Navigation.cpp",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Navigation.cpp",
+  "output": "CMakeFiles/ConsoleEngine.dir/Navigation.cpp.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/ConsoleEngine.dir/Palette.cpp.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Palette.cpp",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Palette.cpp",
+  "output": "CMakeFiles/ConsoleEngine.dir/Palette.cpp.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/ConsoleEngine.dir/Signal.cpp.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Signal.cpp",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Signal.cpp",
+  "output": "CMakeFiles/ConsoleEngine.dir/Signal.cpp.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/ConsoleEngine.dir/SocketWrapper.cpp.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/SocketWrapper.cpp",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/SocketWrapper.cpp",
+  "output": "CMakeFiles/ConsoleEngine.dir/SocketWrapper.cpp.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/ConsoleEngine.dir/Sprite.cpp.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Sprite.cpp",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Sprite.cpp",
+  "output": "CMakeFiles/ConsoleEngine.dir/Sprite.cpp.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/ConsoleEngine.dir/pch.cpp.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/pch.cpp",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/pch.cpp",
+  "output": "CMakeFiles/ConsoleEngine.dir/pch.cpp.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src",
+  "command": "/usr/bin/cc -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -DRAYLIB_CMAKE=1 -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/. -isystem /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -O3 -DNDEBUG -std=gnu99 -o CMakeFiles/raylib_static.dir/core.c.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/core.c",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/core.c",
+  "output": "raylib/src/CMakeFiles/raylib_static.dir/core.c.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src",
+  "command": "/usr/bin/cc -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -DRAYLIB_CMAKE=1 -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/. -isystem /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -O3 -DNDEBUG -std=gnu99 -o CMakeFiles/raylib_static.dir/models.c.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/models.c",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/models.c",
+  "output": "raylib/src/CMakeFiles/raylib_static.dir/models.c.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src",
+  "command": "/usr/bin/cc -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -DRAYLIB_CMAKE=1 -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/. -isystem /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -O3 -DNDEBUG -std=gnu99 -o CMakeFiles/raylib_static.dir/raudio.c.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/raudio.c",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/raudio.c",
+  "output": "raylib/src/CMakeFiles/raylib_static.dir/raudio.c.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src",
+  "command": "/usr/bin/cc -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -DRAYLIB_CMAKE=1 -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/. -isystem /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -O3 -DNDEBUG -std=gnu99 -o CMakeFiles/raylib_static.dir/shapes.c.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/shapes.c",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/shapes.c",
+  "output": "raylib/src/CMakeFiles/raylib_static.dir/shapes.c.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src",
+  "command": "/usr/bin/cc -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -DRAYLIB_CMAKE=1 -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/. -isystem /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -O3 -DNDEBUG -std=gnu99 -o CMakeFiles/raylib_static.dir/text.c.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/text.c",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/text.c",
+  "output": "raylib/src/CMakeFiles/raylib_static.dir/text.c.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src",
+  "command": "/usr/bin/cc -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -DRAYLIB_CMAKE=1 -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/. -isystem /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -O3 -DNDEBUG -std=gnu99 -o CMakeFiles/raylib_static.dir/textures.c.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/textures.c",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/textures.c",
+  "output": "raylib/src/CMakeFiles/raylib_static.dir/textures.c.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src",
+  "command": "/usr/bin/cc -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -DRAYLIB_CMAKE=1 -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/. -isystem /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -O3 -DNDEBUG -std=gnu99 -o CMakeFiles/raylib_static.dir/utils.c.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/utils.c",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/utils.c",
+  "output": "raylib/src/CMakeFiles/raylib_static.dir/utils.c.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/. -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -O3 -DNDEBUG -std=gnu99 -fPIC -Wall -Wdeclaration-after-statement -o CMakeFiles/glfw_objlib.dir/context.c.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/context.c",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/context.c",
+  "output": "raylib/src/external/glfw/src/CMakeFiles/glfw_objlib.dir/context.c.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/. -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -O3 -DNDEBUG -std=gnu99 -fPIC -Wall -Wdeclaration-after-statement -o CMakeFiles/glfw_objlib.dir/init.c.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/init.c",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/init.c",
+  "output": "raylib/src/external/glfw/src/CMakeFiles/glfw_objlib.dir/init.c.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/. -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -O3 -DNDEBUG -std=gnu99 -fPIC -Wall -Wdeclaration-after-statement -o CMakeFiles/glfw_objlib.dir/input.c.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/input.c",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/input.c",
+  "output": "raylib/src/external/glfw/src/CMakeFiles/glfw_objlib.dir/input.c.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/. -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -O3 -DNDEBUG -std=gnu99 -fPIC -Wall -Wdeclaration-after-statement -o CMakeFiles/glfw_objlib.dir/monitor.c.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/monitor.c",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/monitor.c",
+  "output": "raylib/src/external/glfw/src/CMakeFiles/glfw_objlib.dir/monitor.c.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/. -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -O3 -DNDEBUG -std=gnu99 -fPIC -Wall -Wdeclaration-after-statement -o CMakeFiles/glfw_objlib.dir/vulkan.c.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/vulkan.c",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/vulkan.c",
+  "output": "raylib/src/external/glfw/src/CMakeFiles/glfw_objlib.dir/vulkan.c.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/. -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -O3 -DNDEBUG -std=gnu99 -fPIC -Wall -Wdeclaration-after-statement -o CMakeFiles/glfw_objlib.dir/window.c.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/window.c",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/window.c",
+  "output": "raylib/src/external/glfw/src/CMakeFiles/glfw_objlib.dir/window.c.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/. -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -O3 -DNDEBUG -std=gnu99 -fPIC -Wall -o CMakeFiles/glfw_objlib.dir/x11_init.c.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/x11_init.c",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/x11_init.c",
+  "output": "raylib/src/external/glfw/src/CMakeFiles/glfw_objlib.dir/x11_init.c.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/. -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -O3 -DNDEBUG -std=gnu99 -fPIC -Wall -o CMakeFiles/glfw_objlib.dir/x11_monitor.c.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/x11_monitor.c",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/x11_monitor.c",
+  "output": "raylib/src/external/glfw/src/CMakeFiles/glfw_objlib.dir/x11_monitor.c.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/. -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -O3 -DNDEBUG -std=gnu99 -fPIC -Wall -o CMakeFiles/glfw_objlib.dir/x11_window.c.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/x11_window.c",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/x11_window.c",
+  "output": "raylib/src/external/glfw/src/CMakeFiles/glfw_objlib.dir/x11_window.c.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/. -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -O3 -DNDEBUG -std=gnu99 -fPIC -Wall -o CMakeFiles/glfw_objlib.dir/xkb_unicode.c.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/xkb_unicode.c",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/xkb_unicode.c",
+  "output": "raylib/src/external/glfw/src/CMakeFiles/glfw_objlib.dir/xkb_unicode.c.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/. -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -O3 -DNDEBUG -std=gnu99 -fPIC -Wall -o CMakeFiles/glfw_objlib.dir/posix_time.c.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/posix_time.c",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/posix_time.c",
+  "output": "raylib/src/external/glfw/src/CMakeFiles/glfw_objlib.dir/posix_time.c.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/. -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -O3 -DNDEBUG -std=gnu99 -fPIC -Wall -o CMakeFiles/glfw_objlib.dir/posix_thread.c.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/posix_thread.c",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/posix_thread.c",
+  "output": "raylib/src/external/glfw/src/CMakeFiles/glfw_objlib.dir/posix_thread.c.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/. -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -O3 -DNDEBUG -std=gnu99 -fPIC -Wall -o CMakeFiles/glfw_objlib.dir/glx_context.c.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/glx_context.c",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/glx_context.c",
+  "output": "raylib/src/external/glfw/src/CMakeFiles/glfw_objlib.dir/glx_context.c.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/. -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -O3 -DNDEBUG -std=gnu99 -fPIC -Wall -o CMakeFiles/glfw_objlib.dir/egl_context.c.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/egl_context.c",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/egl_context.c",
+  "output": "raylib/src/external/glfw/src/CMakeFiles/glfw_objlib.dir/egl_context.c.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/. -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -O3 -DNDEBUG -std=gnu99 -fPIC -Wall -o CMakeFiles/glfw_objlib.dir/osmesa_context.c.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/osmesa_context.c",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/osmesa_context.c",
+  "output": "raylib/src/external/glfw/src/CMakeFiles/glfw_objlib.dir/osmesa_context.c.o"
+},
+{
+  "directory": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/. -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/include -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src -I/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -O3 -DNDEBUG -std=gnu99 -fPIC -Wall -o CMakeFiles/glfw_objlib.dir/linux_joystick.c.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/linux_joystick.c",
+  "file": "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/raylib/src/external/glfw/src/linux_joystick.c",
+  "output": "raylib/src/external/glfw/src/CMakeFiles/glfw_objlib.dir/linux_joystick.c.o"
+}
+]
