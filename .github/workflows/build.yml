@@ -1,0 +1,31 @@
+name: Build and upload artifact
+
+on:
+  push:
+    branches: [ RaylibPort ]
+  pull_request:
+    branches: [ RaylibPort ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    steps:
+    - uses: actions/checkout@v2
+      with: 
+        repository: 'RaylibPort'
+    - name: Set up CMake 3.5
+      uses: dawidd6/action-cmake@v2.1.0
+      with:
+        cmake-version: 3.5
+    - name: Build and test with CMake
+      run: |
+        cmake -B build -DCMAKE_BUILD_TYPE=Release
+        cmake --build build
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{matrix.os}}
+        path: build/
