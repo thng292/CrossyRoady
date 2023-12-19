@@ -24,6 +24,7 @@ namespace ConsoleGame {
             _CanvasSize.width * 3, _CanvasSize.height * 3, winName.data()
         );
         InitAudioDevice();
+        SetExitKey(KEY_NULL);
     }
 
     void Game::Run(std::wstring_view screenName)

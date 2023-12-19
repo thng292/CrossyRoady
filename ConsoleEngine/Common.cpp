@@ -15,7 +15,7 @@ namespace ConsoleGame {
         IsKeyMeanSelect,
         IsKeyMeanEscape,
         IsKeyMeanBack,
-        +[] { return IsKeyDown(MOUSE_LEFT_BUTTON); }
+        +[] { return IsMouseButtonDown(MOUSE_LEFT_BUTTON); }
     };
 
     KeyState keyboardState[8] = {KeyState::Normal};

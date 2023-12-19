@@ -7,6 +7,7 @@
 
 namespace ConsoleGame {
     class Audio {
+        bool isUnloaded = false;
         Sound sound{};
 
        public:

@@ -12,10 +12,17 @@ namespace ConsoleGame {
 
     void Audio::Open(std::filesystem::path audioFile)
     {
-        sound = LoadSound(audioFile.c_str());
+        sound      = LoadSound(audioFile.c_str());
+        isUnloaded = false;
     }
 
-    void Audio::Close() { UnloadSound(sound); }
+    void Audio::Close()
+    {
+        if (isUnloaded == false) {
+            UnloadSound(sound);
+            isUnloaded = true;
+        }
+    }
 
     Audio::Audio(std::filesystem::path file) { Open(file); }
 

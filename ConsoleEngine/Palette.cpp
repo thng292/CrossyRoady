@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <fstream>
+#include <iostream>
 
 #include "Canvas.h"
 #include "Common.h"
@@ -12,6 +13,7 @@ namespace ConsoleGame {
 
     void Palette::Load(std::filesystem::path path)
     {
+        std::cout << "Loading palette from " << path << std::endl;
         std::ifstream in(path, std::ios::in);
         uint8_t r, g, b;
         char hex[2] = {0};
