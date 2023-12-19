@@ -38,11 +38,11 @@ void Setting::UpdateSfxTitle()
 
 void Setting::Init(const std::any& args)
 {
+    MusicTitle.reserve(30);
+    SfxTitle.reserve(30);
     if (args.has_value()) {
         bg = std::any_cast<MenuBG*>(args);
     }
-    UpdateMusicTitle();
-    UpdateSfxTitle();
 
     title = Button(
         {.size = {150, 24},
@@ -66,6 +66,9 @@ void Setting::Init(const std::any& args)
             R.String.Back
         }
     );
+
+    UpdateMusicTitle();
+    UpdateSfxTitle();
 }
 
 AbstractScreen* Setting::Clone() const { return new Setting; }

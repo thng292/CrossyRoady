@@ -16,13 +16,13 @@ namespace ConsoleGame {
         std::cout << "Loading palette from " << path << std::endl;
         std::ifstream in(path, std::ios::in);
         uint8_t r, g, b;
-        char hex[2] = {0};
+        char hex[3] = {0};
         for (auto& color : data) {
-            in.read(hex, sizeof(hex));
+            in.read(hex, sizeof(hex) - 1);
             r = std::stoul(hex, 0, 16);
-            in.read(hex, sizeof(hex));
+            in.read(hex, sizeof(hex) - 1);
             g = std::stoul(hex, 0, 16);
-            in.read(hex, sizeof(hex));
+            in.read(hex, sizeof(hex) - 1);
             b     = std::stoul(hex, 0, 16);
             color = RGB(r, g, b);
             in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
