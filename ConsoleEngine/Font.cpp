@@ -24,10 +24,10 @@ namespace ConsoleGame {
         const size_t len    = size_t(dim[variant].width) * dim[variant].height;
         data[variant].resize(len);
 
-        Color tmp;
+        char tmp;
         for (size_t i = 0; i < len; i++) {
             in.read((char*)&tmp, sizeof(tmp));
-            data[variant][i] = tmp != Color::C_TRANSPARENT;
+            data[variant][i] = tmp != C_TRANSPARENT;
         }
         dim[variant].height /= charRange;
     }
@@ -38,7 +38,7 @@ namespace ConsoleGame {
         Vec2 coord,
         uint8_t size,
         uint8_t variant,
-        Color color
+        char color
     )
     {
         if (coord.x >= _CanvasSize.width || coord.y >= _CanvasSize.height) {
@@ -82,17 +82,17 @@ namespace ConsoleGame {
         Box box,
         uint8_t size,
         uint8_t variant,
-        Color color
+        char color
     )
     {
-        auto dim        = Font::GetDim(variant);
+        auto dim = Font::GetDim(variant);
         dim.x *= size;
         dim.y *= size;
-        int last        = 0;
-        int current     = -1;
-        int currentLine = -1;
-        int lengthLeft  = str.length();
-        const int boxLineCap  = box.dim.width / dim.width;
+        int last             = 0;
+        int current          = -1;
+        int currentLine      = -1;
+        int lengthLeft       = str.length();
+        const int boxLineCap = box.dim.width / dim.width;
         while (lengthLeft > 0) {
             current++;
             currentLine++;

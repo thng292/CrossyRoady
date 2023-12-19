@@ -2,17 +2,18 @@
 
 #include <filesystem>
 #include <string>
-#pragma comment(lib, "Winmm.lib")
+
+#include "Common.h"
 
 namespace ConsoleGame {
     class Audio {
-        bool _isPlaying = false;
-        const size_t thiss = (size_t)this;
+        Sound sound{};
+
        public:
         Audio() = default;
         Audio(std::filesystem::path file);
 
-        Audio(Audio&&) = delete;
+        Audio(Audio&&)      = delete;
         Audio(const Audio&) = delete;
 
         void Open(std::filesystem::path file);
@@ -26,5 +27,4 @@ namespace ConsoleGame {
         ~Audio();
     };
 
-    void PlayAndForget(std::filesystem::path path);
 }  // namespace ConsoleGame

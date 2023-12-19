@@ -195,30 +195,30 @@ ConsoleEngine/fast:
 .PHONY : ConsoleEngine/fast
 
 #=============================================================================
-# Target rules for targets named raylib_static
+# Target rules for targets named uninstall
 
 # Build rule for target.
-raylib_static: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 raylib_static
-.PHONY : raylib_static
+uninstall: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 uninstall
+.PHONY : uninstall
 
 # fast build rule for target.
-raylib_static/fast:
-	$(MAKE) $(MAKESILENT) -f raylib/src/CMakeFiles/raylib_static.dir/build.make raylib/src/CMakeFiles/raylib_static.dir/build
-.PHONY : raylib_static/fast
+uninstall/fast:
+	$(MAKE) $(MAKESILENT) -f raylib/CMakeFiles/uninstall.dir/build.make raylib/CMakeFiles/uninstall.dir/build
+.PHONY : uninstall/fast
 
 #=============================================================================
-# Target rules for targets named glfw_objlib
+# Target rules for targets named raylib
 
 # Build rule for target.
-glfw_objlib: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 glfw_objlib
-.PHONY : glfw_objlib
+raylib: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 raylib
+.PHONY : raylib
 
 # fast build rule for target.
-glfw_objlib/fast:
-	$(MAKE) $(MAKESILENT) -f raylib/src/external/glfw/src/CMakeFiles/glfw_objlib.dir/build.make raylib/src/external/glfw/src/CMakeFiles/glfw_objlib.dir/build
-.PHONY : glfw_objlib/fast
+raylib/fast:
+	$(MAKE) $(MAKESILENT) -f raylib/raylib/CMakeFiles/raylib.dir/build.make raylib/raylib/CMakeFiles/raylib.dir/build
+.PHONY : raylib/fast
 
 #=============================================================================
 # Target rules for targets named glfw
@@ -230,8 +230,21 @@ glfw: cmake_check_build_system
 
 # fast build rule for target.
 glfw/fast:
-	$(MAKE) $(MAKESILENT) -f raylib/src/external/glfw/src/CMakeFiles/glfw.dir/build.make raylib/src/external/glfw/src/CMakeFiles/glfw.dir/build
+	$(MAKE) $(MAKESILENT) -f raylib/raylib/external/glfw/src/CMakeFiles/glfw.dir/build.make raylib/raylib/external/glfw/src/CMakeFiles/glfw.dir/build
 .PHONY : glfw/fast
+
+#=============================================================================
+# Target rules for targets named update_mappings
+
+# Build rule for target.
+update_mappings: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 update_mappings
+.PHONY : update_mappings
+
+# fast build rule for target.
+update_mappings/fast:
+	$(MAKE) $(MAKESILENT) -f raylib/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/build.make raylib/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/build
+.PHONY : update_mappings/fast
 
 AniSprite.o: AniSprite.cpp.o
 .PHONY : AniSprite.o
@@ -473,54 +486,6 @@ Palette.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ConsoleEngine.dir/build.make CMakeFiles/ConsoleEngine.dir/Palette.cpp.s
 .PHONY : Palette.cpp.s
 
-Signal.o: Signal.cpp.o
-.PHONY : Signal.o
-
-# target to build an object file
-Signal.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ConsoleEngine.dir/build.make CMakeFiles/ConsoleEngine.dir/Signal.cpp.o
-.PHONY : Signal.cpp.o
-
-Signal.i: Signal.cpp.i
-.PHONY : Signal.i
-
-# target to preprocess a source file
-Signal.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ConsoleEngine.dir/build.make CMakeFiles/ConsoleEngine.dir/Signal.cpp.i
-.PHONY : Signal.cpp.i
-
-Signal.s: Signal.cpp.s
-.PHONY : Signal.s
-
-# target to generate assembly for a file
-Signal.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ConsoleEngine.dir/build.make CMakeFiles/ConsoleEngine.dir/Signal.cpp.s
-.PHONY : Signal.cpp.s
-
-SocketWrapper.o: SocketWrapper.cpp.o
-.PHONY : SocketWrapper.o
-
-# target to build an object file
-SocketWrapper.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ConsoleEngine.dir/build.make CMakeFiles/ConsoleEngine.dir/SocketWrapper.cpp.o
-.PHONY : SocketWrapper.cpp.o
-
-SocketWrapper.i: SocketWrapper.cpp.i
-.PHONY : SocketWrapper.i
-
-# target to preprocess a source file
-SocketWrapper.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ConsoleEngine.dir/build.make CMakeFiles/ConsoleEngine.dir/SocketWrapper.cpp.i
-.PHONY : SocketWrapper.cpp.i
-
-SocketWrapper.s: SocketWrapper.cpp.s
-.PHONY : SocketWrapper.s
-
-# target to generate assembly for a file
-SocketWrapper.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ConsoleEngine.dir/build.make CMakeFiles/ConsoleEngine.dir/SocketWrapper.cpp.s
-.PHONY : SocketWrapper.cpp.s
-
 Sprite.o: Sprite.cpp.o
 .PHONY : Sprite.o
 
@@ -545,30 +510,6 @@ Sprite.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ConsoleEngine.dir/build.make CMakeFiles/ConsoleEngine.dir/Sprite.cpp.s
 .PHONY : Sprite.cpp.s
 
-pch.o: pch.cpp.o
-.PHONY : pch.o
-
-# target to build an object file
-pch.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ConsoleEngine.dir/build.make CMakeFiles/ConsoleEngine.dir/pch.cpp.o
-.PHONY : pch.cpp.o
-
-pch.i: pch.cpp.i
-.PHONY : pch.i
-
-# target to preprocess a source file
-pch.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ConsoleEngine.dir/build.make CMakeFiles/ConsoleEngine.dir/pch.cpp.i
-.PHONY : pch.cpp.i
-
-pch.s: pch.cpp.s
-.PHONY : pch.s
-
-# target to generate assembly for a file
-pch.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ConsoleEngine.dir/build.make CMakeFiles/ConsoleEngine.dir/pch.cpp.s
-.PHONY : pch.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -583,10 +524,11 @@ help:
 	@echo "... package"
 	@echo "... package_source"
 	@echo "... rebuild_cache"
+	@echo "... uninstall"
+	@echo "... update_mappings"
 	@echo "... ConsoleEngine"
 	@echo "... glfw"
-	@echo "... glfw_objlib"
-	@echo "... raylib_static"
+	@echo "... raylib"
 	@echo "... AniSprite.o"
 	@echo "... AniSprite.i"
 	@echo "... AniSprite.s"
@@ -617,18 +559,9 @@ help:
 	@echo "... Palette.o"
 	@echo "... Palette.i"
 	@echo "... Palette.s"
-	@echo "... Signal.o"
-	@echo "... Signal.i"
-	@echo "... Signal.s"
-	@echo "... SocketWrapper.o"
-	@echo "... SocketWrapper.i"
-	@echo "... SocketWrapper.s"
 	@echo "... Sprite.o"
 	@echo "... Sprite.i"
 	@echo "... Sprite.s"
-	@echo "... pch.o"
-	@echo "... pch.i"
-	@echo "... pch.s"
 .PHONY : help
 
 

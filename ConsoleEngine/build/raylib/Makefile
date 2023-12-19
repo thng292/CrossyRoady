@@ -181,6 +181,20 @@ depend:
 	cd /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
+# Convenience name for target.
+raylib/CMakeFiles/uninstall.dir/rule:
+	cd /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 raylib/CMakeFiles/uninstall.dir/rule
+.PHONY : raylib/CMakeFiles/uninstall.dir/rule
+
+# Convenience name for target.
+uninstall: raylib/CMakeFiles/uninstall.dir/rule
+.PHONY : uninstall
+
+# fast build rule for target.
+uninstall/fast:
+	cd /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build && $(MAKE) $(MAKESILENT) -f raylib/CMakeFiles/uninstall.dir/build.make raylib/CMakeFiles/uninstall.dir/build
+.PHONY : uninstall/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -195,6 +209,7 @@ help:
 	@echo "... package"
 	@echo "... package_source"
 	@echo "... rebuild_cache"
+	@echo "... uninstall"
 .PHONY : help
 
 

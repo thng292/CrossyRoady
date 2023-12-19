@@ -18,10 +18,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Logger.cpp" "CMakeFiles/ConsoleEngine.dir/Logger.cpp.o" "gcc" "CMakeFiles/ConsoleEngine.dir/Logger.cpp.o.d"
   "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Navigation.cpp" "CMakeFiles/ConsoleEngine.dir/Navigation.cpp.o" "gcc" "CMakeFiles/ConsoleEngine.dir/Navigation.cpp.o.d"
   "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Palette.cpp" "CMakeFiles/ConsoleEngine.dir/Palette.cpp.o" "gcc" "CMakeFiles/ConsoleEngine.dir/Palette.cpp.o.d"
-  "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Signal.cpp" "CMakeFiles/ConsoleEngine.dir/Signal.cpp.o" "gcc" "CMakeFiles/ConsoleEngine.dir/Signal.cpp.o.d"
-  "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/SocketWrapper.cpp" "CMakeFiles/ConsoleEngine.dir/SocketWrapper.cpp.o" "gcc" "CMakeFiles/ConsoleEngine.dir/SocketWrapper.cpp.o.d"
   "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Sprite.cpp" "CMakeFiles/ConsoleEngine.dir/Sprite.cpp.o" "gcc" "CMakeFiles/ConsoleEngine.dir/Sprite.cpp.o.d"
-  "/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/pch.cpp" "CMakeFiles/ConsoleEngine.dir/pch.cpp.o" "gcc" "CMakeFiles/ConsoleEngine.dir/pch.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

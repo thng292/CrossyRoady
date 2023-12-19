@@ -8,7 +8,7 @@ namespace ConsoleGame {
         bool tmp     = true;
         for (int top = 0; top < dim.height and tmp; top++) {
             for (int i = 0; i < dim.width; i++) {
-                if (data[top * dim.width + i] != Color::C_TRANSPARENT) {
+                if (data[top * dim.width + i] != C_TRANSPARENT) {
                     tmp = false;
                     break;
                 }
@@ -19,7 +19,7 @@ namespace ConsoleGame {
         tmp = true;
         for (int bottom = dim.height - 1; bottom >= 0 and tmp; bottom--) {
             for (int i = 0; i < dim.width; i++) {
-                if (data[bottom * dim.width + i] != Color::C_TRANSPARENT) {
+                if (data[bottom * dim.width + i] != C_TRANSPARENT) {
                     tmp = false;
                     break;
                 }
@@ -30,7 +30,7 @@ namespace ConsoleGame {
         tmp = true;
         for (int left = 0; left < dim.width and tmp; left++) {
             for (int i = 0; i < dim.height; i++) {
-                if (data[i * dim.width + left] != Color::C_TRANSPARENT) {
+                if (data[i * dim.width + left] != C_TRANSPARENT) {
                     tmp = false;
                     break;
                 }
@@ -42,7 +42,7 @@ namespace ConsoleGame {
         tmp = true;
         for (int right = dim.width - 1; right >= 0 and tmp; right--) {
             for (int i = 0; i < dim.height; i++) {
-                if (data[i * dim.width + right] != Color::C_TRANSPARENT) {
+                if (data[i * dim.width + right] != C_TRANSPARENT) {
                     tmp = false;
                     break;
                 }
@@ -52,7 +52,7 @@ namespace ConsoleGame {
     }
 
     Sprite::Sprite(Vec2 dim)
-        : dim(dim), data(dim.width * dim.height, Color::C_TRANSPARENT)
+        : dim(dim), data(dim.width * dim.height, C_TRANSPARENT)
     {
     }
 
@@ -73,10 +73,7 @@ namespace ConsoleGame {
         findHitBox();
     }
 
-    void Sprite::Clear()
-    {
-        std::fill(data.begin(), data.end(), Color::BRIGHT_WHITE);
-    }
+    void Sprite::Clear() { std::fill(data.begin(), data.end(), 0); }
 
     void Sprite::Draw(AbstractCanvas* canvas, Vec2 coord) const
     {
@@ -104,7 +101,7 @@ namespace ConsoleGame {
 
         for (int i = top, tmpY = pY; tmpY < bottom; i++, tmpY++) {
             for (int j = left, tmpX = pX; tmpX < right; j++, tmpX++) {
-                if (data[i * dim.width + j] != Color::C_TRANSPARENT) {
+                if (data[i * dim.width + j] != C_TRANSPARENT) {
                     (*canvas)[tmpY][tmpX] = data[i * dim.width + j];
                 }
             }
@@ -124,9 +121,9 @@ namespace ConsoleGame {
         hitBox.dim.height += dimOffset.height;
     }
 
-    const std::vector<Color>& Sprite::GetData() const { return data; }
+    const std::vector<char>& Sprite::GetData() const { return data; }
 
-    Color* Sprite::operator[](size_t index)
+    char* Sprite::operator[](size_t index)
     {
         return data.data() + index * dim.x;
     }

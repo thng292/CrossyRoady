@@ -24,7 +24,7 @@ namespace ConsoleGame {
             Vec2 coord,
             uint8_t size    = 1,
             uint8_t variant = 0,
-            Color color     = Color::BLACK
+            char color      = 0
         );
         static void DrawStringInBox(
             AbstractCanvas* canvas,
@@ -32,7 +32,7 @@ namespace ConsoleGame {
             Box box,
             uint8_t size    = 1,
             uint8_t variant = 0,
-            Color color     = Color::BLACK
+            char color      = 0
         );
     };
 

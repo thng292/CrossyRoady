@@ -1,11 +1,5 @@
 #pragma once
 
-#include <winsock2.h>
-#include <ws2tcpip.h>
-#undef min
-#undef max
-#pragma comment(lib, "Ws2_32.lib")
-
 #include <bit>
 #include <concepts>
 #include <cstdint>
@@ -13,6 +7,9 @@
 #include <string_view>
 
 #include "Defer.h"
+#include "raylib.h"
+
+#define RGB(r, g, b) (Color{r, g, b, 255})
 
 namespace ConsoleGame {
 
@@ -32,35 +29,23 @@ namespace ConsoleGame {
         Vec2 dim;
     };
 
-    constexpr int _CONSOLE_WIDTH_       = 384;
-    constexpr int _CONSOLE_HEIGHT_      = 112;
-    constexpr int PORT                  = 6969;
-    constexpr std::string_view PORT_STR = "6969";
+    static constexpr int ColorPaletteSize = 16;
+    using ColorPalette_t                  = std::array<Color, ColorPaletteSize>;
+
+    const char C_TRANSPARENT              = 31;
+
+    constexpr int _CONSOLE_WIDTH_         = 384;
+    constexpr int _CONSOLE_HEIGHT_        = 112;
+    constexpr int PORT                    = 6969;
+    constexpr std::string_view PORT_STR   = "6969";
 
     constexpr Vec2 _ScreenSize{
-        .width = _CONSOLE_WIDTH_, .height = _CONSOLE_HEIGHT_};
+        .width = _CONSOLE_WIDTH_, .height = _CONSOLE_HEIGHT_
+    };
 
     // Ratio: 25:14
     constexpr Vec2 _CanvasSize{
-        .width = _ScreenSize.width, .height = 2 * _ScreenSize.height};
-    enum class Color : char {
-        BLACK         = 0,
-        BLUE          = 1,
-        GREEN         = 2,
-        CYAN          = 3,
-        RED           = 4,
-        MAGENTA       = 5,
-        YELLOW        = 6,
-        WHITE         = 7,
-        GRAY          = 8,
-        LIGHT_BLUE    = 9,
-        LIGHT_GREEN   = 10,
-        LIGHT_CYAN    = 11,
-        LIGHT_RED     = 12,
-        LIGHT_MAGENTA = 13,
-        LIGHT_YELLOW  = 14,
-        BRIGHT_WHITE  = 15,
-        C_TRANSPARENT = 0b11111
+        .width = _ScreenSize.width, .height = 2 * _ScreenSize.height
     };
 
     enum class KeyState : uint8_t { Normal, Pressed, Holding, Released };
@@ -68,7 +53,6 @@ namespace ConsoleGame {
     bool IsWindowForeground();
     // Get KeyCode:
     // https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
-    bool IsKeyDown(int key);
     bool IsKeyMeanUp();
     bool IsKeyMeanDown();
     bool IsKeyMeanLeft();

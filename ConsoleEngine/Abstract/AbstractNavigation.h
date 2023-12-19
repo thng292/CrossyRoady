@@ -20,7 +20,7 @@ namespace ConsoleGame {
             std::any Payload;
         };
 
-        virtual NavigationRes NoChange() const = 0;
+        virtual NavigationRes NoChange() const                          = 0;
 
         virtual NavigationRes Back(std::any payload = std::any()) const = 0;
 
@@ -30,8 +30,9 @@ namespace ConsoleGame {
 
         virtual NavigationRes PopBackTo(
             std::wstring_view screenName, std::any payload = std::any()
-        ) const = 0;
+        ) const                            = 0;
 
         virtual NavigationRes Exit() const = 0;
+        virtual ~AbstractNavigation()      = default;
     };
 }  // namespace ConsoleGame

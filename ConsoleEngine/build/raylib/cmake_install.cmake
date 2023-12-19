@@ -44,7 +44,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/src/cmake_install.cmake")
+  include("/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/raylib/raylib/cmake_install.cmake")
 
 endif()
 

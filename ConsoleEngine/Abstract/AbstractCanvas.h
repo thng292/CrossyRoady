@@ -7,17 +7,15 @@
 namespace ConsoleGame {
     class AbstractCanvas {
        public:
-        using ScreenBuffer_t =
-            std::vector<WORD>;
-        using CanvasBuffer_t =
-            std::vector<Color>;
+        using CanvasBuffer_t                             = std::vector<char>;
 
-        virtual void Init(HANDLE handleOut) = 0;
-        virtual Vec2 CanvasSize() const = 0;
+        virtual void Init()                              = 0;
+        virtual Vec2 CanvasSize() const                  = 0;
         virtual const CanvasBuffer_t& ReadCanvas() const = 0;
-        virtual void WriteCanvas(const CanvasBuffer_t buffer) = 0;
-        virtual Color* operator[](size_t index) = 0;
-        virtual void Clear(Color color = Color::BRIGHT_WHITE) = 0;
-        virtual void DrawToScreen() = 0;
+        virtual void WriteCanvas(CanvasBuffer_t buffer)  = 0;
+        virtual char* operator[](size_t index)           = 0;
+        virtual void Clear(char color = 0)               = 0;
+        virtual void DrawToScreen()                      = 0;
+        virtual ~AbstractCanvas()                        = default;
     };
 }  // namespace ConsoleGame

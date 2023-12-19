@@ -209,38 +209,10 @@ CMakeFiles/ConsoleEngine.dir/Palette.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ConsoleEngine.dir/Palette.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Palette.cpp -o CMakeFiles/ConsoleEngine.dir/Palette.cpp.s
 
-CMakeFiles/ConsoleEngine.dir/Signal.cpp.o: CMakeFiles/ConsoleEngine.dir/flags.make
-CMakeFiles/ConsoleEngine.dir/Signal.cpp.o: /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Signal.cpp
-CMakeFiles/ConsoleEngine.dir/Signal.cpp.o: CMakeFiles/ConsoleEngine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/ConsoleEngine.dir/Signal.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ConsoleEngine.dir/Signal.cpp.o -MF CMakeFiles/ConsoleEngine.dir/Signal.cpp.o.d -o CMakeFiles/ConsoleEngine.dir/Signal.cpp.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Signal.cpp
-
-CMakeFiles/ConsoleEngine.dir/Signal.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/ConsoleEngine.dir/Signal.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Signal.cpp > CMakeFiles/ConsoleEngine.dir/Signal.cpp.i
-
-CMakeFiles/ConsoleEngine.dir/Signal.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ConsoleEngine.dir/Signal.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Signal.cpp -o CMakeFiles/ConsoleEngine.dir/Signal.cpp.s
-
-CMakeFiles/ConsoleEngine.dir/SocketWrapper.cpp.o: CMakeFiles/ConsoleEngine.dir/flags.make
-CMakeFiles/ConsoleEngine.dir/SocketWrapper.cpp.o: /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/SocketWrapper.cpp
-CMakeFiles/ConsoleEngine.dir/SocketWrapper.cpp.o: CMakeFiles/ConsoleEngine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/ConsoleEngine.dir/SocketWrapper.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ConsoleEngine.dir/SocketWrapper.cpp.o -MF CMakeFiles/ConsoleEngine.dir/SocketWrapper.cpp.o.d -o CMakeFiles/ConsoleEngine.dir/SocketWrapper.cpp.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/SocketWrapper.cpp
-
-CMakeFiles/ConsoleEngine.dir/SocketWrapper.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/ConsoleEngine.dir/SocketWrapper.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/SocketWrapper.cpp > CMakeFiles/ConsoleEngine.dir/SocketWrapper.cpp.i
-
-CMakeFiles/ConsoleEngine.dir/SocketWrapper.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ConsoleEngine.dir/SocketWrapper.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/SocketWrapper.cpp -o CMakeFiles/ConsoleEngine.dir/SocketWrapper.cpp.s
-
 CMakeFiles/ConsoleEngine.dir/Sprite.cpp.o: CMakeFiles/ConsoleEngine.dir/flags.make
 CMakeFiles/ConsoleEngine.dir/Sprite.cpp.o: /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Sprite.cpp
 CMakeFiles/ConsoleEngine.dir/Sprite.cpp.o: CMakeFiles/ConsoleEngine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/ConsoleEngine.dir/Sprite.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/ConsoleEngine.dir/Sprite.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ConsoleEngine.dir/Sprite.cpp.o -MF CMakeFiles/ConsoleEngine.dir/Sprite.cpp.o.d -o CMakeFiles/ConsoleEngine.dir/Sprite.cpp.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Sprite.cpp
 
 CMakeFiles/ConsoleEngine.dir/Sprite.cpp.i: cmake_force
@@ -250,20 +222,6 @@ CMakeFiles/ConsoleEngine.dir/Sprite.cpp.i: cmake_force
 CMakeFiles/ConsoleEngine.dir/Sprite.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ConsoleEngine.dir/Sprite.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/Sprite.cpp -o CMakeFiles/ConsoleEngine.dir/Sprite.cpp.s
-
-CMakeFiles/ConsoleEngine.dir/pch.cpp.o: CMakeFiles/ConsoleEngine.dir/flags.make
-CMakeFiles/ConsoleEngine.dir/pch.cpp.o: /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/pch.cpp
-CMakeFiles/ConsoleEngine.dir/pch.cpp.o: CMakeFiles/ConsoleEngine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/ConsoleEngine.dir/pch.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ConsoleEngine.dir/pch.cpp.o -MF CMakeFiles/ConsoleEngine.dir/pch.cpp.o.d -o CMakeFiles/ConsoleEngine.dir/pch.cpp.o -c /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/pch.cpp
-
-CMakeFiles/ConsoleEngine.dir/pch.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/ConsoleEngine.dir/pch.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/pch.cpp > CMakeFiles/ConsoleEngine.dir/pch.cpp.i
-
-CMakeFiles/ConsoleEngine.dir/pch.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ConsoleEngine.dir/pch.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/pch.cpp -o CMakeFiles/ConsoleEngine.dir/pch.cpp.s
 
 # Object files for target ConsoleEngine
 ConsoleEngine_OBJECTS = \
@@ -277,10 +235,7 @@ ConsoleEngine_OBJECTS = \
 "CMakeFiles/ConsoleEngine.dir/Logger.cpp.o" \
 "CMakeFiles/ConsoleEngine.dir/Navigation.cpp.o" \
 "CMakeFiles/ConsoleEngine.dir/Palette.cpp.o" \
-"CMakeFiles/ConsoleEngine.dir/Signal.cpp.o" \
-"CMakeFiles/ConsoleEngine.dir/SocketWrapper.cpp.o" \
-"CMakeFiles/ConsoleEngine.dir/Sprite.cpp.o" \
-"CMakeFiles/ConsoleEngine.dir/pch.cpp.o"
+"CMakeFiles/ConsoleEngine.dir/Sprite.cpp.o"
 
 # External object files for target ConsoleEngine
 ConsoleEngine_EXTERNAL_OBJECTS =
@@ -295,13 +250,10 @@ libConsoleEngine.a: CMakeFiles/ConsoleEngine.dir/LocalStorage.cpp.o
 libConsoleEngine.a: CMakeFiles/ConsoleEngine.dir/Logger.cpp.o
 libConsoleEngine.a: CMakeFiles/ConsoleEngine.dir/Navigation.cpp.o
 libConsoleEngine.a: CMakeFiles/ConsoleEngine.dir/Palette.cpp.o
-libConsoleEngine.a: CMakeFiles/ConsoleEngine.dir/Signal.cpp.o
-libConsoleEngine.a: CMakeFiles/ConsoleEngine.dir/SocketWrapper.cpp.o
 libConsoleEngine.a: CMakeFiles/ConsoleEngine.dir/Sprite.cpp.o
-libConsoleEngine.a: CMakeFiles/ConsoleEngine.dir/pch.cpp.o
 libConsoleEngine.a: CMakeFiles/ConsoleEngine.dir/build.make
 libConsoleEngine.a: CMakeFiles/ConsoleEngine.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX static library libConsoleEngine.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/mnt/C80C66C70C66B05C/BaiTap/CrossyRoady/ConsoleEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX static library libConsoleEngine.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/ConsoleEngine.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/ConsoleEngine.dir/link.txt --verbose=$(VERBOSE)
 

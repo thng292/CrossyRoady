@@ -9,7 +9,7 @@
 namespace ConsoleGame {
     class AniSprite {
        protected:
-        std::vector<Color> data;
+        std::vector<char> data;
         Box hitBox;
         Vec2 dim;
         float frameDuration   = 0;
@@ -31,7 +31,7 @@ namespace ConsoleGame {
         void EditHitBox(Vec2 coordOffset, Vec2 dimOffset);
         float GetFrameDuration();
         void SetFrameDuration(float dur);
-        const std::vector<Color>& GetData() const;
+        const std::vector<char>& GetData() const;
 
         void Load(std::filesystem::path path);
         void Unload();

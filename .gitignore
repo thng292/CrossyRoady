@@ -372,3 +372,6 @@ config.bin
 save.bin
 /CrossyRoady/log.txt
 /CrossyRoady/config.bin
+compile_commands.json
+build/
+ConsoleEngine/raylib/

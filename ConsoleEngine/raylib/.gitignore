@@ -34,13 +34,10 @@ Thumbs.db
 
 [Bb]in
 [Dd]ebug/
-[Dd]ebug.win32/
-[Dd]ebug.DLL/
 *.sbr
 *.sdf
 obj/
 [R]elease/
-[Rr]elease.win32/
 _ReSharper*/
 [Tt]est[Rr]esult*
 ipch/
@@ -48,6 +45,7 @@ ipch/
 *.db
 *.opendb
 packages/
+!examples/models/resources/models/obj/
 
 # Ignore compiled binaries
 *.o
@@ -55,31 +53,14 @@ packages/
 *.a
 *.bc
 *.so
+*.so.*
+*.dll
 
-# Ignore all examples files
-examples/*
-# Unignore all examples dirs
-!examples/*/
-# Unignore all examples files with extension
-!examples/*.c
-!examples/*.lua
-!examples/*.png
-# Unignore examples Makefile
-!examples/Makefile
-!examples/Makefile.Android
-!examples/raylib_compile_execute.bat
-!examples/raylib_makefile_example.bat
-
-# Ignore all games files
-games/*
-# Unignore all games dirs
-!games/*/
-# Unignore all games files with extension
-!games/*.c
-!games/*.png
-# Unignore games makefile
-!games/Makefile
-!games/Makefile.Android
+# Ignore wasm data in examples/
+examples/**/*.wasm
+examples/**/*.data
+examples/**/*.js
+examples/**/*.html
 
 # Ignore files build by xcode
 *.mode*v*
@@ -95,27 +76,36 @@ xcschememanagement.plist
 xcuserdata/
 DerivedData/
 
+# VSCode project
+.vscode
+
 # Jetbrains project
 .idea/
-cmake-build-debug/
+cmake-build-*/
 
 # CMake stuff
 CMakeCache.txt
 CMakeFiles
 CMakeScripts
 Testing
-TestingIfSymlinkWorks
 cmake_install.cmake
+cmake_uninstall.cmake
 install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 build
 
-# Unignore These makefiles...
-!examples/CMakeLists.txt
-!games/CMakeLists.txt
-
 # Ignore GNU global tags
 GPATH
 GRTAGS
 GTAGS
+
+# Zig programming language
+zig-cache/
+zig-out/
+build/
+build-*/
+docgen_tmp/
+
+# Parser stuff
+parser/raylib_parser

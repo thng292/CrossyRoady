@@ -11,6 +11,4 @@
 #include "../LocalStorage.h"
 #include "../Logger.h"
 #include "../Palette.h"
-#include "../Signal.h"
-#include "../SocketWrapper.h"
 #include "../Sprite.h"

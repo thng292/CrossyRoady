@@ -9,7 +9,7 @@
 namespace ConsoleGame {
     class Sprite {
        protected:
-        std::vector<Color> data;
+        std::vector<char> data;
         Vec2 dim;
         Box hitBox;
 
@@ -28,7 +28,7 @@ namespace ConsoleGame {
         void Clear();
         void Draw(AbstractCanvas* canvas, Vec2 coord) const;
         Vec2 GetDim() const;
-        const std::vector<Color>& GetData() const;
-        Color* operator[](size_t index);
+        const std::vector<char>& GetData() const;
+        char* operator[](size_t index);
     };
 }  // namespace ConsoleGame
