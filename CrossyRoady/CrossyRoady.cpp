@@ -17,7 +17,7 @@
 #include "Setting.h"
 using namespace ConsoleGame;
 
- #define _TEST_PERF_
+//  #define _TEST_PERF_
 #ifdef _DEBUG
 std::ofstream logfile("log.txt");
 #endif
@@ -28,8 +28,8 @@ auto main() -> int
     Logger::Init(&logfile);
 #endif
 
-    Font::Load(RESOURCE_PATH FONT_PATH "small.font");
-    Font::Load(RESOURCE_PATH FONT_PATH "big.font", 1);
+    ConsoleGame::Font::Load(RESOURCE_PATH FONT_PATH "small.font");
+    ConsoleGame::Font::Load(RESOURCE_PATH FONT_PATH "big.font", 1);
 
     R.Config.Load(CONFIG_PATH);
     TimePlayedTracker::Load();
@@ -37,9 +37,9 @@ auto main() -> int
 
     auto game =
 #ifndef _TEST_PERF_
-        std::make_unique<Game>(L"Crossy Roady", GetDisplayRefreshRate());
+        std::make_unique<Game>("Crossy Roady", GetDisplayRefreshRate());
 #else
-        std::make_unique<Game>(L"Crossy Roady", 99999);
+        std::make_unique<Game>("Crossy Roady", 99999);
 #endif
 
     srand(time(NULL));

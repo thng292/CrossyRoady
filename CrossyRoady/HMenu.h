@@ -23,16 +23,14 @@ class HMenu {
         for (int i = 0, tmp = startPos.x; i < buttons.size();
              i++, tmp += buttonSize.width + gap) {
             buttons[i] = Button(
-                {
-                    .size = buttonSize,
-                    .pos = {tmp, startPos.y},
-                    .cornerSize = 5,
-                    .hasBorder = true,
-                    .background = (ConsoleGame::Color)14,
-                    .border = (ConsoleGame::Color)13
-            },
+                {.size = buttonSize,
+                 .pos = {tmp, startPos.y},
+                 .cornerSize = 5,
+                 .hasBorder = true,
+                 .background = (char)14,
+                 .border = (char)13},
                 buttonLabels[i],
-                (ConsoleGame::Color)13,
+                (char)13,
                 0
             );
         }
@@ -69,17 +67,9 @@ class HMenu {
 
         for (int i = 0; i < buttons.size(); i++) {
             if (hover == i) {
-                buttons[i].ChangeColor(
-                    (ConsoleGame::Color)14,
-                    (ConsoleGame::Color)15,
-                    (ConsoleGame::Color)13
-                );
+                buttons[i].ChangeColor((char)14, (char)15, (char)13);
             } else {
-                buttons[i].ChangeColor(
-                    (ConsoleGame::Color)13,
-                    (ConsoleGame::Color)14,
-                    (ConsoleGame::Color)13
-                );
+                buttons[i].ChangeColor((char)13, (char)14, (char)13);
             }
         }
     }

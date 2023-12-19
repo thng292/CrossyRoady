@@ -5,8 +5,8 @@
 using namespace ConsoleGame;
 using namespace GameType;
 
-constexpr Color bgColor = Color(0);
-constexpr Color fontColor = Color(1);
+constexpr char bgColor = char(0);
+constexpr char fontColor = char(1);
 constexpr int XCoord = 140;
 
 const std::string_view basePath = RESOURCE_PATH EXTRA_PATH;
@@ -19,7 +19,8 @@ void CharaUnlock::LoadStuff()
     portrait.Load(spritePath);
     auto tmp = portrait.GetDim();
     portraitPos = {
-        (XCoord - tmp.width) / 2, (_CanvasSize.height - tmp.height) / 2};
+        (XCoord - tmp.width) / 2, (_CanvasSize.height - tmp.height) / 2
+    };
 }
 
 const std::wstring_view CharaUnlock::ScreenName() { return L"CharaUnlock"; }
@@ -31,9 +32,9 @@ void CharaUnlock::Init(const std::any& args)
     if (args.has_value()) {
         mapType = std::any_cast<MapType>(args);
     }
-    menu.primaryColor = (Color)1;
-    menu.secondaryColor = (Color)2;
-    menu.tertiaryColor = (Color)0;
+    menu.primaryColor = (char)1;
+    menu.secondaryColor = (char)2;
+    menu.tertiaryColor = (char)0;
     charaName = fileCharName[mapType];
     switch (mapType) {
         case FOREST:
@@ -95,14 +96,14 @@ void CharaUnlock::Draw(AbstractCanvas* canvas) const
     canvas->Clear(bgColor);
     portrait.Draw(canvas, portraitPos);
 
-    Font::DrawString(
+    ConsoleGame::Font::DrawString(
         canvas, R.String.CharUnlock.Unlock, {XCoord - 55, 10}, 1, 1, fontColor
     );
 
-    Font::DrawString(
+    ConsoleGame::Font::DrawString(
         canvas, charStuff.Name, {XCoord - 12, 10 + yShift}, 2, 1, fontColor
     );
-    Font::DrawStringInBox(
+    ConsoleGame::Font::DrawStringInBox(
         canvas,
         charStuff.Desc,
         {{XCoord, 50 + yShift}, {_CanvasSize.width - XCoord - 20, 100}},
@@ -110,13 +111,13 @@ void CharaUnlock::Draw(AbstractCanvas* canvas) const
         0,
         fontColor
     );
-    Font::DrawString(
+    ConsoleGame::Font::DrawString(
         canvas, R.String.CharInfo.Skill, {XCoord, 110 + yShift}, 1, 0, fontColor
     );
-    Font::DrawStringInBox(
+    ConsoleGame::Font::DrawStringInBox(
         canvas,
         charStuff.Skill,
-        {{XCoord, 110 + Font::GetDim(0).height + 5 + yShift},
+        {{XCoord, 110 + ConsoleGame::Font::GetDim(0).height + 5 + yShift},
          {_CanvasSize.width - XCoord - 20, 30}},
         1,
         0,

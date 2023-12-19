@@ -6,9 +6,9 @@
 
 using namespace ConsoleGame;
 
-constexpr Color Black = Color(13);
-constexpr Color White = Color(14);
-constexpr Color Gray = Color(15);
+constexpr char Black = char(13);
+constexpr char White = char(14);
+constexpr char Gray = char(15);
 
 Progress::Progress()
     : leftArr(
@@ -16,7 +16,8 @@ Progress::Progress()
               .pos = {200, 70 - 8},
               .cornerSize = 8,
               .background = White,
-              .border = Black},
+              .border = Black
+          },
           false
       ),
       rightArr(
@@ -24,7 +25,8 @@ Progress::Progress()
               .pos = {360, 70 - 8},
               .cornerSize = 8,
               .background = White,
-              .border = Black},
+              .border = Black
+          },
           true
       )
 {
@@ -46,14 +48,16 @@ void Progress::Init(const std::any& args)
         .cornerSize = 5,
         .hasBorder = true,
         .background = White,
-        .border = Black};
+        .border = Black
+    };
     surfaceExp.props = {
         .size = {180, 180},
         .pos = {194, 10},
         .cornerSize = 5,
         .hasBorder = true,
         .background = White,
-        .border = Black};
+        .border = Black
+    };
 
     rectPos = {Vec2{228, 70}, Vec2{284, 70}, Vec2{340, 70}};
     rectR = {15, 30, 15};
@@ -68,7 +72,8 @@ void Progress::Init(const std::any& args)
         R.String.Progress.CharUnlocked,
         R.String.Progress.CharUpgraded,
         R.String.Progress.MapUnlocked,
-        R.String.Progress.Completion};
+        R.String.Progress.Completion
+    };
 
     currentLevel = R.Config.GetCurrentLevel();
     earnedXP = R.Config.GetTotalXP();
@@ -174,27 +179,29 @@ void Progress::DrawStat(ConsoleGame::AbstractCanvas* canvas) const
 {
     surfaceStat.Draw(canvas);
 
-    Font::DrawString(
+    ConsoleGame::Font::DrawString(
         canvas, R.String.Progress.Stat_Title, {20, 20}, 1, 1, Black
     );
     Vec2 tmp = {20, 60};
     for (int i = 0; i < data.size(); i++) {
-        Font::DrawString(canvas, data[i], tmp, 1, 0, Black);
-        tmp.y += Font::GetDim(0).height + 3;
+        ConsoleGame::Font::DrawString(canvas, data[i], tmp, 1, 0, Black);
+        tmp.y += ConsoleGame::Font::GetDim(0).height + 3;
     }
 }
 
 void Progress::DrawExp(ConsoleGame::AbstractCanvas* canvas) const
 {
     surfaceExp.Draw(canvas);
-    Font::DrawString(canvas, R.String.Progress.Level, {204, 20}, 1, 1, Black);
+    ConsoleGame::Font::DrawString(
+        canvas, R.String.Progress.Level, {204, 20}, 1, 1, Black
+    );
     if (currentLevel != 0) {
         DrawRhombus(canvas, rectPos[0], rectR[0], Gray);
-        Font::DrawString(
+        ConsoleGame::Font::DrawString(
             canvas,
             std::to_string(currentLevel - 1),
-            {rectPos[0].x - Font::GetDim(1).x / 2,
-             rectPos[0].y - Font::GetDim(1).y / 2},
+            {rectPos[0].x - ConsoleGame::Font::GetDim(1).x / 2,
+             rectPos[0].y - ConsoleGame::Font::GetDim(1).y / 2},
             1,
             1,
             White
@@ -203,11 +210,11 @@ void Progress::DrawExp(ConsoleGame::AbstractCanvas* canvas) const
 
     auto tmpStr = std::to_string(currentLevel);
     DrawRhombus(canvas, rectPos[1], rectR[1], Black);
-    Font::DrawString(
+    ConsoleGame::Font::DrawString(
         canvas,
         tmpStr,
-        {int(rectPos[1].x - Font::GetDim(1).x * tmpStr.size() - 8),
-         rectPos[1].y - Font::GetDim(1).y},
+        {int(rectPos[1].x - ConsoleGame::Font::GetDim(1).x * tmpStr.size() - 8),
+         rectPos[1].y - ConsoleGame::Font::GetDim(1).y},
         2,
         1,
         White
@@ -215,21 +222,23 @@ void Progress::DrawExp(ConsoleGame::AbstractCanvas* canvas) const
     tmpStr = std::to_string(currentLevel + 1);
     if (currentLevel != 10) {
         DrawRhombus(canvas, rectPos[2], rectR[2], Gray);
-        Font::DrawString(
+        ConsoleGame::Font::DrawString(
             canvas,
             tmpStr,
-            {int(rectPos[2].x - Font::GetDim(1).x * tmpStr.size() / 2),
-             rectPos[2].y - Font::GetDim(1).y / 2},
+            {int(rectPos[2].x -
+                 ConsoleGame::Font::GetDim(1).x * tmpStr.size() / 2),
+             rectPos[2].y - ConsoleGame::Font::GetDim(1).y / 2},
             1,
             1,
             White
         );
     }
 
-    Font::DrawString(
+    ConsoleGame::Font::DrawString(
         canvas,
         R.String.Progress.Rewards,
-        {int(284 - Font::GetDim(1).x * R.String.Progress.Rewards.length() / 2),
+        {int(284 - ConsoleGame::Font::GetDim(1).x *
+                       R.String.Progress.Rewards.length() / 2),
          110},
         1,
         1,
@@ -245,10 +254,10 @@ void Progress::DrawExp(ConsoleGame::AbstractCanvas* canvas) const
     if (currentLevel == 10) {
         reward = R.String.Progress.Unlock2UpgradeToken;
     }
-    Font::DrawString(
+    ConsoleGame::Font::DrawString(
         canvas,
         reward,
-        {int(284 - Font::GetDim(0).x * reward.length() / 2), 140},
+        {int(284 - ConsoleGame::Font::GetDim(0).x * reward.length() / 2), 140},
         1,
         0,
         Black

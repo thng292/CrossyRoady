@@ -21,11 +21,11 @@ void Credit::Init(const std::any& args)
             .pos = {(384 - 120) / 2, 20},
             .cornerSize = 4,
             .hasBorder = true,
-            .background = (Color)14,
-            .border = (Color)13,
+            .background = (char)14,
+            .border = (char)13,
         },
         R.String.Credit.Title,
-        ((Color)13),
+        ((char)13),
         1,
         1
     );
@@ -35,8 +35,8 @@ void Credit::Init(const std::any& args)
          .pos = {(384 - 350) / 2, 50},
          .cornerSize = 7,
          .hasBorder = true,
-         .background = (Color)14,
-         .border = ((Color)13)}
+         .background = (char)14,
+         .border = ((char)13)}
     );
 }
 
@@ -67,15 +67,15 @@ void Credit::Draw(ConsoleGame::AbstractCanvas* canvas) const
         bg->Draw(canvas);
     }
     surface.Draw(canvas);
-    Font::DrawString(
+    ConsoleGame::Font::DrawString(
         canvas,
         std::format("{} {:>23}", "Developer", "Special Thanks"),
         {60, 65},
         1,
         1,
-        (Color)15
+        (char)15
     );
-    Font::DrawString(
+    ConsoleGame::Font::DrawString(
         canvas,
         std::format(
             "{} {:>19} {:>22}",
@@ -86,9 +86,9 @@ void Credit::Draw(ConsoleGame::AbstractCanvas* canvas) const
         {54, 90},
         1,
         0,
-        (Color)13
+        (char)13
     );
-    Font::DrawString(
+    ConsoleGame::Font::DrawString(
         canvas,
         std::format(
             "{} {:>14} {:>21}", "Programmer", "Vo Nhat Phuoc", "Kebbie"
@@ -96,9 +96,9 @@ void Credit::Draw(ConsoleGame::AbstractCanvas* canvas) const
         {30, 105},
         1,
         0,
-        (Color)13
+        (char)13
     );
-    Font::DrawString(
+    ConsoleGame::Font::DrawString(
         canvas,
         std::format(
             "{} {:>16} {:>19}", "Programmer", "Nguyen The Quan", "Kay Yu"
@@ -106,9 +106,9 @@ void Credit::Draw(ConsoleGame::AbstractCanvas* canvas) const
         {30, 120},
         1,
         0,
-        (Color)13
+        (char)13
     );
-    Font::DrawString(
+    ConsoleGame::Font::DrawString(
         canvas,
         std::format(
             "{} {:>14} {:>23}", "Artist", "Nguyen Anh Vu", "potato7192"
@@ -116,10 +116,10 @@ void Credit::Draw(ConsoleGame::AbstractCanvas* canvas) const
         {53, 135},
         1,
         0,
-        (Color)13
+        (char)13
     );
-    Font::DrawString(
-        canvas, std::format("{}", "Jeremy Robson"), {254, 150}, 1, 0, (Color)13
+    ConsoleGame::Font::DrawString(
+        canvas, std::format("{}", "Jeremy Robson"), {254, 150}, 1, 0, (char)13
     );
     buttonTitle.Draw(canvas);
     backButt.Draw(canvas);

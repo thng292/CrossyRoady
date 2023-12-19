@@ -1,11 +1,9 @@
 #include "Button.h"
 
-using namespace ConsoleGame;
-
 Button::Button(
     SurfaceArgs surfaceArgs,
     const std::string_view text,
-    Color textColor,
+    char textColor,
     uint8_t fontVariant,
     uint8_t fontSize
 )
@@ -20,7 +18,7 @@ Button::Button(
 
 void Button::calculateTextPos()
 {
-    auto FontDim = Font::GetDim(fontVariant);
+    auto FontDim = ConsoleGame::Font::GetDim(fontVariant);
     FontDim.width *= fontSize;
     FontDim.height *= fontSize;
     int fWidth = FontDim.width * text.length();
@@ -28,13 +26,14 @@ void Button::calculateTextPos()
     textPos.y = (props.size.height - FontDim.height) / 2 + props.pos.y;
 }
 
-void Button::ChangeTextColor(Color textColor) { this->textColor = textColor; }
+void Button::ChangeTextColor(char textColor) { this->textColor = textColor; }
 
-bool Button::IsHover(Vec2 mousePos) const { return Surface::IsHover(mousePos); }
+bool Button::IsHover(ConsoleGame::Vec2 mousePos) const
+{
+    return Surface::IsHover(mousePos);
+}
 
-void Button::ChangeColor(
-    Color textColor, Color backgroundColor, Color borderColor
-)
+void Button::ChangeColor(char textColor, char backgroundColor, char borderColor)
 {
     this->textColor = textColor;
     props.background = backgroundColor;
@@ -50,5 +49,7 @@ void Button::ChangeText(const std::string_view text)
 void Button::Draw(ConsoleGame::AbstractCanvas* canvas) const
 {
     Surface::Draw(canvas);
-    Font::DrawString(canvas, text, textPos, fontSize, fontVariant, textColor);
+    ConsoleGame::Font::DrawString(
+        canvas, text, textPos, fontSize, fontVariant, textColor
+    );
 }

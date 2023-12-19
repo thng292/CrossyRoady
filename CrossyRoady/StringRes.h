@@ -18,20 +18,24 @@ constexpr uint8_t numberOfChars = 6;
 constexpr uint8_t numberOfMaps = 6;
 
 constexpr std::array<const std::string_view, numberOfChars> fileCharName = {
-    "fauna", "irys", "mumei", "kronii", "sana", "bae"};
+    "fauna", "irys", "mumei", "kronii", "sana", "bae"
+};
 
 constexpr std::array<const std::string_view, numberOfMaps> fileMapName = {
-    "forest", "city", "house", "desert", "space", "casino"};
+    "forest", "city", "house", "desert", "space", "casino"
+};
 
 constexpr std::array<const std::string_view, 3> fileMobName = {
-    "mob1", "mob2", "mob3"};
+    "mob1", "mob2", "mob3"
+};
 constexpr std::array<const std::string_view, numberOfMaps> SongName{
     "Let Me Stay Here",
     "Theme of Irys",
     "Haunted Birdhouse",
     "Daydream",
     "Daystar",
-    "Play Dice!"};
+    "Play Dice!"
+};
 
 constexpr auto CONFIG_PATH = "config.bin";
 
@@ -170,10 +174,12 @@ struct StringResource {
         std::string_view Play = "Play";
         std::string_view Mode = "Mode: ";
         std::array<const std::string_view, 4> Modes = {
-            "Infinity", "5 min", "10 min", "15 min"};
+            "Infinity", "5 min", "10 min", "15 min"
+        };
         std::string_view Difficulty = "Difficulty: ";
         std::array<const std::string_view, 4> Difficulties = {
-            "Auto", "Easy", "Normal", "Hard"};
+            "Auto", "Easy", "Normal", "Hard"
+        };
         std::string_view Music = "Music: ";
         std::string_view Debuff = "Debuff: ";
         std::array<const std::string_view, 2> DebuffOpt = {"Off", "On"};
@@ -343,10 +349,10 @@ struct Config {
 
 struct Resource {
     const StringResource String;
-    const CharsStat CharsStat;
+    const struct CharsStat CharsStat;
     const DebuffDuration DebuffDur;
     const CharUnlockReq CharReq;
-    Config Config;
+    struct Config Config;
 };
 
 extern Resource R;

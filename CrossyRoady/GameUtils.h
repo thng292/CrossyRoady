@@ -42,18 +42,14 @@ namespace GameUtils {
     void DrawHitbox(
         ConsoleGame::AbstractCanvas* canvas,
         ConsoleGame::Box hitbox,
-        ConsoleGame::Color color = ConsoleGame::Color::BLACK
+        char color = 0
     );
 
     void DrawTRTriangle(
-        ConsoleGame::AbstractCanvas* canvas,
-        uint16_t length,
-        ConsoleGame::Color = (ConsoleGame::Color)10
+        ConsoleGame::AbstractCanvas* canvas, uint16_t length, char = (char)10
     );
     void DrawBLTriangle(
-        ConsoleGame::AbstractCanvas* canvas,
-        uint16_t length,
-        ConsoleGame::Color = (ConsoleGame::Color)10
+        ConsoleGame::AbstractCanvas* canvas, uint16_t length, char = (char)10
     );
 
     GameType::CollisionType GetCollisionType(

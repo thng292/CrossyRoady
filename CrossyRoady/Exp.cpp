@@ -18,44 +18,54 @@ ConsoleGame::AbstractNavigation::NavigationRes Exp::Update(
 
 void Exp::Draw(ConsoleGame::AbstractCanvas* canvas) const
 {
-    Font::DrawString(
+    ConsoleGame::Font::DrawString(
         canvas,
         "When playing in a game, you'll receive",
         {137, 60},
         1,
         0,
-        (Color)15
+        (char)15
     );
-    Font::DrawString(
-        canvas, "EXP to level-up in Progress.", {137, 75}, 1, 0, (Color)15
+    ConsoleGame::Font::DrawString(
+        canvas, "EXP to level-up in Progress.", {137, 75}, 1, 0, (char)15
     );
-    Font::DrawString(
+    ConsoleGame::Font::DrawString(
         canvas,
         "800 exp points -> Level-up in Progress",
         {137, 90},
         1,
         0,
-        (Color)15
+        (char)15
     );
-    Font::DrawString(
+    ConsoleGame::Font::DrawString(
         canvas,
         "In each map, if you get enough points",
         {137, 115},
         1,
         0,
-        (Color)15
+        (char)15
     );
-    Font::DrawString(
+    ConsoleGame::Font::DrawString(
         canvas,
         "in one play, you will receive a new",
         {137, 130},
         1,
         0,
-        (Color)15
+        (char)15
     );
-    Font::DrawString(canvas, "character.", {137, 145}, 1, 0, (Color)15);
-    Font::DrawString(canvas, "Easy: 400", {160, 165}, 1, 0, (Color)15);
-    Font::DrawString(canvas, "Hard: 100", {280, 165}, 1, 0, (Color)15);
-    Font::DrawString(canvas, "Normal: 300", {160, 180}, 1, 0, (Color)15);
-    Font::DrawString(canvas, "Auto: 200", {280, 180}, 1, 0, (Color)15);
+    ConsoleGame::Font::DrawString(
+        canvas, "character.", {137, 145}, 1, 0, (char)15
+    );
+    ConsoleGame::Font::DrawString(
+        canvas, "Easy: 400", {160, 165}, 1, 0, (char)15
+    );
+    ConsoleGame::Font::DrawString(
+        canvas, "Hard: 100", {280, 165}, 1, 0, (char)15
+    );
+    ConsoleGame::Font::DrawString(
+        canvas, "Normal: 300", {160, 180}, 1, 0, (char)15
+    );
+    ConsoleGame::Font::DrawString(
+        canvas, "Auto: 200", {280, 180}, 1, 0, (char)15
+    );
 }

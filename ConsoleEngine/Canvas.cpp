@@ -22,15 +22,26 @@ namespace ConsoleGame {
 
     void Canvas::Init()
     {
-        toScreen =
-            GenImageColor(_CanvasSize.width * 3, _CanvasSize.height * 3, BLACK);
         canvasBuffer.resize(_CanvasSize.width * _CanvasSize.height);
     }
 
     void Canvas::DrawToScreen()
     {
         BeginDrawing();
-        // Loop through the canvasBuffer and draw each character to the screen
+        for (int y = 0; y < _CanvasSize.height; ++y) {
+            for (int x = 0; x < _CanvasSize.width; ++x) {
+                if (canvasBuffer[y * _CanvasSize.width + x] == 31) {
+                    continue;
+                }
+                DrawRectangle(
+                    x * 3,
+                    y * 3,
+                    3,
+                    3,
+                    currentColorPallete[canvasBuffer[y * _CanvasSize.width + x]]
+                );
+            }
+        }
 
         EndDrawing();
     }

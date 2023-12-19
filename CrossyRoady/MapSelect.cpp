@@ -3,9 +3,9 @@
 #include "GameMap.h"
 #include "GameUtils.h"
 using namespace ConsoleGame;
-constexpr auto BGPrimary = (ConsoleGame::Color)2;
-constexpr auto BGSecond = (ConsoleGame::Color)1;
-constexpr auto TriColor = (ConsoleGame::Color)0;
+constexpr auto BGPrimary = (char)2;
+constexpr auto BGSecond = (char)1;
+constexpr auto TriColor = (char)0;
 const auto* maps = &R.String.Map.Forest;
 constexpr int previewWidth = 176;
 
@@ -119,29 +119,35 @@ void MapSelect::Init(const std::any& args)
     mapL = ArrowButton(
         SurfaceArgs{
             .pos = {20, arrowPosY},
-            .cornerSize = uint8_t(Font::GetDim(1).height / 2 - 1),
+            .cornerSize = uint8_t(ConsoleGame::Font::GetDim(1).height / 2 - 1),
             .hasBorder = true,
-            .background = (Color)14,
-            .border = (Color)13},
+            .background = (char)14,
+            .border = (char)13
+        },
         false
     );
     mapR = ArrowButton(
         SurfaceArgs{
             .pos =
-                {15 + previewWidth - 5 - Font::GetDim(1).height / 2, arrowPosY},
-            .cornerSize = uint8_t(Font::GetDim(1).height / 2 - 1),
+                {15 + previewWidth - 5 -
+                     ConsoleGame::Font::GetDim(1).height / 2,
+                 arrowPosY},
+            .cornerSize = uint8_t(ConsoleGame::Font::GetDim(1).height / 2 - 1),
             .hasBorder = true,
-            .background = (Color)14,
-            .border = (Color)13},
+            .background = (char)14,
+            .border = (char)13
+        },
         true
     );
     debuffSurface.props = {
-        .size = {previewWidth - 1, Font::GetDim(0).height * 2 + 15},
+        .size =
+            {previewWidth - 1, ConsoleGame::Font::GetDim(0).height * 2 + 15},
         .pos = {15, 170},
         .hasBorder = true,
-        .border = (Color)14};
+        .border = (char)14
+    };
     mapTitleButton = Button(
-        {.size = {previewWidth, 20}, .pos = {15, 150}, .background = (Color)14},
+        {.size = {previewWidth, 20}, .pos = {15, 150}, .background = (char)14},
         R.String.MapSelect.Title,
         BGPrimary,
         1,
@@ -278,28 +284,28 @@ void MapSelect::Draw(AbstractCanvas* canvas) const
     GameUtils::DrawBLTriangle(canvas, 70, TriColor);
     GameUtils::DrawTRTriangle(canvas, 70, TriColor);
 
-    Font::DrawString(
+    ConsoleGame::Font::DrawString(
         canvas,
         R.String.MapSelect.Title,
-        {(_CanvasSize.width -
-          int(R.String.MapSelect.Title.size()) * Font::GetDim(1).width) /
+        {(_CanvasSize.width - int(R.String.MapSelect.Title.size()) *
+                                  ConsoleGame::Font::GetDim(1).width) /
              2,
          15},
         1,
         1,
-        (Color)14
+        (char)14
     );
 
     preview.Draw(canvas, {15, 40});
     debuff.Draw(canvas, {20, 45});
     debuffSurface.Draw(canvas);
-    Font::DrawStringInBox(
+    ConsoleGame::Font::DrawStringInBox(
         canvas,
         maps[userOpt.map].Debuff,
         {{20, 175}, {previewWidth - 10, 100}},
         1,
         0,
-        (Color)14
+        (char)14
     );
 
     mapTitleButton.Draw(canvas);
@@ -325,7 +331,7 @@ void MapSelect::Draw(AbstractCanvas* canvas) const
             break;
     }
 
-    Font::DrawString(canvas, HighScore, {15, 30}, 1, 0, (Color)14);
+    ConsoleGame::Font::DrawString(canvas, HighScore, {15, 30}, 1, 0, (char)14);
 }
 
-void MapSelect::Unmount() {  }
+void MapSelect::Unmount() {}

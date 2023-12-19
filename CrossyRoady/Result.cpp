@@ -10,9 +10,9 @@ using namespace ConsoleGame;
 using namespace GameType;
 using namespace GameUtils;
 
-constexpr Color Black = Color(13);
-constexpr Color White = Color(14);
-constexpr Color Gray = Color(15);
+constexpr char Black = char(13);
+constexpr char White = char(14);
+constexpr char Gray = char(15);
 
 const std::wstring_view Result::ScreenName() { return L"Result"; }
 
@@ -43,7 +43,8 @@ void Result::Init(const std::any& args)
         .cornerSize = 5,
         .hasBorder = true,
         .background = White,
-        .border = Black};
+        .border = Black
+    };
 
     constexpr size_t strLen = 27;
     std::string_view left[] = {
@@ -53,7 +54,8 @@ void Result::Init(const std::any& args)
         R.String.Result.MobCollided,
         R.String.Result.SkillUse,
         R.String.Result.ItemPick,
-        R.String.Result.DiffReached};
+        R.String.Result.DiffReached
+    };
 
     std::string tmp[] = {"Auto", "Easy", "Normal", "Hard"};
     std::string right[] = {
@@ -124,20 +126,26 @@ void Result::DrawStat(ConsoleGame::AbstractCanvas* canvas) const
 {
     surfaceStat.Draw(canvas);
 
-    Font::DrawString(canvas, R.String.Result.Title, {112, 20}, 1, 1, Black);
+    ConsoleGame::Font::DrawString(
+        canvas, R.String.Result.Title, {112, 20}, 1, 1, Black
+    );
     Vec2 tmp = {112, 50};
     for (int i = 0; i < data.size(); i++) {
-        Font::DrawString(canvas, data[i], tmp, 1, 0, Black);
-        tmp.y += Font::GetDim(0).height + 3;
+        ConsoleGame::Font::DrawString(canvas, data[i], tmp, 1, 0, Black);
+        tmp.y += ConsoleGame::Font::GetDim(0).height + 3;
     }
     if (levelUp) {
-        Font::DrawString(canvas, R.String.Result.LevelUp, tmp, 1, 1, Black);
-        tmp.y += Font::GetDim(1).height + 3;
+        ConsoleGame::Font::DrawString(
+            canvas, R.String.Result.LevelUp, tmp, 1, 1, Black
+        );
+        tmp.y += ConsoleGame::Font::GetDim(1).height + 3;
     }
 
     if (mapUnlock) {
-        Font::DrawString(canvas, R.String.Result.MapUnlock, tmp, 1, 1, Black);
-        tmp.y += Font::GetDim(1).height + 3;
+        ConsoleGame::Font::DrawString(
+            canvas, R.String.Result.MapUnlock, tmp, 1, 1, Black
+        );
+        tmp.y += ConsoleGame::Font::GetDim(1).height + 3;
     }
 }
 

@@ -20,9 +20,10 @@ namespace ConsoleGame {
           ),
           windowName(winName)
     {
-        InitWindow(_CanvasSize.width, _CanvasSize.height, winName.data());
+        InitWindow(
+            _CanvasSize.width * 3, _CanvasSize.height * 3, winName.data()
+        );
         InitAudioDevice();
-        SetTargetFPS(fps);
     }
 
     void Game::Run(std::wstring_view screenName)

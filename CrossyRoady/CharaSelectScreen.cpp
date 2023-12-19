@@ -7,15 +7,12 @@
 #include "StringRes.h"
 
 using namespace ConsoleGame;
-constexpr auto BGPrimary = (ConsoleGame::Color)12;
-constexpr auto BGSecond = (ConsoleGame::Color)11;
+constexpr auto BGPrimary = (char)12;
+constexpr auto BGSecond = (char)11;
 const auto* charStuff = (CharStuff*)&R.String.Character;
 const auto* charStat = (CharStat*)&R.CharsStat;
 
-const std::wstring_view CharacterSelect::ScreenName()
-{
-    return L"CharSelect";
-}
+const std::wstring_view CharacterSelect::ScreenName() { return L"CharSelect"; }
 
 std::wstring_view CharacterSelect::getName() { return ScreenName(); }
 
@@ -23,23 +20,27 @@ void CharacterSelect::Init(const std::any& args)
 {
     constexpr auto panelWidth = 100;
     surfaces[0].props = {
-        .size = {panelWidth, 30}, .pos = {15, 30}, .background = (Color)14};
+        .size = {panelWidth, 30}, .pos = {15, 30}, .background = 14
+    };
     surfaces[1].props = {
         .size = {panelWidth - 1, 160 - 2},
         .pos = {15, 50},
         .hasBorder = true,
         .background = BGSecond,
-        .border = (Color)14};
+        .border = 14
+    };
     surfaces[2].props = {
         .size = {panelWidth, 30},
         .pos = {_CanvasSize.width - 15 - panelWidth, 30},
-        .background = (Color)14};
+        .background = 14
+    };
     surfaces[3].props = {
         .size = {panelWidth - 1, 160 - 2},
         .pos = {_CanvasSize.width - 15 - panelWidth, 50},
         .hasBorder = true,
         .background = BGSecond,
-        .border = (Color)14};
+        .border = 14
+    };
     backButton = ArrowButton({.pos = {15, 5}, .cornerSize = 8}, false);
 }
 
@@ -96,10 +97,7 @@ void CharacterSelect::LoadRes(bool fresh)
 
 void CharacterSelect::Mount(const std::any& args) { LoadRes(true); }
 
-AbstractScreen* CharacterSelect::Clone() const
-{
-    return new CharacterSelect;
-}
+AbstractScreen* CharacterSelect::Clone() const { return new CharacterSelect; }
 
 AbstractNavigation::NavigationRes CharacterSelect::Update(
     float deltaTime, const AbstractNavigation* navigation
@@ -183,13 +181,13 @@ AbstractNavigation::NavigationRes CharacterSelect::Update(
             backButtLastHover = true;
             audio.PlayHoverSfx();
         }
-        backButton.ChangeColor(BGPrimary, (Color)14);
+        backButton.ChangeColor(BGPrimary, 14);
         if (backButton.IsHover(GetMousePos()) and UiIsKeyMeanClick()) {
             return navigation->PopBackTo(MainMenu::ScreenName());
         }
     } else {
         backButtLastHover = false;
-        backButton.ChangeColor((Color)14, (Color)14);
+        backButton.ChangeColor(14, 14);
     }
     return navigation->NoChange();
 }
@@ -201,8 +199,10 @@ void CharacterSelect::Draw(AbstractCanvas* canvas) const
     GameUtils::DrawTRTriangle(canvas, 70);
     auto& title = R.String.CharSelect.Title;
     static int titlePos =
-        (_CanvasSize.width - title.length() * Font::GetDim(1).width) / 2;
-    Font::DrawString(canvas, title, {titlePos, 5}, 1, 1, (Color)14);
+        (_CanvasSize.width - title.length() * ConsoleGame::Font::GetDim(1).width
+        ) /
+        2;
+    ConsoleGame::Font::DrawString(canvas, title, {titlePos, 5}, 1, 1, 14);
     for (const auto& surface : surfaces) {
         surface.Draw(canvas);
     }
@@ -212,7 +212,7 @@ void CharacterSelect::Draw(AbstractCanvas* canvas) const
         charAvaMenu[i].Draw(canvas, charAvaPos[i]);
     }
     backButton.Draw(canvas);
-    // Font::DrawString(canvas, R.String.Back, {25, 7}, 1, 0, (Color)14);
+    // ConsoleGame::Font::DrawString(canvas, R.String.Back, {25, 7}, 1, 0, 14);
 }
 
 void CharacterSelect::Unmount()
@@ -227,9 +227,9 @@ void CharacterSelect::Unmount()
 
 void CharacterSelect::DrawLeftPanel(AbstractCanvas* canvas) const
 {
-    const auto fontDim0 = Font::GetDim(0);
-    const auto fontDim1 = Font::GetDim(1);
-    Font::DrawString(
+    const auto fontDim0 = ConsoleGame::Font::GetDim(0);
+    const auto fontDim1 = ConsoleGame::Font::GetDim(1);
+    ConsoleGame::Font::DrawString(
         canvas,
         charName,
         {surfaces[0].props.pos.x + (surfaces[0].props.size.width -
@@ -251,40 +251,42 @@ void CharacterSelect::DrawLeftPanel(AbstractCanvas* canvas) const
 
     auto heartRowPos = Vec2{
         surfaces[1].props.pos.x + 10,
-        surfaces[1].props.pos.y + surfaces[1].props.size.height * 2 / 3};
+        surfaces[1].props.pos.y + surfaces[1].props.size.height * 2 / 3
+    };
     heartIcon.Draw(canvas, heartRowPos);
     heartRowPos.x += 25;
     heartRowPos.y += (heartIcon.GetDim().height - fontDim0.height) / 2;
-    Font::DrawString(
-        canvas, R.String.CharSelect.Health, heartRowPos, 1, 0, (Color)14
+    ConsoleGame::Font::DrawString(
+        canvas, R.String.CharSelect.Health, heartRowPos, 1, 0, 14
     );
     heartRowPos.x += R.String.CharSelect.Health.length() * fontDim0.width;
-    Font::DrawString(canvas, healthStr, heartRowPos, 1, 0, (Color)14);
+    ConsoleGame::Font::DrawString(canvas, healthStr, heartRowPos, 1, 0, 14);
 
     for (int i = surfaces[1].props.pos.x + 20;
          i < surfaces[1].props.pos.x + surfaces[1].props.size.width - 20;
          i++) {
-        (*canvas)[heartRowPos.y + 16][i] = (Color)14;
+        (*canvas)[heartRowPos.y + 16][i] = 14;
     }
 
     auto speedRowPos = Vec2{
         surfaces[1].props.pos.x + 10,
-        surfaces[1].props.pos.y + surfaces[1].props.size.height * 2 / 3 + 25};
+        surfaces[1].props.pos.y + surfaces[1].props.size.height * 2 / 3 + 25
+    };
     speedIcon.Draw(canvas, speedRowPos);
     speedRowPos.x += 25;
     speedRowPos.y += (speedIcon.GetDim().height - fontDim0.height) / 2;
-    Font::DrawString(
-        canvas, R.String.CharSelect.Speed, speedRowPos, 1, 0, (Color)14
+    ConsoleGame::Font::DrawString(
+        canvas, R.String.CharSelect.Speed, speedRowPos, 1, 0, 14
     );
     speedRowPos.x += R.String.CharSelect.Speed.length() * fontDim0.width;
-    Font::DrawString(canvas, speedStr, speedRowPos, 1, 0, (Color)14);
+    ConsoleGame::Font::DrawString(canvas, speedStr, speedRowPos, 1, 0, 14);
 }
 
 void CharacterSelect::DrawRightPanel(AbstractCanvas* canvas) const
 {
-    const auto fontDim0 = Font::GetDim(0);
-    const auto fontDim1 = Font::GetDim(1);
-    Font::DrawString(
+    const auto fontDim0 = ConsoleGame::Font::GetDim(0);
+    const auto fontDim1 = ConsoleGame::Font::GetDim(1);
+    ConsoleGame::Font::DrawString(
         canvas,
         R.String.CharSelect.Skill,
         {surfaces[2].props.pos.x +
@@ -304,13 +306,13 @@ void CharacterSelect::DrawRightPanel(AbstractCanvas* canvas) const
              (surfaces[3].props.size.width - tmp.width) / 2,
          surfaces[3].props.pos.y + 20}
     );
-    Font::DrawStringInBox(
+    ConsoleGame::Font::DrawStringInBox(
         canvas,
         charStuff[selected].Skill,
         {{surfaces[3].props.pos.x + 10, surfaces[3].props.pos.y + 60},
          {surfaces[3].props.size.width - 20, surfaces[3].props.size.height}},
         1,
         0,
-        (Color)14
+        14
     );
 }

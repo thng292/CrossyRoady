@@ -6,8 +6,8 @@
 
 using namespace ConsoleGame;
 
-constexpr Color bgColor = Color(0);
-constexpr Color fontColor = Color(1);
+constexpr char bgColor = char(0);
+constexpr char fontColor = char(1);
 constexpr int XCoord = 140;
 
 const std::string_view basePath = RESOURCE_PATH EXTRA_PATH;
@@ -25,7 +25,8 @@ void CharactersInfo::LoadStuff()
     portrait.Load(spritePath);
     auto tmp = portrait.GetDim();
     portraitPos = {
-        (XCoord - tmp.width) / 2, (_CanvasSize.height - tmp.height) / 2};
+        (XCoord - tmp.width) / 2, (_CanvasSize.height - tmp.height) / 2
+    };
 }
 
 CharactersInfo::CharactersInfo()
@@ -54,9 +55,9 @@ std::wstring_view CharactersInfo::getName() { return ScreenName(); }
 
 void CharactersInfo::Init(const std::any& args)
 {
-    menu.primaryColor = (Color)1;
-    menu.secondaryColor = (Color)2;
-    menu.tertiaryColor = (Color)0;
+    menu.primaryColor = (char)1;
+    menu.secondaryColor = (char)2;
+    menu.tertiaryColor = (char)0;
     menu.Init({295, 175}, {80, 18}, {R.String.CharInfo.Upgrade, R.String.Back});
     charStuff = (CharStuff*)&R.String.Character;
     UpgradePointStr = std::format(
@@ -74,8 +75,8 @@ AbstractNavigation::NavigationRes CharactersInfo::Update(
 {
     bool trigger = 0;
     auto res = navigation->NoChange();
-    leftArr.ChangeColor(Color::C_TRANSPARENT, fontColor);
-    rightArr.ChangeColor(Color::C_TRANSPARENT, fontColor);
+    leftArr.ChangeColor(C_TRANSPARENT, fontColor);
+    rightArr.ChangeColor(C_TRANSPARENT, fontColor);
     if (currentSelect != 0) {
         leftArr.Update(
             deltaTime,
@@ -113,7 +114,8 @@ AbstractNavigation::NavigationRes CharactersInfo::Update(
             audio.PlayClickSfx();
             switch (selection) {
                 case 0:
-                    if (R.Config.UpgradePoint > 0 and R.Config.GetCharUpgradeStatus(currentSelect) == 0) {
+                    if (R.Config.UpgradePoint > 0 and
+                        R.Config.GetCharUpgradeStatus(currentSelect) == 0) {
                         R.Config.SetCharUpgradeStatus(currentSelect);
                         R.Config.UpgradePoint--;
                         UpgradePointStr = std::format(
@@ -146,7 +148,7 @@ void CharactersInfo::Draw(AbstractCanvas* canvas) const
     if (redraw) {
         canvas->Clear(bgColor);
         portrait.Draw(canvas, portraitPos);
-        Font::DrawString(
+        ConsoleGame::Font::DrawString(
             canvas,
             charStuff[currentSelect].Name,
             {XCoord - 12, 10},
@@ -154,7 +156,7 @@ void CharactersInfo::Draw(AbstractCanvas* canvas) const
             1,
             fontColor
         );
-        Font::DrawStringInBox(
+        ConsoleGame::Font::DrawStringInBox(
             canvas,
             charStuff[currentSelect].Desc,
             {{XCoord, 50}, {_CanvasSize.width - XCoord - 20, 100}},
@@ -162,13 +164,13 @@ void CharactersInfo::Draw(AbstractCanvas* canvas) const
             0,
             fontColor
         );
-        Font::DrawString(
+        ConsoleGame::Font::DrawString(
             canvas, R.String.CharInfo.Skill, {XCoord, 110}, 1, 0, fontColor
         );
-        Font::DrawStringInBox(
+        ConsoleGame::Font::DrawStringInBox(
             canvas,
             charStuff[currentSelect].Skill,
-            {{XCoord, 110 + Font::GetDim(0).height + 5},
+            {{XCoord, 110 + ConsoleGame::Font::GetDim(0).height + 5},
              {_CanvasSize.width - XCoord - 20, 30}},
             1,
             0,
@@ -180,13 +182,17 @@ void CharactersInfo::Draw(AbstractCanvas* canvas) const
         } else {
             statusString += R.String.CharInfo.UpgradeAvail;
         }
-        Font::DrawString(canvas, statusString, {XCoord, 155}, 1, 0, fontColor);
+        ConsoleGame::Font::DrawString(
+            canvas, statusString, {XCoord, 155}, 1, 0, fontColor
+        );
     }
-    Font::DrawString(canvas, UpgradePointStr, {10, 10}, 1, 0, fontColor);
+    ConsoleGame::Font::DrawString(
+        canvas, UpgradePointStr, {10, 10}, 1, 0, fontColor
+    );
     if (R.Config.UpgradePoint == 0 &&
         R.Config.GetCharUpgradeStatus(currentSelect) == 0) {
         if (menu.hover == 0) {
-            Font::DrawString(
+            ConsoleGame::Font::DrawString(
                 canvas,
                 R.String.CharInfo.NoSkillPoint,
                 {140, 180},
@@ -195,7 +201,7 @@ void CharactersInfo::Draw(AbstractCanvas* canvas) const
                 fontColor
             );
         } else {
-            Font::DrawString(
+            ConsoleGame::Font::DrawString(
                 canvas,
                 R.String.CharInfo.NoSkillPoint,
                 {140, 180},

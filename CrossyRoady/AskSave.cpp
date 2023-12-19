@@ -32,8 +32,8 @@ void AskSave::DrawStat(AbstractCanvas* canvas) const
 {
     Vec2 tmp = {112, 45};
     for (int i = 0; i < data.size(); i++) {
-        Font::DrawString(canvas, data[i], tmp, 1, 0, Color(13));
-        tmp.y += Font::GetDim(0).height + 3;
+        ConsoleGame::Font::DrawString(canvas, data[i], tmp, 1, 0, (13));
+        tmp.y += ConsoleGame::Font::GetDim(0).height + 3;
     }
 }
 
@@ -52,7 +52,7 @@ void AskSave::Init(const std::any& args)
         {100, 18},
         {R.String.Yes, R.String.No, R.String.Back}
     );
-    Vec2 dim = Font::GetDim(0);
+    Vec2 dim = ConsoleGame::Font::GetDim(0);
     auto strWidth = dim.width * R.String.AskSave.Continue.length();
     drawPos = {(384 - (int)strWidth) / 2, 20};
     surface = Surface(
@@ -60,8 +60,8 @@ void AskSave::Init(const std::any& args)
          .pos = {drawPos.x - 5, drawPos.y - 8},
          .cornerSize = 7,
          .hasBorder = true,
-         .background = (Color)14,
-         .border = ((Color)13)}
+         .background = 14,
+         .border = (13)}
     );
 
     surfaceData.props = {
@@ -69,8 +69,9 @@ void AskSave::Init(const std::any& args)
         .pos = {102, 40},
         .cornerSize = 5,
         .hasBorder = true,
-        .background = Color(14),
-        .border = Color(13)};
+        .background = (14),
+        .border = (13)
+    };
 
     constexpr size_t strLen = 27;
     std::string_view left[] = {
@@ -79,23 +80,25 @@ void AskSave::Init(const std::any& args)
         R.String.AskSave.Score,
         R.String.AskSave.Character,
         R.String.AskSave.Map,
-        R.String.AskSave.Difficulty};
+        R.String.AskSave.Difficulty
+    };
 
     char formattedTime[9];
-    std::tm localTime;
-    localtime_s(&localTime, &currentTime);
-    std::strftime(formattedTime, sizeof(formattedTime), "%d/%m/%y", &localTime);
+    std::tm* localTime = localtime(&currentTime);
+    std::strftime(formattedTime, sizeof(formattedTime), "%d/%m/%y", localTime);
     std::string tmp[] = {"Auto", "Easy", "Normal", "Hard"};
     std::string tmp1[] = {"Fauna", "Irys", "Mumei", "Kronii", "Sana", "Bae"};
     std::string tmp2[] = {
-        "Forest", "City", "House", "Desert", "Space", "Casino"};
+        "Forest", "City", "House", "Desert", "Space", "Casino"
+    };
     std::string right[] = {
         formattedTime,
         SecondsToMMSS(saveData.gameEventArgs.playTime),
         std::to_string(saveData.gameEventArgs.currentScore),
         tmp1[saveData.gameData.charaType],
         tmp2[saveData.gameData.mapType],
-        tmp[saveData.gameData.mapDifficulty]};
+        tmp[saveData.gameData.mapDifficulty]
+    };
 
     std::string spacePad = "";
     for (int i = 0; i < data.size(); i++) {
@@ -124,9 +127,7 @@ AbstractNavigation::NavigationRes AskSave::Update(
                     nav = navigation->Navigate(GameMap::ScreenName(), true);
                     break;
                 case 1:
-                    nav =
-                        navigation->Navigate(CharacterSelect::ScreenName()
-                        );
+                    nav = navigation->Navigate(CharacterSelect::ScreenName());
                     break;
                 case 2:
                     nav = navigation->Back();
@@ -145,8 +146,8 @@ void AskSave::Draw(AbstractCanvas* canvas) const
     surface.Draw(canvas);
     surfaceData.Draw(canvas);
     DrawStat(canvas);
-    Font::DrawString(
-        canvas, R.String.AskSave.Continue, drawPos, 1, 0, Color(13)
+    ConsoleGame::Font::DrawString(
+        canvas, R.String.AskSave.Continue, drawPos, 1, 0, (13)
     );
     menu.Draw(canvas);
 }

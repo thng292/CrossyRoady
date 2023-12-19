@@ -148,7 +148,7 @@ void MenuBG::Update(float deltaTime)
 
 void MenuBG::Draw(ConsoleGame::AbstractCanvas* canvas) const
 {
-    canvas->Clear((Color)6);
+    canvas->Clear((char)6);
     DrawFlat(canvas);
     DrawEntity(canvas);
 }

@@ -6,9 +6,9 @@
 class ArrowButton : public Surface {
     bool direction;
     bool lastHover = false;
-    ConsoleGame::Color primaryColor = (ConsoleGame::Color)13;
-    ConsoleGame::Color secondaryColor = (ConsoleGame::Color)15;
-    ConsoleGame::Color tertiaryColor = (ConsoleGame::Color)14;
+    char primaryColor = (char)13;
+    char secondaryColor = (char)15;
+    char tertiaryColor = (char)14;
 
    public:
     ArrowButton() = default;
@@ -19,9 +19,7 @@ class ArrowButton : public Surface {
 
     void Mount() {}
 
-    void ChangeColor(
-        ConsoleGame::Color backgroundColor, ConsoleGame::Color borderColor
-    );
+    void ChangeColor(char backgroundColor, char borderColor);
 
     void Update(float deltaTime, auto onHover, auto onClick)
     {

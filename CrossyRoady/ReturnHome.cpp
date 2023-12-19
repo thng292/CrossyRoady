@@ -14,10 +14,10 @@ void ReturnHome::Init(const std::any& args)
          .pos = {117, 30},
          .cornerSize = 5,
          .hasBorder = true,
-         .background = (Color)14,
-         .border = (Color)13},
+         .background = (char)14,
+         .border = (char)13},
         R.String.Pause.SaveGame,
-        (Color)13,
+        (char)13,
         1
     );
 }

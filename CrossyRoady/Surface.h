@@ -7,8 +7,8 @@ struct SurfaceArgs {
     ConsoleGame::Vec2 pos = {0, 0};
     uint8_t cornerSize = 0;
     bool hasBorder = false;
-    ConsoleGame::Color background = ConsoleGame::Color::C_TRANSPARENT;
-    ConsoleGame::Color border = ConsoleGame::Color::C_TRANSPARENT;
+    char background = ConsoleGame::C_TRANSPARENT;
+    char border = ConsoleGame::C_TRANSPARENT;
 };
 
 class Surface {

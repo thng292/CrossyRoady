@@ -21,10 +21,10 @@ void HowToPlay::Init(const std::any& args)
          .pos = {(384 - 250) / 2, 10},
          .cornerSize = 7,
          .hasBorder = true,
-         .background = (Color)14,
-         .border = ((Color)13)},
+         .background = (char)14,
+         .border = ((char)13)},
         R.String.HowToPlay.Title,
-        ((Color)13),
+        ((char)13),
         1,
         1
     );
@@ -33,8 +33,8 @@ void HowToPlay::Init(const std::any& args)
          .pos = {125, 45},
          .cornerSize = 7,
          .hasBorder = true,
-         .background = (Color)14,
-         .border = ((Color)13)}
+         .background = (char)14,
+         .border = ((char)13)}
     );
     menu.Init(
         {10, 80},
@@ -43,7 +43,8 @@ void HowToPlay::Init(const std::any& args)
             R.String.HowToPlay.Control,
             R.String.HowToPlay.Exp,
             R.String.HowToPlay.Upgrade,
-            R.String.Back}
+            R.String.Back
+        }
     );
 
     subScreen[0] = std::make_unique<Control>();

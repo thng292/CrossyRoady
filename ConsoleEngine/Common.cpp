@@ -125,7 +125,8 @@ namespace ConsoleGame {
 
     auto GetDisplayRefreshRate() -> int
     {
-        return GetMonitorRefreshRate(GetCurrentMonitor());
+        auto res = GetMonitorRefreshRate(GetCurrentMonitor());
+        return res != 0 ? res : 60;
     }
 
 }  // namespace ConsoleGame

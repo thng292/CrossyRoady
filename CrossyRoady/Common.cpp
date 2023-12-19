@@ -11,7 +11,7 @@ std::string SecondsToHMStr(std::chrono::seconds time)
     return std::format("{}h{}", hour, min);
 }
 
-void DrawRhombus(AbstractCanvas* canvas, Vec2 center, uint8_t R, Color color)
+void DrawRhombus(AbstractCanvas* canvas, Vec2 center, uint8_t R, char color)
 {
     int y = center.y;
     int ny = center.y;

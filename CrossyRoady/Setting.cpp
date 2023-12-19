@@ -49,10 +49,10 @@ void Setting::Init(const std::any& args)
          .pos = {startPos.x, 30},
          .cornerSize = 5,
          .hasBorder = true,
-         .background = (Color)14,
-         .border = (Color)13},
+         .background = (char)14,
+         .border = (char)13},
         R.String.Setting.Title,
-        (Color)13,
+        (char)13,
         1
     );
     menu.Init(
@@ -63,7 +63,8 @@ void Setting::Init(const std::any& args)
             SfxTitle,
             R.String.HowToPlay.Title,
             R.String.Credit.Title,
-            R.String.Back}
+            R.String.Back
+        }
     );
 }
 

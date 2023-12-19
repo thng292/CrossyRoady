@@ -12,9 +12,9 @@ class Menu {
     uint8_t lastHover = 0;
 
    public:
-    ConsoleGame::Color primaryColor = (ConsoleGame::Color)13;
-    ConsoleGame::Color secondaryColor = (ConsoleGame::Color)15;
-    ConsoleGame::Color tertiaryColor = (ConsoleGame::Color)14;
+    char primaryColor = (char)13;
+    char secondaryColor = (char)15;
+    char tertiaryColor = (char)14;
     uint8_t hover = 0;
     std::array<Button, N> buttons;
 
@@ -27,14 +27,12 @@ class Menu {
         for (int i = 0, tmp = startPos.y; i < buttons.size();
              i++, tmp += buttonSize.height + gap) {
             buttons[i] = Button(
-                {
-                    .size = buttonSize,
-                    .pos = {startPos.x, tmp},
-                    .cornerSize = 5,
-                    .hasBorder = true,
-                    .background = tertiaryColor,
-                    .border = primaryColor
-            },
+                {.size = buttonSize,
+                 .pos = {startPos.x, tmp},
+                 .cornerSize = 5,
+                 .hasBorder = true,
+                 .background = tertiaryColor,
+                 .border = primaryColor},
                 buttonLabels[i],
                 primaryColor,
                 0
@@ -74,15 +72,11 @@ class Menu {
         for (int i = 0; i < buttons.size(); i++) {
             if (hover == i) {
                 buttons[i].ChangeColor(
-                    tertiaryColor,
-                    secondaryColor,
-                    primaryColor
+                    tertiaryColor, secondaryColor, primaryColor
                 );
             } else {
                 buttons[i].ChangeColor(
-                    primaryColor,
-                    tertiaryColor,
-                    primaryColor
+                    primaryColor, tertiaryColor, primaryColor
                 );
             }
         }

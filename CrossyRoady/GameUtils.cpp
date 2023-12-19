@@ -1,7 +1,14 @@
 #include "GameUtils.h"
 
+#include "raylib.h"
+
 using namespace GameType;
 using namespace ConsoleGame;
+
+bool operator==(const Color& a, const Color& b)
+{
+    return a.r == b.r && a.g == b.g && a.b == b.b && a.a == b.a;
+}
 
 void GameUtils::LoadMobSprite(
     MapType mapType, MobType mobType, MobSprite& mobSprite
@@ -69,7 +76,7 @@ void GameUtils::LoadHeartSprite(
     ));
 }
 
-void GameUtils::DrawHitbox(AbstractCanvas* canvas, Box hitbox, Color color)
+void GameUtils::DrawHitbox(AbstractCanvas* canvas, Box hitbox, char color)
 {
     int width = hitbox.dim.width;
     int height = hitbox.dim.height;
@@ -99,7 +106,7 @@ void GameUtils::DrawHitbox(AbstractCanvas* canvas, Box hitbox, Color color)
 }
 
 void GameUtils::DrawTRTriangle(
-    ConsoleGame::AbstractCanvas* canvas, uint16_t length, Color color
+    ConsoleGame::AbstractCanvas* canvas, uint16_t length, char color
 )
 {
     auto startX = _CONSOLE_WIDTH_ - length;
@@ -115,7 +122,7 @@ void GameUtils::DrawTRTriangle(
 }
 
 void GameUtils::DrawBLTriangle(
-    ConsoleGame::AbstractCanvas* canvas, uint16_t length, Color color
+    ConsoleGame::AbstractCanvas* canvas, uint16_t length, char color
 )
 {
     auto startX = 0;

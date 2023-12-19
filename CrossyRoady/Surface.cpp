@@ -9,7 +9,8 @@ bool Surface::IsHover(ConsoleGame::Vec2 mousePos) const
     int x = mousePos.x - props.pos.x;
     int y = mousePos.y - props.pos.y;
 
-    bool tmp1 = y >= props.size.height - props.cornerSize && x >= props.size.width - props.cornerSize + y;
+    bool tmp1 = y >= props.size.height - props.cornerSize &&
+                x >= props.size.width - props.cornerSize + y;
     bool tmp2 = y <= props.cornerSize && x <= props.cornerSize - y;
 
     return x >= 0 && y >= 0 && x <= props.size.width &&
@@ -20,7 +21,7 @@ void Surface::Draw(ConsoleGame::AbstractCanvas* canvas) const
 {
     int offStart = props.cornerSize;
     int offEnd = 0;
-    if (props.background != Color::C_TRANSPARENT) {
+    if (props.background != C_TRANSPARENT) {
         for (int i = props.pos.y; i < props.pos.y + props.size.height; i++) {
             int startX = props.pos.x + offStart;
             if (offStart > 0 && i < props.pos.y + props.cornerSize) {
@@ -36,7 +37,7 @@ void Surface::Draw(ConsoleGame::AbstractCanvas* canvas) const
         }
     }
     // Draw border
-    if (props.hasBorder && props.border != Color::C_TRANSPARENT) {
+    if (props.hasBorder && props.border != C_TRANSPARENT) {
         // Top
         for (int i = props.pos.x + props.cornerSize;
              i < props.pos.x + props.size.width;

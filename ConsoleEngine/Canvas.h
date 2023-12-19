@@ -8,7 +8,6 @@ namespace ConsoleGame {
     extern ColorPalette_t currentColorPallete;
 
     class Canvas final : public AbstractCanvas {
-        Image toScreen;
         std::vector<char> canvasBuffer;
 
        public:

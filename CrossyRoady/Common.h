@@ -14,5 +14,5 @@ void DrawRhombus(
     ConsoleGame::AbstractCanvas* canvas,
     ConsoleGame::Vec2 center,
     uint8_t R,
-    ConsoleGame::Color color
+    char color
 );

@@ -5,7 +5,7 @@
 
 class Button : public Surface {
     std::string_view text;
-    ConsoleGame::Color textColor;
+    char textColor;
     ConsoleGame::Vec2 textPos;
     uint8_t fontVariant;
     uint8_t fontSize;
@@ -17,18 +17,14 @@ class Button : public Surface {
     Button(
         SurfaceArgs surfaceArgs,
         const std::string_view text,
-        ConsoleGame::Color textColor,
+        char textColor,
         uint8_t fontVariant = 0,
         uint8_t fontSize = 1
     );
 
-    void ChangeTextColor(ConsoleGame::Color textColor);
+    void ChangeTextColor(char textColor);
     bool IsHover(ConsoleGame::Vec2 mousePos) const;
-    void ChangeColor(
-        ConsoleGame::Color textColor,
-        ConsoleGame::Color backgroundColor,
-        ConsoleGame::Color borderColor
-    );
+    void ChangeColor(char textColor, char backgroundColor, char borderColor);
     void ChangeText(const std::string_view text);
     void Draw(ConsoleGame::AbstractCanvas* canvas) const;
 };
