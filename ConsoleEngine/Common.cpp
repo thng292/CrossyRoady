@@ -55,7 +55,7 @@ namespace ConsoleGame {
     {
         return (
             (IsKeyDown('W') or IsKeyDown(KEY_UP) or
-             IsKeyDown(GAMEPAD_BUTTON_LEFT_FACE_UP))
+             IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_UP))
         );
     }
 
@@ -63,7 +63,7 @@ namespace ConsoleGame {
     {
         return (
             (IsKeyDown('S') or IsKeyDown(KEY_DOWN) or
-             IsKeyDown(GAMEPAD_BUTTON_LEFT_FACE_DOWN))
+             IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_DOWN))
         );
     }
 
@@ -71,7 +71,7 @@ namespace ConsoleGame {
     {
         return (
             (IsKeyDown('A') or IsKeyDown(KEY_LEFT) or
-             IsKeyDown(GAMEPAD_BUTTON_LEFT_FACE_LEFT))
+             IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_LEFT))
         );
     }
 
@@ -79,7 +79,7 @@ namespace ConsoleGame {
     {
         return (
             (IsKeyDown('D') or IsKeyDown(KEY_RIGHT) or
-             IsKeyDown(GAMEPAD_BUTTON_LEFT_FACE_RIGHT))
+             IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_RIGHT))
         );
     }
 
@@ -87,19 +87,23 @@ namespace ConsoleGame {
     {
         return (
             (IsKeyDown(KEY_ENTER) or IsKeyDown('F') or
-             IsKeyDown(GAMEPAD_BUTTON_RIGHT_FACE_DOWN))
+             IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN))
         );
     }
 
     bool IsKeyMeanBack()
     {
-        return (IsKeyDown('B') or IsKeyDown(GAMEPAD_BUTTON_RIGHT_FACE_LEFT));
+        return (
+            IsKeyDown('B') or
+            IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_LEFT)
+        );
     }
 
     bool IsKeyMeanEscape()
     {
         return (
-            IsKeyDown(KEY_ESCAPE) or IsKeyDown(GAMEPAD_BUTTON_MIDDLE_RIGHT)
+            IsKeyDown(KEY_ESCAPE) or
+            IsGamepadButtonDown(0, GAMEPAD_BUTTON_MIDDLE_RIGHT)
         );
     }
 
