@@ -2,6 +2,7 @@
 
 #include "Abstract/AbstractCanvas.h"
 #include "Common.h"
+#include "raylib.h"
 
 namespace ConsoleGame {
 
@@ -9,6 +10,9 @@ namespace ConsoleGame {
 
     class Canvas final : public AbstractCanvas {
         std::vector<char> canvasBuffer;
+        std::vector<Color> textureBuffer;
+        Image image;
+        Texture2D texture;
 
        public:
         // Inherited via AbstractCanvas

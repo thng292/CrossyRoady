@@ -23,26 +23,40 @@ namespace ConsoleGame {
     void Canvas::Init()
     {
         canvasBuffer.resize(_CanvasSize.width * _CanvasSize.height);
+        textureBuffer.resize(_CanvasSize.width * _CanvasSize.height);
+        image = { 0 };
+        image.data = textureBuffer.data();
+        image.width = _CanvasSize.width;
+        image.height = _CanvasSize.height;
+        image.mipmaps = 1;
+        image.format = PIXELFORMAT_UNCOMPRESSED_R8G8B8A8; // Most common format for Color arrays
+
+        // Load the initial texture
+        texture = LoadTextureFromImage(image);
+
     }
 
     void Canvas::DrawToScreen()
     {
-        BeginDrawing();
         for (int y = 0; y < _CanvasSize.height; ++y) {
             for (int x = 0; x < _CanvasSize.width; ++x) {
                 if (canvasBuffer[y * _CanvasSize.width + x] == 31) {
                     continue;
                 }
-                DrawRectangle(
-                    x * 3,
-                    y * 3,
-                    3,
-                    3,
-                    currentColorPallete[canvasBuffer[y * _CanvasSize.width + x]]
-                );
+                textureBuffer[y * _CanvasSize.width + x] = currentColorPallete[canvasBuffer[y * _CanvasSize.width + x]];
+                // DrawRectangle(
+                //     x * 3,
+                //     y * 3,
+                //     3,
+                //     3,
+                //     currentColorPallete[canvasBuffer[y * _CanvasSize.width + x]]
+                // );
             }
         }
+        UpdateTexture(texture, textureBuffer.data());
 
+        BeginDrawing();
+        DrawTextureEx(texture, {0, 0}, 0, 3, WHITE);
         EndDrawing();
     }
 
