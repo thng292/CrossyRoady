@@ -3,6 +3,14 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Zig cache & build artifacts
+
+zig-out
+.zig-cache
+
+# JetBrain
+.idea
+
 # User-specific files
 *.rsuser
 *.suo

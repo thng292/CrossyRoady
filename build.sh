@@ -1,0 +1,1 @@
+zig build $@ -Dlinux_display_backend=Wayland -Dplatform=glfw
