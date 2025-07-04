@@ -44,19 +44,13 @@ namespace ConsoleGame {
                     continue;
                 }
                 textureBuffer[y * _CanvasSize.width + x] = currentColorPallete[canvasBuffer[y * _CanvasSize.width + x]];
-                // DrawRectangle(
-                //     x * 3,
-                //     y * 3,
-                //     3,
-                //     3,
-                //     currentColorPallete[canvasBuffer[y * _CanvasSize.width + x]]
-                // );
             }
         }
         UpdateTexture(texture, textureBuffer.data());
 
         BeginDrawing();
-        DrawTextureEx(texture, {0, 0}, 0, 3, WHITE);
+        //void DrawTexturePro(Texture2D texture, Rectangle source, Rectangle dest, Vector2 origin, float rotation, Color tint);
+        DrawTexturePro(texture, {0, 0, _CanvasSize.width, _CanvasSize.height}, {0, 0, (float)GetRenderWidth(), (float)GetRenderHeight()}, {0, 0}, 0, WHITE);
         EndDrawing();
     }
 
