@@ -50,7 +50,18 @@ namespace ConsoleGame {
 
         BeginDrawing();
         //void DrawTexturePro(Texture2D texture, Rectangle source, Rectangle dest, Vector2 origin, float rotation, Color tint);
-        DrawTexturePro(texture, {0, 0, _CanvasSize.width, _CanvasSize.height}, {0, 0, (float)GetRenderWidth(), (float)GetRenderHeight()}, {0, 0}, 0, WHITE);
+        // DrawTexturePro(
+        //     texture, 
+        //     {0, 0, _CanvasSize.width, _CanvasSize.height}, 
+        //     {0, 0, _CanvasSize.width * 3, _CanvasSize.height * 3}, 
+        //     {0, 0}, 0, WHITE
+        // );
+        DrawTexturePro(
+            texture, 
+            {0, 0, _CanvasSize.width, _CanvasSize.height}, 
+            {0, 0, (float)GetRenderWidth(), (float)GetRenderHeight()}, 
+            {0, 0}, 0, WHITE
+        );
         EndDrawing();
     }
 
