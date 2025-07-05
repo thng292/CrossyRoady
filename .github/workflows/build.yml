@@ -5,27 +5,42 @@ on:
     branches: [ RaylibPort ]
   pull_request:
     branches: [ RaylibPort ]
+  workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
       with: 
         repository: 'RaylibPort'
-    - name: Set up CMake 3.5
-      uses: dawidd6/action-cmake@v2.1.0
+    - uses: mlugg/setup-zig@v2
       with:
-        cmake-version: 3.5
-    - name: Build and test with CMake
-      run: |
-        cmake -B build -DCMAKE_BUILD_TYPE=Release
-        cmake --build build
+        version: 0.14.1
+    - name: Build
+      run: ./build_all.sh
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
-        name: ${{matrix.os}}
-        path: build/
+        name: Output
+        path: zig-out/
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: zig-out/emcc/CrossyRoady
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
