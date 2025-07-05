@@ -60,6 +60,7 @@ namespace ConsoleGame {
             texture, 
             {0, 0, _CanvasSize.width, _CanvasSize.height}, 
             {0, 0, (float)GetRenderWidth(), (float)GetRenderHeight()}, 
+            // {0, 0, (float)GetScreenWidth(), (float)GetScreenHeight()}, 
             {0, 0}, 0, WHITE
         );
         EndDrawing();

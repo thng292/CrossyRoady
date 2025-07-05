@@ -1,6 +1,7 @@
 #include "Game.h"
 
 #include <thread>
+#include <cstdio>
 
 #include "Common.h"
 #include "raylib.h"
@@ -20,6 +21,7 @@ namespace ConsoleGame {
           ),
           windowName(winName)
     {
+        SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_WINDOW_HIGHDPI | FLAG_VSYNC_HINT);
         InitWindow(
             _CanvasSize.width * 3, _CanvasSize.height * 3, winName.data()
         );
@@ -37,13 +39,14 @@ namespace ConsoleGame {
         naviStack.emplace_back(screens[screenName]->Clone());
         auto navigationRes = navi.NoChange();
 
-        // OS scheduler delay
+        constexpr double wh_ratio = (double)_CanvasSize.width / _CanvasSize.height;
 
-        float deltaTime    = 0;
         bool lastWasBack   = false;
-        using clock        = std::chrono::steady_clock;
 
         auto DrawFunc      = [&] { canvas.DrawToScreen(); };
+
+        auto screen_width_last = GetScreenWidth();
+        auto screen_height_last = GetScreenHeight();
 
         while (!naviStack.empty()) {
             const auto& currentScreen = naviStack.back();
@@ -55,30 +58,25 @@ namespace ConsoleGame {
             }
             navigationRes = navi.NoChange();
 
-            auto start    = clock::now();
             while (navigationRes.ActionType ==
                    AbstractNavigation::NavigationAction::None) {
                 if (WindowShouldClose()) {
                     return;
                 }
                 GetInput();
+                if (IsWindowResized()) {
+                    auto screen_width = GetScreenWidth();
+                    auto screen_height = GetScreenHeight();
+                    SetWindowSize(GetRenderHeight() * wh_ratio, GetScreenHeight());
+                }
+                // printf("Mouse: %d %d ", GetMousePos().x, GetMousePos().y);
+                // printf("Screen: %d %d ", GetScreenWidth(), GetScreenHeight());
+                // printf("FPS: %d\n", GetFPS());
 
-                navigationRes = currentScreen->Update(deltaTime, &navi);
+                navigationRes = currentScreen->Update(GetFrameTime(), &navi);
                 currentScreen->Draw(&canvas);
 
                 DrawFunc();
-                constexpr auto secondToNano =
-                    std::chrono::nanoseconds(std::chrono::seconds(1)).count();
-
-                constexpr auto OS_SchedulerDelay = std::chrono::milliseconds(2);
-                const auto nextFrame =
-                    start + _targetFrameTime - OS_SchedulerDelay;
-                std::this_thread::sleep_until(nextFrame);
-
-                const auto now = clock::now();
-
-                deltaTime      = float((now - start).count()) / secondToNano;
-                start          = now;
             }  // Out of screen's loop
 
             naviStack.back()->Unmount();

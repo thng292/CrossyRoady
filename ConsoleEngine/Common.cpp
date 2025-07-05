@@ -28,7 +28,11 @@ namespace ConsoleGame {
     void GetInput()
     {
         auto pos = GetMousePosition();
-        mousePos = Vec2{.x = int(pos.x / 3), .y = int(pos.y / 3)};
+        mousePos = Vec2{
+            .x = int(pos.x / (float)GetRenderWidth() * _CanvasSize.width), 
+            .y = int(pos.y / (float)GetRenderHeight() * _CanvasSize.height)
+        };
+        
         for (int i = 0; i < inputFunc.size(); i++) {
             auto isDown = inputFunc[i]();
             if (isDown) {
