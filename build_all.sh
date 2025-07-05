@@ -1,5 +1,7 @@
 #!/bin/bash
 
+zig fetch git+https://github.com/emscripten-core/emsdk#4.0.9
+
 declare -a targets=(
     # "x86_64-linux-musl"     # Linux (64-bit) using musl libc
     # "aarch64-linux-musl"    # ARM64 Linux using musl libc
