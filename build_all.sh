@@ -1,14 +1,14 @@
 #!/bin/bash
 
 declare -a targets=(
-    "x86_64-linux-musl"     # Linux (64-bit) using musl libc
-    "aarch64-linux-musl"    # ARM64 Linux using musl libc
-    "x86_64-windows-gnu"    # Windows (64-bit, using MinGW/GNU toolchain)
-    "aarch64-macos"         # macOS (Apple Silicon)
-    "x86_64-macos"          # macOS (Intel)
+    # "x86_64-linux-musl"     # Linux (64-bit) using musl libc
+    # "aarch64-linux-musl"    # ARM64 Linux using musl libc
+    # "x86_64-windows-gnu"    # Windows (64-bit, using MinGW/GNU toolchain)
+    # "aarch64-macos"         # macOS (Apple Silicon)
+    # "x86_64-macos"          # macOS (Intel)
     "wasm32-emscripten"     # WebAssembly via Emscripten (for web browsers)
-    "arm-linux-gnueabihf"   # ARMv7 Linux (e.g., Raspberry Pi 3/4)
-    "i386-linux-musl"       # Linux (32-bit) using musl libc
+    # "arm-linux-gnueabihf"   # ARMv7 Linux (e.g., Raspberry Pi 3/4)
+    # "i386-linux-musl"       # Linux (32-bit) using musl libc
 )
 
 # Define optimization level
