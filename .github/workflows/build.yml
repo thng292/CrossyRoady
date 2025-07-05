@@ -20,7 +20,7 @@ jobs:
     - name: Build
       run: ./build_all.sh
     - name: Upload artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: Output
         path: zig-out/
