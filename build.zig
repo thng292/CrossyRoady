@@ -116,6 +116,7 @@ fn buildEnscripten(
             "-O3",
             "-sASSERTIONS",
             "-sALLOW_MEMORY_GROWTH=1",
+            "-sSTACK_SIZE=2097152", // 2MB stack size
             "--emrun",
             "-error-limit=0",
             "--preload-file",
