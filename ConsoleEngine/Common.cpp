@@ -28,11 +28,22 @@ namespace ConsoleGame {
     void GetInput()
     {
         auto pos = GetMousePosition();
+        const auto screen_width = (float)GetRenderWidth();
+        const auto screen_height = (float)GetRenderHeight();
+        const auto scale = std::min(
+            screen_width / _CanvasSize.width,
+            screen_height / _CanvasSize.height
+        );
+        const auto scaled_width = _CanvasSize.width * scale;
+        const auto scaled_height = _CanvasSize.height * scale;
+        const auto blackbar_x = (screen_width - scaled_width) / 2;
+        const auto blackbar_y = (screen_height - scaled_height) / 2;
+
         mousePos = Vec2{
-            .x = int(pos.x / (float)GetRenderWidth() * _CanvasSize.width), 
-            .y = int(pos.y / (float)GetRenderHeight() * _CanvasSize.height)
+            .x = int((pos.x - blackbar_x) / scaled_width * _CanvasSize.width), 
+            .y = int((pos.y - blackbar_y) / scaled_height * _CanvasSize.height)
         };
-        
+
         for (int i = 0; i < inputFunc.size(); i++) {
             auto isDown = inputFunc[i]();
             if (isDown) {

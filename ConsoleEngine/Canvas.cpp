@@ -56,12 +56,22 @@ namespace ConsoleGame {
         //     {0, 0, _CanvasSize.width * 3, _CanvasSize.height * 3}, 
         //     {0, 0}, 0, WHITE
         // );
+        const auto screen_width = (float)GetRenderWidth();
+        const auto screen_height = (float)GetRenderHeight();
+        const auto scale = std::min(
+            screen_width / _CanvasSize.width,
+            screen_height / _CanvasSize.height
+        );
+        const auto scaled_width = _CanvasSize.width * scale;
+        const auto scaled_height = _CanvasSize.height * scale;
+        const auto x = (screen_width - scaled_width) / 2;
+        const auto y = (screen_height - scaled_height) / 2;
         DrawTexturePro(
             texture, 
             {0, 0, _CanvasSize.width, _CanvasSize.height}, 
-            {0, 0, (float)GetRenderWidth(), (float)GetRenderHeight()}, 
+            {0, 0, scaled_width, scaled_height}, 
             // {0, 0, (float)GetScreenWidth(), (float)GetScreenHeight()}, 
-            {0, 0}, 0, WHITE
+            {-x, -y}, 0, WHITE
         );
         EndDrawing();
     }

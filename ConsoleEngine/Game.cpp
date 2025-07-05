@@ -64,11 +64,6 @@ namespace ConsoleGame {
                     return;
                 }
                 GetInput();
-                if (IsWindowResized()) {
-                    auto screen_width = GetScreenWidth();
-                    auto screen_height = GetScreenHeight();
-                    SetWindowSize(GetRenderHeight() * wh_ratio, GetScreenHeight());
-                }
                 // printf("Mouse: %d %d ", GetMousePos().x, GetMousePos().y);
                 // printf("Screen: %d %d ", GetScreenWidth(), GetScreenHeight());
                 // printf("FPS: %d\n", GetFPS());
