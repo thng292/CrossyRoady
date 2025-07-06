@@ -4,7 +4,9 @@
 #include <cstdio>
 
 #include "Common.h"
+#include "Audio.h"
 #include "raylib.h"
+
 
 // #define _ENABLE_ASYNC_DRAW_
 constexpr bool SHOW_FPS          = true;
@@ -67,6 +69,10 @@ namespace ConsoleGame {
                 // printf("Mouse: %d %d ", GetMousePos().x, GetMousePos().y);
                 // printf("Screen: %d %d ", GetScreenWidth(), GetScreenHeight());
                 // printf("FPS: %d\n", GetFPS());
+}
+                for (auto instance: MusicStream::instances) {
+                    instance->UpdateStreamBuffer();
+                }
 
                 navigationRes = currentScreen->Update(GetFrameTime(), &navi);
                 currentScreen->Draw(&canvas);

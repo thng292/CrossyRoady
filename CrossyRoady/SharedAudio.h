@@ -12,7 +12,7 @@ enum class BGMusic : uint8_t {
 };
 
 class SharedAudio {
-    ConsoleGame::Audio bgMusic;
+    ConsoleGame::MusicStream bgMusic;
     ConsoleGame::Audio hoverSound;
     ConsoleGame::Audio clickSound;
     BGMusic current;
