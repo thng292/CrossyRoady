@@ -45,8 +45,8 @@ namespace ConsoleGame {
         pos.y -= blackbar_y;
 
         mousePos = Vec2{
-            .x = int(pos.x / scaled_width * _CanvasSize.width), 
-            .y = int(pos.y / scaled_height * _CanvasSize.height)
+            .x = int(pos.x / scale), 
+            .y = int(pos.y / scale)
         };
         const int gamepad = 0;
         leftStickX = GetGamepadAxisMovement(gamepad, GAMEPAD_AXIS_LEFT_X);
@@ -79,7 +79,7 @@ namespace ConsoleGame {
         return (
             (IsKeyDown('W') or IsKeyDown(KEY_UP) or
              IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_UP) or
-             leftStickY > 0.1f)
+             leftStickY < -0.4f)
         );
     }
 
@@ -88,7 +88,7 @@ namespace ConsoleGame {
         return (
             (IsKeyDown('S') or IsKeyDown(KEY_DOWN) or
              IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_DOWN) or
-             leftStickY < -0.1f)
+             leftStickY > 0.4f)
         );
     }
 
@@ -97,7 +97,7 @@ namespace ConsoleGame {
         return (
             (IsKeyDown('A') or IsKeyDown(KEY_LEFT) or
              IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_LEFT) or
-             leftStickX < -0.1f)
+             leftStickX < -0.4f)
         );
     }
 
@@ -106,7 +106,7 @@ namespace ConsoleGame {
         return (
             (IsKeyDown('D') or IsKeyDown(KEY_RIGHT) or
              IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_RIGHT) or
-             leftStickX > 0.1f)
+             leftStickX > 0.4f)
         );
     }
 

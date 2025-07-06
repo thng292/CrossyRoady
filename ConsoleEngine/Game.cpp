@@ -27,6 +27,7 @@ namespace ConsoleGame {
         InitWindow(
             _CanvasSize.width * 3, _CanvasSize.height * 3, winName.data()
         );
+        SetWindowMinSize(_CanvasSize.width, _CanvasSize.height);
         InitAudioDevice();
         SetExitKey(KEY_NULL);
     }
