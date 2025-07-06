@@ -41,9 +41,12 @@ namespace ConsoleGame {
         const auto blackbar_x = (screen_width - scaled_width) / 2;
         const auto blackbar_y = (screen_height - scaled_height) / 2;
 
+        pos.x -= blackbar_x;
+        pos.y -= blackbar_y;
+
         mousePos = Vec2{
-            .x = int((pos.x - blackbar_x) / scaled_width * _CanvasSize.width), 
-            .y = int((pos.y - blackbar_y) / scaled_height * _CanvasSize.height)
+            .x = int(pos.x / scaled_width * _CanvasSize.width), 
+            .y = int(pos.y / scaled_height * _CanvasSize.height)
         };
         const int gamepad = 0;
         leftStickX = GetGamepadAxisMovement(gamepad, GAMEPAD_AXIS_LEFT_X);

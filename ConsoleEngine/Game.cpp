@@ -66,10 +66,12 @@ namespace ConsoleGame {
                     return;
                 }
                 GetInput();
-                // printf("Mouse: %d %d ", GetMousePos().x, GetMousePos().y);
-                // printf("Screen: %d %d ", GetScreenWidth(), GetScreenHeight());
-                // printf("FPS: %d\n", GetFPS());
-}
+                // if (UiIsKeyMeanClick()) {
+                //     printf("Mouse: %d %d ", GetMousePos().x, GetMousePos().y);
+                //     printf("Mouse Raw: %f %f ", GetMousePosition().x, GetMousePosition().y);
+                //     printf("Screen: %d %d ", GetRenderWidth(), GetRenderHeight());
+                //     printf("FPS: %d\n", GetFPS());
+                // }
                 for (auto instance: MusicStream::instances) {
                     instance->UpdateStreamBuffer();
                 }

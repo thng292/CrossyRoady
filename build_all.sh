@@ -33,7 +33,7 @@ for target in "${targets[@]}"; do
         echo "Error: Failed to build for ${target}."
         echo "Please check the error messages above for details."
         # Optionally, you can exit the script on the first failure:
-        # exit 1
+        exit 1
     fi
     echo "-------------------------------------"
 done
