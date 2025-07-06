@@ -308,16 +308,16 @@ struct Config {
     uint16_t SpaceXP = 0;
     uint16_t DesertXP = 0;
 
-    uint8_t MapUnlocked : 3 = 1;
+    uint8_t MapUnlocked : 3 = 6;
     uint8_t Music : 1 = 1;
     uint8_t Sfx : 1 = 1;
 
     uint8_t FaunaUnlocked : 1 = 1;
-    uint8_t IrysUnlocked : 1 = 0;
-    uint8_t MumeiUnlocked : 1 = 0;
-    uint8_t KroniiUnlocked : 1 = 0;
-    uint8_t SanaUnlocked : 1 = 0;
-    uint8_t BaeUnlocked : 1 = 0;
+    uint8_t IrysUnlocked : 1 = 1;
+    uint8_t MumeiUnlocked : 1 = 1;
+    uint8_t KroniiUnlocked : 1 = 1;
+    uint8_t SanaUnlocked : 1 = 1;
+    uint8_t BaeUnlocked : 1 = 1;
 
     uint8_t FaunaUpgraded : 1 = 0;
     uint8_t IrysUpgraded : 1 = 0;
